@@ -77,6 +77,7 @@ function collectCodeIds(blocks: Block[], ids: Set<string>) {
 it("keeps linux dictionary keys and tokens aligned in every locale", () => {
     for (const [locale, dictionary] of Object.entries(packs)) {
         assertDictionaryParity(english, dictionary, `${locale}.linux`);
+        expect(dictionary["distro.other.name"], locale).not.toBe(english["distro.other.name"]);
     }
 });
 

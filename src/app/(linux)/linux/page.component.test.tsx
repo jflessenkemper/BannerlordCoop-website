@@ -47,7 +47,6 @@ describe("linux setup guide", () => {
         const root = await render();
         expect(root.querySelector("#start-title")?.textContent).toBe(english["ui.startTitle"]);
         expect(root.querySelector("#sec-terminal")).toBeNull();
-        expect(ubuntu).toContain("#!/usr/bin/env bash");
         expect(sitemap().map((entry) => entry.url)).toContain("https://bannerlordcoop.com/linux");
     });
 

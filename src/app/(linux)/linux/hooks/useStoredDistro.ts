@@ -25,7 +25,7 @@ function subscribeDistro(onChange: () => void) {
     window.addEventListener("storage", onStorage);
     return () => {
         listeners.delete(onChange);
-        window.removeEventListener("storage", onChange);
+        window.removeEventListener("storage", onStorage);
     };
 }
 

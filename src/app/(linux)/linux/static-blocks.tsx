@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Translator } from "@/app/lib/localization/types";
-import { sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
-import { cx, glassCard, goldButton, primaryButton, sectionTitleClass } from "./guide-styles";
+import { FAQ_SECTION, sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
+import { COPY_RESET_MS, cx, glassCard, goldButton, PARAGRAPH_ROLE_CLASS, primaryButton, sectionTitleClass } from "./guide-styles";
 import { scriptText } from "./script-text";
 
 type Translate = Translator["t"];
@@ -32,7 +32,7 @@ function StaticBlocks({ blocks, t, distro = null, alone = false }: { blocks: Blo
             {blocks.map((block, index) => {
                 switch (block.type) {
                     case "p":
-                        return <p key={index} className={cx("leading-relaxed", block.role === "lead" && "mb-4 mt-3")}><StaticInline nodes={block.c} t={t} /></p>;
+                        return <p key={index} className={cx("leading-relaxed", block.role && PARAGRAPH_ROLE_CLASS[block.role])}><StaticInline nodes={block.c} t={t} /></p>;
                     case "h3": {
                         const Heading = alone ? "h2" : "h3";
                         return <Heading key={index} className="font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold"><StaticInline nodes={block.c} t={t} /></Heading>;
@@ -57,7 +57,7 @@ function StaticBlocks({ blocks, t, distro = null, alone = false }: { blocks: Blo
                             </div>
                         );
                     case "tabs":
-                        return <StaticTabs key={index} block={block} t={t} distro={distro} alone={alone} id={`tabs-${index}`} />;
+                        return <StaticTabs key={index} block={block} t={t} distro={distro} alone={alone} />;
                     case "details":
                         return (
                             <details key={index} id={block.id} className={cx(glassCard, "my-2 px-4")}>
@@ -112,8 +112,10 @@ function StaticBlocks({ blocks, t, distro = null, alone = false }: { blocks: Blo
                         );
                     case "code":
                         return <StaticCode key={index} block={block} t={t} />;
-                    default:
-                        return null;
+                    default: {
+                        const unreachable: never = block;
+                        throw new Error(`Unknown block: ${(unreachable as { type?: string }).type ?? "missing"}`);
+                    }
                 }
             })}
         </>
@@ -138,7 +140,7 @@ function StaticInline({ nodes, t }: { nodes: Inline[]; t: Translate }): ReactNod
                         return <em key={index}><StaticInline nodes={node.c} t={t} /></em>;
                     case "term": {
                         const key = `${node.termKey}:${node.defKey}`.replace(/[^a-zA-Z0-9_-]/g, "-");
-                        const popoverId = `linux-term-${key}`;
+                        const popoverId = `linux-term-${termSerial += 1}-${key}`;
                         return (
                             <span key={index}>
                                 <button
@@ -146,6 +148,7 @@ function StaticInline({ nodes, t }: { nodes: Inline[]; t: Translate }): ReactNod
                                     id={`linux-term-btn-${key}`}
                                     className="cursor-help border-0 bg-transparent p-0 font-inherit text-inherit underline decoration-dotted decoration-gold underline-offset-[3px]"
                                     aria-controls={popoverId}
+                                    aria-expanded="false"
                                     popoverTarget={popoverId}
                                     popoverTargetAction="toggle"
                                     data-term=""
@@ -185,9 +188,14 @@ function StaticCode({ block, t }: { block: Extract<Block, { type: "code" }>; t: 
                     <span><StaticInline nodes={block.title} t={t} /></span>
                     <span className="code-lang font-label text-xs font-semibold uppercase tracking-[0.08em] text-foreground-muted">{t(block.langKey)}</span>
                 </span>
-                <button type="button" className={copyClass} data-copy={block.id} data-label={t("ui.copy")} data-copied={t("ui.copied")} data-failed={t("ui.copyFailed")}>{t("ui.copy")}</button>
+                <span className="ml-auto flex flex-wrap gap-2">
+                    <button type="button" className={copyClass} data-copy={block.id} data-label={t("ui.copy")} data-copied={t("ui.copied")} data-failed={t("ui.copyFailed")} data-reset-ok={COPY_RESET_MS.copied} data-reset-fail={COPY_RESET_MS.failed}>{t("ui.copy")}</button>
+                    {block.download && (
+                        <a className={goldButton} href={block.download.href} download={block.download.filename} title={t(block.download.titleKey)}>{t(block.download.labelKey)}</a>
+                    )}
+                </span>
             </figcaption>
-            <pre id={block.id} tabIndex={0} className={cx("linux-code m-0 overflow-x-hidden bg-[#0c0d0b] p-4 font-mono text-[0.92rem] leading-normal text-[#e8e4da] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold", block.oneshot && "max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-auto")}>
+            <pre id={block.id} tabIndex={0} className={cx("linux-code m-0 overflow-x-hidden bg-surface p-4 font-mono text-[0.92rem] leading-normal text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold", block.oneshot && "max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-auto")}>
                 <code>{source}</code>
             </pre>
         </figure>
@@ -227,21 +235,34 @@ function StaticTable({ block, t }: { block: Extract<Block, { type: "table" }>; t
     );
 }
 
+let tabGroupSerial = 0;
+let termSerial = 0;
+
+/** Starts tab and glossary ids at zero for one page render. */
+export function resetGuideIds() {
+    tabGroupSerial = 0;
+    termSerial = 0;
+}
+
 /** Distro-scoped tabs show only the matching panel. Other sets use radio buttons, so no script is required. */
-function StaticTabs({ block, t, distro, alone, id }: { block: Extract<Block, { type: "tabs" }>; t: Translate; distro: Distro | null; alone: boolean; id: string }) {
-    const scoped = Boolean(distro) && block.tabs.some((tab) => tab.script || tab.families);
-    const visible = block.tabs.filter((tab) => tabMatches(tab, distro, scoped));
-    if (scoped) {
+function StaticTabs({ block, t, distro, alone }: { block: Extract<Block, { type: "tabs" }>; t: Translate; distro: Distro | null; alone: boolean; id?: string }) {
+    const id = `tabg-${tabGroupSerial += 1}`;
+    const selective = block.tabs.some((tab) => tab.script || tab.families);
+    if (selective) {
         return (
             <div>
-                {visible.map((tab) => (
-                    <div key={tab.labelKey} role="group" aria-label={t(tab.labelKey)}>
-                        <StaticBlocks blocks={tab.blocks} t={t} distro={distro} alone={alone} />
-                    </div>
-                ))}
+                {block.tabs.map((tab) => {
+                    const token = [tab.script ? `script-${tab.script}` : "", ...(tab.families ?? []).map((family) => `family-${family}`)].filter(Boolean).join(" ");
+                    return (
+                        <div key={tab.labelKey} className="distro-panel" data-for={token || "all"} role="group" aria-label={t(tab.labelKey)}>
+                            <StaticBlocks blocks={tab.blocks} t={t} distro={distro} alone={alone} />
+                        </div>
+                    );
+                })}
             </div>
         );
     }
+    const visible = block.tabs.filter((tab) => tabMatches(tab, distro, false));
     return (
         <div className="linux-tabs">
             {visible.map((tab, position) => (
@@ -279,7 +300,7 @@ export function StaticGuideSection({ section, t, distro = null, wizard = false, 
 
 /** The FAQ section, or nothing if the content file dropped it. */
 export function faqSection(): Section {
-    const section = sectionsById.get("faq");
-    if (!section) throw new Error("Missing section: faq");
+    const section = sectionsById.get(FAQ_SECTION);
+    if (!section) throw new Error(`Missing section: ${FAQ_SECTION}`);
     return section;
 }

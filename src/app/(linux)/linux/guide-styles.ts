@@ -13,6 +13,14 @@ export const goldButton = "inline-flex min-h-12 cursor-pointer items-center just
 
 export const primaryButton = "inline-flex min-h-12 cursor-pointer items-center justify-center rounded border border-crimson bg-crimson px-4 font-label text-sm font-semibold uppercase tracking-[0.22em] text-white transition-colors hover:border-crimson-hover hover:bg-crimson-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
+/** How long a copy result stays on the button before the label returns. */
+export const COPY_RESET_MS = { copied: 2200, failed: 4000 } as const;
+
+/** Paragraph roles the content file can set. Unknown roles add no class. */
+export const PARAGRAPH_ROLE_CLASS: Record<string, string> = {
+    lead: "mb-4 mt-3",
+};
+
 /** Joins class names and drops the empty ones. */
 export function cx(...parts: Array<string | false | undefined>): string {
     return parts.filter(Boolean).join(" ");

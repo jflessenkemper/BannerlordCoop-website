@@ -1,4 +1,5 @@
 import { fontClassName } from "@/app/fonts";
+import { resolveLocale } from "@/app/lib/localization/registry";
 import { getLocale, getTranslations } from "@/app/lib/localization/server";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -36,9 +37,15 @@ const purged = new Map<string, string>();
 function splitFontFaces(css: string): { initial: string; delayed: string } {
     const delayed: string[] = [];
     const initial = css.replace(/@font-face\{[^}]+\}/g, (face) => {
-        if (!face.includes("url(")) return face;
-        delayed.push(face);
-        return "";
+        if (face.includes("url(")) {
+            delayed.push(face);
+            return "";
+        }
+        // Next names Arial and Times, which this host does not install. Arimo and Tinos
+        // are the metric-compatible faces, so the swap does not move the line boxes.
+        return face
+            .replace("src:local(Arial)", 'src:local(Arial),local(Arimo),local("Liberation Sans")')
+            .replace("src:local(Times New Roman)", 'src:local("Times New Roman"),local(Tinos),local("Liberation Serif")');
     });
     return { initial, delayed: delayed.join("") };
 }
@@ -138,10 +145,14 @@ function classesIn(selector: string): string[] {
     return names;
 }
 
+const FAMILIES: Record<string, string> = { ubuntu: "debian", debian: "debian", mint: "debian", fedora: "fedora", arch: "arch", manjaro: "arch", suse: "suse", bazzite: "immutable", deck: "deck", nix: "nix", other: "other" };
+
+const BOOT = `(function(){var K="blc-distro-v1",F=${JSON.stringify(FAMILIES)};function known(id){return id&&F[id]?id:""}var mem="";function read(){var m=document.cookie.match(/(?:^|; )blc-distro-v1=([^;]*)/);var id=known(m?decodeURIComponent(m[1]):"");if(id)return id;try{id=localStorage.getItem(K)||""}catch(e){id=""}return known(id)||known(mem)}function write(id){mem=id;try{document.cookie=K+"="+encodeURIComponent(id)+"; Path=/; Max-Age=31536000; SameSite=Lax"}catch(e){}try{localStorage.setItem(K,id)}catch(e){}}var q=new URLSearchParams(location.search),pick=known(q.get("pick")||""),id=pick||read(),root=document.documentElement,page=root.getAttribute("data-distro-page")||"/linux/distro";if(id){write(id);root.setAttribute("data-distro",id);root.setAttribute("data-family",F[id])}var resume=q.get("resume")||"";if(pick&&resume.charAt(0)==="/"&&resume.indexOf("//")<0&&resume.indexOf("\\\\")<0&&resume.indexOf("/linux")>=0){location.replace(resume);return}if(!id&&root.getAttribute("data-needs-distro")==="1")location.replace(page+"?resume="+encodeURIComponent(location.pathname+location.search+location.hash))})();`;
+
 /** A full document with no framework scripts. The guide pages that must paint first use this. */
-export async function linuxDocument(path: string, title: string, description: string, body: ReactElement) {
-    const locale = await getLocale();
-    const metadata = await linuxMetadata(path, title, description);
+export async function linuxDocument(path: string, title: string, description: string, body: ReactElement, options?: { locale?: string; distroId?: string | null; needsDistro?: boolean }) {
+    const locale = resolveLocale(options?.locale ?? await getLocale());
+    const metadata = await linuxMetadata(path, title, description, locale);
     const openGraph = metadata.openGraph;
     const image = `${SITE}/images/banner.png`;
     const { renderToStaticMarkup } = await import("react-dom/server");
@@ -152,10 +163,17 @@ export async function linuxDocument(path: string, title: string, description: st
         `<link rel="icon" href="/favicon.ico" sizes="any"/>`,
     ];
     const fontScript = delayed
-        ? `<script>setTimeout(function(){var s=document.createElement("style");s.textContent=${JSON.stringify(delayed)};document.head.appendChild(s)},300)</script>`
+        ? `<script>addEventListener("load",function(){setTimeout(function(){var css=${JSON.stringify(delayed)};var faces=[];css.replace(/@font-face\\{([^}]+)\\}/g,function(_,body){var family=body.match(/font-family:([^;]+)/)[1];var weight=(body.match(/font-weight:([^;]+)/)||[])[1]||"normal";var style=(body.match(/font-style:([^;]+)/)||[])[1]||"normal";var url=body.match(/url\\(([^)]+)\\)/)[1];var range=(body.match(/unicode-range:([^;]+)/)||[])[1];faces.push(new FontFace(family,"url("+url+")",{weight:weight,style:style,unicodeRange:range,display:"swap"}))});Promise.all(faces.map(function(face){return face.load()})).then(function(loaded){loaded.forEach(function(face){document.fonts.add(face)})})},2000)})</script>`
         : "";
+    const distroId = options?.distroId && FAMILIES[options.distroId] ? options.distroId : "";
+    const htmlAttrs = [
+        `lang="${escapeAttribute(locale)}"`,
+        `class="${fontClassName}"`,
+        `data-distro-page="${escapeAttribute(locale === "en" ? "/linux/distro" : `/${locale}/linux/distro`)}"`,
+        options?.needsDistro ? `data-needs-distro="1"` : "",
+        distroId ? `data-distro="${distroId}" data-family="${FAMILIES[distroId]}"` : "",
+    ].filter(Boolean).join(" ");
     const metas = [
-        `<meta charSet="utf-8"/>`,
         `<meta name="viewport" content="width=device-width, initial-scale=1"/>`,
         `<meta name="description" content="${escapeAttribute(description)}"/>`,
         `<meta property="og:type" content="article"/>`,
@@ -170,13 +188,27 @@ export async function linuxDocument(path: string, title: string, description: st
         `<meta name="twitter:description" content="${escapeAttribute(description)}"/>`,
         `<meta name="twitter:image" content="${image}"/>`,
     ];
-    const html = `<!DOCTYPE html><html lang="${escapeAttribute(locale)}" class="${fontClassName}"><head><title>${escapeText(title)}</title><style>${css}</style>${metas.join("")}${links.join("")}${fontScript}</head><body class="min-h-full flex flex-col">${markup}</body></html>`;
+    const html = `<!DOCTYPE html><html ${htmlAttrs}><head><meta charset="utf-8"><script>${BOOT}</script><title>${escapeText(title)}</title>${metas.join("")}${links.join("")}<style>${css}</style>${fontScript}</head><body class="min-h-full flex flex-col">${markup}</body></html>`;
     return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
 }
 
+const PATH_LOCALES = new Set(["de", "es", "fr", "ja", "ko", "ru", "tr", "zh-CN", "pt-BR", "pt-PT"]);
+
+/** Locale carried by a language path or its rewrite. Absent means the cookie locale. */
+export function pageLocale(request: Request): string | undefined {
+    const url = new URL(request.url);
+    const query = url.searchParams.get("lang");
+    if (query && PATH_LOCALES.has(query)) return query;
+    const head = url.pathname.split("/").filter(Boolean)[0];
+    if (head && PATH_LOCALES.has(head)) return head;
+    const rewritten = request.headers.get("x-middleware-rewrite") ?? request.headers.get("next-url") ?? "";
+    const fromHeader = new URL(rewritten || "http://localhost/", "http://localhost").searchParams.get("lang");
+    return fromHeader && PATH_LOCALES.has(fromHeader) ? fromHeader : undefined;
+}
+
 /** Loads the guide copy for one of the measured routes. */
-export async function guideCopy(titleKey: string) {
-    const locale = await getLocale();
+export async function guideCopy(titleKey: string, localeOverride?: string) {
+    const locale = resolveLocale(localeOverride ?? await getLocale());
     const { t } = await getTranslations("linux", locale);
     return { title: t(titleKey), description: t("metadata.description") };
 }

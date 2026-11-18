@@ -4,21 +4,14 @@ import { useContext, useId, useRef, useState } from "react";
 import { GuideContext, type GuideContextValue } from "./guide-context";
 import { useLinuxText } from "./hooks/useLinuxText";
 import { sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
-import { cx, glassCard, goldButton, primaryButton, sectionTitleClass } from "./guide-styles";
+import { COPY_RESET_MS, cx, glassCard, goldButton, PARAGRAPH_ROLE_CLASS, primaryButton, sectionTitleClass } from "./guide-styles";
 import { scriptText } from "./script-text";
-
-/** How long each copy result stays on the button before it returns to Copy. */
-const COPY_RESET_MS = { copied: 2200, failed: 4000 } as const;
 
 const COPY_STATES = {
     "": { labelKey: "ui.copy", className: "" },
     copied: { labelKey: "ui.copied", className: "border-emerald-300/70 bg-emerald-400/15 text-emerald-200" },
     failed: { labelKey: "ui.copyFailed", className: "border-amber-300/60 bg-amber-300/10 text-amber-200" },
 } as const;
-
-const PARAGRAPH_ROLE_CLASS: Record<string, string> = {
-    lead: "mb-4 mt-3",
-};
 
 /** Reads the guide render context. Blocks are only mounted under LinuxGuide. */
 function useGuide(): GuideContextValue {

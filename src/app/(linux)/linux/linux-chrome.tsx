@@ -5,6 +5,7 @@ import { hasAdminAccess } from "@/app/lib/auth/access";
 import { getEnabledLocales } from "@/app/lib/localization/registry";
 import type { Locale, Translator } from "@/app/lib/localization/types";
 import { getSupabaseServerClient } from "@/app/lib/supabase/server";
+import { guideHref } from "./static-guide";
 import { Icon } from "./icons";
 
 type Translate = Translator["t"];
@@ -100,7 +101,7 @@ export async function LinuxHeader({ t, locale, path }: { t: Translate; locale: L
 }
 
 /** Site footer, drawn with anchors so the guide does not load the link runtime. */
-export function LinuxFooter({ t, year }: { t: Translator; year: string }) {
+export function LinuxFooter({ t, year, locale = "en" }: { t: Translator; year: string; locale?: string }) {
     return (
         <footer className="border-t border-white/10 bg-background">
             <div className="site-container">
@@ -119,7 +120,7 @@ export function LinuxFooter({ t, year }: { t: Translator; year: string }) {
                         <ul className="mt-5 space-y-3">
                             {footerLinks.map(([label, href]) => (
                                 <li key={label}>
-                                    <a href={href} className="inline-flex min-h-6 items-center font-sans text-sm text-foreground-muted transition-colors duration-300 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background">{t.t(label)}</a>
+                                    <a href={href === "/linux" ? guideHref(locale, href) : href} className="inline-flex min-h-6 items-center font-sans text-sm text-foreground-muted transition-colors duration-300 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background">{t.t(label)}</a>
                                 </li>
                             ))}
                         </ul>
@@ -167,15 +168,11 @@ function LocaleMenu({ t, locale, path, variant }: { t: Translate; locale: Locale
                 <ul className="rounded-sm border border-white/10 bg-surface-raised p-1 shadow-2xl">
                     {getEnabledLocales().map((option) => (
                         <li key={option.locale}>
-                            <form method="post" action="/linux/locale">
-                                <input type="hidden" name="locale" value={option.locale} />
-                                <input type="hidden" name="next" value={path} />
-                                <button type="submit" lang={option.locale} aria-current={option.locale === locale || undefined} className="flex w-full items-center gap-3 rounded-sm px-3 py-2.5 text-left text-sm text-foreground-muted transition-colors hover:bg-white/5 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold aria-[current=true]:text-foreground">
-                                    <LocaleFlag locale={option.locale} />
-                                    <span className="min-w-0 flex-1">{option.name}</span>
-                                    {option.locale === locale && <Icon name="check" className="size-4 shrink-0 text-gold" />}
-                                </button>
-                            </form>
+                            <a href={guideHref(option.locale, path)} lang={option.locale} aria-current={option.locale === locale || undefined} className="flex w-full items-center gap-3 rounded-sm px-3 py-2.5 text-left text-sm text-foreground-muted no-underline transition-colors hover:bg-white/5 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold aria-[current=true]:text-foreground">
+                                <LocaleFlag locale={option.locale} />
+                                <span className="min-w-0 flex-1">{option.name}</span>
+                                {option.locale === locale && <Icon name="check" className="size-4 shrink-0 text-gold" />}
+                            </a>
                         </li>
                     ))}
                 </ul>
@@ -289,7 +286,7 @@ function MobileMenu({ t, locale, path, isAdmin, isAuthenticated }: { t: Translat
                     <nav className="mt-8" aria-label={t("nav.mobile")}>
                         <ul className="space-y-1">
                             {mobileLinks.map(([label, href]) => (
-                                <li key={href}><a href={href} className="block border-b border-white/10 py-4 font-display text-3xl font-semibold uppercase text-foreground">{t(label)}</a></li>
+                                <li key={href}><a href={href === "/linux" ? guideHref(locale, href) : href} className="block border-b border-white/10 py-4 font-display text-3xl font-semibold uppercase text-foreground">{t(label)}</a></li>
                             ))}
                             {isAdmin && <li><a href="/admin" className="block border-b border-white/10 py-4 font-display text-3xl font-semibold uppercase text-gold">Admin</a></li>}
                         </ul>

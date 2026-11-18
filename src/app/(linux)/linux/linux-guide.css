@@ -81,7 +81,7 @@ body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
 }
 
 .linux-wizard-bar {
-  background: #070806;
+  background: var(--background);
   padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
 
@@ -331,6 +331,62 @@ body:has(#linux-guide) footer .text-foreground-dim {
   font-weight: 700;
 }
 
+html[data-distro] .distro-panel { display: none; }
+html[data-distro="ubuntu"] .distro-panel[data-for~="script-ubuntu"],
+html[data-distro="debian"] .distro-panel[data-for~="script-debian"],
+html[data-distro="mint"] .distro-panel[data-for~="script-mint"],
+html[data-distro="fedora"] .distro-panel[data-for~="script-fedora"],
+html[data-distro="arch"] .distro-panel[data-for~="script-arch"],
+html[data-distro="manjaro"] .distro-panel[data-for~="script-manjaro"],
+html[data-distro="suse"] .distro-panel[data-for~="script-suse"],
+html[data-distro="bazzite"] .distro-panel[data-for~="script-bazzite"],
+html[data-distro="deck"] .distro-panel[data-for~="script-deck"],
+html[data-distro="nix"] .distro-panel[data-for~="script-nix"],
+html[data-distro="other"] .distro-panel[data-for~="script-other"],
+html[data-family="debian"] .distro-panel[data-for~="family-debian"],
+html[data-family="fedora"] .distro-panel[data-for~="family-fedora"],
+html[data-family="arch"] .distro-panel[data-for~="family-arch"],
+html[data-family="suse"] .distro-panel[data-for~="family-suse"],
+html[data-family="immutable"] .distro-panel[data-for~="family-immutable"],
+html[data-family="deck"] .distro-panel[data-for~="family-deck"],
+html[data-family="nix"] .distro-panel[data-for~="family-nix"],
+html[data-family="other"] .distro-panel[data-for~="family-other"] { display: block; }
+.distro-picked { display: none; }
+html[data-distro="ubuntu"] [data-pick="ubuntu"] .distro-picked,
+html[data-distro="debian"] [data-pick="debian"] .distro-picked,
+html[data-distro="mint"] [data-pick="mint"] .distro-picked,
+html[data-distro="fedora"] [data-pick="fedora"] .distro-picked,
+html[data-distro="arch"] [data-pick="arch"] .distro-picked,
+html[data-distro="manjaro"] [data-pick="manjaro"] .distro-picked,
+html[data-distro="suse"] [data-pick="suse"] .distro-picked,
+html[data-distro="bazzite"] [data-pick="bazzite"] .distro-picked,
+html[data-distro="deck"] [data-pick="deck"] .distro-picked,
+html[data-distro="nix"] [data-pick="nix"] .distro-picked,
+html[data-distro="other"] [data-pick="other"] .distro-picked { display: block; }
+html[data-distro="ubuntu"] [data-pick="ubuntu"] > button,
+html[data-distro="debian"] [data-pick="debian"] > button,
+html[data-distro="mint"] [data-pick="mint"] > button,
+html[data-distro="fedora"] [data-pick="fedora"] > button,
+html[data-distro="arch"] [data-pick="arch"] > button,
+html[data-distro="manjaro"] [data-pick="manjaro"] > button,
+html[data-distro="suse"] [data-pick="suse"] > button,
+html[data-distro="bazzite"] [data-pick="bazzite"] > button,
+html[data-distro="deck"] [data-pick="deck"] > button,
+html[data-distro="nix"] [data-pick="nix"] > button,
+html[data-distro="other"] [data-pick="other"] > button { border-color: var(--gold); }
+.distro-chip { display: none; min-width: 0; max-width: 100%; }
+html[data-distro="ubuntu"] .distro-chip[data-for="ubuntu"],
+html[data-distro="debian"] .distro-chip[data-for="debian"],
+html[data-distro="mint"] .distro-chip[data-for="mint"],
+html[data-distro="fedora"] .distro-chip[data-for="fedora"],
+html[data-distro="arch"] .distro-chip[data-for="arch"],
+html[data-distro="manjaro"] .distro-chip[data-for="manjaro"],
+html[data-distro="suse"] .distro-chip[data-for="suse"],
+html[data-distro="bazzite"] .distro-chip[data-for="bazzite"],
+html[data-distro="deck"] .distro-chip[data-for="deck"],
+html[data-distro="nix"] .distro-chip[data-for="nix"],
+html[data-distro="other"] .distro-chip[data-for="other"] { display: flex; }
+
 .linux-tabs { position: relative; }
 .linux-tabs > .linux-tab-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 .linux-tabs > .linux-tab-panels > div { display: none; }
@@ -359,9 +415,20 @@ body:has(#linux-guide) footer .text-foreground-dim {
 .linux-tabs > .linux-tab-input:nth-of-type(11):checked ~ .linux-tab-panels > div:nth-child(11),
 .linux-tabs > .linux-tab-input:nth-of-type(12):checked ~ .linux-tab-panels > div:nth-child(12) { display: block; }
 
+@media (max-width: 768px) {
+  .linux-subnav.has-distro .subnav-sep,
+  .linux-subnav.has-distro .subnav-here,
+  html[data-distro] .linux-subnav.can-distro .subnav-sep,
+  html[data-distro] .linux-subnav.can-distro .subnav-here {
+    display: none;
+  }
+}
+
 @media (max-width: 560px) {
   .linux-subnav.has-distro .subnav-sep,
-  .linux-subnav.has-distro .subnav-here {
+  .linux-subnav.has-distro .subnav-here,
+  html[data-distro] .linux-subnav.can-distro .subnav-sep,
+  html[data-distro] .linux-subnav.can-distro .subnav-here {
     display: none;
   }
 
