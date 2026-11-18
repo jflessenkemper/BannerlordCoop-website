@@ -2,16 +2,16 @@
   "sections": [
     {
       "id": "terminal",
-      "kicker": "Step 1",
-      "title": "Install with one script",
-      "sub": "One copy-paste script for your distro.",
+      "kickerKey": "section.terminal.kicker",
+      "titleKey": "section.terminal.title",
+      "subKey": "section.terminal.sub",
       "blocks": [
         {
           "type": "p",
           "c": [
             {
               "t": "text",
-              "v": "Paste it in a terminal and press Enter. Run it as your normal user: it asks before it changes anything and uses sudo only where needed."
+              "k": "section.terminal.b0.0"
             }
           ],
           "role": "lead"
@@ -19,11 +19,10 @@
         {
           "type": "tabs",
           "name": "oneshot",
-          "label": "Scripts by distro",
+          "labelKey": "section.terminal.b1.label",
           "tabs": [
             {
-              "label": "Ubuntu",
-              "script": "ubuntu",
+              "labelKey": "section.terminal.b1.tab0",
               "blocks": [
                 {
                   "type": "code",
@@ -31,18 +30,17 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Ubuntu setup script"
+                      "k": "section.terminal.b1.tab0.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "ubuntu"
             },
             {
-              "label": "Debian",
-              "script": "debian",
+              "labelKey": "section.terminal.b1.tab1",
               "blocks": [
                 {
                   "type": "code",
@@ -50,18 +48,17 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Debian setup script"
+                      "k": "section.terminal.b1.tab1.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "debian"
             },
             {
-              "label": "Linux Mint",
-              "script": "mint",
+              "labelKey": "section.terminal.b1.tab2",
               "blocks": [
                 {
                   "type": "code",
@@ -69,18 +66,17 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Linux Mint setup script"
+                      "k": "section.terminal.b1.tab2.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "mint"
             },
             {
-              "label": "Fedora",
-              "script": "fedora",
+              "labelKey": "section.terminal.b1.tab3",
               "blocks": [
                 {
                   "type": "code",
@@ -88,18 +84,17 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Fedora setup script"
+                      "k": "section.terminal.b1.tab3.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "fedora"
             },
             {
-              "label": "Arch Linux",
-              "script": "arch",
+              "labelKey": "section.terminal.b1.tab4",
               "blocks": [
                 {
                   "type": "code",
@@ -107,18 +102,17 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Arch Linux setup script"
+                      "k": "section.terminal.b1.tab4.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "arch"
             },
             {
-              "label": "Manjaro",
-              "script": "manjaro",
+              "labelKey": "section.terminal.b1.tab5",
               "blocks": [
                 {
                   "type": "code",
@@ -126,18 +120,17 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Manjaro setup script"
+                      "k": "section.terminal.b1.tab5.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "manjaro"
             },
             {
-              "label": "openSUSE",
-              "script": "suse",
+              "labelKey": "section.terminal.b1.tab6",
               "blocks": [
                 {
                   "type": "code",
@@ -145,18 +138,17 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "openSUSE setup script"
+                      "k": "section.terminal.b1.tab6.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "suse"
             },
             {
-              "label": "Bazzite",
-              "script": "bazzite",
+              "labelKey": "section.terminal.b1.tab7",
               "blocks": [
                 {
                   "type": "code",
@@ -164,18 +156,17 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Bazzite setup script"
+                      "k": "section.terminal.b1.tab7.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "bazzite"
             },
             {
-              "label": "Steam Deck",
-              "script": "deck",
+              "labelKey": "section.terminal.b1.tab8",
               "blocks": [
                 {
                   "type": "code",
@@ -183,18 +174,17 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Steam Deck setup script"
+                      "k": "section.terminal.b1.tab8.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "deck"
             },
             {
-              "label": "NixOS",
-              "script": "nix",
+              "labelKey": "section.terminal.b1.tab9",
               "blocks": [
                 {
                   "type": "code",
@@ -202,18 +192,17 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "NixOS setup script"
+                      "k": "section.terminal.b1.tab9.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "nix"
             },
             {
-              "label": "Other distros",
-              "script": "other",
+              "labelKey": "section.terminal.b1.tab10",
               "blocks": [
                 {
                   "type": "code",
@@ -221,14 +210,14 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Generic setup script"
+                      "k": "section.terminal.b1.tab10.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
+                  "langKey": "code.lang.Bash",
                   "oneshot": true
                 }
-              ]
+              ],
+              "script": "other"
             }
           ]
         },
@@ -237,7 +226,7 @@
           "c": [
             {
               "t": "text",
-              "v": "Read it before you run it. Re-running is safe: finished steps are skipped."
+              "k": "section.terminal.b2.0"
             }
           ],
           "role": "safe"
@@ -252,36 +241,35 @@
                   "c": [
                     {
                       "t": "text",
-                      "v": "What the script does"
+                      "k": "section.terminal.b3.c0.b0.0"
                     }
                   ]
                 },
                 {
                   "type": "ul",
-                  "className": "",
                   "items": [
                     [
                       {
                         "t": "text",
-                        "v": "Installs what is missing: Steam, 7-Zip, curl and python3."
+                        "k": "section.terminal.b3.c0.b1.i0.0"
                       }
                     ],
                     [
                       {
                         "t": "text",
-                        "v": "Downloads the Co-op client and dedicated server from the official GitHub release and checks their SHA-256."
+                        "k": "section.terminal.b3.c0.b1.i1.0"
                       }
                     ],
                     [
                       {
                         "t": "text",
-                        "v": "Unpacks them under ~/Games/BannerlordCoop and writes start-server.sh."
+                        "k": "section.terminal.b3.c0.b1.i2.0"
                       }
                     ],
                     [
                       {
                         "t": "text",
-                        "v": "Opens UDP 4200–4201 if ufw or firewalld is active."
+                        "k": "section.terminal.b3.c0.b1.i3.0"
                       }
                     ]
                   ]
@@ -295,36 +283,35 @@
                   "c": [
                     {
                       "t": "text",
-                      "v": "What is left for you"
+                      "k": "section.terminal.b3.c1.b0.0"
                     }
                   ]
                 },
                 {
                   "type": "ul",
-                  "className": "",
                   "items": [
                     [
                       {
                         "t": "text",
-                        "v": "Log in to Steam, own and install Bannerlord, and run it once."
+                        "k": "section.terminal.b3.c1.b1.i0.0"
                       }
                     ],
                     [
                       {
                         "t": "text",
-                        "v": "Enable the Co-op mod (Workshop or copy the module); every player needs the same version."
+                        "k": "section.terminal.b3.c1.b1.i1.0"
                       }
                     ],
                     [
                       {
                         "t": "text",
-                        "v": "Start the server once, read and accept the EULA yourself, then edit server-config.json."
+                        "k": "section.terminal.b3.c1.b1.i2.0"
                       }
                     ],
                     [
                       {
                         "t": "text",
-                        "v": "Forward UDP 4200–4201 on your router if players join over the internet."
+                        "k": "section.terminal.b3.c1.b1.i3.0"
                       }
                     ]
                   ]
@@ -334,37 +321,40 @@
           ]
         },
         {
-          "type": "details",
-          "id": "oneshot-steps",
-          "className": "oneshot-steps",
+          "type": "sectionRefs",
+          "when": "alone",
+          "ids": [
+            "variables",
+            "deps",
+            "steam",
+            "download"
+          ],
           "summary": [
             {
               "t": "text",
-              "v": "Show individual steps"
+              "k": "section.terminal.b4.summary.0"
             }
-          ],
-          "blocks": []
+          ]
         }
       ]
     },
     {
       "id": "overview",
-      "kicker": "Step 2",
-      "title": "Overview",
-      "sub": "What you will set up.",
+      "kickerKey": "section.overview.kicker",
+      "titleKey": "section.overview.title",
+      "subKey": "section.overview.sub",
       "blocks": [
         {
           "type": "callout",
           "kind": "info",
-          "title": "No native Linux dedicated server",
-          "id": "",
+          "titleKey": "section.overview.b0.title",
           "blocks": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "Official Co-op ships a Win64 server executable. Linux hosts run it under a Windows compatibility layer."
+                  "k": "section.overview.b0.b0.0"
                 }
               ]
             }
@@ -375,89 +365,85 @@
           "c": [
             {
               "t": "text",
-              "v": "Run a"
+              "k": "section.overview.b1.0"
             },
             {
               "t": "strong",
               "c": [
                 {
                   "t": "text",
-                  "v": "Windows dedicated server"
+                  "k": "section.overview.b1.1.0"
                 }
               ]
             },
             {
               "t": "text",
-              "v": "under"
+              "k": "section.overview.b1.2"
             },
             {
               "t": "term",
-              "term": "Proton",
-              "def": "Valve's compatibility layer that runs many Windows games on Linux through Steam.",
-              "v": "Proton"
+              "termKey": "faq.faq-proton.label0",
+              "defKey": "faq.faq-proton.def0"
             },
             {
               "t": "text",
-              "v": "/"
+              "k": "faq.faq-ports.gap11"
             },
             {
               "t": "term",
-              "term": "Wine",
-              "def": "A compatibility layer that runs Windows programs on Linux without a full Windows install.",
-              "v": "Wine"
+              "termKey": "faq.faq-proton.label1",
+              "defKey": "faq.faq-proton.def1"
             },
             {
               "t": "text",
-              "v": "/umu on Linux, install the matching Co-op"
+              "k": "section.overview.b1.6"
             },
             {
               "t": "strong",
               "c": [
                 {
                   "t": "text",
-                  "v": "client"
+                  "k": "section.overview.b1.7.0"
                 }
               ]
             },
             {
               "t": "text",
-              "v": ", and open"
+              "k": "section.overview.b1.8"
             },
             {
               "t": "term",
-              "term": "UDP",
-              "def": "A network protocol used for game traffic; Co-op direct connect listens on a UDP port (default 4200).",
-              "v": "UDP"
+              "termKey": "faq.faq-epic-steam.label0",
+              "defKey": "faq.faq-epic-steam.def0"
             },
             {
               "t": "strong",
               "c": [
                 {
                   "t": "text",
-                  "v": "4200"
+                  "k": "section.overview.b1.10.0"
                 }
               ]
             },
             {
               "t": "text",
-              "v": "(optional service later)."
+              "k": "section.overview.b1.11"
             }
           ]
         },
         {
           "type": "ol",
-          "className": "step-cards",
           "items": [
             [
               {
                 "t": "text",
-                "v": "Install tools and Steam (any supported format)."
+                "k": "section.overview.b2.i0.0"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Download matching client zip + dedicated server"
+                "k": "section.overview.b2.i1.0"
               },
               {
                 "t": "code",
@@ -465,13 +451,13 @@
               },
               {
                 "t": "text",
-                "v": "."
+                "k": "section.overview.b2.i1.2"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Configure"
+                "k": "section.overview.b2.i2.0"
               },
               {
                 "t": "code",
@@ -479,18 +465,19 @@
               },
               {
                 "t": "text",
-                "v": ", launch, firewall, join."
+                "k": "section.overview.b2.i2.2"
               }
             ]
-          ]
+          ],
+          "className": "step-cards"
         }
       ]
     },
     {
       "id": "variables",
-      "kicker": "Step 3",
-      "title": "Variables",
-      "sub": "Placeholders used in every command.",
+      "kickerKey": "section.variables.kicker",
+      "titleKey": "section.variables.title",
+      "subKey": "section.variables.sub",
       "blocks": [
         {
           "type": "dl",
@@ -505,7 +492,7 @@
               "dd": [
                 {
                   "t": "text",
-                  "v": "Steam library root (native or Flatpak path)"
+                  "k": "section.variables.b0.dd0.0"
                 }
               ]
             },
@@ -519,7 +506,7 @@
               "dd": [
                 {
                   "t": "text",
-                  "v": "Extracted dedicated server folder"
+                  "k": "section.variables.b0.dd1.0"
                 }
               ]
             },
@@ -533,7 +520,7 @@
               "dd": [
                 {
                   "t": "text",
-                  "v": "Server data directory under the Proton prefix Documents path"
+                  "k": "section.variables.b0.dd2.0"
                 }
               ]
             },
@@ -547,7 +534,7 @@
               "dd": [
                 {
                   "t": "text",
-                  "v": "Save name without"
+                  "k": "section.variables.b0.dd3.0"
                 },
                 {
                   "t": "code",
@@ -565,7 +552,7 @@
               "dd": [
                 {
                   "t": "text",
-                  "v": "Join password (or empty)"
+                  "k": "section.variables.b0.dd4.0"
                 }
               ]
             },
@@ -579,7 +566,7 @@
               "dd": [
                 {
                   "t": "text",
-                  "v": "Optional pin (example"
+                  "k": "section.variables.b0.dd5.0"
                 },
                 {
                   "t": "code",
@@ -587,7 +574,7 @@
                 },
                 {
                   "t": "text",
-                  "v": "). Default is the latest GitHub release."
+                  "k": "section.variables.b0.dd5.2"
                 }
               ]
             },
@@ -601,7 +588,7 @@
               "dd": [
                 {
                   "t": "text",
-                  "v": "Listen port (default"
+                  "k": "section.variables.b0.dd6.0"
                 },
                 {
                   "t": "code",
@@ -609,7 +596,7 @@
                 },
                 {
                   "t": "text",
-                  "v": ")"
+                  "k": "section.variables.b0.dd6.2"
                 }
               ]
             }
@@ -620,7 +607,7 @@
           "label": [
             {
               "t": "text",
-              "v": "Preview"
+              "k": "section.variables.b1.label.0"
             },
             {
               "t": "code",
@@ -628,11 +615,9 @@
             },
             {
               "t": "text",
-              "v": "(optional)"
+              "k": "section.variables.b1.label.2"
             }
           ],
-          "id": "var-SERVER_DIR",
-          "name": "SERVER_DIR",
           "placeholder": "$HOME/Games/BannerlordCoop-DedicatedServer"
         },
         {
@@ -641,29 +626,26 @@
           "title": [
             {
               "t": "text",
-              "v": "Environment"
+              "k": "section.variables.b2.title.0"
             }
           ],
-          "lang": "bash",
-          "langLabel": "Bash",
-          "oneshot": false
+          "langKey": "code.lang.Bash"
         }
       ]
     },
     {
       "id": "deps",
-      "kicker": "Step 4",
-      "title": "Install dependencies",
-      "sub": "curl, 7z, networking tools.",
+      "kickerKey": "section.deps.kicker",
+      "titleKey": "section.deps.title",
+      "subKey": "section.deps.sub",
       "blocks": [
         {
           "type": "tabs",
           "name": "deps",
-          "label": "Dependencies tabs",
+          "labelKey": "section.deps.b0.label",
           "tabs": [
             {
-              "label": "Debian / Ubuntu",
-              "script": null,
+              "labelKey": "section.deps.b0.tab0",
               "blocks": [
                 {
                   "type": "code",
@@ -671,18 +653,19 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "apt"
+                      "k": "section.deps.b0.tab0.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "debian",
+                "other"
               ]
             },
             {
-              "label": "Fedora / RHEL",
-              "script": null,
+              "labelKey": "section.deps.b0.tab1",
               "blocks": [
                 {
                   "type": "code",
@@ -690,18 +673,19 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "dnf"
+                      "k": "section.deps.b0.tab1.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "fedora",
+                "other"
               ]
             },
             {
-              "label": "Arch / Manjaro",
-              "script": null,
+              "labelKey": "section.deps.b0.tab2",
               "blocks": [
                 {
                   "type": "code",
@@ -709,18 +693,19 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "pacman"
+                      "k": "section.deps.b0.tab2.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "arch",
+                "other"
               ]
             },
             {
-              "label": "openSUSE",
-              "script": null,
+              "labelKey": "section.terminal.b1.tab6",
               "blocks": [
                 {
                   "type": "code",
@@ -728,31 +713,31 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "zypper"
+                      "k": "section.deps.b0.tab3.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "suse",
+                "other"
               ]
             },
             {
-              "label": "Immutable / Deck OS",
-              "script": null,
+              "labelKey": "section.deps.b0.tab4",
               "blocks": [
                 {
                   "type": "callout",
                   "kind": "info",
-                  "title": "Immutable OS",
-                  "id": "",
+                  "titleKey": "section.deps.b0.tab4.b0.title",
                   "blocks": [
                     {
                       "type": "p",
                       "c": [
                         {
                           "t": "text",
-                          "v": "Prefer home user space, Flatpak, or a"
+                          "k": "section.deps.b0.tab4.b0.b0.0"
                         },
                         {
                           "t": "code",
@@ -760,7 +745,7 @@
                         },
                         {
                           "t": "text",
-                          "v": "container. Use"
+                          "k": "section.deps.b0.tab4.b0.b0.2"
                         },
                         {
                           "t": "code",
@@ -768,7 +753,7 @@
                         },
                         {
                           "t": "text",
-                          "v": "on the host only when required."
+                          "k": "section.deps.b0.tab4.b0.b0.4"
                         }
                       ]
                     }
@@ -780,20 +765,22 @@
                   "title": [
                     {
                       "t": "term",
-                      "term": "Distrobox",
-                      "def": "A tool that runs another Linux distro in a container while sharing your home files.",
-                      "v": "distrobox"
+                      "termKey": "section.deps.b0.tab4.b1.title.0.term",
+                      "defKey": "section.deps.b0.tab4.b1.title.0.def",
+                      "labelKey": "section.deps.b0.tab4.b1.title.0.label"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "immutable",
+                "deck",
+                "other"
               ]
             },
             {
-              "label": "NixOS",
-              "script": null,
+              "labelKey": "section.terminal.b1.tab9",
               "blocks": [
                 {
                   "type": "code",
@@ -801,31 +788,31 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "nix"
+                      "k": "section.deps.b0.tab5.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "nix",
+                "other"
               ]
             },
             {
-              "label": "Steam Deck",
-              "script": null,
+              "labelKey": "section.terminal.b1.tab8",
               "blocks": [
                 {
                   "type": "callout",
                   "kind": "info",
-                  "title": "Steam Deck",
-                  "id": "",
+                  "titleKey": "section.terminal.b1.tab8",
                   "blocks": [
                     {
                       "type": "p",
                       "c": [
                         {
                           "t": "text",
-                          "v": "Not officially supported. Use Desktop Mode and the existing Steam installation. Prefer Distrobox or Flatpak for extra tools; run the server under Proton/GE."
+                          "k": "section.deps.b0.tab6.b0.b0.0"
                         }
                       ]
                     }
@@ -837,13 +824,15 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "verify"
+                      "k": "section.deps.b0.tab6.b1.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "deck",
+                "other"
               ]
             }
           ]
@@ -851,8 +840,7 @@
         {
           "type": "callout",
           "kind": "ok",
-          "title": "Verify",
-          "id": "",
+          "titleKey": "section.deps.b1.title",
           "blocks": [
             {
               "type": "p",
@@ -863,7 +851,7 @@
                 },
                 {
                   "t": "text",
-                  "v": "should print paths."
+                  "k": "section.deps.b1.b0.1"
                 }
               ]
             }
@@ -873,22 +861,21 @@
     },
     {
       "id": "steam",
-      "kicker": "Step 5",
-      "title": "Steam install",
-      "sub": "Install Steam for your distro.",
+      "kickerKey": "section.steam.kicker",
+      "titleKey": "section.steam.title",
+      "subKey": "section.steam.sub",
       "blocks": [
         {
           "type": "callout",
           "kind": "warn",
-          "title": "Flatpak paths",
-          "id": "",
+          "titleKey": "section.steam.b0.title",
           "blocks": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "Flatpak Steam uses"
+                  "k": "section.steam.b0.b0.0"
                 },
                 {
                   "t": "code",
@@ -896,7 +883,7 @@
                 },
                 {
                   "t": "text",
-                  "v": ". Grant filesystem overrides if the server lives elsewhere."
+                  "k": "section.steam.b0.b0.2"
                 }
               ]
             }
@@ -905,11 +892,10 @@
         {
           "type": "tabs",
           "name": "steam",
-          "label": "Steam tabs",
+          "labelKey": "section.steam.b1.label",
           "tabs": [
             {
-              "label": "Debian / Ubuntu",
-              "script": null,
+              "labelKey": "section.deps.b0.tab0",
               "blocks": [
                 {
                   "type": "code",
@@ -917,12 +903,10 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Ubuntu / Linux Mint"
+                      "k": "section.steam.b1.tab0.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 },
                 {
                   "type": "code",
@@ -930,18 +914,18 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Debian"
+                      "k": "section.terminal.b1.tab1"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "debian"
               ]
             },
             {
-              "label": "Fedora / RHEL",
-              "script": null,
+              "labelKey": "section.deps.b0.tab1",
               "blocks": [
                 {
                   "type": "code",
@@ -949,18 +933,18 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Fedora (RPM Fusion)"
+                      "k": "section.steam.b1.tab1.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "fedora"
               ]
             },
             {
-              "label": "Arch / Manjaro",
-              "script": null,
+              "labelKey": "section.deps.b0.tab2",
               "blocks": [
                 {
                   "type": "code",
@@ -968,12 +952,10 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Arch Linux"
+                      "k": "section.terminal.b1.tab4"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 },
                 {
                   "type": "code",
@@ -981,18 +963,18 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Manjaro"
+                      "k": "section.terminal.b1.tab5"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "arch"
               ]
             },
             {
-              "label": "openSUSE",
-              "script": null,
+              "labelKey": "section.terminal.b1.tab6",
               "blocks": [
                 {
                   "type": "code",
@@ -1000,18 +982,18 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "openSUSE"
+                      "k": "section.terminal.b1.tab6"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "suse"
               ]
             },
             {
-              "label": "Immutable / Deck OS",
-              "script": null,
+              "labelKey": "section.deps.b0.tab4",
               "blocks": [
                 {
                   "type": "code",
@@ -1019,31 +1001,30 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Bazzite and other immutable systems"
+                      "k": "section.steam.b1.tab4.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "immutable"
               ]
             },
             {
-              "label": "Steam Deck / SteamOS",
-              "script": null,
+              "labelKey": "section.steam.b1.tab5",
               "blocks": [
                 {
                   "type": "callout",
                   "kind": "warn",
-                  "title": "Steam Deck — not officially supported",
-                  "id": "",
+                  "titleKey": "section.steam.b1.tab5.b0.title",
                   "blocks": [
                     {
                       "type": "p",
                       "c": [
                         {
                           "t": "text",
-                          "v": "Use Desktop Mode and the existing Steam installation. Do not unlock the read-only OS or install a second Steam copy. Verify runtime paths locally."
+                          "k": "section.steam.b1.tab5.b0.b0.0"
                         }
                       ]
                     }
@@ -1055,18 +1036,18 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "SteamOS inspection"
+                      "k": "section.steam.b1.tab5.b1.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "deck"
               ]
             },
             {
-              "label": "NixOS",
-              "script": null,
+              "labelKey": "section.terminal.b1.tab9",
               "blocks": [
                 {
                   "type": "code",
@@ -1074,18 +1055,18 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "NixOS (configuration.nix)"
+                      "k": "section.steam.b1.tab6.b0.title.0"
                     }
                   ],
-                  "lang": "nix",
-                  "langLabel": "Nix",
-                  "oneshot": false
+                  "langKey": "code.lang.Nix"
                 }
+              ],
+              "families": [
+                "nix"
               ]
             },
             {
-              "label": "Other distros",
-              "script": null,
+              "labelKey": "section.terminal.b1.tab10",
               "blocks": [
                 {
                   "type": "code",
@@ -1093,13 +1074,14 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Flatpak Steam"
+                      "k": "section.steam.b1.tab7.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
+              ],
+              "families": [
+                "other"
               ]
             }
           ]
@@ -1108,22 +1090,21 @@
     },
     {
       "id": "download",
-      "kicker": "Step 6",
-      "title": "Download Co-op client + server",
-      "sub": "Same latest release for both artifacts.",
+      "kickerKey": "section.download.kicker",
+      "titleKey": "section.download.title",
+      "subKey": "section.download.sub",
       "blocks": [
         {
           "type": "callout",
           "kind": "warn",
-          "title": "GitHub Assets caveat",
-          "id": "",
+          "titleKey": "section.download.b0.title",
           "blocks": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "GitHub Assets often list only the client zip and"
+                  "k": "section.download.b0.b0.0"
                 },
                 {
                   "t": "code",
@@ -1131,7 +1112,7 @@
                 },
                 {
                   "t": "text",
-                  "v": ". The large Windows dedicated-server archive is commonly linked from the release body/manifest CDN URL. The resolver follows those published links."
+                  "k": "section.download.b0.b0.2"
                 }
               ]
             }
@@ -1140,15 +1121,14 @@
         {
           "type": "callout",
           "kind": "warn",
-          "title": "Workshop vs manual",
-          "id": "",
+          "titleKey": "section.download.b1.title",
           "blocks": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "Steam Workshop stays on the latest TaleWorlds-approved Workshop build automatically. That can lag GitHub/CDN, and every player plus the host must still share one Co-op version. Do not enable manual"
+                  "k": "section.download.b1.b0.0"
                 },
                 {
                   "t": "code",
@@ -1156,7 +1136,7 @@
                 },
                 {
                   "t": "text",
-                  "v": "and Workshop Co-op together."
+                  "k": "section.download.b1.b0.2"
                 }
               ]
             }
@@ -1167,33 +1147,33 @@
           "c": [
             {
               "t": "text",
-              "v": "Resolve the"
+              "k": "section.download.b2.0"
             },
             {
               "t": "strong",
               "c": [
                 {
                   "t": "text",
-                  "v": "latest"
+                  "k": "section.download.b2.1.0"
                 }
               ]
             },
             {
               "t": "text",
-              "v": "Co-op release (client module"
+              "k": "section.download.b2.2"
             },
             {
               "t": "em",
               "c": [
                 {
                   "t": "text",
-                  "v": "and"
+                  "k": "section.download.b2.3.0"
                 }
               ]
             },
             {
               "t": "text",
-              "v": "dedicated server) from the"
+              "k": "section.download.b2.4"
             },
             {
               "t": "a",
@@ -1201,13 +1181,13 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "GitHub Releases API"
+                  "k": "section.download.b2.5.0"
                 }
               ]
             },
             {
               "t": "text",
-              "v": ". Both assets come from one resolver so they match. Optional"
+              "k": "section.download.b2.6"
             },
             {
               "t": "code",
@@ -1215,24 +1195,23 @@
             },
             {
               "t": "text",
-              "v": "pins an older tag when you must match an existing host."
+              "k": "section.download.b2.8"
             }
           ]
         },
         {
           "type": "ol",
-          "className": "step-cards",
           "items": [
             [
               {
                 "t": "text",
-                "v": "Run the command-line staging block (curl + jq/python3). It prints the resolved version before downloading."
+                "k": "section.download.b3.i0.0"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Install"
+                "k": "section.download.b3.i1.0"
               },
               {
                 "t": "code",
@@ -1240,7 +1219,7 @@
               },
               {
                 "t": "text",
-                "v": "into the game"
+                "k": "section.download.b3.i1.2"
               },
               {
                 "t": "code",
@@ -1248,16 +1227,17 @@
               },
               {
                 "t": "text",
-                "v": "folder for every player, or use Workshop (Steam tracks the latest approved Workshop build; host and players must still match)."
+                "k": "section.download.b3.i1.4"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Published checksums from the release/manifest are verified when present; otherwise the script prints the computed sha256 and says so."
+                "k": "section.download.b3.i2.0"
               }
             ]
-          ]
+          ],
+          "className": "step-cards"
         },
         {
           "type": "code",
@@ -1265,12 +1245,10 @@
           "title": [
             {
               "t": "text",
-              "v": "Resolve latest client + server (preferred)"
+              "k": "section.download.b4.title.0"
             }
           ],
-          "lang": "bash",
-          "langLabel": "Bash",
-          "oneshot": false
+          "langKey": "code.lang.Bash"
         },
         {
           "type": "code",
@@ -1278,25 +1256,22 @@
           "title": [
             {
               "t": "text",
-              "v": "Version pin / installed client check"
+              "k": "section.download.b5.title.0"
             }
           ],
-          "lang": "bash",
-          "langLabel": "Bash",
-          "oneshot": false
+          "langKey": "code.lang.Bash"
         },
         {
           "type": "callout",
           "kind": "ok",
-          "title": "Expected",
-          "id": "",
+          "titleKey": "section.download.b6.title",
           "blocks": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "Staging folder with matching client zip + dedicated-server archive,"
+                  "k": "section.download.b6.b0.0"
                 },
                 {
                   "t": "code",
@@ -1304,7 +1279,7 @@
                 },
                 {
                   "t": "text",
-                  "v": ", and"
+                  "k": "section.download.b6.b0.2"
                 },
                 {
                   "t": "code",
@@ -1312,7 +1287,7 @@
                 },
                 {
                   "t": "text",
-                  "v": ". No separate .NET install."
+                  "k": "section.download.b6.b0.4"
                 }
               ]
             }
@@ -1322,22 +1297,22 @@
     },
     {
       "id": "configure",
-      "kicker": "Step 7",
-      "title": "Configure the server",
-      "sub": "Minimal server-config.json.",
+      "kickerKey": "section.configure.kicker",
+      "titleKey": "section.configure.title",
+      "subKey": "section.configure.sub",
       "blocks": [
         {
           "type": "callout",
           "kind": "warn",
-          "title": "First launch: license review",
           "id": "callout-eula",
+          "titleKey": "section.configure.b0.title",
           "blocks": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "On first launch the server shows EULA.md / LICENSE.txt and asks"
+                  "k": "section.configure.b0.b0.0"
                 },
                 {
                   "t": "code",
@@ -1345,17 +1320,16 @@
                 },
                 {
                   "t": "text",
-                  "v": ". A person must agree — do not auto-accept or copy another server’s acceptance file. A service can look “running” while stuck on this prompt with no"
+                  "k": "section.configure.b0.b0.2"
                 },
                 {
                   "t": "term",
-                  "term": "UDP",
-                  "def": "A network protocol used for game traffic; Co-op direct connect listens on a UDP port (default 4200).",
-                  "v": "UDP"
+                  "termKey": "faq.faq-epic-steam.label0",
+                  "defKey": "faq.faq-epic-steam.def0"
                 },
                 {
                   "t": "text",
-                  "v": "listener. Finish this interactively before enabling any service."
+                  "k": "section.configure.b0.b0.4"
                 }
               ]
             }
@@ -1364,15 +1338,14 @@
         {
           "type": "callout",
           "kind": "warn",
-          "title": "Edit config after the first successful launch",
-          "id": "",
+          "titleKey": "section.configure.b1.title",
           "blocks": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "The server may regenerate"
+                  "k": "section.configure.b1.b0.0"
                 },
                 {
                   "t": "code",
@@ -1380,7 +1353,7 @@
                 },
                 {
                   "t": "text",
-                  "v": "on first start (comments/JSONC allowed). Stop only this intended server, set"
+                  "k": "section.configure.b1.b0.2"
                 },
                 {
                   "t": "code",
@@ -1388,7 +1361,7 @@
                 },
                 {
                   "t": "text",
-                  "v": "/"
+                  "k": "faq.faq-ports.gap11"
                 },
                 {
                   "t": "code",
@@ -1396,7 +1369,7 @@
                 },
                 {
                   "t": "text",
-                  "v": "/"
+                  "k": "faq.faq-ports.gap11"
                 },
                 {
                   "t": "code",
@@ -1404,7 +1377,7 @@
                 },
                 {
                   "t": "text",
-                  "v": "/"
+                  "k": "faq.faq-ports.gap11"
                 },
                 {
                   "t": "code",
@@ -1412,7 +1385,7 @@
                 },
                 {
                   "t": "text",
-                  "v": "with placeholders such as"
+                  "k": "section.configure.b1.b0.10"
                 },
                 {
                   "t": "code",
@@ -1420,7 +1393,7 @@
                 },
                 {
                   "t": "text",
-                  "v": "and"
+                  "k": "section.download.b2.3.0"
                 },
                 {
                   "t": "code",
@@ -1428,20 +1401,20 @@
                 },
                 {
                   "t": "text",
-                  "v": ", then start again. Default listen port is"
+                  "k": "section.configure.b1.b0.14"
                 },
                 {
                   "t": "strong",
                   "c": [
                     {
                       "t": "text",
-                      "v": "4200"
+                      "k": "section.overview.b1.10.0"
                     }
                   ]
                 },
                 {
                   "t": "text",
-                  "v": "."
+                  "k": "section.overview.b2.i1.2"
                 }
               ]
             }
@@ -1452,17 +1425,16 @@
           "c": [
             {
               "t": "text",
-              "v": "Typical data path under"
+              "k": "section.configure.b2.0"
             },
             {
               "t": "term",
-              "term": "Proton",
-              "def": "Valve's compatibility layer that runs many Windows games on Linux through Steam.",
-              "v": "Proton"
+              "termKey": "faq.faq-proton.label0",
+              "defKey": "faq.faq-proton.def0"
             },
             {
               "t": "text",
-              "v": ":"
+              "k": "section.configure.b2.2"
             }
           ]
         },
@@ -1472,22 +1444,18 @@
           "title": [
             {
               "t": "text",
-              "v": ""
+              "k": "section.configure.b3.title.0"
             }
           ],
-          "lang": "text",
-          "langLabel": "Text",
-          "oneshot": false,
+          "langKey": "code.lang.Text",
           "bare": true
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Show example"
+              "k": "section.configure.b4.summary.0"
             },
             {
               "t": "code",
@@ -1501,25 +1469,21 @@
               "title": [
                 {
                   "t": "text",
-                  "v": "server-config.json"
+                  "k": "section.configure.b4.d0.b0.title.0"
                 }
               ],
-              "lang": "json",
-              "langLabel": "JSON",
-              "oneshot": false
+              "langKey": "code.lang.JSON"
             }
           ]
         },
         {
           "type": "table",
-          "id": "",
-          "headers": [
-            "Key",
-            "Meaning"
+          "headerKeys": [
+            "section.configure.b5.h0",
+            "section.configure.b5.h1"
           ],
           "rows": [
             {
-              "id": "",
               "cells": [
                 [
                   {
@@ -1530,7 +1494,7 @@
                 [
                   {
                     "t": "text",
-                    "v": "Save under Game Saves/ (no"
+                    "k": "section.configure.b5.r0.c1.0"
                   },
                   {
                     "t": "code",
@@ -1538,13 +1502,12 @@
                   },
                   {
                     "t": "text",
-                    "v": ")"
+                    "k": "section.variables.b0.dd6.2"
                   }
                 ]
               ]
             },
             {
-              "id": "",
               "cells": [
                 [
                   {
@@ -1555,13 +1518,12 @@
                 [
                   {
                     "t": "text",
-                    "v": "Empty = open"
+                    "k": "section.configure.b5.r1.c1.0"
                   }
                 ]
               ]
             },
             {
-              "id": "",
               "cells": [
                 [
                   {
@@ -1572,13 +1534,12 @@
                 [
                   {
                     "t": "text",
-                    "v": "UDP listen (default 4200)"
+                    "k": "section.configure.b5.r2.c1.0"
                   }
                 ]
               ]
             },
             {
-              "id": "",
               "cells": [
                 [
                   {
@@ -1593,13 +1554,12 @@
                   },
                   {
                     "t": "text",
-                    "v": "= Steam lobby when Steam is logged in"
+                    "k": "section.configure.b5.r3.c1.1"
                   }
                 ]
               ]
             },
             {
-              "id": "",
               "cells": [
                 [
                   {
@@ -1610,7 +1570,7 @@
                 [
                   {
                     "t": "text",
-                    "v": "Write logs under"
+                    "k": "section.configure.b5.r4.c1.0"
                   },
                   {
                     "t": "code",
@@ -1620,7 +1580,6 @@
               ]
             },
             {
-              "id": "",
               "cells": [
                 [
                   {
@@ -1635,7 +1594,7 @@
                   },
                   {
                     "t": "text",
-                    "v": "disables"
+                    "k": "section.configure.b5.r5.c1.1"
                   }
                 ]
               ]
@@ -1647,7 +1606,7 @@
           "c": [
             {
               "t": "text",
-              "v": "Restart the server after edits. Optional"
+              "k": "section.configure.b6.0"
             },
             {
               "t": "code",
@@ -1655,7 +1614,7 @@
             },
             {
               "t": "text",
-              "v": "."
+              "k": "section.overview.b2.i1.2"
             }
           ]
         }
@@ -1663,22 +1622,21 @@
     },
     {
       "id": "launch",
-      "kicker": "Step 8",
-      "title": "Launch the dedicated server",
-      "sub": "Proton, Wine, or umu.",
+      "kickerKey": "section.launch.kicker",
+      "titleKey": "section.launch.title",
+      "subKey": "section.launch.sub",
       "blocks": [
         {
           "type": "callout",
           "kind": "info",
-          "title": "Headless / VPS",
-          "id": "",
+          "titleKey": "section.launch.b0.title",
           "blocks": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "First launch can take a minute while Proton creates its prefix. Confirm a real"
+                  "k": "section.launch.b0.b0.0"
                 },
                 {
                   "t": "code",
@@ -1686,7 +1644,7 @@
                 },
                 {
                   "t": "text",
-                  "v": "log line — a bound socket alone is not join proof."
+                  "k": "section.launch.b0.b0.2"
                 }
               ]
             },
@@ -1699,56 +1657,53 @@
                 },
                 {
                   "t": "text",
-                  "v": "means direct"
+                  "k": "section.launch.b0.b1.1"
                 },
                 {
                   "t": "term",
-                  "term": "UDP",
-                  "def": "A network protocol used for game traffic; Co-op direct connect listens on a UDP port (default 4200).",
-                  "v": "UDP"
+                  "termKey": "faq.faq-epic-steam.label0",
+                  "defKey": "faq.faq-epic-steam.def0"
                 },
                 {
                   "t": "text",
-                  "v": "only (default 4200). Steam lobby needs a logged-in Steam client."
+                  "k": "section.launch.b0.b1.3"
                 },
                 {
                   "t": "term",
-                  "term": "headless",
-                  "def": "Running without a physical monitor — common on VPS hosts.",
-                  "v": "Headless"
+                  "termKey": "section.launch.b0.b1.4.term",
+                  "defKey": "section.launch.b0.b1.4.def",
+                  "labelKey": "section.launch.b0.b1.4.label"
                 },
                 {
                   "t": "text",
-                  "v": "SERVING was validated with WineHQ"
+                  "k": "section.launch.b0.b1.5"
                 },
                 {
                   "t": "term",
-                  "term": "Wine",
-                  "def": "A compatibility layer that runs Windows programs on Linux without a full Windows install.",
-                  "v": "Wine"
+                  "termKey": "faq.faq-proton.label1",
+                  "defKey": "faq.faq-proton.def1"
                 },
                 {
                   "t": "strong",
                   "c": [
                     {
                       "t": "text",
-                      "v": "11.0"
+                      "k": "section.launch.b0.b1.7.0"
                     }
                   ]
                 },
                 {
                   "t": "text",
-                  "v": "+"
+                  "k": "section.launch.b0.b1.8"
                 },
                 {
                   "t": "term",
-                  "term": "Xvfb",
-                  "def": "A virtual display server used for headless Wine/Proton so apps that need a display can start.",
-                  "v": "Xvfb"
+                  "termKey": "faq.faq-proton.label2",
+                  "defKey": "faq.faq-proton.def2"
                 },
                 {
                   "t": "text",
-                  "v": "; stock Wine 8 failed. Wine 9/10 untested."
+                  "k": "section.launch.b0.b1.10"
                 }
               ]
             }
@@ -1757,11 +1712,10 @@
         {
           "type": "tabs",
           "name": "runtime",
-          "label": "Runtime tabs",
+          "labelKey": "section.launch.b1.label",
           "tabs": [
             {
-              "label": "Proton / GE",
-              "script": null,
+              "labelKey": "section.launch.b1.tab0",
               "blocks": [
                 {
                   "type": "code",
@@ -1769,31 +1723,27 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "proton"
+                      "k": "faq.faq-proton.gap5"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
               ]
             },
             {
-              "label": "Wine",
-              "script": null,
+              "labelKey": "faq.faq-proton.label1",
               "blocks": [
                 {
                   "type": "callout",
                   "kind": "warn",
-                  "title": "Wine 11.0 validated (not a proven minimum)",
-                  "id": "",
+                  "titleKey": "section.launch.b1.tab1.b0.title",
                   "blocks": [
                     {
                       "type": "p",
                       "c": [
                         {
                           "t": "text",
-                          "v": "For"
+                          "k": "section.launch.b1.tab1.b0.b0.0"
                         },
                         {
                           "t": "code",
@@ -1801,73 +1751,69 @@
                         },
                         {
                           "t": "text",
-                          "v": "/"
+                          "k": "faq.faq-ports.gap11"
                         },
                         {
                           "t": "term",
-                          "term": "headless",
-                          "def": "Running without a physical monitor — common on VPS hosts.",
-                          "v": "headless"
+                          "termKey": "section.launch.b0.b1.4.term",
+                          "defKey": "section.launch.b0.b1.4.def"
                         },
                         {
                           "t": "text",
-                          "v": ": use"
+                          "k": "section.launch.b1.tab1.b0.b0.4"
                         },
                         {
                           "t": "strong",
                           "c": [
                             {
                               "t": "text",
-                              "v": "WineHQ"
+                              "k": "section.launch.b1.tab1.b0.b0.5.0"
                             },
                             {
                               "t": "term",
-                              "term": "Wine",
-                              "def": "A compatibility layer that runs Windows programs on Linux without a full Windows install.",
-                              "v": "Wine"
+                              "termKey": "faq.faq-proton.label1",
+                              "defKey": "faq.faq-proton.def1"
                             },
                             {
                               "t": "text",
-                              "v": "11.0"
+                              "k": "section.launch.b0.b1.7.0"
                             }
                           ]
                         },
                         {
                           "t": "text",
-                          "v": "+"
+                          "k": "section.launch.b0.b1.8"
                         },
                         {
                           "t": "term",
-                          "term": "Xvfb",
-                          "def": "A virtual display server used for headless Wine/Proton so apps that need a display can start.",
-                          "v": "Xvfb"
+                          "termKey": "faq.faq-proton.label2",
+                          "defKey": "faq.faq-proton.def2"
                         },
                         {
                           "t": "text",
-                          "v": "(validated here)."
+                          "k": "section.launch.b1.tab1.b0.b0.8"
                         },
                         {
                           "t": "strong",
                           "c": [
                             {
                               "t": "text",
-                              "v": "Debian stock Wine 8 failed"
+                              "k": "section.launch.b1.tab1.b0.b0.9.0"
                             }
                           ]
                         },
                         {
                           "t": "text",
-                          "v": "SERVING (stack overflow). Wine 9/10 untested — do not read “≥11” as every release proven. Prefer"
+                          "k": "section.launch.b1.tab1.b0.b0.10"
                         },
                         {
                           "t": "term",
-                          "term": "Proton",
-                          "def": "Valve's compatibility layer that runs many Windows games on Linux through Steam.",
-                          "v": "Proton"
+                          "termKey": "faq.faq-proton.label0",
+                          "defKey": "faq.faq-proton.def0"
                         },
                         {
                           "t": "text",
-                          "v": "with Bannerlord compatdata when Steam is already on the host."
+                          "k": "section.launch.b1.tab1.b0.b0.12"
                         }
                       ]
                     }
@@ -1876,21 +1822,19 @@
               ]
             },
             {
-              "label": "umu-launcher",
-              "script": null,
+              "labelKey": "section.launch.b1.tab2",
               "blocks": [
                 {
                   "type": "callout",
                   "kind": "warn",
-                  "title": "Community / unverified",
-                  "id": "",
+                  "titleKey": "section.launch.b1.tab2.b0.title",
                   "blocks": [
                     {
                       "type": "p",
                       "c": [
                         {
                           "t": "text",
-                          "v": "Example shape only — verify flags for your umu version:"
+                          "k": "section.launch.b1.tab2.b0.b0.0"
                         }
                       ]
                     }
@@ -1902,12 +1846,10 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "umu"
+                      "k": "faq.faq-proton.label3"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
               ]
             }
@@ -1919,29 +1861,26 @@
           "title": [
             {
               "t": "text",
-              "v": "Ready check"
+              "k": "section.launch.b2.title.0"
             }
           ],
-          "lang": "bash",
-          "langLabel": "Bash",
-          "oneshot": false
+          "langKey": "code.lang.Bash"
         }
       ]
     },
     {
       "id": "firewall",
-      "kicker": "Step 9",
-      "title": "Firewall",
-      "sub": "Allow UDP 4200–4201 for direct connect.",
+      "kickerKey": "section.firewall.kicker",
+      "titleKey": "section.firewall.title",
+      "subKey": "section.firewall.sub",
       "blocks": [
         {
           "type": "tabs",
           "name": "fw",
-          "label": "Firewall tabs",
+          "labelKey": "section.firewall.b0.label",
           "tabs": [
             {
-              "label": "ufw",
-              "script": null,
+              "labelKey": "section.firewall.b0.tab0",
               "blocks": [
                 {
                   "type": "code",
@@ -1949,18 +1888,15 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "ufw"
+                      "k": "section.firewall.b0.tab0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
               ]
             },
             {
-              "label": "firewalld",
-              "script": null,
+              "labelKey": "section.firewall.b0.tab1",
               "blocks": [
                 {
                   "type": "code",
@@ -1968,18 +1904,15 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "firewalld"
+                      "k": "section.firewall.b0.tab1"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
               ]
             },
             {
-              "label": "iptables",
-              "script": null,
+              "labelKey": "section.firewall.b0.tab2",
               "blocks": [
                 {
                   "type": "code",
@@ -1987,12 +1920,10 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "iptables"
+                      "k": "section.firewall.b0.tab2"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
               ]
             }
@@ -2002,18 +1933,17 @@
     },
     {
       "id": "service",
-      "kicker": "Step 10",
-      "title": "Keep it running",
-      "sub": "systemd or other init.",
+      "kickerKey": "section.service.kicker",
+      "titleKey": "section.service.title",
+      "subKey": "section.service.sub",
       "blocks": [
         {
           "type": "tabs",
           "name": "svc",
-          "label": "Service tabs",
+          "labelKey": "section.service.b0.label",
           "tabs": [
             {
-              "label": "systemd",
-              "script": null,
+              "labelKey": "faq.faq-keep-running.label0",
               "blocks": [
                 {
                   "type": "code",
@@ -2021,31 +1951,27 @@
                   "title": [
                     {
                       "t": "text",
-                      "v": "Install a new isolated user service"
+                      "k": "section.service.b0.tab0.b0.title.0"
                     }
                   ],
-                  "lang": "bash",
-                  "langLabel": "Bash",
-                  "oneshot": false
+                  "langKey": "code.lang.Bash"
                 }
               ]
             },
             {
-              "label": "OpenRC / runit",
-              "script": null,
+              "labelKey": "section.service.b0.tab1",
               "blocks": [
                 {
                   "type": "callout",
                   "kind": "info",
-                  "title": "Non-systemd",
-                  "id": "",
+                  "titleKey": "section.service.b0.tab1.b0.title",
                   "blocks": [
                     {
                       "type": "p",
                       "c": [
                         {
                           "t": "text",
-                          "v": "Wrap the same launch command in an OpenRC script or runit"
+                          "k": "section.service.b0.tab1.b0.b0.0"
                         },
                         {
                           "t": "code",
@@ -2053,7 +1979,7 @@
                         },
                         {
                           "t": "text",
-                          "v": "file. Treat as a template."
+                          "k": "section.service.b0.tab1.b0.b0.2"
                         }
                       ]
                     }
@@ -2067,22 +1993,21 @@
     },
     {
       "id": "client",
-      "kicker": "Step 11",
-      "title": "Client + join",
-      "sub": "Matching Co-op module version.",
+      "kickerKey": "section.client.kicker",
+      "titleKey": "section.client.title",
+      "subKey": "section.client.sub",
       "blocks": [
         {
           "type": "callout",
           "kind": "warn",
-          "title": "Version pin",
-          "id": "",
+          "titleKey": "section.client.b0.title",
           "blocks": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "Every player and server need the same Co-op release and exact Bannerlord build. Workshop auto-updates can break joins."
+                  "k": "section.client.b0.b0.0"
                 }
               ]
             }
@@ -2090,18 +2015,17 @@
         },
         {
           "type": "ol",
-          "className": "step-cards",
           "items": [
             [
               {
                 "t": "text",
-                "v": "Install Bannerlord on Steam; set game version to match the Co-op release notes."
+                "k": "section.client.b1.i0.0"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Unzip the client module into"
+                "k": "section.client.b1.i1.0"
               },
               {
                 "t": "code",
@@ -2109,19 +2033,19 @@
               },
               {
                 "t": "text",
-                "v": ", or use Workshop (disable auto-update if you must stay pinned)."
+                "k": "section.client.b1.i1.2"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Launch Bannerlord with Co-op enabled."
+                "k": "section.client.b1.i2.0"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Join via Steam invite/lobby when"
+                "k": "section.client.b1.i3.0"
               },
               {
                 "t": "code",
@@ -2129,7 +2053,7 @@
               },
               {
                 "t": "text",
-                "v": ", or direct-connect to"
+                "k": "section.client.b1.i3.2"
               },
               {
                 "t": "code",
@@ -2137,31 +2061,31 @@
               },
               {
                 "t": "text",
-                "v": "with the password."
+                "k": "section.client.b1.i3.4"
               }
             ]
-          ]
+          ],
+          "className": "step-cards"
         }
       ]
     },
     {
       "id": "backups",
-      "kicker": "Step 12",
-      "title": "Backups and updates",
-      "sub": "Protect saves; bump versions together.",
+      "kickerKey": "section.backups.kicker",
+      "titleKey": "section.backups.title",
+      "subKey": "section.backups.sub",
       "blocks": [
         {
           "type": "callout",
           "kind": "warn",
-          "title": "Do not delete saves casually",
-          "id": "",
+          "titleKey": "section.backups.b0.title",
           "blocks": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "Do not delete or overwrite saves to “fix” issues unless the owner explicitly asks."
+                  "k": "section.backups.b0.b0.0"
                 }
               ]
             }
@@ -2169,18 +2093,17 @@
         },
         {
           "type": "ul",
-          "className": "",
           "items": [
             [
               {
                 "t": "text",
-                "v": "Save cleanly and stop only the intended server. Back up CoopData and any separate server-data folder before updates."
+                "k": "section.backups.b1.i0.0"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Server may keep"
+                "k": "section.backups.b1.i1.0"
               },
               {
                 "t": "code",
@@ -2188,7 +2111,7 @@
               },
               {
                 "t": "text",
-                "v": "/"
+                "k": "faq.faq-ports.gap11"
               },
               {
                 "t": "code",
@@ -2196,13 +2119,13 @@
               },
               {
                 "t": "text",
-                "v": "."
+                "k": "section.overview.b2.i1.2"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Extract the matching update separately; retain configs/saves and check exact game builds before relaunching."
+                "k": "section.backups.b1.i2.0"
               }
             ]
           ]
@@ -2211,17 +2134,17 @@
     },
     {
       "id": "troubleshooting",
-      "kicker": "Step 13",
-      "title": "Troubleshooting",
-      "sub": "Match a symptom, then try the fix.",
+      "kickerKey": "section.troubleshooting.kicker",
+      "titleKey": "section.troubleshooting.title",
+      "subKey": "section.troubleshooting.sub",
       "blocks": [
         {
           "type": "table",
           "id": "trouble-table",
-          "headers": [
-            "Symptom",
-            "Likely cause",
-            "Fix"
+          "headerKeys": [
+            "section.troubleshooting.b0.h0",
+            "section.troubleshooting.b0.h1",
+            "section.troubleshooting.b0.h2"
           ],
           "rows": [
             {
@@ -2230,19 +2153,19 @@
                 [
                   {
                     "t": "text",
-                    "v": "SteamAPI_Init failed"
+                    "k": "section.troubleshooting.b0.r0.c0.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Steam not running or wrong compatdata"
+                    "k": "section.troubleshooting.b0.r0.c1.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Start Steam; verify STEAM_COMPAT_DATA_PATH for AppID 261550"
+                    "k": "section.troubleshooting.b0.r0.c2.0"
                   }
                 ]
               ]
@@ -2253,19 +2176,19 @@
                 [
                   {
                     "t": "text",
-                    "v": "Exit code 4"
+                    "k": "section.troubleshooting.b0.r1.c0.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Older unverified diagnostic"
+                    "k": "section.troubleshooting.b0.r1.c1.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Read preceding errors; verify archive checksum and exact versions"
+                    "k": "section.troubleshooting.b0.r1.c2.0"
                   }
                 ]
               ]
@@ -2276,19 +2199,19 @@
                 [
                   {
                     "t": "text",
-                    "v": "Exit code 25"
+                    "k": "section.troubleshooting.b0.r2.c0.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "TaleWorlds startup failure"
+                    "k": "section.troubleshooting.b0.r2.c1.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Read ProgramData/Mount and Blade II Bannerlord/logs/starter_log.txt inside the prefix"
+                    "k": "section.troubleshooting.b0.r2.c2.0"
                   }
                 ]
               ]
@@ -2299,19 +2222,19 @@
                 [
                   {
                     "t": "text",
-                    "v": "No UDP listener or normal logs"
+                    "k": "section.troubleshooting.b0.r3.c0.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "First-run EULA decision or startup failure"
+                    "k": "section.troubleshooting.b0.r3.c1.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Read terminal output; review the license interactively; do not automate acceptance"
+                    "k": "section.troubleshooting.b0.r3.c2.0"
                   }
                 ]
               ]
@@ -2322,19 +2245,19 @@
                 [
                   {
                     "t": "text",
-                    "v": "Joining stalls"
+                    "k": "section.troubleshooting.b0.r4.c0.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Exact game build or mod mismatch"
+                    "k": "section.troubleshooting.b0.r4.c1.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Compare full game builds and Co-op versions; read server refusal logs"
+                    "k": "section.troubleshooting.b0.r4.c2.0"
                   }
                 ]
               ]
@@ -2345,19 +2268,19 @@
                 [
                   {
                     "t": "text",
-                    "v": "Players cannot join"
+                    "k": "section.troubleshooting.b0.r5.c0.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Firewall / wrong port / steam false"
+                    "k": "section.troubleshooting.b0.r5.c1.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Open UDP 4200; check server-config port; try direct IP"
+                    "k": "section.troubleshooting.b0.r5.c2.0"
                   }
                 ]
               ]
@@ -2368,19 +2291,19 @@
                 [
                   {
                     "t": "text",
-                    "v": "Module mismatch on join"
+                    "k": "section.troubleshooting.b0.r6.c0.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Client ≠ server Co-op build"
+                    "k": "section.troubleshooting.b0.r6.c1.0"
                   }
                 ],
                 [
                   {
                     "t": "text",
-                    "v": "Install the exact same release on both"
+                    "k": "section.troubleshooting.b0.r6.c2.0"
                   }
                 ]
               ]
@@ -2391,374 +2314,1537 @@
     },
     {
       "id": "faq",
-      "kicker": "Step 14",
-      "title": "FAQ",
-      "sub": "Short answers for common setup questions.",
+      "kickerKey": "section.faq.kicker",
+      "titleKey": "section.faq.title",
+      "subKey": "section.faq.sub",
       "blocks": [
         {
           "type": "details",
-          "id": "faq-versions-match",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Which versions must match?"
+              "k": "section.faq.b0.summary.0"
             }
           ],
           "blocks": [
             {
-              "type": "rich",
-              "id": "faq-versions-match"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-cant-connect",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Why can’t other players connect?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-cant-connect"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-platforms",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "What differs on Steam Deck, Bazzite and Flatpak Steam?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-platforms"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-proton",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Which Proton version should I choose?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-proton"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-server-crash",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Why does the server close or crash?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-server-crash"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-workshop-updates",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Can Workshop auto-updates break joining?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-workshop-updates"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-gpu-display",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Does the server need a GPU or display?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-gpu-display"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-update-safely",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "How do I update safely?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-update-safely"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-keep-running",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "How do I keep it running?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-keep-running"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-logs-saves",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Where are logs and saves?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-logs-saves"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-dedicated-download",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Where is the dedicated-server download?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-dedicated-download"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-watchdog",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Does disabling the watchdog help Linux stutter?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-watchdog"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-workshop-ds",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Can I use the Workshop dedicated server?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-workshop-ds"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-ports",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Which ports should direct-IP players allow?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-ports"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-no-udp-eula",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Why is the service running but there is no UDP listener?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-no-udp-eula"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-linux-deck",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Is Linux or Steam Deck supported?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-linux-deck"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-host-and-play",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "What if I host and play on the same PC?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-host-and-play"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-difficulty",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Where are difficulty and battle settings?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-difficulty"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-epic-steam",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Can Epic or manually installed clients use Steam invites?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-epic-steam"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-client-server-match",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Do client and server versions match?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-client-server-match"
-            }
-          ]
-        },
-        {
-          "type": "details",
-          "id": "faq-ai-assistant",
-          "className": "",
-          "summary": [
-            {
-              "t": "text",
-              "v": "Can I use an AI assistant?"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "rich",
-              "id": "faq-ai-assistant"
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-versions-match.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-versions-match.gap3"
+                }
+              ]
             },
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "v": "This AI prompt is in English so assistants parse it reliably."
+                  "k": "faq.faq-versions-match.gap5"
                 }
+              ]
+            }
+          ],
+          "id": "faq-versions-match"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b1.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-cant-connect.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-cant-connect.label0",
+                      "defKey": "faq.faq-cant-connect.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-cant-connect.gap3"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-cant-connect.label1",
+                      "defKey": "faq.faq-cant-connect.def1"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-cant-connect.gap4"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-cant-connect.gap8"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-cant-connect.label2",
+                    "defKey": "faq.faq-cant-connect.def2"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-cant-connect.gap9"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-cant-connect.gap11"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-cant-connect.label3",
+                    "defKey": "faq.faq-cant-connect.def3"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-cant-connect.gap12"
+                  }
+                ],
+                [
+                  {
+                    "t": "em",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-cant-connect.gap15"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-cant-connect.gap16"
+                  }
+                ]
+              ]
+            }
+          ],
+          "id": "faq-cant-connect"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b2.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-platforms.gap1"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "strong",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap5"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-platforms.gap6"
+                  },
+                  {
+                    "t": "em",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap7"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-platforms.gap8"
+                  }
+                ],
+                [
+                  {
+                    "t": "strong",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap11"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-platforms.gap12"
+                  }
+                ],
+                [
+                  {
+                    "t": "strong",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap15"
+                      },
+                      {
+                        "t": "term",
+                        "termKey": "faq.faq-platforms.label0",
+                        "defKey": "faq.faq-platforms.def0"
+                      },
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap16"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-platforms.gap17"
+                  }
+                ],
+                [
+                  {
+                    "t": "strong",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap20"
+                      },
+                      {
+                        "t": "term",
+                        "termKey": "faq.faq-platforms.label1",
+                        "defKey": "faq.faq-platforms.def1"
+                      },
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap21"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-platforms.gap22"
+                  }
+                ]
+              ]
+            }
+          ],
+          "id": "faq-platforms"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b3.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-proton.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-proton.label0",
+                      "defKey": "faq.faq-proton.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-proton.gap3"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-proton.gap4"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-proton.gap5"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-proton.gap6"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap9"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-proton.label1",
+                    "defKey": "faq.faq-proton.def1"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap10"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap12"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-proton.label2",
+                    "defKey": "faq.faq-proton.def2"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap13"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap15"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-proton.label3",
+                    "defKey": "faq.faq-proton.def3"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap16"
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-proton.gap19"
+                }
+              ]
+            }
+          ],
+          "id": "faq-proton"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b4.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-server-crash.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-server-crash.label0",
+                      "defKey": "faq.faq-server-crash.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-server-crash.gap3"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ol",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-server-crash.gap7"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-server-crash.gap9"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-server-crash.gap11"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-server-crash.gap12"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-server-crash.gap13"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-server-crash.gap14"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-server-crash.gap15"
+                  }
+                ]
               ],
-              "key": "ui.ai_prompt_note"
+              "className": "step-cards"
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-server-crash.gap19"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "faq-server-crash"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b5.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-workshop-updates.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-updates.gap3"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-workshop-updates.label0",
+                  "defKey": "faq.faq-workshop-updates.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-updates.gap4"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-updates.gap6"
+                },
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-workshop-updates.gap7"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "faq-workshop-updates"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b6.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-gpu-display.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-gpu-display.label0",
+                      "defKey": "faq.faq-server-crash.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-gpu-display.gap3"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-gpu-display.gap7"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-proton.label0",
+                    "defKey": "faq.faq-proton.def0"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-gpu-display.gap8"
+                  },
+                  {
+                    "t": "em",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-gpu-display.gap9"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-gpu-display.gap10"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-gpu-display.gap12"
+                  }
+                ]
+              ]
+            }
+          ],
+          "id": "faq-gpu-display"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b7.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-update-safely.gap2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ol",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-update-safely.gap6"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-update-safely.gap8"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-update-safely.gap9"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-update-safely.gap10"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-update-safely.gap12"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-update-safely.gap14"
+                  }
+                ]
+              ],
+              "className": "step-cards"
+            }
+          ],
+          "id": "faq-update-safely"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b8.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-keep-running.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-keep-running.label0",
+                      "defKey": "faq.faq-keep-running.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-keep-running.gap3"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-keep-running.gap6"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-keep-running.gap7"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-keep-running.gap8"
+                },
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-keep-running.gap9"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-gpu-display.gap10"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-keep-running.gap12"
+                }
+              ]
+            }
+          ],
+          "id": "faq-keep-running"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b9.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-logs-saves.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-proton.label0",
+                      "defKey": "faq.faq-proton.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-logs-saves.gap3"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "code",
+                  "k": "faq.faq-logs-saves.gap7"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-logs-saves.gap11"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-logs-saves.gap12"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-logs-saves.gap13"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-logs-saves.gap15"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-logs-saves.gap16"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-logs-saves.gap13"
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-logs-saves.gap20"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-logs-saves.gap21"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-logs-saves.gap22"
+                }
+              ]
+            }
+          ],
+          "id": "faq-logs-saves"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b10.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-dedicated-download.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-dedicated-download.gap3"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-dedicated-download.gap4"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-dedicated-download.gap5"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-dedicated-download.gap7"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-dedicated-download.label0",
+                  "defKey": "faq.faq-dedicated-download.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-dedicated-download.gap8"
+                },
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-dedicated-download.gap9"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "faq-dedicated-download"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b11.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-watchdog.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-watchdog.gap3"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-watchdog.gap6"
+                  }
+                ],
+                [
+                  {
+                    "t": "code",
+                    "k": "faq.faq-watchdog.gap9"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-watchdog.gap10"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-watchdog.gap12"
+                  }
+                ]
+              ]
+            }
+          ],
+          "id": "faq-watchdog"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b12.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-workshop-ds.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-workshop-ds.label0",
+                      "defKey": "faq.faq-workshop-updates.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-workshop-ds.gap3"
+                    },
+                    {
+                      "t": "code",
+                      "k": "faq.faq-workshop-ds.gap4"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-workshop-ds.gap5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-ds.gap8"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-ds.gap10"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-workshop-ds.gap11"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-ds.gap12"
+                }
+              ]
+            }
+          ],
+          "id": "faq-workshop-ds"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b13.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-ports.label0",
+                      "defKey": "faq.faq-ports.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap3"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-ports.label1",
+                      "defKey": "faq.faq-ports.def1"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap4"
+                    },
+                    {
+                      "t": "code",
+                      "k": "faq.faq-ports.gap5"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap6"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap7"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap9"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-ports.label2",
+                  "defKey": "faq.faq-cant-connect.def2"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap10"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-proton.label0",
+                  "defKey": "faq.faq-proton.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap11"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-proton.label1",
+                  "defKey": "faq.faq-proton.def1"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap12"
+                },
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap13"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap14"
+                }
+              ]
+            }
+          ],
+          "id": "faq-ports"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b14.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-no-udp-eula.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-no-udp-eula.label0",
+                      "defKey": "faq.faq-no-udp-eula.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-no-udp-eula.gap3"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ol",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap7"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-no-udp-eula.gap8"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap9"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-no-udp-eula.gap10"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap11"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap13"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap15"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-no-udp-eula.gap16"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap17"
+                  }
+                ]
+              ],
+              "className": "step-cards"
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-no-udp-eula.gap21"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "faq-no-udp-eula"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b15.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-linux-deck.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-linux-deck.gap3"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-linux-deck.gap5"
+                }
+              ]
+            }
+          ],
+          "id": "faq-linux-deck"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b16.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-host-and-play.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-host-and-play.gap3"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-host-and-play.gap5"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-host-and-play.label0",
+                  "defKey": "faq.faq-server-crash.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-host-and-play.gap6"
+                },
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-host-and-play.gap7"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "faq-host-and-play"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b17.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-difficulty.gap2"
+                    },
+                    {
+                      "t": "code",
+                      "k": "faq.faq-difficulty.gap3"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-difficulty.gap4"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-difficulty.gap5"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-difficulty.gap6"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-difficulty.gap4"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-difficulty.gap10"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-difficulty.gap12"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-difficulty.gap13"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-difficulty.gap14"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-difficulty.gap16"
+                  }
+                ]
+              ]
+            }
+          ],
+          "id": "faq-difficulty"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b18.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-epic-steam.gap2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-epic-steam.gap5"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-epic-steam.label0",
+                  "defKey": "faq.faq-epic-steam.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-epic-steam.gap6"
+                }
+              ]
+            }
+          ],
+          "id": "faq-epic-steam"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b19.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-client-server-match.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-client-server-match.gap3"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-client-server-match.label0",
+                  "defKey": "faq.faq-server-crash.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-client-server-match.gap4"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-client-server-match.gap6"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-client-server-match.gap7"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-client-server-match.gap8"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-client-server-match.gap9"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-client-server-match.gap10"
+                }
+              ]
+            }
+          ],
+          "id": "faq-client-server-match"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b20.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ai-assistant.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ai-assistant.gap3"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-ai-assistant.gap5"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "role": "note",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "ui.aiPromptNote"
+                }
+              ]
             },
             {
               "type": "code",
@@ -2766,21 +3852,23 @@
               "title": [
                 {
                   "t": "text",
-                  "v": "Self-contained AI prompt"
+                  "k": "section.faq.b20.d2.b0.title.0"
                 }
               ],
-              "lang": "text",
-              "langLabel": "Text",
-              "oneshot": false
+              "langKey": "code.lang.Text",
+              "download": {
+                "href": "/linux/guide.md",
+                "filename": "LINUX.md",
+                "labelKey": "ui.downloadMd",
+                "titleKey": "ui.downloadMdTitle"
+              }
             },
             {
               "type": "details",
-              "id": "",
-              "className": "ai-optional",
               "summary": [
                 {
                   "t": "text",
-                  "v": "Optional reference file"
+                  "k": "section.faq.b20.d3.b0.summary.0"
                 }
               ],
               "blocks": [
@@ -2789,53 +3877,53 @@
                   "c": [
                     {
                       "t": "text",
-                      "v": "Use"
+                      "k": "section.faq.b20.d3.b0.d0.b0.0"
                     },
                     {
                       "t": "strong",
                       "c": [
                         {
                           "t": "text",
-                          "v": "Download .md"
+                          "k": "ui.downloadMd"
                         }
                       ]
                     },
                     {
                       "t": "text",
-                      "v": "only if your assistant accepts a file attachment. Prefer Copy first. If paste fails, select the text in the box and copy manually."
+                      "k": "section.faq.b20.d3.b0.d0.b0.2"
                     }
                   ],
                   "role": "muted"
                 }
-              ]
+              ],
+              "className": "ai-optional"
             }
-          ]
+          ],
+          "id": "faq-ai-assistant"
         }
       ]
     },
     {
       "id": "linux-notes",
-      "kicker": "Step 15",
-      "title": "Linux compatibility and support",
-      "sub": "Watchdog, Workshop, mods, ports and community VPS notes.",
+      "kickerKey": "section.linux-notes.kicker",
+      "titleKey": "section.linux-notes.title",
+      "subKey": "section.linux-notes.sub",
       "blocks": [
         {
           "type": "p",
           "c": [
             {
               "t": "text",
-              "v": "Source: official Co-op Discord setup, FAQ and Linux-support notes, reviewed 6 November 2026. Community recipes remain unverified unless stated otherwise."
+              "k": "section.linux-notes.b0.0"
             }
           ]
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Install from Workshop or manually — not both"
+              "k": "section.linux-notes.b1.summary.0"
             }
           ],
           "blocks": [
@@ -2844,7 +3932,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "Official Co-op Discord setup notes (6 November 2026): Workshop item 3770450698 contains DedicatedServer/BannerlordCoopServer.exe under steamapps/workshop/content/261550/3770450698/. For a manual install, extract the matching latest client so Modules/Coop/SubModule.xml exists. Enable only Co-op for the baseline test, disable other mods and War Sails, and choose No to Safe Mode. Do not combine a manual Modules/Coop copy with the Workshop module; back up and remove the redundant manual copy when switching. Workshop updates require TaleWorlds approval and may lag the release; check versions rather than assuming parity."
+                  "k": "section.linux-notes.b1.d0.b0.0"
                 }
               ]
             }
@@ -2852,12 +3940,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Linux client and Steam"
+              "k": "section.linux-notes.b2.summary.0"
             }
           ],
           "blocks": [
@@ -2866,7 +3952,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "Launch the Linux client through Steam. For SteamAPI_Init failed, restart Steam when safe; first confirm no running server depends on it. Do not change an active game or server session during a test."
+                  "k": "section.linux-notes.b2.d0.b0.0"
                 }
               ]
             }
@@ -2874,12 +3960,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Optional watchdog stutter workaround"
+              "k": "section.linux-notes.b3.summary.0"
             }
           ],
           "blocks": [
@@ -2888,7 +3972,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "Official Discord reports describe renaming the client bin/Win64_Shipping_Client/watchdog directory to a backup name to reduce world-map stutter on Bazzite, CachyOS and Arch. Developer caveat: disabling it removes crash logs needed for support. Only do this with explicit permission, while the game is closed, and retain the backup so it can be restored. --no-watchdog is a SERVER argument only, not a client launch option. Issue: https://github.com/Bannerlord-Coop-Team/BannerlordCoop/issues/2536."
+                  "k": "section.linux-notes.b3.d0.b0.0"
                 }
               ]
             }
@@ -2896,12 +3980,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "GE-Proton non-Steam server method"
+              "k": "section.linux-notes.b4.summary.0"
             }
           ],
           "blocks": [
@@ -2910,7 +3992,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "Add BannerlordCoopServer.exe as a non-Steam game, select GE-Proton and put --no-watchdog in the server launch options. Alternatively use the game’s Proton prefix. For safety testing, use a separate prefix and --data-dir, not an existing live server prefix or save directory. A Steam-listed lobby under Proton/Wine is still unverified; direct IP is the reproducible fallback."
+                  "k": "section.linux-notes.b4.d0.b0.0"
                 }
               ]
             }
@@ -2918,12 +4000,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Ports, CGNAT and direct IP"
+              "k": "section.linux-notes.b5.summary.0"
             }
           ],
           "blocks": [
@@ -2932,7 +4012,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "Official Discord direct-IP instructions use steam:false in server-config.json and UDP 4200–4201 through the host firewall, router and cloud firewall. The configured main port defaults to 4200. Steam player-hosting Join Game/invites can avoid port forwarding and CGNAT; do not assume dedicated-server Steam hosting under Proton/Wine has the same verified behavior. Turn off conflicting VPN/DNS-routing tools only after considering other active sessions."
+                  "k": "section.linux-notes.b5.d0.b0.0"
                 }
               ]
             }
@@ -2940,12 +4020,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Server mod configuration"
+              "k": "section.linux-notes.b6.summary.0"
             }
           ],
           "blocks": [
@@ -2954,7 +4032,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "Gameplay and difficulty settings live in CoopData/mod-config.json; server settings in CoopData/DedicatedServer/server-config.json. Workshop layouts can also use DedicatedServer/server-data/mod-config.json. Confirm active paths at boot and stop only the intended server before editing. Keys include battleSize (default 1000; about 400 suggested), autoPauseEnabled, goldFoodInfluenceChangeInSettlements, enablePlayerExecutions and enableHeroExecutions. Difficulty birth/death options include birthAndDeath, clanMemberDeathChance and battleDeath; keep the separate Birth and Aging module disabled."
+                  "k": "section.linux-notes.b6.d0.b0.0"
                 }
               ]
             }
@@ -2962,12 +4040,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Load server mods consistently"
+              "k": "section.linux-notes.b7.summary.0"
             }
           ],
           "blocks": [
@@ -2976,7 +4052,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "First verify Coop-only operation. Copy a compatible mod folder into engine/Modules; its folder name must match the mod Id. In the server UI reload, enable, set load order and Save Mods, then restart only that intended server. Every client needs matching mods, versions and order. Official Discord reports War Sails, Birth and Aging Options and Fast Mode are unsupported on dedicated servers. Do not alter Steam subscriptions automatically."
+                  "k": "section.linux-notes.b7.d0.b0.0"
                 }
               ]
             }
@@ -2984,12 +4060,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Logs and recovery"
+              "k": "section.linux-notes.b8.summary.0"
             }
           ],
           "blocks": [
@@ -2998,7 +4072,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "Dedicated logs: CoopData/DedicatedServer/logs/coop-server-{date}-{time}.log. Client: bin/Win64_Shipping_Client/Coop_client.log; in-game host: Coop_server.log. Case matters on Linux. Crashes can be under the prefix’s drive_c/ProgramData/Mount and Blade II Bannerlord/crashes or Documents/Mount and Blade II Bannerlord/Coop Crash Reports. Keep the crash report (the Send action can remove it), redact secrets and use the official support-ticket channel. Do not repeatedly rejoin a stalled session."
+                  "k": "section.linux-notes.b8.d0.b0.0"
                 }
               ]
             }
@@ -3006,12 +4080,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "VPS / Docker / Wine — validated Wine 11.0 headless path"
+              "k": "section.linux-notes.b9.summary.0"
             }
           ],
           "blocks": [
@@ -3020,7 +4092,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "Headless dedicated-server SERVING was validated in this guide’s disposable tests with WineHQ Wine 11.0 (image docker.io/tianon/wine:11.0.0 / winehq-stable 11.0.0 on Debian trixie) plus Xvfb. Debian stock Wine 8.0 failed the same recipe (virtual_setup_exception stack overflow; no SERVING). Wine 9 and 10 were not tested here — treat 11.0 as the validated version, not a proven minimum across every Wine release. Do not use distro apt/yum “wine” metapackages that resolve to Wine 8 as an end-to-end recommendation. Preserve the Workshop layout (DedicatedServer alongside bin/, GUI/, SubModule.xml). Prefer host networking for UDP; keep stdin_open/tty for the console. GPU is not required for SERVING; a display server (Xvfb is enough; some setups need MIT-SHM disabled) is. Official Discord also mentions Ubuntu + Wine + winbind + Xvfb as community hosting notes."
+                  "k": "section.linux-notes.b9.d0.b0.0"
                 }
               ]
             }
@@ -3028,12 +4100,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Community tools — unofficial"
+              "k": "section.linux-notes.b10.summary.0"
             }
           ],
           "blocks": [
@@ -3042,7 +4112,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "The bannerlordcoop-server-manager project and the Unofficial Bannerlord Co-op Pterodactyl egg are community tools, not official support. Review their source and compatibility before use. This guide does not install them."
+                  "k": "section.linux-notes.b10.d0.b0.0"
                 }
               ]
             }
@@ -3050,12 +4120,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Linux support and hardware"
+              "k": "section.linux-notes.b11.summary.0"
             }
           ],
           "blocks": [
@@ -3064,7 +4132,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "The official FAQ says Linux is supported but Steam Deck is not; Deck reports vary (https://github.com/Bannerlord-Coop-Team/BannerlordCoop/issues/2162). Hosting and playing together is estimated at 8 CPU cores and 16 GB RAM, with a dedicated server. A running game instance is not required for dedicated hosting. Linux host-and-play transfer stalls are tracked in issue #2095."
+                  "k": "section.linux-notes.b11.d0.b0.0"
                 }
               ]
             }
@@ -3072,12 +4140,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Exact game builds and safe updates"
+              "k": "section.linux-notes.b12.summary.0"
             }
           ],
           "blocks": [
@@ -3086,7 +4152,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "Compare full Bannerlord build identifiers as well as Co-op releases. Even minor build differences can stall joining. Check the server log for the refused build or mod. Save cleanly, stop only the intended server, then back up CoopData and any distribution server-data before replacing files. Never automate Workshop unsubscribe/resubscribe or restart Steam during someone’s active session."
+                  "k": "section.linux-notes.b12.d0.b0.0"
                 }
               ]
             }
@@ -3094,12 +4160,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Server exit diagnostics"
+              "k": "section.linux-notes.b13.summary.0"
             }
           ],
           "blocks": [
@@ -3108,7 +4172,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "Windows exit -1073741819 indicates access violation; check blocked/missing DLLs and retained save backups. -532462766 indicates an unhandled .NET exception. Exit 1 is generic. Exit 25 points to ProgramData/Mount and Blade II Bannerlord/logs/starter_log.txt inside the prefix. Diagnose from the preceding log messages, not the number alone. These official FAQ diagnostics were not deliberately reproduced here."
+                  "k": "section.linux-notes.b13.d0.b0.0"
                 }
               ]
             }
@@ -3116,12 +4180,10 @@
         },
         {
           "type": "details",
-          "id": "",
-          "className": "",
           "summary": [
             {
               "t": "text",
-              "v": "Native server and unsupported tooling"
+              "k": "section.linux-notes.b14.summary.0"
             }
           ],
           "blocks": [
@@ -3130,7 +4192,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "This guide uses distributed Win64 binaries. Native .NET server work is tracked at https://github.com/Bannerlord-Coop-Team/BannerlordCoop/issues/2843; repository visibility is not permission to self-build or redistribute. The TAOM client launcher is Windows-only and is reported not to work under Proton/Wine. Other mods are not guaranteed; establish a Co-op-only baseline first."
+                  "k": "section.linux-notes.b14.d0.b0.0"
                 }
               ]
             }
@@ -3142,12 +4204,10 @@
           "title": [
             {
               "t": "text",
-              "v": "Dockerfile — Wine 11.0 validated outline"
+              "k": "section.linux-notes.b15.title.0"
             }
           ],
-          "lang": "dockerfile",
-          "langLabel": "Dockerfile",
-          "oneshot": false
+          "langKey": "code.lang.Dockerfile"
         },
         {
           "type": "code",
@@ -3155,29 +4215,26 @@
           "title": [
             {
               "t": "text",
-              "v": "Compose — Wine 11.0 / rootless Podman outline"
+              "k": "section.linux-notes.b16.title.0"
             }
           ],
-          "lang": "yaml",
-          "langLabel": "YAML",
-          "oneshot": false
+          "langKey": "code.lang.YAML"
         }
       ]
     },
     {
       "id": "agents",
-      "kicker": "Step 16",
-      "title": "Agent notes",
-      "sub": "Safety rules for AI helpers.",
+      "kickerKey": "section.agents.kicker",
+      "titleKey": "section.agents.title",
+      "subKey": "section.agents.sub",
       "blocks": [
         {
           "type": "ol",
-          "className": "step-cards",
           "items": [
             [
               {
                 "t": "text",
-                "v": "Ask before any"
+                "k": "section.agents.b0.i0.0"
               },
               {
                 "t": "code",
@@ -3185,41 +4242,40 @@
               },
               {
                 "t": "text",
-                "v": ", before stopping a running server, and before deleting or overwriting saves."
+                "k": "section.agents.b0.i0.2"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Match Co-op client and dedicated server versions exactly."
+                "k": "section.agents.b0.i1.0"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Prefer Steam Join when lobby is enabled; otherwise direct"
+                "k": "section.agents.b0.i2.0"
               },
               {
                 "t": "term",
-                "term": "UDP",
-                "def": "A network protocol used for game traffic; Co-op direct connect listens on a UDP port (default 4200).",
-                "v": "UDP"
+                "termKey": "faq.faq-epic-steam.label0",
+                "defKey": "faq.faq-epic-steam.def0"
               },
               {
                 "t": "text",
-                "v": "."
+                "k": "section.overview.b2.i1.2"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "Redact passwords and personal paths from logs and chat."
+                "k": "section.agents.b0.i3.0"
               }
             ],
             [
               {
                 "t": "text",
-                "v": "On immutable OS prefer"
+                "k": "section.agents.b0.i4.0"
               },
               {
                 "t": "code",
@@ -3227,30 +4283,30 @@
               },
               {
                 "t": "text",
-                "v": "/"
+                "k": "faq.faq-ports.gap11"
               },
               {
                 "t": "term",
-                "term": "Distrobox",
-                "def": "A tool that runs another Linux distro in a container while sharing your home files.",
-                "v": "distrobox"
+                "termKey": "section.deps.b0.tab4.b1.title.0.term",
+                "defKey": "section.deps.b0.tab4.b1.title.0.def",
+                "labelKey": "section.deps.b0.tab4.b1.title.0.label"
               },
               {
                 "t": "text",
-                "v": "/"
+                "k": "faq.faq-ports.gap11"
               },
               {
                 "t": "term",
-                "term": "Flatpak",
-                "def": "A sandboxed app format on Linux. Flatpak Steam keeps its library under its own app data path.",
-                "v": "Flatpak"
+                "termKey": "faq.faq-platforms.label0",
+                "defKey": "faq.faq-platforms.def0"
               },
               {
                 "t": "text",
-                "v": "."
+                "k": "section.overview.b2.i1.2"
               }
             ]
-          ]
+          ],
+          "className": "step-cards"
         }
       ]
     }

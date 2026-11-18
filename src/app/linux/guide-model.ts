@@ -1,36 +1,41 @@
-import enToKey from "./content/en-to-key.json";
-import type { GuidePack } from "./messages";
+import sectionData from "./content/sections.json";
+import type { TranslationParams } from "@/app/lib/localization/types";
+
+/** Section ids the shell and the hash router share with the content file. */
+export const FAQ_SECTION = "faq";
+export const ONESHOT_SECTION = "terminal";
+export const AI_FAQ_ID = "faq-ai-assistant";
+export const TROUBLESHOOTING_SECTION = "troubleshooting";
+
+/** Wizard order after the one-script step is moved to follow the overview. */
+export const WIZARD_STEPS = ["overview", "terminal", "configure", "launch", "firewall", "service", "client", "backups", "troubleshooting", "faq", "linux-notes", "agents"] as const;
+export type WizardStep = (typeof WIZARD_STEPS)[number];
 
 export type Inline =
-    | { t: "text"; v: string }
+    | { t: "text"; k: string }
     | { t: "br" }
-    | { t: "code"; v: string }
-    | { t: "strong"; c: Inline[] }
-    | { t: "em"; c: Inline[] }
+    | { t: "code"; v?: string; k?: string }
+    | { t: "strong" | "em"; c: Inline[] }
     | { t: "a"; href: string; c: Inline[] }
-    | { t: "term"; term: string; def: string; v: string };
+    | { t: "term"; termKey: string; defKey: string; labelKey?: string };
 
 export type Block =
-    | { type: "p"; c: Inline[]; key?: string; role?: string }
+    | { type: "p"; c: Inline[]; role?: string }
     | { type: "h3"; c: Inline[] }
     | { type: "ul" | "ol"; className?: string; items: Inline[][] }
-    | { type: "callout"; kind: "warn" | "info" | "ok"; title: string; id?: string; blocks: Block[] }
-    | { type: "tabs"; name: string; label: string; tabs: { label: string; script: string | null; blocks: Block[] }[] }
-    | { type: "code"; id: string; title: Inline[]; lang: string; langLabel: string; oneshot?: boolean; bare?: boolean }
+    | { type: "callout"; kind: "warn" | "info" | "ok"; titleKey: string; id?: string; blocks: Block[] }
+    | { type: "tabs"; name: string; labelKey: string; tabs: GuideTab[] }
+    | { type: "code"; id: string; title: Inline[]; langKey: string; oneshot?: boolean; bare?: boolean; download?: { href: string; filename: string; labelKey: string; titleKey: string } }
     | { type: "details"; id?: string; className?: string; summary: Inline[]; blocks: Block[] }
-    | { type: "table"; id?: string; headers: string[]; rows: { id?: string; cells: Inline[][] }[] }
+    | { type: "sectionRefs"; ids: string[]; summary: Inline[]; when?: "alone" }
+    | { type: "table"; id?: string; headerKeys: string[]; rows: { id?: string; cells: Inline[][] }[] }
     | { type: "dl"; items: { dt: Inline[]; dd: Inline[] }[] }
-    | { type: "field"; label: Inline[]; id?: string; name?: string; placeholder?: string }
-    | { type: "columns"; columns: { blocks: Block[] }[] }
-    | { type: "rich"; id: string };
+    | { type: "field"; label: Inline[]; placeholder?: string }
+    | { type: "columns"; columns: { blocks: Block[] }[] };
 
-export type Section = {
-    id: string;
-    kicker: string;
-    title: string;
-    sub: string;
-    blocks: Block[];
-};
+export type GuideTab = { labelKey: string; script?: string; families?: string[]; blocks: Block[] };
+
+export type Section = { id: string; kickerKey: string; titleKey: string; subKey: string; blocks: Block[] };
 
 export type Distro = {
     id: string;
@@ -38,7 +43,7 @@ export type Distro = {
     color: string;
     glyph: string;
     art: boolean;
-    name: string;
+    nameKey: string;
     blurbKey: string;
     svg: string;
 };
@@ -46,66 +51,44 @@ export type Distro = {
 export type GuideRoute =
     | { view: "start" }
     | { view: "distro" }
-    | { view: "wizard"; step: string }
+    | { view: "wizard"; step: WizardStep }
     | { view: "manual"; section?: string; openAi?: boolean };
 
-/** Steps that stay inside "Show individual steps" on the one-script page. */
-export const FOLDED_STEPS = ["variables", "deps", "steam", "download"] as const;
+export const sections = (sectionData as { sections: Section[] }).sections;
+export const sectionsById = new Map(sections.map((section) => [section.id, section]));
+export const sectionIds = new Set(sections.map((section) => section.id));
 
-/** Wizard order after the one-script step is moved to follow the overview. */
-export const WIZARD_STEPS = ["overview", "terminal", "configure", "launch", "firewall", "service", "client", "backups", "troubleshooting", "faq", "linux-notes", "agents"] as const;
-
-const panels: Record<string, { deps: number[] | null; steam: number[] | null }> = {
-    debian: { deps: [0], steam: [0] },
-    fedora: { deps: [1], steam: [1] },
-    arch: { deps: [2], steam: [2] },
-    suse: { deps: [3], steam: [3] },
-    immutable: { deps: [4], steam: [4] },
-    deck: { deps: [4, 6], steam: [5] },
-    nix: { deps: [5], steam: [6] },
-    other: { deps: null, steam: [7] },
-};
-
-const keys = enToKey as Record<string, string>;
-
-export type GuideCopy = {
-    t: (value: string) => string;
-    tKey: (key: string, fallback: string, vars?: Record<string, string | number>) => string;
-    nav: (key: string) => string;
-    rich: (id: string) => string;
-};
-
-/** Looks up guide prose by the original English string. Code is never passed through this. */
-export function guideCopy(pack: GuidePack): GuideCopy {
-    const strings = pack.strings;
-    return {
-        t(value) {
-            if (!value) return "";
-            const key = keys[value];
-            if (!key) return value;
-            return strings[key] || value;
-        },
-        tKey(key, fallback, vars) {
-            const template = strings[key] || fallback;
-            if (!vars) return template;
-            return template.replace(/\{([a-zA-Z0-9_]+)\}/g, (_, name: string) => (vars[name] == null ? "" : String(vars[name])));
-        },
-        nav(key) {
-            return pack.nav[key] || "";
-        },
-        rich(id) {
-            return pack.rich[id] || "";
-        },
-    };
+/** Narrows a hash fragment to a step the wizard actually renders. */
+export function isWizardStep(step: string): step is WizardStep {
+    return (WIZARD_STEPS as readonly string[]).includes(step);
 }
 
-/** Which tab panels belong to the chosen distro. Null means the widget is not distro-specific. */
-export function distroPanels(family: string | undefined, widget: string): number[] | null | undefined {
-    if (!family || !(widget === "deps" || widget === "steam" || widget === "oneshot")) return undefined;
-    if (widget === "oneshot") return undefined;
-    return panels[family]?.[widget];
+/** Previous step, or the menu after the last step. Shared by the keys and the buttons. */
+export function wizardNeighbors(step: string): { previous: GuideRoute | null; next: GuideRoute } {
+    const index = isWizardStep(step) ? WIZARD_STEPS.indexOf(step) : 0;
+    const previous = index > 0 ? { view: "wizard" as const, step: WIZARD_STEPS[index - 1] } : null;
+    const next = index >= WIZARD_STEPS.length - 1 ? { view: "start" as const } : { view: "wizard" as const, step: WIZARD_STEPS[index + 1] };
+    return { previous, next };
 }
 
+/** FAQ and the assistant alias do not ask for a distro. Everything else with commands does. */
+export function skipsDistro(route: GuideRoute): boolean {
+    return route.view === "manual" && (route.section === FAQ_SECTION || route.openAi === true);
+}
+
+/** Sends command routes to the picker until a distro is known. */
+export function resolveRoute(requested: GuideRoute, distroId: string | null): GuideRoute {
+    if (distroId || requested.view === "start" || requested.view === "distro" || skipsDistro(requested)) return requested;
+    return { view: "distro" };
+}
+
+/** The distro chip is hidden on the menu, the picker, and the FAQ. */
+export function showsDistroChip(route: GuideRoute, distroId: string | null): boolean {
+    if (!distroId || skipsDistro(route)) return false;
+    return route.view === "wizard" || route.view === "manual";
+}
+
+/** Hash for a route. The menu is `#start` so an empty URL can stay the canonical page. */
 export function routeHash(route: GuideRoute): string {
     if (route.view === "start") return "#start";
     if (route.view === "distro") return "#distro";
@@ -114,7 +97,8 @@ export function routeHash(route: GuideRoute): string {
     return "#manual";
 }
 
-export function parseRoute(hash: string, sectionIds: ReadonlySet<string>): GuideRoute {
+/** Reads a location hash, including the old `#ai` and `#sec/<id>` aliases. */
+export function parseRoute(hash: string, ids: ReadonlySet<string> = sectionIds): GuideRoute {
     const raw = hash.replace(/^#/, "");
     if (!raw || raw === "start") return { view: "start" };
     const parts = raw.split("/").map((part) => {
@@ -125,21 +109,44 @@ export function parseRoute(hash: string, sectionIds: ReadonlySet<string>): Guide
         }
     });
     const view = parts[0];
-    if (view === "ai") return { view: "manual", section: "faq", openAi: true };
-    if (view === "sec" && parts[1] && sectionIds.has(parts[1])) return { view: "manual", section: parts[1] };
+    if (view === "ai") return { view: "manual", section: FAQ_SECTION, openAi: true };
+    if (view === "sec" && parts[1] && ids.has(parts[1])) return { view: "manual", section: parts[1] };
     if (view === "distro") return { view: "distro" };
-    if (view === "wizard") return { view: "wizard", step: parts[1] && (WIZARD_STEPS as readonly string[]).includes(parts[1]) ? parts[1] : WIZARD_STEPS[0] };
+    if (view === "wizard") {
+        const step = parts[1] ?? "";
+        return { view: "wizard", step: isWizardStep(step) ? step : WIZARD_STEPS[0] };
+    }
     if (view === "manual") {
         const section = parts[1];
-        return section && sectionIds.has(section) ? { view: "manual", section } : { view: "manual" };
+        if (section && ids.has(section)) return { view: "manual", section };
+        return { view: "manual" };
     }
-    if (sectionIds.has(view)) return { view: "manual", section: view };
+    if (ids.has(view)) return { view: "manual", section: view };
     return { view: "start" };
 }
 
-/** Warnings lead the step. Panels keep their own warnings with the commands they describe. */
-export function hoistWarnings(blocks: Block[]): Block[] {
-    const warnings = blocks.filter((block) => block.type === "callout" && block.kind === "warn");
-    const rest = blocks.filter((block) => !(block.type === "callout" && block.kind === "warn"));
-    return [...warnings, ...rest];
+type Translate = (key: string, params?: TranslationParams) => string;
+
+/** Labels for the subnav and the wizard footer, one branch per view. */
+export function routeLabels(route: GuideRoute, t: Translate): { here: string; shortHere: string; progress: string; nextLabel: string } {
+    switch (route.view) {
+        case "wizard": {
+            const neighbors = wizardNeighbors(route.step);
+            const index = WIZARD_STEPS.indexOf(route.step);
+            const progress = t("ui.stepOf", { n: index + 1, total: WIZARD_STEPS.length });
+            const next = neighbors.next;
+            const nextLabel = next.view === "wizard" ? t("ui.nextColon", { title: t(sectionsById.get(next.step)?.titleKey ?? "ui.finish") }) : t("ui.finish");
+            return { here: t("ui.stepByStep"), shortHere: "", progress, nextLabel };
+        }
+        case "distro":
+            return { here: t("ui.chooseDistro"), shortHere: "", progress: "", nextLabel: "" };
+        case "manual": {
+            const section = route.section ? sectionsById.get(route.section) : undefined;
+            const here = section ? t(section.titleKey) : t("ui.fullChecklist");
+            const shortHere = route.section ? (route.section === ONESHOT_SECTION ? t("nav.dCliShort") : "") : t("nav.dFullShort");
+            return { here, shortHere, progress: "", nextLabel: "" };
+        }
+        case "start":
+            return { here: "", shortHere: "", progress: "", nextLabel: "" };
+    }
 }

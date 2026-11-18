@@ -1,0 +1,45 @@
+"use client";
+
+import { useLinuxText } from "../hooks/useLinuxText";
+import { choiceCard, kickerClass, subClass, titleClass } from "../guide-styles";
+
+/** Opening choices: one step at a time, one script, the full checklist, or the FAQ. */
+export function StartMenu({
+    onWizard,
+    onScript,
+    onChecklist,
+    onFaq,
+}: {
+    onWizard: () => void;
+    onScript: () => void;
+    onChecklist: () => void;
+    onFaq: () => void;
+}) {
+    const { t } = useLinuxText();
+    return (
+        <section className="mx-auto w-[min(100%-2rem,72rem)] py-10" aria-labelledby="start-title">
+            <p className={kickerClass}>{t("ui.kicker")}</p>
+            <h1 id="start-title" className={titleClass}>{t("ui.startTitle")}</h1>
+            <p className={subClass}>{t("ui.startSub")}</p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                <button type="button" className={`${choiceCard} border-gold/60`} onClick={onWizard}>
+                    <span className="font-label text-xs font-bold uppercase tracking-[0.08em] text-gold">{t("ui.recommended")}</span>
+                    <strong className="mt-1 block font-display text-2xl font-semibold">{t("ui.stepByStep")}</strong>
+                    <span className="mt-2 text-foreground-muted">{t("ui.walk")}</span>
+                </button>
+                <button type="button" className={choiceCard} onClick={onScript}>
+                    <strong className="block font-display text-2xl font-semibold">{t("ui.oneScript")}</strong>
+                    <span className="mt-2 text-foreground-muted">{t("ui.oneScriptSub")}</span>
+                </button>
+                <button type="button" className={choiceCard} onClick={onChecklist}>
+                    <strong className="block font-display text-2xl font-semibold">{t("ui.fullChecklist")}</strong>
+                    <span className="mt-2 text-foreground-muted">{t("ui.checklistSub")}</span>
+                </button>
+                <button type="button" className={choiceCard} onClick={onFaq}>
+                    <strong className="block font-display text-2xl font-semibold">{t("ui.faq")}</strong>
+                    <span className="mt-2 text-foreground-muted">{t("ui.faqSub")}</span>
+                </button>
+            </div>
+        </section>
+    );
+}

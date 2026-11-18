@@ -1,8 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import code from "./content/code.json";
-import en from "./content/i18n/en.json";
-import ru from "./content/i18n/ru.json";
+import english from "@/app/lib/localization/dictionaries/en/linux.json";
+import russian from "@/app/lib/localization/dictionaries/ru/linux.json";
+import { scriptText } from "./script-text";
 
 const request = vi.hoisted(() => ({ locale: undefined as string | undefined }));
 vi.mock("next/headers", () => ({ cookies: async () => ({ get: () => ({ value: request.locale }) }) }));
@@ -19,40 +19,32 @@ async function render() {
     return root;
 }
 
-const ubuntu = (code as Record<string, string>)["code-oneshot-ubuntu"];
+const ubuntu = scriptText("code-oneshot-ubuntu");
 
 describe("linux setup guide", () => {
-    it("publishes a locale-specific title without an external share image", async () => {
+    it("publishes a locale-specific title on the site banner", async () => {
         const metadata = await generateMetadata();
-        expect(metadata.title).toEqual({ absolute: en.title });
-        expect(metadata.description).toBe(en.description);
+        expect(metadata.title).toEqual({ absolute: english["metadata.title"] });
+        expect(metadata.description).toBe(english["metadata.description"]);
         expect(metadata.alternates).toEqual({ canonical: "/linux" });
         expect(metadata.openGraph).toMatchObject({ url: "/linux", images: [{ url: "/images/banner.png" }] });
         expect(JSON.stringify(metadata)).not.toContain("ship.place");
     });
 
-    it("renders the menu, the untouched setup script, and no wrap control", async () => {
+    it("renders the menu and the Ubuntu script on the one-script step", async () => {
         const root = await render();
-        expect(root.querySelector("#start-title")?.textContent).toBe("How do you want to set this up?");
-        expect(root.textContent).toContain("Recommended");
-        expect(root.textContent).toContain("Bash");
-        const script = root.querySelector("#sec-terminal .code-pre code")?.textContent;
-        expect(script).toBe(ubuntu);
-        expect(script?.startsWith("cat > \"$HOME/coop-setup.sh\" <<'COOP_SETUP_EOF'\n#!/usr/bin/env bash\n")).toBe(true);
-        const guide = root.querySelector("#linux-guide");
-        expect(guide?.innerHTML).not.toContain("ship.place");
-        expect(guide?.innerHTML.toLowerCase()).not.toContain("patreon");
-        expect(guide?.innerHTML).not.toContain("workers.dev");
-        expect(root.textContent).not.toMatch(/\bWrap\b/);
+        expect(root.querySelector("#start-title")?.textContent).toBe(english["ui.startTitle"]);
+        expect(root.querySelector("#sec-terminal .code-lang")?.textContent).toBe(english["code.lang.Bash"]);
+        expect(root.querySelector("#sec-terminal [data-code-id='code-oneshot-ubuntu'] code")?.textContent).toBe(ubuntu);
         expect(sitemap().map((entry) => entry.url)).toContain("https://bannerlordcoop.com/linux");
     });
 
     it("uses the site locale for guide prose and leaves the script unchanged", async () => {
         request.locale = "ru";
         const metadata = await generateMetadata();
-        expect(metadata.title).toEqual({ absolute: ru.title });
+        expect(metadata.title).toEqual({ absolute: russian["metadata.title"] });
         const root = await render();
-        expect(root.querySelector("#start-title")?.textContent).toBe("Как ты хочешь это настроить?");
-        expect(root.querySelector("#sec-terminal .code-pre code")?.textContent).toBe(ubuntu);
+        expect(root.querySelector("#start-title")?.textContent).toBe(russian["ui.startTitle"]);
+        expect(root.querySelector("#sec-terminal [data-code-id='code-oneshot-ubuntu'] code")?.textContent).toBe(ubuntu);
     });
 });

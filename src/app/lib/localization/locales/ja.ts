@@ -21,6 +21,7 @@ const definition: LocaleDefinition = {
         "servers": () => import("../dictionaries/ja/servers.json"),
         "support": () => import("../dictionaries/ja/support.json"),
         "hosting": () => import("../dictionaries/ja/hosting.json"),
+        "linux": () => import("../dictionaries/ja/linux.json"),
     },
 };
 
