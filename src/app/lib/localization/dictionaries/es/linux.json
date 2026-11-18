@@ -559,9 +559,9 @@
   "ui.kicker": "Guía de instalación para Linux",
   "ui.startTitle": "Configura Co-op en Linux",
   "ui.startSub": "Instala y ejecuta Bannerlord Co-op en Linux.",
-  "ui.walk": "Una tarea cada vez.",
-  "ui.checklistSub": "Lee todas las fases en una sola página.",
-  "ui.faqSub": "Respuestas rápidas y notas sobre Linux.",
+  "ui.walk": "Una tarea por pantalla",
+  "ui.checklistSub": "Todas las fases en una página",
+  "ui.faqSub": "Respuestas rápidas y notas de Linux",
   "ui.allStages": "Todas las fases de instalación en una sola página.",
   "nav.dTitle": "¿Qué Linux usas?",
   "nav.dSub": "Elige tu distribución. La guía mostrará solo sus comandos.",
@@ -585,6 +585,6 @@
   "distro.other.name": "Other distro",
   "distro.other.blurb": "Gentoo, Void, Alpine u otra: recibirás los comandos genéricos para adaptar.",
   "ui.oneScript": "Instalar con un solo script",
-  "ui.oneScriptSub": "Un solo script para copiar y pegar para tu distro.",
+  "ui.oneScriptSub": "Un script para copiar y pegar en tu distro",
   "ui.faq": "FAQ"
 }

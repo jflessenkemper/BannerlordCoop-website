@@ -19,18 +19,23 @@ export function StartMenu({
     return (
         <section className={`${pageFrame} py-10 sm:py-14`} aria-labelledby="start-title">
             <h1 id="start-title" className={titleClass}>{t("ui.startTitle")}</h1>
-            <div className="guide-choices guide-choices-4">
-                <button type="button" className={`${choiceCard} min-h-28`} onClick={onWizard}>
-                    <strong className="block font-display text-2xl font-semibold">{t("ui.stepByStep")}</strong>
+            <div className="guide-choices guide-choices-4 mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                <button type="button" className={`${choiceCard} border-gold/60`} onClick={onWizard}>
+                    <span className="font-label text-xs font-bold uppercase tracking-[0.08em] text-gold">{t("ui.recommended")}</span>
+                    <strong className="mt-1 block font-display text-2xl font-semibold">{t("ui.stepByStep")}</strong>
+                    <span className="mt-2 text-foreground-muted">{t("ui.walk")}</span>
                 </button>
-                <button type="button" className={`${choiceCard} min-h-28`} onClick={onScript}>
+                <button type="button" className={choiceCard} onClick={onScript}>
                     <strong className="block font-display text-2xl font-semibold">{t("ui.oneScript")}</strong>
+                    <span className="mt-2 text-foreground-muted">{t("ui.oneScriptSub")}</span>
                 </button>
-                <button type="button" className={`${choiceCard} min-h-28`} onClick={onChecklist}>
+                <button type="button" className={choiceCard} onClick={onChecklist}>
                     <strong className="block font-display text-2xl font-semibold">{t("ui.fullChecklist")}</strong>
+                    <span className="mt-2 text-foreground-muted">{t("ui.checklistSub")}</span>
                 </button>
-                <button type="button" className={`${choiceCard} min-h-28`} onClick={onFaq}>
+                <button type="button" className={choiceCard} onClick={onFaq}>
                     <strong className="block font-display text-2xl font-semibold">{t("ui.faq")}</strong>
+                    <span className="mt-2 text-foreground-muted">{t("ui.faqSub")}</span>
                 </button>
             </div>
         </section>
