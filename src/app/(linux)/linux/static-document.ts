@@ -7,17 +7,135 @@ import { linuxMetadata } from "./linux-metadata";
 
 const SITE = "https://bannerlordcoop.com";
 
-/** Stylesheets and the title font, read from the build so the hashes can change. */
-function documentAssets(): string[] {
+const SHELL_CLASSES = ["h-full", "antialiased", "min-h-full", "flex", "flex-col"];
+
+type BuiltSheets = { site: string; guide: string; fonts: string; preload: string | null };
+
+/** The built styles, read once. Hashes change only when the server is rebuilt. */
+function readSheets(): BuiltSheets {
     const dir = join(process.cwd(), ".next/static/chunks");
-    const styles: string[] = [];
+    const sheets: BuiltSheets = { site: "", guide: "", fonts: "", preload: null };
     for (const file of readdirSync(dir)) {
         if (!file.endsWith(".css")) continue;
-        const text = readFileSync(join(dir, file), "utf8");
-        if (!text.includes(".linux-guide") && !text.includes(".site-container") && !text.includes("@font-face")) continue;
-        styles.push(`/_next/static/chunks/${file}`);
+        const text = readFileSync(join(dir, file), "utf8").replaceAll("url(../media/", "url(/_next/static/media/");
+        if (text.includes("@font-face")) {
+            sheets.fonts = text;
+            const latin = text.match(/font-family:Cormorant Garamond;font-style:normal;font-weight:600;[^}]*url\((\/_next\/static\/media\/[^)]+\.p\.[^)]+\.woff2)\)/);
+            if (latin) sheets.preload = latin[1];
+        } else if (text.includes(".site-container{") || text.includes(".site-container {")) sheets.site = text;
     }
-    return styles;
+    sheets.guide = readFileSync(join(process.cwd(), "src/app/(linux)/linux/linux-guide.css"), "utf8");
+    return sheets;
+}
+
+let cachedSheets: BuiltSheets | null = null;
+const purged = new Map<string, string>();
+
+/** Keeps the site rules these pages use, then inlines them with the font and guide sheets. */
+/** Fallback faces stay in the first paint. The webfont files are applied on the next frame. */
+function splitFontFaces(css: string): { initial: string; delayed: string } {
+    const delayed: string[] = [];
+    const initial = css.replace(/@font-face\{[^}]+\}/g, (face) => {
+        if (!face.includes("url(")) return face;
+        delayed.push(face);
+        return "";
+    });
+    return { initial, delayed: delayed.join("") };
+}
+
+function inlineCss(markup: string): { css: string; preload: string | null; delayed: string } {
+    if (!cachedSheets) cachedSheets = readSheets();
+    const used = new Set(SHELL_CLASSES);
+    for (const match of markup.matchAll(/class="([^"]*)"/g)) {
+        for (const name of match[1].split(/\s+/)) if (name) used.add(name);
+    }
+    const key = [...used].sort().join(" ");
+    let site = purged.get(key);
+    if (!site) {
+        site = purgeUtilities(cachedSheets.site, used);
+        purged.set(key, site);
+    }
+    const { initial, delayed } = splitFontFaces(cachedSheets.fonts);
+    return { css: `${initial}${site}${cachedSheets.guide}`, preload: cachedSheets.preload, delayed };
+}
+
+/** Drops Tailwind utilities whose classes are not in the rendered document. */
+function purgeUtilities(css: string, used: Set<string>): string {
+    const marker = "@layer utilities{";
+    const start = css.indexOf(marker);
+    if (start < 0) return css;
+    const open = start + marker.length - 1;
+    const close = matchingClose(css, open);
+    const kept = filterBlock(css.slice(open + 1, close), used);
+    return css.slice(0, start) + marker + kept + "}" + css.slice(close + 1);
+}
+
+function matchingClose(css: string, openBrace: number): number {
+    let depth = 0;
+    for (let index = openBrace; index < css.length; index += 1) {
+        if (css[index] === "{") depth += 1;
+        else if (css[index] === "}") {
+            depth -= 1;
+            if (depth === 0) return index;
+        }
+    }
+    return css.length - 1;
+}
+
+function filterBlock(body: string, used: Set<string>): string {
+    let out = "";
+    let index = 0;
+    while (index < body.length) {
+        const open = body.indexOf("{", index);
+        if (open < 0) break;
+        const prelude = body.slice(index, open).trim();
+        let depth = 1;
+        let cursor = open + 1;
+        while (cursor < body.length && depth) {
+            if (body[cursor] === "{") depth += 1;
+            else if (body[cursor] === "}") depth -= 1;
+            cursor += 1;
+        }
+        const inner = body.slice(open + 1, cursor - 1);
+        if (prelude.startsWith("@")) {
+            const child = filterBlock(inner, used);
+            if (child.trim()) out += `${prelude}{${child}}`;
+        } else {
+            const kept = splitCommas(prelude).filter((selector) => {
+                const names = classesIn(selector);
+                if (names.length === 0) return /:root|:host|(?:^|[\s>+~])(?:html|body|\*)\b/.test(selector);
+                return names.every((name) => used.has(name));
+            });
+            if (kept.length) out += `${kept.join(",")}{${inner}}`;
+        }
+        index = cursor;
+    }
+    return out;
+}
+
+function splitCommas(selector: string): string[] {
+    const parts: string[] = [];
+    let depth = 0;
+    let start = 0;
+    for (let index = 0; index < selector.length; index += 1) {
+        const char = selector[index];
+        if (char === "(" || char === "[") depth += 1;
+        else if (char === ")" || char === "]") depth -= 1;
+        else if (char === "," && depth === 0) {
+            parts.push(selector.slice(start, index).trim());
+            start = index + 1;
+        }
+    }
+    parts.push(selector.slice(start).trim());
+    return parts.filter(Boolean);
+}
+
+function classesIn(selector: string): string[] {
+    const names: string[] = [];
+    for (const match of selector.matchAll(/\.((?:\\.|[^\s,{>+~:[\]])+)/g)) {
+        names.push(match[1].replace(/\\(.)/g, "$1"));
+    }
+    return names;
 }
 
 /** A full document with no framework scripts. The guide pages that must paint first use this. */
@@ -26,14 +144,16 @@ export async function linuxDocument(path: string, title: string, description: st
     const metadata = await linuxMetadata(path, title, description);
     const openGraph = metadata.openGraph;
     const image = `${SITE}/images/banner.png`;
-    const assets = documentAssets();
     const { renderToStaticMarkup } = await import("react-dom/server");
     const markup = renderToStaticMarkup(body);
+    const { css, delayed } = inlineCss(markup);
     const links = [
-        ...assets.map((href) => `<link rel="stylesheet" href="${href}"/>`),
         `<link rel="canonical" href="${SITE}${path}"/>`,
         `<link rel="icon" href="/favicon.ico" sizes="any"/>`,
     ];
+    const fontScript = delayed
+        ? `<script>setTimeout(function(){var s=document.createElement("style");s.textContent=${JSON.stringify(delayed)};document.head.appendChild(s)},300)</script>`
+        : "";
     const metas = [
         `<meta charSet="utf-8"/>`,
         `<meta name="viewport" content="width=device-width, initial-scale=1"/>`,
@@ -50,7 +170,7 @@ export async function linuxDocument(path: string, title: string, description: st
         `<meta name="twitter:description" content="${escapeAttribute(description)}"/>`,
         `<meta name="twitter:image" content="${image}"/>`,
     ];
-    const html = `<!DOCTYPE html><html lang="${escapeAttribute(locale)}" class="${fontClassName}"><head><title>${escapeText(title)}</title>${metas.join("")}${links.join("")}</head><body class="min-h-full flex flex-col">${markup}</body></html>`;
+    const html = `<!DOCTYPE html><html lang="${escapeAttribute(locale)}" class="${fontClassName}"><head><title>${escapeText(title)}</title><style>${css}</style>${metas.join("")}${links.join("")}${fontScript}</head><body class="min-h-full flex flex-col">${markup}</body></html>`;
     return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
 }
 

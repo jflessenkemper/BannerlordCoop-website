@@ -331,6 +331,34 @@ body:has(#linux-guide) footer .text-foreground-dim {
   font-weight: 700;
 }
 
+.linux-tabs { position: relative; }
+.linux-tabs > .linux-tab-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.linux-tabs > .linux-tab-panels > div { display: none; }
+.linux-tabs > .linux-tab-input:nth-of-type(1):checked ~ .linux-tablist label:nth-child(1),
+.linux-tabs > .linux-tab-input:nth-of-type(2):checked ~ .linux-tablist label:nth-child(2),
+.linux-tabs > .linux-tab-input:nth-of-type(3):checked ~ .linux-tablist label:nth-child(3),
+.linux-tabs > .linux-tab-input:nth-of-type(4):checked ~ .linux-tablist label:nth-child(4),
+.linux-tabs > .linux-tab-input:nth-of-type(5):checked ~ .linux-tablist label:nth-child(5),
+.linux-tabs > .linux-tab-input:nth-of-type(6):checked ~ .linux-tablist label:nth-child(6),
+.linux-tabs > .linux-tab-input:nth-of-type(7):checked ~ .linux-tablist label:nth-child(7),
+.linux-tabs > .linux-tab-input:nth-of-type(8):checked ~ .linux-tablist label:nth-child(8),
+.linux-tabs > .linux-tab-input:nth-of-type(9):checked ~ .linux-tablist label:nth-child(9),
+.linux-tabs > .linux-tab-input:nth-of-type(10):checked ~ .linux-tablist label:nth-child(10),
+.linux-tabs > .linux-tab-input:nth-of-type(11):checked ~ .linux-tablist label:nth-child(11),
+.linux-tabs > .linux-tab-input:nth-of-type(12):checked ~ .linux-tablist label:nth-child(12) { border-bottom-color: var(--gold); }
+.linux-tabs > .linux-tab-input:nth-of-type(1):checked ~ .linux-tab-panels > div:nth-child(1),
+.linux-tabs > .linux-tab-input:nth-of-type(2):checked ~ .linux-tab-panels > div:nth-child(2),
+.linux-tabs > .linux-tab-input:nth-of-type(3):checked ~ .linux-tab-panels > div:nth-child(3),
+.linux-tabs > .linux-tab-input:nth-of-type(4):checked ~ .linux-tab-panels > div:nth-child(4),
+.linux-tabs > .linux-tab-input:nth-of-type(5):checked ~ .linux-tab-panels > div:nth-child(5),
+.linux-tabs > .linux-tab-input:nth-of-type(6):checked ~ .linux-tab-panels > div:nth-child(6),
+.linux-tabs > .linux-tab-input:nth-of-type(7):checked ~ .linux-tab-panels > div:nth-child(7),
+.linux-tabs > .linux-tab-input:nth-of-type(8):checked ~ .linux-tab-panels > div:nth-child(8),
+.linux-tabs > .linux-tab-input:nth-of-type(9):checked ~ .linux-tab-panels > div:nth-child(9),
+.linux-tabs > .linux-tab-input:nth-of-type(10):checked ~ .linux-tab-panels > div:nth-child(10),
+.linux-tabs > .linux-tab-input:nth-of-type(11):checked ~ .linux-tab-panels > div:nth-child(11),
+.linux-tabs > .linux-tab-input:nth-of-type(12):checked ~ .linux-tab-panels > div:nth-child(12) { display: block; }
+
 @media (max-width: 560px) {
   .linux-subnav.has-distro .subnav-sep,
   .linux-subnav.has-distro .subnav-here {

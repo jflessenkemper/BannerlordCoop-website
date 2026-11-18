@@ -9,7 +9,9 @@ export async function POST(request: Request) {
     const form = await request.formData();
     const id = String(form.get("id") ?? "");
     const known = distros.some((distro) => distro.id === id);
-    const response = NextResponse.redirect(new URL("/linux/distro", request.url), 303);
+    const resume = String(form.get("resume") ?? "");
+    const target = resume.startsWith("/linux/") && !resume.includes("//") && !resume.includes("\\") ? resume : "/linux/distro";
+    const response = NextResponse.redirect(new URL(target, request.url), 303);
     if (known) response.cookies.set("blc-distro-v1", id, { path: "/", maxAge: 31536000, sameSite: "lax" });
     return response;
 }

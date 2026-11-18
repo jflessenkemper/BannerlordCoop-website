@@ -3,11 +3,11 @@ import { JsonLd, SITE_URL, organizationNode } from "@/app/lib/structured-data";
 import { getLocale, getTranslations } from "@/app/lib/localization/server";
 import { cookies } from "next/headers";
 import distroData from "./content/distros.json";
-import { routeLabels, type Distro } from "./guide-model";
-import { choiceCard, pageFrame, titleClass } from "./guide-styles";
+import { ONESHOT_SECTION, routeLabels, routePath, sections, sectionsById, WIZARD_STEPS, wizardNeighbors, type Distro, type GuideRoute, type WizardStep } from "./guide-model";
+import { choiceCard, goldButton, pageFrame, primaryButton, titleClass } from "./guide-styles";
 import { LinuxFooter, LinuxHeader } from "./linux-chrome";
 import "./linux-guide.css";
-import { faqSection, StaticSection } from "./static-blocks";
+import { faqSection, StaticGuideSection, StaticSection } from "./static-blocks";
 import { scopeSvg } from "./views/svg";
 
 const distros = distroData as Distro[];
@@ -19,12 +19,21 @@ function known(id: string | null): string | null {
 }
 
 /** Server render of the three pages that must paint before the client runtime loads. */
-export async function renderStaticLinux(view: "start" | "faq" | "distro", path: string, title: string, description: string) {
+export async function renderStaticLinux(view: "start" | "faq" | "distro" | "checklist" | "script" | "done" | "step", path: string, title: string, description: string, options?: { step?: WizardStep; resume?: string | null }) {
     const locale = await getLocale();
     const common = await getTranslations("common", locale);
-    const { t } = await getTranslations("linux", locale);
+    const linux = await getTranslations("linux", locale);
+    const t = (key: string, params: Record<string, string | number> = {}) => linux.t(key, { date: "{date}", time: "{time}", ...params });
     const selectedId = known((await cookies()).get("blc-distro-v1")?.value ?? null);
-    const route = view === "faq" ? { view: "manual" as const, section: "faq" } : view === "distro" ? { view: "distro" as const } : { view: "start" as const };
+    const selected = distros.find((distro) => distro.id === selectedId) ?? null;
+    const step = options?.step;
+    const route: GuideRoute = view === "faq" ? { view: "manual", section: "faq" }
+        : view === "script" ? { view: "manual", section: ONESHOT_SECTION }
+        : view === "checklist" ? { view: "manual" }
+        : view === "done" ? { view: "done" }
+        : view === "step" && step ? { view: "wizard", step }
+        : view === "distro" ? { view: "distro" }
+        : { view: "start" };
     const labels = routeLabels(route, t);
     return (
         <>
@@ -64,10 +73,25 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro", path: 
                             <span />
                             <span aria-hidden="true" />
                         </div>
+                        {route.view === "wizard" && (
+                            <div className="h-0.5 bg-transparent" role="progressbar" aria-label={labels.progress} aria-valuemin={1} aria-valuemax={WIZARD_STEPS.length} aria-valuenow={WIZARD_STEPS.indexOf(route.step) + 1} aria-valuetext={labels.progress}>
+                                <span className="block h-full bg-gold" style={{ width: `${((WIZARD_STEPS.indexOf(route.step) + 1) / WIZARD_STEPS.length) * 100}%` }} />
+                            </div>
+                        )}
                     </nav>
                 )}
                 {view === "start" && <StaticStart t={t} />}
-                {view === "distro" && <StaticDistro t={t} selectedId={selectedId} />}
+                {view === "distro" && <StaticDistro t={t} selectedId={selectedId} resume={options?.resume ?? null} />}
+                {view === "checklist" && <StaticChecklist t={t} distro={selected} />}
+                {view === "script" && sectionsById.get(ONESHOT_SECTION) && (
+                    <section aria-labelledby="manual-title">
+                        <div className={`${pageFrame} py-8 sm:py-10`}>
+                            <StaticGuideSection section={sectionsById.get(ONESHOT_SECTION)!} t={t} distro={selected} alone />
+                        </div>
+                    </section>
+                )}
+                {view === "step" && step && <StaticStep t={t} step={step} distro={selected} nextLabel={labels.nextLabel} />}
+                {view === "done" && <StaticDone t={t} />}
                 {view === "faq" && (
                     <section aria-labelledby="manual-title">
                         <div className={`${pageFrame} py-8 sm:py-10`}>
@@ -117,7 +141,7 @@ function StaticStart({ t }: { t: (key: string) => string }) {
 }
 
 /** Distro cards. The choice is stored before the browser leaves this page. */
-function StaticDistro({ t, selectedId }: { t: (key: string) => string; selectedId: string | null }) {
+function StaticDistro({ t, selectedId, resume }: { t: (key: string) => string; selectedId: string | null; resume: string | null }) {
     return (
         <section className="guide-stage" aria-labelledby="distro-title">
             <div className={pageFrame}>
@@ -128,6 +152,7 @@ function StaticDistro({ t, selectedId }: { t: (key: string) => string; selectedI
                         return (
                             <form key={distro.id} method="post" action="/linux/distro/choose" className="contents distro-choice">
                                 <input type="hidden" name="id" value={distro.id} />
+                                {resume && <input type="hidden" name="resume" value={resume} />}
                                 <button
                                     type="submit"
                                     className={`${choiceCard} grid min-h-[7.5rem] grid-cols-[48px_minmax(0,1fr)] grid-rows-[auto_1fr] gap-x-3 ${selected ? "border-gold" : ""}`}
@@ -146,6 +171,57 @@ function StaticDistro({ t, selectedId }: { t: (key: string) => string; selectedI
                             </form>
                         );
                     })}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function StaticChecklist({ t, distro }: { t: (key: string) => string; distro: Distro | null }) {
+    return (
+        <section aria-labelledby="manual-title">
+            <div className={`${pageFrame} py-8 sm:py-10`}>
+                <h1 id="manual-title" tabIndex={-1} className={titleClass}>{t("ui.fullChecklist")}</h1>
+                <nav aria-label={t("ui.contents")} className="mt-4">
+                    <ol className="m-0 list-decimal space-y-1 pl-5 text-foreground">
+                        {sections.map((section) => (
+                            <li key={section.id}><a className="text-foreground underline decoration-gold/60 underline-offset-4" href={`#sec-${section.id}`}>{t(section.titleKey)}</a></li>
+                        ))}
+                    </ol>
+                </nav>
+                {sections.map((section) => <StaticGuideSection key={section.id} section={section} t={t} distro={distro} />)}
+            </div>
+        </section>
+    );
+}
+
+function StaticStep({ t, step, distro, nextLabel }: { t: (key: string) => string; step: WizardStep; distro: Distro | null; nextLabel: string }) {
+    const section = sectionsById.get(step);
+    if (!section) return null;
+    const neighbors = wizardNeighbors(step);
+    return (
+        <section aria-labelledby="wizard-title">
+            <div className={`${pageFrame} wizard-copy py-8 pb-28 sm:py-10`}>
+                <StaticGuideSection section={section} t={t} distro={distro} wizard alone />
+            </div>
+            <div className="linux-wizard-bar sticky bottom-0 z-20 flex flex-nowrap items-stretch justify-center gap-2 px-3 py-3">
+                {neighbors.previous && <a className={`${goldButton} min-w-0 flex-1 px-2 text-xs no-underline sm:flex-none sm:px-4 sm:text-sm`} href={routePath(neighbors.previous)}>{t("ui.previous")}</a>}
+                <a className={`${goldButton} min-w-0 flex-1 px-2 text-xs no-underline sm:flex-none sm:px-4 sm:text-sm`} href="/linux/checklist#sec-troubleshooting">{t("ui.help")}</a>
+                <a className={`${primaryButton} min-w-0 flex-1 px-2 text-xs no-underline sm:flex-none sm:px-4 sm:text-sm`} href={routePath(neighbors.next)}>{nextLabel}</a>
+            </div>
+        </section>
+    );
+}
+
+function StaticDone({ t }: { t: (key: string) => string }) {
+    return (
+        <section className="guide-stage" aria-labelledby="done-title">
+            <div className={pageFrame}>
+                <h1 id="done-title" tabIndex={-1} className={titleClass}>{t("ui.doneTitle")}</h1>
+                <p className="mt-4 max-w-xl text-foreground">{t("ui.doneBody")}</p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                    <a className={`${goldButton} no-underline`} href="/linux/checklist#sec-troubleshooting">{t("section.troubleshooting.title")}</a>
+                    <a className={`${primaryButton} no-underline`} href="/linux/faq">{t("section.faq.title")}</a>
                 </div>
             </div>
         </section>
