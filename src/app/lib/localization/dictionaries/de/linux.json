@@ -582,7 +582,7 @@
   "distro.bazzite.blurb": "Ein spielefertiges, unveränderliches System auf Fedora-Basis, das als ein Image aktualisiert wird (Silverblue-artige Systeme passen ebenfalls).",
   "distro.deck.blurb": "Valves Handheld und sein SteamOS: ein schreibgeschütztes System – nutze den Desktop-Modus und ändere wenig.",
   "distro.nix.blurb": "Ein deklaratives, reproduzierbares Linux, das vollständig über Nix konfiguriert wird.",
-  "distro.other.name": "Other distro",
+  "distro.other.name": "Andere Distribution",
   "distro.other.blurb": "Gentoo, Void, Alpine oder etwas anderes: Du bekommst die allgemeinen Befehle zum Anpassen.",
   "ui.oneScript": "Mit einem Skript installieren",
   "ui.oneScriptSub": "Ein Kopier-Skript für deine Distribution",

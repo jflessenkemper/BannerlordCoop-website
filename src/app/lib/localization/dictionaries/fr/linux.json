@@ -582,7 +582,7 @@
   "distro.bazzite.blurb": "Un système immuable prêt pour le jeu, basé sur Fedora et mis à jour comme une seule image (les systèmes de type Silverblue conviennent aussi).",
   "distro.deck.blurb": "La console portable de Valve et son SteamOS : un système en lecture seule, donc utilisez le mode Bureau et limitez les changements.",
   "distro.nix.blurb": "Un Linux déclaratif et reproductible, entièrement configuré avec Nix.",
-  "distro.other.name": "Other distro",
+  "distro.other.name": "Autre distribution",
   "distro.other.blurb": "Gentoo, Void, Alpine ou autre : vous obtenez les commandes génériques à adapter.",
   "ui.oneScript": "Installer avec un seul script",
   "ui.oneScriptSub": "Un script à copier-coller pour votre distribution",

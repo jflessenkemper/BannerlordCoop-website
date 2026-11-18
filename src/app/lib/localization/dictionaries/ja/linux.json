@@ -582,7 +582,7 @@
   "distro.bazzite.blurb": "Fedora ベースでゲーム向けのイミュータブル OS。1 つのイメージとして更新されます（Silverblue 系もこちら）。",
   "distro.deck.blurb": "Valve の携帯機と SteamOS。システムは読み取り専用なので、デスクトップモードで最小限の変更にとどめます。",
   "distro.nix.blurb": "宣言的で再現性のある Linux。設定はすべて Nix で行います。",
-  "distro.other.name": "Other distro",
+  "distro.other.name": "その他のディストリビューション",
   "distro.other.blurb": "Gentoo、Void、Alpine などその他すべて：調整して使う汎用コマンドを表示します。",
   "ui.oneScript": "スクリプト1つでインストール",
   "ui.oneScriptSub": "ディストリ向けのコピー用スクリプト",

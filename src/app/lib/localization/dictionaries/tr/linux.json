@@ -582,7 +582,7 @@
   "distro.bazzite.blurb": "Fedora tabanlı, oyuna hazır ve tek bir imaj olarak güncellenen değiştirilemez sistem (Silverblue tarzı sistemler de buraya uyar).",
   "distro.deck.blurb": "Valve'ın el konsolu ve SteamOS'u: salt okunur bir sistem; Masaüstü Modu'nu kullanın ve değişiklikleri az tutun.",
   "distro.nix.blurb": "Tamamen Nix ile yapılandırılan, bildirimsel ve yeniden üretilebilir bir Linux.",
-  "distro.other.name": "Other distro",
+  "distro.other.name": "Diğer dağıtım",
   "distro.other.blurb": "Gentoo, Void, Alpine ya da başka bir dağıtım: uyarlayabileceğiniz genel komutları alırsınız.",
   "ui.oneScript": "Tek bir betikle kur",
   "ui.oneScriptSub": "Dağıtımınız için kopyala-yapıştır betiği",

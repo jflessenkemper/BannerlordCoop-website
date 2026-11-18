@@ -582,7 +582,7 @@
   "distro.bazzite.blurb": "Fedora 기반의 게임 친화적 불변형 OS로, 하나의 이미지로 업데이트됩니다(Silverblue 계열도 해당).",
   "distro.deck.blurb": "Valve의 휴대용 기기와 SteamOS: 읽기 전용 시스템이므로 데스크톱 모드를 사용하고 변경은 최소한으로 하세요.",
   "distro.nix.blurb": "선언형이며 재현 가능한 Linux로, 모든 설정을 Nix로 합니다.",
-  "distro.other.name": "Other distro",
+  "distro.other.name": "기타 배포판",
   "distro.other.blurb": "Gentoo, Void, Alpine 등 그 밖의 모든 배포판: 상황에 맞게 바꿔 쓰는 일반 명령을 보여 줍니다.",
   "ui.oneScript": "스크립트 하나로 설치",
   "ui.oneScriptSub": "배포판용 복사 스크립트 하나",

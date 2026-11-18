@@ -582,7 +582,7 @@
   "distro.bazzite.blurb": "基于 Fedora、专为游戏准备的不可变系统，以整体镜像更新（Silverblue 类系统也适用）。",
   "distro.deck.blurb": "Valve 的掌机及其 SteamOS：系统为只读，请使用桌面模式并尽量少改动。",
   "distro.nix.blurb": "声明式、可复现的 Linux，完全通过 Nix 进行配置。",
-  "distro.other.name": "Other distro",
+  "distro.other.name": "其他发行版",
   "distro.other.blurb": "Gentoo、Void、Alpine 或其他发行版：提供可自行调整的通用命令。",
   "ui.oneScript": "使用一个脚本安装",
   "ui.oneScriptSub": "适合你的发行版的复制脚本",
