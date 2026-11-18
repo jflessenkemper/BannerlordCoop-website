@@ -10,13 +10,26 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+  preload: false,
+  adjustFontFallback: true,
 });
 
 const cormorantGaramond = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "600",
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
+});
+
+const cormorantHeavy = Cormorant_Garamond({
+  variable: "--font-cormorant-heavy",
+  subsets: ["latin"],
+  weight: "700",
+  display: "swap",
+  preload: false,
+  adjustFontFallback: true,
 });
 
 const barlowCondensed = Barlow_Condensed({
@@ -24,6 +37,8 @@ const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
   display: "swap",
+  preload: false,
+  adjustFontFallback: true,
 });
 
 
@@ -72,7 +87,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${cormorantGaramond.variable} ${barlowCondensed.variable} h-full antialiased`}
+      className={`${inter.variable} ${cormorantGaramond.variable} ${cormorantHeavy.variable} ${barlowCondensed.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <LocalizationProvider locale={locale} messages={messages} enabledLocales={getEnabledLocales()}>
