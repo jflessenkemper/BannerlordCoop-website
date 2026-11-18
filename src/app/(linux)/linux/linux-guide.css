@@ -20,6 +20,18 @@
   object-fit: cover;
   object-position: center;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms linear;
+}
+
+.linux-backdrop.is-shown {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linux-backdrop {
+    transition: none;
+  }
 }
 
 /* The picture sits above the page background and under the header, guide, and footer. */
@@ -441,13 +453,10 @@ html[data-distro="other"] .distro-chip[data-for="other"] { display: flex; }
   }
 
   .linux-guide .subnav-change {
-    font-size: 0;
-  }
-
-  .linux-guide .subnav-change::after {
-    content: attr(data-short);
-    font-size: 0.8rem;
-    letter-spacing: 0.06em;
+    padding-inline: 0.35rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
   }
 
   .linux-guide .subnav-here[data-short] {

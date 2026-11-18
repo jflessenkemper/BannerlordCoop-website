@@ -565,7 +565,7 @@
   "ui.allStages": "Todas as fases de instalação numa só página.",
   "nav.dTitle": "Que Linux estás a usar?",
   "nav.dSub": "Escolha a sua distribuição. O guia mostrará apenas os respetivos comandos.",
-  "nav.dChange": "Alterar",
+  "nav.dChange": "Alterar a distro",
   "nav.dYour": "O teu Linux:",
   "nav.dKeep": "Ficar com este Linux",
   "nav.dChangeShort": "Mudar",

@@ -76,7 +76,7 @@ export function GuideSubnav({
                     <div className="flex items-center gap-2 justify-self-center" role="group" aria-label={withoutTrailingColon(t("nav.dYour"))} style={{ ["--d" as string]: distro.color, ["--ig" as string]: distro.glyph }}>
                         <span className={`subnav-mark inline-grid h-6 w-6 place-items-center ${distro.art ? "is-art overflow-hidden" : ""}`} style={distro.art ? undefined : { backgroundColor: `rgb(${distro.color})` }} aria-hidden="true" dangerouslySetInnerHTML={{ __html: scopeSvg(distro.svg, "subnav") }} />
                         <strong className="subnav-distro-name max-w-44 truncate font-label text-base font-semibold" style={{ color: readableNameTint(distro.color) }}>{t(distro.nameKey)}</strong>
-                        <button type="button" data-short={t("nav.dChangeShort")} className="subnav-change inline-flex min-h-12 cursor-pointer items-center border-0 border-l border-white/15 bg-transparent px-2 font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold" onClick={onChangeDistro}>
+                        <button type="button" className="subnav-change inline-flex min-h-12 cursor-pointer items-center border-0 border-l border-white/15 bg-transparent px-2 font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold" onClick={onChangeDistro}>
                             {t("nav.dChange")}
                         </button>
                     </div>

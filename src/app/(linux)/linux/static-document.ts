@@ -161,9 +161,10 @@ export async function linuxDocument(path: string, title: string, description: st
     const links = [
         `<link rel="canonical" href="${SITE}${path}"/>`,
         `<link rel="icon" href="/favicon.ico" sizes="any"/>`,
+        `<link rel="preload" as="image" href="/images/linux/backdrop.webp" fetchpriority="low"/>`,
     ];
     const fontScript = delayed
-        ? `<script>addEventListener("load",function(){setTimeout(function(){var css=${JSON.stringify(delayed)};var faces=[];css.replace(/@font-face\\{([^}]+)\\}/g,function(_,body){var family=body.match(/font-family:([^;]+)/)[1];var weight=(body.match(/font-weight:([^;]+)/)||[])[1]||"normal";var style=(body.match(/font-style:([^;]+)/)||[])[1]||"normal";var url=body.match(/url\\(([^)]+)\\)/)[1];var range=(body.match(/unicode-range:([^;]+)/)||[])[1];faces.push(new FontFace(family,"url("+url+")",{weight:weight,style:style,unicodeRange:range,display:"swap"}))});Promise.all(faces.map(function(face){return face.load()})).then(function(loaded){loaded.forEach(function(face){document.fonts.add(face)})})},2000)})</script>`
+        ? `<script>requestAnimationFrame(function(){requestAnimationFrame(function(){var css=${JSON.stringify(delayed)};var faces=[];css.replace(/@font-face\\{([^}]+)\\}/g,function(_,body){var family=body.match(/font-family:([^;]+)/)[1];var weight=(body.match(/font-weight:([^;]+)/)||[])[1]||"normal";var style=(body.match(/font-style:([^;]+)/)||[])[1]||"normal";var url=body.match(/url\\(([^)]+)\\)/)[1];var range=(body.match(/unicode-range:([^;]+)/)||[])[1];faces.push(new FontFace(family,"url("+url+")",{weight:weight,style:style,unicodeRange:range,display:"swap"}))});Promise.all(faces.map(function(face){return face.load()})).then(function(loaded){loaded.forEach(function(face){document.fonts.add(face)})})})})</script>`
         : "";
     const distroId = options?.distroId && FAMILIES[options.distroId] ? options.distroId : "";
     const htmlAttrs = [

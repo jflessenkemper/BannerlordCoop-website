@@ -565,7 +565,7 @@
   "ui.allStages": "すべてのセットアップ段階を 1 ページにまとめています。",
   "nav.dTitle": "どの Linux を使っていますか？",
   "nav.dSub": "ディストリビューションを選んでください。そのコマンドだけを表示します。",
-  "nav.dChange": "変更",
+  "nav.dChange": "ディストロを変更",
   "nav.dYour": "あなたの Linux:",
   "nav.dKeep": "この Linux のまま",
   "nav.dChangeShort": "変更",

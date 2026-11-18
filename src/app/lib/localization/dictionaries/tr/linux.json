@@ -565,7 +565,7 @@
   "ui.allStages": "Tüm kurulum aşamaları tek sayfada.",
   "nav.dTitle": "Hangi Linux'u kullanıyorsunuz?",
   "nav.dSub": "Dağıtımınızı seçin. Rehber yalnızca ona ait komutları gösterecek.",
-  "nav.dChange": "Değiştir",
+  "nav.dChange": "Dağıtımı değiştir",
   "nav.dYour": "Linux'unuz:",
   "nav.dKeep": "Bu Linux kalsın",
   "nav.dChangeShort": "Değiştir",
