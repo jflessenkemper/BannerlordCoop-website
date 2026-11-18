@@ -21,7 +21,7 @@ export function StartMenu({
             <div className={pageFrame}>
                 <h1 id="start-title" className={titleClass}>{t("ui.startTitle")}</h1>
                 <div className="guide-choices guide-choices-4 mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                <button type="button" className={`${choiceCard} border-gold/60`} onClick={onWizard}>
+                <button type="button" className={`${choiceCard} choice-recommended border-gold/60`} onClick={onWizard}>
                     <span className="font-label text-xs font-bold uppercase tracking-[0.08em] text-gold">{t("ui.recommended")}</span>
                     <strong className="mt-1 block font-display text-2xl font-semibold">{t("ui.stepByStep")}</strong>
                     <span className="mt-2 text-foreground-muted">{t("ui.walk")}</span>
