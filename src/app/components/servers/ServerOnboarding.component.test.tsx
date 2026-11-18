@@ -9,7 +9,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ServerOnboarding } from "./ServerOnboarding";
 import { composeOnboarding, EMPTY_MEMBERSHIP } from "@/app/lib/hosting/membership-onboarding";
 import { MyServersApiError } from "@/app/lib/hosting/my-servers";
-import { onboardingIntentKey, storeOnboardingIntent } from "@/app/servers/onboarding-intent";
+import { onboardingIntentKey, storeOnboardingIntent } from "@/app/(site)/servers/onboarding-intent";
 import { onboardingRegion, onboardingSummary, onboardingCreated, onboardingRequested, ONBOARDING_TEST_ID } from "../../../../tests/onboarding-fixtures";
 import type { OnboardingSummary } from "../../../../supabase/functions/_shared/server-onboarding-contract";
 import { HOSTING_CONTINENTS, HOSTING_REGIONS } from "../../../../supabase/functions/_shared/hosting-regions";

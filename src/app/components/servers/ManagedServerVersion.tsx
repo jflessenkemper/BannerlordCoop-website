@@ -5,7 +5,7 @@ import { useTranslations } from "@/app/lib/localization/client";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, CircleAlert, History, LoaderCircle, Minus } from "lucide-react";
-import { changeServerBuild, readServerBuildOptions, readServerBuildStatus } from "@/app/servers/server-build-actions";
+import { changeServerBuild, readServerBuildOptions, readServerBuildStatus } from "@/app/(site)/servers/server-build-actions";
 import type { BuildChangeJob, BuildOption, BuildOptions, BuildStatus, BuildStepId, BuildStepState } from "../../../../supabase/functions/_shared/server-build-contract";
 import { WorkspaceCard, workspaceBadgeClass, workspaceNoticeClass } from "./server-workspace-ui";
 

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { deleteManagedServerSave, readManagedServerSaveDeletion } from "@/app/servers/managed-server-save-actions";
-import { listManagedServerCampaigns } from "@/app/servers/managed-server-campaign-actions";
+import { deleteManagedServerSave, readManagedServerSaveDeletion } from "@/app/(site)/servers/managed-server-save-actions";
+import { listManagedServerCampaigns } from "@/app/(site)/servers/managed-server-campaign-actions";
 import { parseSaveDeletionInput, type SaveDeletionInput } from "../../../../supabase/functions/_shared/server-save-deletion-contract";
 import { hasExactKeys, isRecord } from "../../../../supabase/functions/_shared/dto-validation";
 import { requireUuid } from "../../../../supabase/functions/_shared/server-file-contract";

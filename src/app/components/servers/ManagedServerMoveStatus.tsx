@@ -7,8 +7,8 @@ import type { MyServerMove, MyServerNotice } from "@/app/lib/control-plane/types
 import { isMoveInProgress, SERVER_MOVE_STEPS } from "@/app/lib/hosting/server-move";
 import { useTranslations } from "@/app/lib/localization/client";
 import type { Translator } from "@/app/lib/localization/types";
-import { readManagedServerMoveStatus } from "@/app/servers/managed-server-move-actions";
-import { dismissManagedServerNotice } from "@/app/servers/server-notice-actions";
+import { readManagedServerMoveStatus } from "@/app/(site)/servers/managed-server-move-actions";
+import { dismissManagedServerNotice } from "@/app/(site)/servers/server-notice-actions";
 import { isCurrentMoveCompletion, ManagedServerMoveContext } from "./managed-server-move-context";
 import { useRevealServerAddress, useServerAddress } from "./ServerManagementWorkspace";
 import { useViewerTimeZone, ZONED_DATE_TIME_FORMAT } from "./viewer-time-zone";

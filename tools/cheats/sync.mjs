@@ -43,7 +43,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
         throw new Error("Usage: node tools/cheats/sync.mjs <mod-repo> <40-character-commit> [--check]");
     const raw = JSON.parse(execFileSync("dotnet", ["run", "--project", "tools/cheats", "--", repo, commit], { encoding: "utf8", maxBuffer: 10 * 1024 * 1024 }));
     const catalog = buildCatalog(raw);
-    const path = "src/app/cheats/commands.json";
+    const path = "src/app/(site)/cheats/commands.json";
     const content = JSON.stringify(catalog, null, 2) + "\n";
     if (mode === "--check") {
         if (readFileSync(path, "utf8").replace(/\r\n/g, "\n") !== content) throw new Error(`Outdated catalog: ${path}`);

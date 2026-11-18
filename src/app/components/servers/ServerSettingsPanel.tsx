@@ -4,10 +4,10 @@ import { useTranslations } from "@/app/lib/localization/client";
 
 import { useEffect, useRef, useState, useTransition, type FormEvent, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { managedServerNameMessage, managedServerNameProblem } from "@/app/servers/managed-server-name-validation";
-import { setServerVisibility } from "@/app/servers/server-visibility-actions";
-import { changeServerRelease, readServerReleaseStatus } from "@/app/servers/server-release-actions";
-import { saveServerSettings, type ServerSettingsField, type ServerSettingsPrevious } from "@/app/servers/server-settings-actions";
+import { managedServerNameMessage, managedServerNameProblem } from "@/app/(site)/servers/managed-server-name-validation";
+import { setServerVisibility } from "@/app/(site)/servers/server-visibility-actions";
+import { changeServerRelease, readServerReleaseStatus } from "@/app/(site)/servers/server-release-actions";
+import { saveServerSettings, type ServerSettingsField, type ServerSettingsPrevious } from "@/app/(site)/servers/server-settings-actions";
 import { HOSTING_MAINTENANCE_SLOTS, HOSTING_TIME_ZONE, type MaintenanceSlot, type OwnerSettingsMutation } from "../../../../supabase/functions/_shared/server-settings-contract";
 import type { ReleaseChannel, ReleaseStatus } from "../../../../supabase/functions/_shared/server-release-contract";
 import { CircleAlert, Globe2, LockKeyhole, Search, Settings2 } from "lucide-react";

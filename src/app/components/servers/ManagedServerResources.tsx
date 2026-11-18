@@ -5,7 +5,7 @@ import { useTranslations } from "@/app/lib/localization/client";
 import { useEffect, useState } from "react";
 import { Cpu, MemoryStick, type LucideIcon } from "lucide-react";
 import type { ServerResourceUsage } from "@/app/lib/hosting/server-resource-usage";
-import { readManagedServerResources } from "@/app/servers/managed-server-actions";
+import { readManagedServerResources } from "@/app/(site)/servers/managed-server-actions";
 
 /** Usage changes slowly enough that a few reads a minute stay current without loading the runner. */
 export const RESOURCE_POLL_MILLISECONDS = 10_000;

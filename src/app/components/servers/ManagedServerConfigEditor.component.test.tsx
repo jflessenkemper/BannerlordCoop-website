@@ -9,7 +9,7 @@ import type { RunnerConfigurationFile, RunnerConfigurationPart } from "../../../
 
 const mocks = vi.hoisted(() => ({ read: vi.fn(), readFiles: vi.fn(), limit: vi.fn(), save: vi.fn(), shown: vi.fn() }));
 vi.mock("./ServerManagementWorkspace", () => ({ useServerWorkspaceSectionShown: mocks.shown }));
-vi.mock("@/app/servers/managed-server-config-actions", () => ({
+vi.mock("@/app/(site)/servers/managed-server-config-actions", () => ({
     readManagedServerConfig: mocks.read,
     // One action reads both files, so each load is a single request rather than two queued ones.
     readManagedServerConfigFiles: async (serverId: string, userId: string) => {

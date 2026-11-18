@@ -6,9 +6,9 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ManagedServerBackups, type ManagedServerAutosaves } from "@/app/components/servers/ManagedServerBackups";
 import { ManagedServerPollingProvider } from "@/app/components/servers/ManagedServerPollingProvider";
-import { managedServerBackupIntentKey } from "@/app/servers/managed-server-backup-intent";
-import { manageServerBackup } from "@/app/servers/managed-server-backup-actions";
-import * as backupActions from "@/app/servers/managed-server-backup-actions";
+import { managedServerBackupIntentKey } from "@/app/(site)/servers/managed-server-backup-intent";
+import { manageServerBackup } from "@/app/(site)/servers/managed-server-backup-actions";
+import * as backupActions from "@/app/(site)/servers/managed-server-backup-actions";
 import { MyServersApiError, readMyServersResponse } from "@/app/lib/hosting/my-servers";
 import type { MyServerBackupStatus, MyServerBackupSummary, MyServerSummary } from "@/app/lib/control-plane/types";
 

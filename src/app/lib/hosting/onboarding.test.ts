@@ -4,7 +4,7 @@ import test from "node:test";
 import { requestServerOnboarding, MyServersApiError } from "./my-servers";
 import { createMyServersHandler } from "../../../../supabase/functions/_shared/my-servers";
 import { onboardingCreated, ONBOARDING_TEST_ID } from "../../../../tests/onboarding-fixtures";
-import { clearOnboardingIntent, onboardingIntentKey, readOnboardingIntent, storeOnboardingIntent } from "../../servers/onboarding-intent";
+import { clearOnboardingIntent, onboardingIntentKey, readOnboardingIntent, storeOnboardingIntent } from "../../(site)/servers/onboarding-intent";
 
 const intent = { action: "create-server", displayName: "My Campaign", region: "us-west", requestId: ONBOARDING_TEST_ID } as const;
 test("real website facade → real strict Edge → synthetic upstream preserves JWT and durable normalized input", async () => {

@@ -5,7 +5,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { ServerVisibilitySetting } from "./ServerVisibilitySetting";
 const mocks = vi.hoisted(() => ({ update: vi.fn(), refresh: vi.fn() }));
-vi.mock("@/app/servers/server-visibility-actions", () => ({ setServerVisibility: mocks.update }));
+vi.mock("@/app/(site)/servers/server-visibility-actions", () => ({ setServerVisibility: mocks.update }));
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: mocks.refresh }) }));
 let container: HTMLDivElement;
 let root: Root;

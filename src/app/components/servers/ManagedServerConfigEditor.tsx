@@ -1,13 +1,13 @@
 "use client";
 
-import { configurationMessages } from "@/app/servers/managed-server-messages";
+import { configurationMessages } from "@/app/(site)/servers/managed-server-messages";
 
 import { useTranslations } from "@/app/lib/localization/client";
 import type { Translator } from "@/app/lib/localization/types";
 
 import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
 import { CircleAlert, LoaderCircle, RefreshCw } from "lucide-react";
-import { readManagedServerConfigFiles, saveManagedServerConfig } from "@/app/servers/managed-server-config-actions";
+import { readManagedServerConfigFiles, saveManagedServerConfig } from "@/app/(site)/servers/managed-server-config-actions";
 import { fileButtonClass, filePrimaryButtonClass } from "./server-file-styles";
 import { segmentedButtonClass, segmentedGroupClass } from "./segmented-controls";
 import { workspaceNoticeClass } from "./server-workspace-ui";

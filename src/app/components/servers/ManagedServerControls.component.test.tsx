@@ -3,7 +3,7 @@ import { TestLocalization, serverTestMessages } from "@/app/components/servers/M
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import * as serverActions from "@/app/servers/managed-server-actions";
+import * as serverActions from "@/app/(site)/servers/managed-server-actions";
 import { ManagedServerControls, ManagedServerPassword } from "./ManagedServerControls";
 import { ManagedServerMoveProvider, ManagedServerMoveStatus } from "./ManagedServerMoveStatus";
 import { ManagedServerMaintenance, ManagedServerMaintenanceProvider } from "./ManagedServerMaintenance";
@@ -22,7 +22,7 @@ vi.mock("./ServerManagementWorkspace", async original => ({
 const { request, requestUpdate, requestPassword, buildStatus, beginPolling, startStatus, summary, router, statusSlot } = vi.hoisted(() => ({ request: vi.fn(), requestUpdate: vi.fn(), requestPassword: vi.fn(), buildStatus: vi.fn(), beginPolling: vi.fn(), startStatus: vi.fn(), summary: vi.fn(), router: { refresh: vi.fn() }, statusSlot: { current: undefined as HTMLElement | null | undefined } }));
 vi.mock("next/navigation", () => ({ useRouter: () => router }));
 vi.mock("@/app/lib/hosting/my-servers-server", () => ({ getMyServerStartStatus: startStatus, getMyServerSummary: summary, getMyServerDeletionStatus: deletionStatus }));
-vi.mock("@/app/servers/server-build-actions", () => ({ readServerBuildStatus: buildStatus }));
+vi.mock("@/app/(site)/servers/server-build-actions", () => ({ readServerBuildStatus: buildStatus }));
 afterEach(() => vi.useRealTimers());
 beforeEach(() => {
     buildStatus.mockReset().mockResolvedValue({ serverId: "22222222-2222-4222-8222-222222222222", job: null });
@@ -78,7 +78,7 @@ vi.mock("@/app/lib/hosting/my-servers", async (original) => ({
     cancelMyServerStart: cancelStart,
     getMyServerBackupStatus: backupStatus,
 }));
-vi.mock("@/app/servers/managed-server-move-actions", () => ({ readManagedServerMoveStatus: async () => ({ ok: false }) }));
+vi.mock("@/app/(site)/servers/managed-server-move-actions", () => ({ readManagedServerMoveStatus: async () => ({ ok: false }) }));
 vi.mock("./ManagedServerPollingProvider", () => ({
     useManagedServerPolling: () => ({ session: null, timedOutSession: null, beginPolling, endPolling: vi.fn() }),
     useManagedConsoleSignals: () => null,
