@@ -37,27 +37,32 @@ export default async function LinuxPage() {
     const messages = await getMessages(["linux"], locale);
     const { t } = await getTranslations("linux", locale);
     return (
-        <LocalizationProvider locale={locale} messages={messages}>
-            <JsonLd
-                data={{
-                    "@graph": [
-                        organizationNode,
-                        {
-                            "@type": "TechArticle",
-                            "@id": `${SITE_URL}${PAGE_PATH}#guide`,
-                            headline: t("metadata.title"),
-                            description: t("metadata.description"),
-                            inLanguage: locale,
-                            url: `${SITE_URL}${PAGE_PATH}`,
-                            about: "Mount & Blade II: Bannerlord Co-op mod",
-                            isPartOf: { "@id": `${SITE_URL}/#organization` },
-                        },
-                    ],
-                }}
-            />
-            <Navbar />
-            <LinuxGuide />
-            <Footer />
-        </LocalizationProvider>
+        <>
+            {/* The original artwork, not a resized derivative. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="linux-backdrop" src="/images/linux/backdrop.webp" alt="" width={1600} height={900} decoding="async" fetchPriority="low" />
+            <LocalizationProvider locale={locale} messages={messages}>
+                <JsonLd
+                    data={{
+                        "@graph": [
+                            organizationNode,
+                            {
+                                "@type": "TechArticle",
+                                "@id": `${SITE_URL}${PAGE_PATH}#guide`,
+                                headline: t("metadata.title"),
+                                description: t("metadata.description"),
+                                inLanguage: locale,
+                                url: `${SITE_URL}${PAGE_PATH}`,
+                                about: "Mount & Blade II: Bannerlord Co-op mod",
+                                isPartOf: { "@id": `${SITE_URL}/#organization` },
+                            },
+                        ],
+                    }}
+                />
+                <Navbar />
+                <LinuxGuide />
+                <Footer />
+            </LocalizationProvider>
+        </>
     );
 }

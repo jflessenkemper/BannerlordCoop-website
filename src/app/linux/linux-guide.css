@@ -8,11 +8,45 @@
   /* Fill the screen under the 4rem navbar so the footer starts at the bottom, not mid-page. */
   min-height: calc(100svh - 4rem);
   min-height: calc(100dvh - 4rem);
+  background: transparent;
+}
+
+.linux-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+/* The picture sits above the page background and under the header, guide, and footer. */
+body:has(.linux-backdrop) > header {
+  z-index: 50;
+}
+
+body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
+  position: relative;
+  z-index: 1;
+}
+
+.linux-guide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
   background:
     radial-gradient(circle at 22% 18%, rgba(143, 29, 35, 0.16), transparent 32%),
     linear-gradient(to top, var(--background) 0%, rgba(7, 8, 6, 0.72) 28%, rgba(7, 8, 6, 0.55) 100%),
-    linear-gradient(to right, rgba(7, 8, 6, 0.88), rgba(7, 8, 6, 0.45) 55%, rgba(7, 8, 6, 0.2)),
-    url("/images/linux/backdrop.webp") center / cover no-repeat fixed;
+    linear-gradient(to right, rgba(7, 8, 6, 0.88), rgba(7, 8, 6, 0.45) 55%, rgba(7, 8, 6, 0.2));
+}
+
+.linux-guide > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Same width and gutters as .site-container, so the guide stays centred if utility CSS is absent. */
