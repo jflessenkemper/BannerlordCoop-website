@@ -62,14 +62,14 @@ export function GuideSubnav({
     const { t } = useLinuxText();
     const showDistro = showsDistroChip(route, distro?.id ?? null);
     return (
-        <nav className="linux-subnav sticky top-0 z-30 border-b border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[18px]" aria-label={t("ui.guide")}>
+        <nav className={`linux-subnav sticky top-0 z-30 border-b border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[18px]${showDistro ? " has-distro" : ""}`} aria-label={t("ui.guide")}>
             <div className={`${pageFrame} grid min-h-12 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2`}>
-                <div className="flex min-w-0 items-center gap-2 justify-self-start">
-                    <button type="button" className="inline-flex min-h-12 cursor-pointer items-center gap-1 border-0 bg-transparent px-1 font-label text-base text-foreground hover:text-gold" onClick={onMenu}>
+                <div className="subnav-crumb flex min-w-0 items-center gap-2 justify-self-start overflow-hidden">
+                    <button type="button" className="inline-flex min-h-12 shrink-0 cursor-pointer items-center gap-1 border-0 bg-transparent px-1 font-label text-base text-foreground hover:text-gold" onClick={onMenu}>
                         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         <span>{t("ui.menu")}</span>
                     </button>
-                    <span className="text-white/40" aria-hidden="true">/</span>
+                    <span className="subnav-sep text-white/40" aria-hidden="true">/</span>
                     <span className="subnav-here min-w-0 truncate font-semibold text-[#f4f1ea]" aria-current="page" data-short={shortHere || undefined}>{here}</span>
                 </div>
                 {showDistro && distro ? (

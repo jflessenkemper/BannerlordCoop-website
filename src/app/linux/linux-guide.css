@@ -270,6 +270,11 @@ body:has(#linux-guide) footer .text-foreground-dim {
 
 .linux-guide .linux-code {
   tab-size: 4;
+  overscroll-behavior: auto;
+}
+
+.linux-guide details:not([open]) > :not(summary) {
+  display: none;
 }
 
 .linux-guide details > summary {
@@ -320,6 +325,11 @@ body:has(#linux-guide) footer .text-foreground-dim {
 }
 
 @media (max-width: 560px) {
+  .linux-subnav.has-distro .subnav-sep,
+  .linux-subnav.has-distro .subnav-here {
+    display: none;
+  }
+
   .linux-guide .subnav-distro-name {
     position: absolute;
     width: 1px;

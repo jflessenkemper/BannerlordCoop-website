@@ -77,16 +77,18 @@ export function LinuxGuide({ path = "/linux", initialDistro = null }: { path?: s
         if (!term || !node) return;
         placePopover(node, term.trigger.getBoundingClientRect());
         if (typeof node.showPopover === "function" && !node.matches(":popover-open")) node.showPopover();
-        function close(restore: boolean) {
-            const trigger = term?.trigger;
-            setTerm(null);
-            if (restore) trigger?.focus();
-        }
+        node.focus();
+        const current = term;
         function onKey(event: KeyboardEvent) {
             if (event.key !== "Escape") return;
             event.preventDefault();
             event.stopPropagation();
-            close(true);
+            const triggerId = current.trigger.id;
+            setTerm(null);
+            const restore = () => document.getElementById(triggerId)?.focus();
+            // Hiding the popover moves focus to the body after this handler. Put it back on the term.
+            window.setTimeout(restore, 0);
+            window.setTimeout(restore, 60);
         }
         function place() {
             if (term) placePopover(node!, term.trigger.getBoundingClientRect());
@@ -176,11 +178,13 @@ export function LinuxGuide({ path = "/linux", initialDistro = null }: { path?: s
                     id="linux-term"
                     popover="auto"
                     role="dialog"
+                    tabIndex={-1}
                     aria-labelledby="linux-term-title"
+                    aria-describedby="linux-term-body"
                     className="linux-term fixed z-40 max-w-[calc(100vw-2rem)] rounded-lg border border-gold/45 bg-[#11120e] p-3 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_10px_28px_rgba(0,0,0,0.4)] backdrop-blur-[16px]"
                 >
                     <p id="linux-term-title" className="mb-1 font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold">{term?.title}</p>
-                    <p className="m-0">{term?.body}</p>
+                    <p id="linux-term-body" className="m-0">{term?.body}</p>
                 </div>
             </main>
         </GuideContext.Provider>

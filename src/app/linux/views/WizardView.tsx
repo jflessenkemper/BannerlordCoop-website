@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { useLinuxText } from "../hooks/useLinuxText";
 import { GuideSection } from "../Blocks";
 import { goldButton, pageFrame, primaryButton } from "../guide-styles";
 import { sectionsById, TROUBLESHOOTING_SECTION, wizardNeighbors, type GuideRoute, type WizardStep } from "../guide-model";
 
-/** One wizard step. Arrow keys move only while focus is in this region and not in a control. */
+/** One wizard step. Previous and Next are the only way to change steps. */
 export function WizardView({
     step,
     nextLabel,
@@ -17,34 +16,12 @@ export function WizardView({
     onGo: (route: GuideRoute) => void;
 }) {
     const { t } = useLinuxText();
-    const regionRef = useRef<HTMLElement>(null);
     const section = sectionsById.get(step);
     const neighbors = wizardNeighbors(step);
     if (!section) throw new Error(`Missing wizard section: ${step}`);
 
-    useEffect(() => {
-        function onKey(event: KeyboardEvent) {
-            const region = regionRef.current;
-            const target = event.target;
-            if (!(target instanceof Node) || !region?.contains(target)) return;
-            if (target instanceof Element && target.closest("input, textarea, select, pre, a, button, [role='tab'], [contenteditable='true']")) return;
-            if (event.key === "ArrowRight") {
-                event.preventDefault();
-                onGo(wizardNeighbors(step).next);
-            }
-            if (event.key === "ArrowLeft") {
-                const previous = wizardNeighbors(step).previous;
-                if (!previous) return;
-                event.preventDefault();
-                onGo(previous);
-            }
-        }
-        document.addEventListener("keydown", onKey);
-        return () => document.removeEventListener("keydown", onKey);
-    }, [onGo, step]);
-
     return (
-        <section ref={regionRef} aria-labelledby="wizard-title">
+        <section aria-labelledby="wizard-title">
             <div className={`${pageFrame} wizard-copy py-8 pb-28 sm:py-10`}>
                 <GuideSection section={section} wizard alone />
             </div>
