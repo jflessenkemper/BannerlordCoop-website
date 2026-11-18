@@ -16,6 +16,8 @@ vi.mock("@/app/components/layout/MobileNavigation", () => ({ MobileNavigation: (
 vi.mock("@/app/components/layout/CommunityDropdown", () => ({ CommunityDropdown: () => null }));
 vi.mock("@/app/components/home/modulesection/DownloadModal.tsx", () => ({ DownloadModal: () => null }));
 vi.mock("@/app/(site)/account/actions", () => ({ linkDiscordAccount: vi.fn(), linkPatreonAccount: vi.fn(), disconnectPatreonAccount: vi.fn(), disconnectDiscordAccount: vi.fn() }));
+import { LocalizationProvider } from "@/app/lib/localization/client";
+import common from "@/app/lib/localization/dictionaries/en/common.json";
 import AccountPage from "./page";
 
 const user: User = { id: "aaaaaaaa-1111-4111-8111-111111111111", aud: "authenticated", created_at: "2026-09-30T00:00:00Z", app_metadata: { role: "Admin" }, user_metadata: { name: "First viewer" } };
@@ -30,7 +32,8 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllEnvs());
 
 async function renderPage() {
-    const stream = await renderToReadableStream(await AccountPage({ searchParams: Promise.resolve({ discord: "last_identity" }) }));
+    const page = await AccountPage({ searchParams: Promise.resolve({ discord: "last_identity" }) });
+    const stream = await renderToReadableStream(<LocalizationProvider locale="en" messages={{ common }}>{page}</LocalizationProvider>);
     await stream.allReady;
     return new Response(stream).text();
 }
