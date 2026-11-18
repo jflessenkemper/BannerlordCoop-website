@@ -177,10 +177,13 @@ export async function linuxDocument(path: string, title: string, description: st
     const links = [
         `<link rel="canonical" href="${SITE}${path}"/>`,
         `<link rel="icon" href="/favicon.ico" sizes="any"/>`,
-        `<link rel="preload" as="image" href="/images/linux/backdrop.webp" fetchpriority="high"/>`,
+        `<link rel="preload" as="image" href="/images/linux/backdrop.webp" fetchpriority="low"/>`,
     ];
+    // The title paints first. Fonts start on the next frame after that paint, so the
+    // webfont files are not on the LCP path, and the picture is preloaded at low priority
+    // so a full-viewport background is not treated as render-blocking either.
     const fontScript = delayed
-        ? `<script>requestAnimationFrame(function(){requestAnimationFrame(function(){var css=${JSON.stringify(delayed)};var faces=[];css.replace(/@font-face\\{([^}]+)\\}/g,function(_,body){var family=body.match(/font-family:([^;]+)/)[1];var weight=(body.match(/font-weight:([^;]+)/)||[])[1]||"normal";var style=(body.match(/font-style:([^;]+)/)||[])[1]||"normal";var url=body.match(/url\\(([^)]+)\\)/)[1];var range=(body.match(/unicode-range:([^;]+)/)||[])[1];faces.push(new FontFace(family,"url("+url+")",{weight:weight,style:style,unicodeRange:range,display:"swap"}))});Promise.all(faces.map(function(face){return face.load()})).then(function(loaded){loaded.forEach(function(face){document.fonts.add(face)})})})})</script>`
+        ? `<script>(function(){var started=false;function start(){if(started)return;started=true;var css=${JSON.stringify(delayed)};var faces=[];css.replace(/@font-face\\{([^}]+)\\}/g,function(_,body){var family=body.match(/font-family:([^;]+)/)[1];var weight=(body.match(/font-weight:([^;]+)/)||[])[1]||"normal";var style=(body.match(/font-style:([^;]+)/)||[])[1]||"normal";var url=body.match(/url\\(([^)]+)\\)/)[1];var range=(body.match(/unicode-range:([^;]+)/)||[])[1];faces.push(new FontFace(family,"url("+url+")",{weight:weight,style:style,unicodeRange:range,display:"swap"}))});Promise.all(faces.map(function(face){return face.load()})).then(function(loaded){loaded.forEach(function(face){document.fonts.add(face)})})}try{var obs=new PerformanceObserver(function(){obs.disconnect();requestAnimationFrame(function(){requestAnimationFrame(start)})});obs.observe({type:"largest-contentful-paint",buffered:true})}catch(e){start()}})()</script>`
         : "";
     const distroId = options?.distroId && FAMILIES[options.distroId] ? options.distroId : "";
     const htmlAttrs = [
