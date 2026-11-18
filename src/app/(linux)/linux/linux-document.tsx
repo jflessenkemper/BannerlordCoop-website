@@ -1,37 +1,20 @@
 import { Footer } from "@/app/components/layout/Footer";
 import { Navbar } from "@/app/components/layout/Navbar";
 import { LocalizationProvider } from "@/app/lib/localization/client";
-import { getLocale, getMessages, getOpenGraphLocale } from "@/app/lib/localization/server";
+import { getLocale, getMessages } from "@/app/lib/localization/server";
 import { cookies } from "next/headers";
 import type { Locale, Messages } from "@/app/lib/localization/types";
 import { JsonLd, SITE_URL, organizationNode } from "@/app/lib/structured-data";
-import type { Metadata } from "next";
 import { LinuxBackdrop } from "./linux-backdrop";
 import { LinuxGuide } from "./LinuxGuide";
+import { linuxMetadata } from "./linux-metadata";
 
-/** Search title for one Linux guide route. Artwork stays the site banner. */
-export async function linuxMetadata(path: string, title: string, description: string): Promise<Metadata> {
-    return {
-        title: { absolute: title },
-        description,
-        alternates: { canonical: path },
-        openGraph: {
-            type: "article",
-            locale: await getOpenGraphLocale(),
-            url: path,
-            siteName: "Bannerlord Co-op",
-            title,
-            description,
-            images: [{ url: "/images/banner.png", width: 1200, height: 630, alt: "Bannerlord Co-op" }],
-        },
-        twitter: { card: "summary_large_image", title, description, images: ["/images/banner.png"] },
-    };
-}
+export { linuxMetadata };
 
 /** Loads locale, messages, and the distro cookie, then returns the guide shell. */
 export async function renderLinux(path: string, title: string, description: string) {
     const locale = await getLocale();
-    const messages = await getMessages(["linux"], locale);
+    const messages = await getMessages(["common", "linux"], locale);
     const initialDistro = (await cookies()).get("blc-distro-v1")?.value ?? null;
     return <LinuxDocument path={path} title={title} description={description} locale={locale} messages={messages} initialDistro={initialDistro} />;
 }

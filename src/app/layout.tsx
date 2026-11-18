@@ -1,42 +1,7 @@
 import type { Metadata } from "next";
 import { getLocale, getOpenGraphLocale, getTranslations } from "@/app/lib/localization/server";
-import { Barlow_Condensed, Cormorant_Garamond, Inter } from "next/font/google";
+import { fontClassName } from "./fonts";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
-  adjustFontFallback: true,
-});
-
-const cormorantGaramond = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: "600",
-  display: "swap",
-  preload: true,
-  adjustFontFallback: true,
-});
-
-const cormorantHeavy = Cormorant_Garamond({
-  variable: "--font-cormorant-heavy",
-  subsets: ["latin"],
-  weight: "700",
-  display: "swap",
-  preload: false,
-  adjustFontFallback: true,
-});
-
-const barlowCondensed = Barlow_Condensed({
-  variable: "--font-barlow",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  display: "swap",
-  preload: false,
-  adjustFontFallback: true,
-});
 
 
 /** Resolves shared metadata from the same explicit locale cookie as the root document. */
@@ -83,7 +48,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${cormorantGaramond.variable} ${cormorantHeavy.variable} ${barlowCondensed.variable} h-full antialiased`}
+      className={fontClassName}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

@@ -121,7 +121,8 @@ body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
     margin-top: 1rem;
   }
 
-  .linux-guide .guide-choices-4 > button {
+  .linux-guide .guide-choices-4 > button,
+  .linux-guide .guide-choices-4 > a {
     min-height: 7.75rem;
   }
 }
@@ -273,12 +274,18 @@ body:has(#linux-guide) footer .text-foreground-dim {
   overscroll-behavior: auto;
 }
 
+.linux-menu:not([open]) > :not(summary),
 .linux-guide details:not([open]) > :not(summary) {
   display: none;
 }
 
-.linux-guide details > summary {
+.linux-guide details > summary,
+.linux-menu > summary {
   list-style: none;
+}
+
+.linux-menu > summary::-webkit-details-marker {
+  display: none;
 }
 
 .linux-guide details > summary::-webkit-details-marker {

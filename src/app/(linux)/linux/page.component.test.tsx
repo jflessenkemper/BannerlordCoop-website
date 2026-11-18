@@ -8,8 +8,20 @@ const request = vi.hoisted(() => ({ locale: undefined as string | undefined }));
 vi.mock("next/headers", () => ({ cookies: async () => ({ get: () => ({ value: request.locale }) }) }));
 vi.mock("@/app/components/layout/Navbar", () => ({ Navbar: () => null }));
 vi.mock("@/app/components/layout/Footer", () => ({ Footer: () => null }));
-import LinuxPage, { generateMetadata } from "./page";
+import { getTranslations } from "@/app/lib/localization/server";
+import { linuxMetadata } from "./linux-metadata";
+import { renderStaticLinux } from "./static-guide";
 import sitemap from "@/app/sitemap";
+
+async function generateMetadata() {
+    const { t } = await getTranslations("linux");
+    return linuxMetadata("/linux", t("metadata.title"), t("metadata.description"));
+}
+
+async function LinuxPage() {
+    const { t } = await getTranslations("linux");
+    return renderStaticLinux("start", "/linux", t("metadata.title"), t("metadata.description"));
+}
 
 afterEach(() => { request.locale = undefined; });
 
