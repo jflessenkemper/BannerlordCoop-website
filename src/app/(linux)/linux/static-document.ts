@@ -33,7 +33,7 @@ let cachedSheets: BuiltSheets | null = null;
 const purged = new Map<string, string>();
 
 /** Keeps the site rules these pages use, then inlines them with the font and guide sheets. */
-/** Fallback faces stay in the first paint. The webfont files are applied on the next frame. */
+/** The webfont files are in the first stylesheet and block rendering until they load. */
 /** Latin is the subset that starts with the basic range and lists U+0131. */
 function isLatinFace(face: string): boolean {
     return /unicode-range:U\+[^,]*,U\+131,U\+152-153/.test(face);
@@ -46,27 +46,35 @@ function isLocaleFace(face: string, locale: string): boolean {
     return false;
 }
 
-function splitFontFaces(css: string, locale: string): { initial: string; delayed: string; preload: string | null } {
-    const delayed: string[] = [];
-    let preload: string | null = null;
-    const initial = css.replace(/@font-face\{[^}]+\}/g, (face) => {
-        if (face.includes("url(")) {
-            if (isLatinFace(face) || isLocaleFace(face, locale)) delayed.push(face);
-            const title = face.includes("font-family:Cormorant Garamond") && face.includes("font-weight:600") && isLatinFace(face);
-            const url = title ? face.match(/url\((\/_next\/static\/media\/[^)]+\.woff2)\)/) : null;
-            if (url) preload = url[1];
-            return "";
-        }
-        // Next names Arial and Times, which this host does not install. Arimo and Tinos
-        // are the metric-compatible faces, so the swap does not move the line boxes.
-        return face
-            .replace("src:local(Arial)", 'src:local(Arial),local(Arimo),local("Liberation Sans")')
-            .replace("src:local(Times New Roman)", 'src:local("Times New Roman"),local(Tinos),local("Liberation Serif")');
-    });
-    return { initial, delayed: delayed.join(""), preload };
+/** Heading, body, and label faces that are on screen at the first paint. */
+function isCriticalFace(face: string): boolean {
+    if (!isLatinFace(face)) return false;
+    if (face.includes("font-family:Inter")) return true;
+    if (face.includes("font-family:Cormorant Garamond") && /font-weight:(600|700)/.test(face)) return true;
+    if (face.includes("font-family:Barlow Condensed") && /font-weight:(500|600|700)/.test(face)) return true;
+    return false;
 }
 
-function inlineCss(markup: string, locale: string): { css: string; preload: string | null; delayed: string } {
+function splitFontFaces(css: string, locale: string): { initial: string; delayed: string; preloads: string[] } {
+    const delayed: string[] = [];
+    const preloads: string[] = [];
+    const initial = css.replace(/@font-face\{[^}]+\}/g, (face) => {
+        if (!face.includes("url(")) return "";
+        const critical = isCriticalFace(face) || isLocaleFace(face, locale);
+        if (!critical) {
+            delayed.push(face);
+            return "";
+        }
+        // Block, with the file preloaded, so the first paint is the webfont and nothing swaps after it.
+        const shown = face.replaceAll("font-display:swap", "font-display:block");
+        const url = shown.match(/url\((\/_next\/static\/media\/[^)]+\.woff2)\)/);
+        if (url && !preloads.includes(url[1])) preloads.push(url[1]);
+        return shown;
+    });
+    return { initial, delayed: delayed.join(""), preloads };
+}
+
+function inlineCss(markup: string, locale: string): { css: string; preloads: string[]; delayed: string } {
     if (!cachedSheets) cachedSheets = readSheets();
     const used = new Set(SHELL_CLASSES);
     for (const match of markup.matchAll(/class="([^"]*)"/g)) {
@@ -78,8 +86,8 @@ function inlineCss(markup: string, locale: string): { css: string; preload: stri
         site = purgeUtilities(cachedSheets.site, used);
         purged.set(key, site);
     }
-    const { initial, delayed, preload } = splitFontFaces(cachedSheets.fonts, locale);
-    return { css: `${initial}${site}${cachedSheets.guide}`, preload, delayed };
+    const { initial, delayed, preloads } = splitFontFaces(cachedSheets.fonts, locale);
+    return { css: `${initial}${site}${cachedSheets.guide}`, preloads, delayed };
 }
 
 /** Drops Tailwind utilities whose classes are not in the rendered document. */
@@ -173,18 +181,15 @@ export async function linuxDocument(path: string, title: string, description: st
     const image = `${SITE}/images/banner.png`;
     const { renderToStaticMarkup } = await import("react-dom/server");
     const markup = renderToStaticMarkup(body);
-    const { css, delayed } = inlineCss(markup, locale);
+    const { css, preloads } = inlineCss(markup, locale);
     const links = [
         `<link rel="canonical" href="${SITE}${path}"/>`,
         `<link rel="icon" href="/favicon.ico" sizes="any"/>`,
         `<link rel="preload" as="image" href="/images/linux/backdrop.webp" fetchpriority="low"/>`,
+        ...preloads.map((href) => `<link rel="preload" as="font" type="font/woff2" href="${href}" crossorigin="anonymous"/>`),
     ];
-    // The title paints first. Fonts start on the next frame after that paint, so the
-    // webfont files are not on the LCP path, and the picture is preloaded at low priority
-    // so a full-viewport background is not treated as render-blocking either.
-    const fontScript = delayed
-        ? `<script>(function(){var started=false;function start(){if(started)return;started=true;var css=${JSON.stringify(delayed)};var faces=[];css.replace(/@font-face\\{([^}]+)\\}/g,function(_,body){var family=body.match(/font-family:([^;]+)/)[1];var weight=(body.match(/font-weight:([^;]+)/)||[])[1]||"normal";var style=(body.match(/font-style:([^;]+)/)||[])[1]||"normal";var url=body.match(/url\\(([^)]+)\\)/)[1];var range=(body.match(/unicode-range:([^;]+)/)||[])[1];faces.push(new FontFace(family,"url("+url+")",{weight:weight,style:style,unicodeRange:range,display:"swap"}))});Promise.all(faces.map(function(face){return face.load()})).then(function(loaded){loaded.forEach(function(face){document.fonts.add(face)})})}try{var obs=new PerformanceObserver(function(){obs.disconnect();requestAnimationFrame(function(){requestAnimationFrame(start)})});obs.observe({type:"largest-contentful-paint",buffered:true})}catch(e){start()}})()</script>`
-        : "";
+    // Faces are preloaded with font-display:block, so the first paint already uses them.
+    const fontScript = "";
     const distroId = options?.distroId && FAMILIES[options.distroId] ? options.distroId : "";
     const htmlAttrs = [
         `lang="${escapeAttribute(locale)}"`,

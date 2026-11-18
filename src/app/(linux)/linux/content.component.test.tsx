@@ -15,6 +15,7 @@ import zhCN from "@/app/lib/localization/dictionaries/zh-CN/linux.json";
 import expected from "./content/expected-copies.json";
 import distros from "./content/distros.json";
 import { renderLinuxGuideMarkdown } from "./render-markdown";
+import { englishCodeGroups, withoutEnglishNotes } from "./english-code";
 import { scriptText } from "./script-text";
 import { sections, type Block, type Inline } from "./guide-model";
 
@@ -101,6 +102,23 @@ it("keeps every copied script byte-identical to the guide source", () => {
         if (!id.startsWith("code-oneshot-") && id !== "ai-prompt-pre") continue;
         expect(markdown.includes(text.trimEnd()), id).toBe(true);
     }
+});
+
+it("adds English notes without changing the commands", () => {
+    const ids = [
+        "code-oneshot-ubuntu",
+        "code-oneshot-nix",
+        "code-resolve-latest-client-server-preferred-87734510",
+        "code-install-a-new-isolated-user-service-43365780",
+    ];
+    for (const id of ids) {
+        const groups = englishCodeGroups(id);
+        expect(groups, id).not.toBeNull();
+        const shown = groups!.map((group) => group.body).join("\n");
+        expect(shown, id).toContain("# Why:");
+        expect(withoutEnglishNotes(shown), id).toBe(scriptText(id));
+    }
+    expect(englishCodeGroups("code-apt-60837352")).toBeNull();
 });
 
 function walkInline(nodes: Inline[], visit: (node: Inline) => void) {

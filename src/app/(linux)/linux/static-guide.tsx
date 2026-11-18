@@ -98,7 +98,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
             <main id="linux-guide" className="linux-guide relative isolate w-full min-w-0 flex-1 text-foreground" aria-label={t("ui.guideContent")}>
                 {view !== "start" && (
                     <nav className={`linux-subnav sticky top-0 z-30 border-b border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[18px]${canDistro ? " can-distro has-distro" : ""}`} aria-label={t("ui.guide")}>
-                        <div className={`${pageFrame} grid min-h-12 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2`}>
+                        <div className={`${pageFrame} grid min-h-12 items-center gap-2 ${canDistro ? "grid-cols-[minmax(0,1fr)_auto]" : "grid-cols-1"}`}>
                             <div className="subnav-crumb flex min-w-0 items-center gap-2 justify-self-start overflow-hidden">
                                 <a href={guideHref(locale, "/linux")} className="inline-flex min-h-12 shrink-0 items-center gap-1 border-0 bg-transparent px-1 font-label text-base text-foreground no-underline hover:text-gold">
                                     <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -108,7 +108,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                                 <span className="subnav-here min-w-0 truncate font-semibold text-[#f4f1ea]" aria-current="page">{labels.here}</span>
                             </div>
                             {canDistro ? (
-                                <div className="flex min-w-0 max-w-full items-center justify-self-center" role="group" aria-label={t("nav.dYour").replace(/[:：]\s*$/, "")}>
+                                <div className="flex min-w-0 max-w-full items-center justify-self-end" role="group" aria-label={t("nav.dYour").replace(/[:：]\s*$/, "")}>
                                     {distros.map((distro) => (
                                         <span key={distro.id} className="distro-chip items-center gap-2" data-for={distro.id} style={{ ["--d" as string]: distro.color, ["--ig" as string]: distro.glyph }}>
                                             <span className={`subnav-mark inline-grid h-6 w-6 place-items-center ${distro.art ? "is-art overflow-hidden" : ""}`} style={distro.art ? undefined : { backgroundColor: `rgb(${distro.color})` }} aria-hidden="true" dangerouslySetInnerHTML={{ __html: scopeSvg(distro.svg, "subnav") }} />
@@ -117,8 +117,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                                         </span>
                                     ))}
                                 </div>
-                            ) : <span />}
-                            <span aria-hidden="true" />
+                            ) : null}
                         </div>
                         {route.view === "wizard" && (
                             <div className="h-0.5 bg-transparent" role="progressbar" aria-label={labels.progress} aria-valuemin={1} aria-valuemax={WIZARD_STEPS.length} aria-valuenow={WIZARD_STEPS.indexOf(route.step) + 1} aria-valuetext={labels.progress}>
@@ -129,11 +128,11 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                 )}
                 {view === "start" && <StaticStart t={t} locale={locale} />}
                 {view === "distro" && <StaticDistro t={t} locale={locale} selectedId={selectedId} resume={options?.resume ?? null} />}
-                {view === "checklist" && <StaticChecklist t={t} distro={selected} />}
+                {view === "checklist" && <StaticChecklist t={t} locale={locale} distro={selected} />}
                 {view === "script" && sectionsById.get(ONESHOT_SECTION) && (
                     <section aria-labelledby="manual-title">
                         <div className={`${pageFrame} py-8 sm:py-10`}>
-                            <StaticGuideSection section={sectionsById.get(ONESHOT_SECTION)!} t={t} distro={selected} alone />
+                            <StaticGuideSection section={sectionsById.get(ONESHOT_SECTION)!} t={t} distro={selected} alone annotate={locale === "en"} />
                         </div>
                     </section>
                 )}
@@ -142,7 +141,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                 {view === "faq" && (
                     <section aria-labelledby="manual-title">
                         <div className={`${pageFrame} py-8 sm:py-10`}>
-                            <StaticSection section={faqSection()} t={t} />
+                            <StaticSection section={faqSection()} t={t} annotate={locale === "en"} />
                         </div>
                     </section>
                 )}
@@ -150,7 +149,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
             <LinuxFooter t={common} locale={locale} year={common.number(new Date().getUTCFullYear(), { useGrouping: false })} />
             <script
                 dangerouslySetInnerHTML={{
-                    __html: `var picked=document.documentElement.getAttribute("data-distro");if(picked){document.querySelectorAll("[data-pick]").forEach(function(form){var button=form.querySelector("button");if(button)button.setAttribute("aria-pressed",form.getAttribute("data-pick")===picked?"true":"false")})}var resumeNow=new URLSearchParams(location.search).get("resume")||"";if(resumeNow.charAt(0)==="/"&&resumeNow.indexOf("//")<0){document.querySelectorAll("form.distro-choice").forEach(function(form){if(form.querySelector("input[name=resume]"))return;var input=document.createElement("input");input.type="hidden";input.name="resume";input.value=resumeNow;form.appendChild(input)})}document.addEventListener("click",function(e){var b=e.target&&e.target.closest?e.target.closest("[data-copy]"):null;if(!b)return;var pre=document.getElementById(b.getAttribute("data-copy"));var text=pre?pre.innerText:"";var ok=b.getAttribute("data-copied");var fail=b.getAttribute("data-failed");function done(label,reset){b.textContent=label;setTimeout(function(){b.textContent=b.getAttribute("data-label")},reset)}if(!text||!navigator.clipboard){done(fail,Number(b.getAttribute("data-reset-fail"))||4000);return}navigator.clipboard.writeText(text).then(function(){done(ok,Number(b.getAttribute("data-reset-ok"))||2200)},function(){done(fail,Number(b.getAttribute("data-reset-fail"))||4000)})});function termButton(node){return node&&node.closest?node.closest("[data-term]"):null}function termPop(button){return document.getElementById(button.getAttribute("aria-controls")||"")}function openTerm(button){var pop=termPop(button);if(pop&&pop.showPopover&&!pop.matches(":popover-open"))pop.showPopover();button.setAttribute("aria-expanded","true")}var termHover=false;document.addEventListener("pointerover",function(e){if(e.pointerType&&e.pointerType!=="mouse")return;var b=termButton(e.target);if(!b)return;openTerm(b);termHover=true});document.addEventListener("focusin",function(e){var b=termButton(e.target);if(b)openTerm(b)});document.addEventListener("click",function(e){var b=termButton(e.target);if(!b||!termHover)return;termHover=false;if(e.pointerType==="touch"||e.pointerType==="pen")return;e.preventDefault()},true);document.addEventListener("toggle",function(e){var pop=e.target;if(!pop||!pop.matches||!pop.matches("[popover]")||!pop.id)return;var open=pop.matches(":popover-open");var btn=document.querySelector('[aria-controls="'+pop.id+'"]');if(btn)btn.setAttribute("aria-expanded",open?"true":"false")},true);document.addEventListener("keydown",function(e){if(e.key!=="Escape")return;var open=document.querySelector("[popover]:popover-open");if(!open||!open.id)return;var id=open.id;if(open.hidePopover)open.hidePopover();var btn=document.querySelector('[aria-controls="'+id+'"]');if(btn&&btn.focus)btn.focus()});`,
+                    __html: `var picked=document.documentElement.getAttribute("data-distro");if(picked){document.querySelectorAll("[data-pick]").forEach(function(form){var button=form.querySelector("button");if(button)button.setAttribute("aria-pressed",form.getAttribute("data-pick")===picked?"true":"false")})}var resumeNow=new URLSearchParams(location.search).get("resume")||"";if(resumeNow.charAt(0)==="/"&&resumeNow.indexOf("//")<0){document.querySelectorAll("form.distro-choice").forEach(function(form){if(form.querySelector("input[name=resume]"))return;var input=document.createElement("input");input.type="hidden";input.name="resume";input.value=resumeNow;form.appendChild(input)})}document.addEventListener("click",function(e){var b=e.target&&e.target.closest?e.target.closest("[data-copy]"):null;if(!b)return;var pre=document.getElementById(b.getAttribute("data-copy"));var text=pre?(pre.getAttribute("data-raw")||pre.textContent||""):"";var ok=b.getAttribute("data-copied");var fail=b.getAttribute("data-failed");function done(label,reset){b.textContent=label;setTimeout(function(){b.textContent=b.getAttribute("data-label")},reset)}if(!text||!navigator.clipboard){done(fail,Number(b.getAttribute("data-reset-fail"))||4000);return}navigator.clipboard.writeText(text).then(function(){done(ok,Number(b.getAttribute("data-reset-ok"))||2200)},function(){done(fail,Number(b.getAttribute("data-reset-fail"))||4000)})});function termButton(node){return node&&node.closest?node.closest("[data-term]"):null}function termPop(button){return document.getElementById(button.getAttribute("aria-controls")||"")}function placeTerm(button){var pop=termPop(button);if(!pop)return;var margin=8;pop.style.position="fixed";pop.style.maxWidth="min(22rem, calc(100vw - 16px))";pop.style.left="0px";pop.style.top="0px";var width=pop.offsetWidth;var height=pop.offsetHeight;var rect=button.getBoundingClientRect();var left=Math.min(Math.max(margin, rect.left), window.innerWidth-width-margin);var top=rect.bottom+margin;if(top+height>window.innerHeight-margin)top=Math.max(margin, rect.top-height-margin);if(top<margin)top=margin;pop.style.left=left+"px";pop.style.top=top+"px"}function openTerm(button){var pop=termPop(button);if(pop&&pop.showPopover&&!pop.matches(":popover-open"))pop.showPopover();button.setAttribute("aria-expanded","true");placeTerm(button)}var termHover=false;document.addEventListener("pointerover",function(e){if(e.pointerType&&e.pointerType!=="mouse")return;var b=termButton(e.target);if(!b)return;openTerm(b);termHover=true});document.addEventListener("focusin",function(e){var b=termButton(e.target);if(b)openTerm(b)});document.addEventListener("click",function(e){var b=termButton(e.target);if(!b||!termHover)return;termHover=false;if(e.pointerType==="touch"||e.pointerType==="pen")return;e.preventDefault()},true);document.addEventListener("toggle",function(e){var pop=e.target;if(!pop||!pop.matches||!pop.matches("[popover]")||!pop.id)return;var open=pop.matches(":popover-open");var btn=document.querySelector('[aria-controls="'+pop.id+'"]');if(btn){btn.setAttribute("aria-expanded",open?"true":"false");if(open)placeTerm(btn)}},true);addEventListener("scroll",function(){var open=document.querySelector("[popover]:popover-open");if(!open||!open.id)return;var btn=document.querySelector('[aria-controls="'+open.id+'"]');if(btn)placeTerm(btn)},true);addEventListener("resize",function(){var open=document.querySelector("[popover]:popover-open");if(!open||!open.id)return;var btn=document.querySelector('[aria-controls="'+open.id+'"]');if(btn)placeTerm(btn)});document.addEventListener("keydown",function(e){if(e.key!=="Escape")return;var open=document.querySelector("[popover]:popover-open");if(!open||!open.id)return;var id=open.id;if(open.hidePopover)open.hidePopover();var btn=document.querySelector('[aria-controls="'+id+'"]');if(btn&&btn.focus)btn.focus()});`,
                 }}
             />
         </>
@@ -222,7 +221,7 @@ function StaticDistro({ t, locale, selectedId, resume }: { t: (key: string) => s
     );
 }
 
-function StaticChecklist({ t, distro }: { t: (key: string) => string; distro: Distro | null }) {
+function StaticChecklist({ t, locale, distro }: { t: (key: string) => string; locale: string; distro: Distro | null }) {
     return (
         <section aria-labelledby="manual-title">
             <div className={`${pageFrame} py-8 sm:py-10`}>
@@ -234,7 +233,7 @@ function StaticChecklist({ t, distro }: { t: (key: string) => string; distro: Di
                         ))}
                     </ol>
                 </nav>
-                {sections.map((section) => <StaticGuideSection key={section.id} section={section} t={t} distro={distro} />)}
+                {sections.map((section) => <StaticGuideSection key={section.id} section={section} t={t} distro={distro} annotate={locale === "en"} />)}
             </div>
         </section>
     );
@@ -247,7 +246,7 @@ function StaticStep({ t, locale, step, distro, nextLabel }: { t: (key: string) =
     return (
         <section aria-labelledby="wizard-title">
             <div className={`${pageFrame} wizard-copy py-8 pb-28 sm:py-10`}>
-                <StaticGuideSection section={section} t={t} distro={distro} wizard alone />
+                <StaticGuideSection section={section} t={t} distro={distro} wizard alone annotate={locale === "en"} />
             </div>
             <div className="linux-wizard-bar sticky bottom-0 z-20 flex flex-nowrap items-stretch justify-center gap-2 px-3 py-3">
                 {neighbors.previous && <a className={`${goldButton} min-w-0 flex-1 px-2 text-xs no-underline sm:flex-none sm:px-4 sm:text-sm`} href={guideHref(locale, routePath(neighbors.previous))}>{t("ui.previous")}</a>}

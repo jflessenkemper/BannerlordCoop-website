@@ -95,9 +95,11 @@ export function LinuxGuide({ path = "/linux", initialDistro = null }: { path?: s
         }
         document.addEventListener("keydown", onKey);
         window.addEventListener("resize", place);
+        window.addEventListener("scroll", place, true);
         return () => {
             document.removeEventListener("keydown", onKey);
             window.removeEventListener("resize", place);
+            window.removeEventListener("scroll", place, true);
             if (typeof node.hidePopover === "function" && node.matches(":popover-open")) node.hidePopover();
         };
     }, [term]);

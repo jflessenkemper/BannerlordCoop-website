@@ -5,6 +5,7 @@ import { GuideContext, type GuideContextValue } from "./guide-context";
 import { useLinuxText } from "./hooks/useLinuxText";
 import { sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
 import { COPY_RESET_MS, cx, glassCard, goldButton, PARAGRAPH_ROLE_CLASS, primaryButton, sectionTitleClass } from "./guide-styles";
+import { highlight } from "./highlight";
 import { scriptText } from "./script-text";
 
 const COPY_STATES = {
@@ -70,7 +71,7 @@ function InlineText({ nodes }: { nodes: Inline[] }) {
                                 key={index}
                                 type="button"
                                 id={`linux-term-btn-${key.replace(/[^a-zA-Z0-9_-]/g, "-")}`}
-                                className="cursor-help border-0 bg-transparent p-0 font-inherit text-inherit underline decoration-dotted decoration-gold underline-offset-[3px]"
+                                className="linux-term-btn cursor-help border-0 bg-transparent p-0 font-inherit text-inherit underline decoration-dotted decoration-gold underline-offset-[3px]"
                                 aria-expanded={open}
                                 aria-controls="linux-term"
                                 popoverTarget="linux-term"
@@ -132,8 +133,8 @@ function CodeBlock({ block }: { block: Extract<Block, { type: "code" }> }) {
     }
 
     const pre = (
-        <pre ref={preRef} data-code-id={block.id} tabIndex={0} className={cx("linux-code m-0 overflow-x-hidden bg-[#0c0d0b] p-4 font-mono text-[0.92rem] leading-normal text-[#e8e4da] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold", block.oneshot && "max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-auto")}>
-            <code>{source}</code>
+        <pre ref={preRef} data-code-id={block.id} data-raw={source} tabIndex={0} className={cx("linux-code m-0 overflow-x-hidden bg-[#0c0d0b] p-4 font-mono text-[0.92rem] leading-normal text-[#e8e4da] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold", block.oneshot && "max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-auto")}>
+            <code>{highlight(source, t(block.langKey)).map((token, index) => <span key={index} className={`tok-${token.kind}`}>{token.text}</span>)}</code>
         </pre>
     );
     if (block.bare) return pre;

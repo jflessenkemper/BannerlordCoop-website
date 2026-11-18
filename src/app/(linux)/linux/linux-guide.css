@@ -66,9 +66,12 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
 
 .linux-guide::before {
   content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+  position: fixed;
+  top: 4rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
   pointer-events: none;
   background:
     radial-gradient(circle at 22% 18%, rgba(143, 29, 35, 0.16), transparent 32%),
@@ -101,9 +104,50 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
 }
 
 .linux-wizard-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
   background: var(--background);
   padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
+
+body:has(.linux-wizard-bar) > main {
+  z-index: 2;
+}
+
+body:has(.linux-wizard-bar) > footer {
+  padding-bottom: calc(5.75rem + env(safe-area-inset-bottom));
+}
+
+.linux-guide .wizard-copy {
+  padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+}
+
+.linux-guide a.text-gold {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.linux-guide .linux-term-btn {
+  display: inline;
+  white-space: nowrap;
+}
+
+.linux-guide .linux-keep {
+  white-space: nowrap;
+}
+
+.linux-code .tok-comment { color: #8d887c; }
+.linux-code .tok-keyword { color: #e07a72; }
+.linux-code .tok-string { color: #e6c98a; }
+.linux-code .tok-number { color: #e7a08a; }
+.linux-code .tok-flag,
+.linux-code .tok-key { color: #d6be78; }
+.linux-code .tok-var { color: #d7c4a3; }
+.linux-code .tok-punct { color: #9a9488; }
 
 /* Same width and gutters as .site-container, so the guide stays centred if utility CSS is absent. */
 .linux-guide .site-container {
