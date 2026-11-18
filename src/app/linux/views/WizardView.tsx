@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useLinuxText } from "../hooks/useLinuxText";
 import { GuideSection } from "../Blocks";
-import { goldButton, primaryButton } from "../guide-styles";
+import { goldButton, pageFrame, primaryButton } from "../guide-styles";
 import { sectionsById, TROUBLESHOOTING_SECTION, wizardNeighbors, type GuideRoute, type WizardStep } from "../guide-model";
 
 /** One wizard step, with the same next and previous routes as the arrow keys. */
@@ -44,7 +44,7 @@ export function WizardView({
     return (
         <section aria-labelledby="wizard-live">
             <h1 id="wizard-live" className="sr-only">{progress}: {t(section.titleKey)}</h1>
-            <div className="mx-auto w-[min(100%-2rem,46rem)] py-8">
+            <div className={`${pageFrame} py-8 sm:py-10`}>
                 <GuideSection section={section} wizard alone />
             </div>
             <div className="sticky bottom-0 flex flex-wrap justify-center gap-2 bg-gradient-to-b from-transparent to-background px-4 py-4">

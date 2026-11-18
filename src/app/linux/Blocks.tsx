@@ -3,7 +3,7 @@
 import { createContext, useContext, useId, useRef, useState } from "react";
 import { useLinuxText } from "./hooks/useLinuxText";
 import { sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
-import { cx, glassCard, goldButton, kickerClass, primaryButton, sectionTitleClass, subClass } from "./guide-styles";
+import { cx, glassCard, goldButton, primaryButton, sectionTitleClass } from "./guide-styles";
 import { scriptText } from "./script-text";
 
 /** How long each copy result stays on the button before it returns to Copy. */
@@ -16,10 +16,7 @@ const COPY_STATES = {
 } as const;
 
 const PARAGRAPH_ROLE_CLASS: Record<string, string> = {
-    lead: "mb-4 mt-3 text-foreground",
-    safe: "my-3 text-sm text-foreground-muted",
-    note: "my-2 text-sm text-foreground-muted",
-    muted: "text-foreground-muted",
+    lead: "mb-4 mt-3",
 };
 
 export type GuideContextValue = {
@@ -154,7 +151,7 @@ function CodeBlock({ block }: { block: Extract<Block, { type: "code" }> }) {
             <figcaption className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-white/5 px-3 py-2">
                 <span className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
                     <span><InlineText nodes={block.title} /></span>
-                    <span className="code-lang rounded border border-gold/45 bg-gold/10 px-2 py-0.5 font-label text-xs font-semibold text-gold">{t(block.langKey)}</span>
+                    <span className="code-lang font-label text-xs font-semibold uppercase tracking-[0.08em] text-foreground-muted">{t(block.langKey)}</span>
                 </span>
                 <span className="ml-auto flex flex-wrap gap-2">
                     <button type="button" className={cx(copyClass, appearance.className)} onClick={copySource}>{t(appearance.labelKey)}</button>
@@ -291,8 +288,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                         );
                     case "callout":
                         return (
-                            <div key={index} id={block.id} className={cx(glassCard, "my-4 rounded-sm border-t-2 px-4 py-3 text-foreground backdrop-blur-[12px]", calloutBorder(block.kind))}>
-                                <p className={cx("mb-1 flex items-center gap-2 font-label text-sm font-semibold uppercase tracking-[0.08em]", calloutTone(block.kind))}>{t(block.titleKey)}</p>
+                            <div key={index} id={block.id} className="my-4 border border-white/20 bg-surface px-4 py-3 text-foreground">
+                                <p className={cx("mb-1 font-label text-sm font-semibold uppercase tracking-[0.08em]", calloutTone(block.kind))}>{t(block.titleKey)}</p>
                                 <Blocks blocks={block.blocks} />
                             </div>
                         );
@@ -347,19 +344,7 @@ function Blocks({ blocks }: { blocks: Block[] }) {
     );
 }
 
-/** Top-border color for a callout. The left edge stays the same hairline as the other sides. */
-function calloutBorder(kind: "warn" | "info" | "ok"): string {
-    switch (kind) {
-        case "warn":
-            return "border-t-[#ffd236]";
-        case "ok":
-            return "border-t-[#5ee9b5]";
-        case "info":
-            return "border-t-[#c9b676]";
-    }
-}
-
-/** Title color for a callout. The body keeps the normal foreground color. */
+/** Title color for a callout. The panel itself stays a flat square border. */
 function calloutTone(kind: "warn" | "info" | "ok"): string {
     switch (kind) {
         case "warn":
@@ -400,11 +385,7 @@ export function GuideSection({ section, wizard = false, alone = false }: { secti
     const Heading = alone && !wizard ? "h1" : "h2";
     return (
         <div className={wizard ? undefined : "border-b border-white/10 py-6"} id={wizard ? undefined : `sec-${section.id}`}>
-            <div>
-                <p className={wizard ? "sr-only" : kickerClass}>{t(section.kickerKey)}</p>
-                <Heading className={sectionTitleClass} id={alone && !wizard ? "manual-title" : undefined}>{t(section.titleKey)}</Heading>
-                {section.subKey ? <p className={subClass}>{t(section.subKey)}</p> : null}
-            </div>
+            <Heading className={sectionTitleClass} id={alone && !wizard ? "manual-title" : undefined}>{t(section.titleKey)}</Heading>
             <div className="mt-4">
                 <GuideContext.Provider value={{ ...guide, alone }}>
                     <Blocks blocks={hoistWarnings(section.blocks)} />

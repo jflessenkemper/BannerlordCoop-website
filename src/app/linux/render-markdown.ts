@@ -80,9 +80,7 @@ function block(value: Block, alone: boolean): string[] {
 
 /** Renders one section's heading and body. */
 function sectionBlocks(section: Section, alone: boolean): string[] {
-    const lines = [`## ${text(section.titleKey)}`, ""];
-    if (section.subKey) lines.push(text(section.subKey), "");
-    lines.push(...section.blocks.flatMap((child) => block(child, alone)));
+    const lines = [`## ${text(section.titleKey)}`, "", ...section.blocks.flatMap((child) => block(child, alone))];
     return lines;
 }
 

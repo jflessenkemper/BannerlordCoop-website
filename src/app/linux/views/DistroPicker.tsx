@@ -1,7 +1,7 @@
 "use client";
 
 import { useLinuxText } from "../hooks/useLinuxText";
-import { choiceCard, goldButton, kickerClass, subClass, titleClass } from "../guide-styles";
+import { choiceCard, goldButton, pageFrame, titleClass } from "../guide-styles";
 import type { Distro } from "../guide-model";
 import { scopeSvg } from "./svg";
 
@@ -21,23 +21,20 @@ export function DistroPicker({
 }) {
     const { t } = useLinuxText();
     return (
-        <section className="mx-auto w-[min(100%-2rem,72rem)] py-10" aria-labelledby="distro-title">
-            <p className={kickerClass}>{t("ui.kicker")}</p>
+        <section className={`${pageFrame} py-10 sm:py-14`} aria-labelledby="distro-title">
             <h1 id="distro-title" className={titleClass}>{t("nav.dTitle")}</h1>
-            <p className={subClass}>{t("nav.dSub")}</p>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2" role="group" aria-label={t("nav.dGroup")}>
+            <div className="guide-choices guide-choices-2" role="group" aria-label={t("nav.dGroup")}>
                 {distros.map((distro) => (
                     <button
                         key={distro.id}
                         type="button"
-                        className={`${choiceCard} grid min-h-[7.5rem] grid-cols-[48px_minmax(0,1fr)] grid-rows-[auto_1fr] gap-x-3`}
+                        className={`${choiceCard} min-h-[4.75rem] flex-row items-center gap-3`}
                         style={{ ["--d" as string]: distro.color, ["--ig" as string]: distro.glyph }}
                         aria-pressed={distro.id === selectedId}
                         onClick={() => onChoose(distro.id)}
                     >
-                        <span className={`distro-mark col-start-1 row-span-2 inline-grid h-12 w-12 place-items-center rounded-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.28)] ${distro.art ? "is-art overflow-hidden bg-[#111]" : "bg-[rgb(var(--d))]"}`} dangerouslySetInnerHTML={{ __html: scopeSvg(distro.svg, distro.id) }} />
-                        <strong className="col-start-2 font-display text-2xl font-semibold">{t(distro.nameKey)}</strong>
-                        <span className="col-start-2 text-foreground-muted">{t(distro.blurbKey)}</span>
+                        <span className={`distro-mark inline-grid h-12 w-12 shrink-0 place-items-center rounded-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28)] ${distro.art ? "is-art overflow-hidden bg-[#111]" : "bg-[rgb(var(--d))]"}`} dangerouslySetInnerHTML={{ __html: scopeSvg(distro.svg, distro.id) }} />
+                        <strong className="font-display text-2xl font-semibold" style={{ color: `rgb(${distro.color})` }}>{t(distro.nameKey)}</strong>
                     </button>
                 ))}
             </div>

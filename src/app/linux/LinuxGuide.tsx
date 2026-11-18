@@ -65,7 +65,7 @@ export function LinuxGuide() {
 
     return (
         <GuideContext.Provider value={context}>
-            <main id="linux-guide" className="linux-guide relative isolate flex-1 text-foreground" aria-label={t("ui.guideContent")} onClick={() => setTerm(null)}>
+            <main id="linux-guide" className="linux-guide relative isolate w-full min-w-0 flex-1 text-foreground" aria-label={t("ui.guideContent")} onClick={() => setTerm(null)}>
                 <p className="sr-only" role="status">{status}</p>
                 {route.view !== "start" && (
                     <GuideSubnav

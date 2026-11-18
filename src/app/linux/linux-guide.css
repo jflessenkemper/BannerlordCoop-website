@@ -1,11 +1,60 @@
 /* Backdrop, counters, disclosure markers, wrapping code, and the phone subnav
    labels. Layout, color, and type use Tailwind utilities. */
 .linux-guide {
+  width: 100%;
+  max-width: none;
   background:
     radial-gradient(circle at 22% 18%, rgba(143, 29, 35, 0.16), transparent 32%),
     linear-gradient(to top, var(--background) 0%, rgba(7, 8, 6, 0.72) 28%, rgba(7, 8, 6, 0.55) 100%),
     linear-gradient(to right, rgba(7, 8, 6, 0.88), rgba(7, 8, 6, 0.45) 55%, rgba(7, 8, 6, 0.2)),
     url("/images/linux/backdrop.webp") center / cover no-repeat fixed;
+}
+
+/* Same width and gutters as .site-container, so the guide stays centred if utility CSS is absent. */
+.linux-guide .site-container {
+  width: min(calc(100% - 2rem), var(--content-width, 1280px));
+  margin-inline: auto;
+}
+
+.linux-guide .guide-choices {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.linux-guide .guide-choices > * {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .linux-guide .site-container {
+    width: min(calc(100% - 3rem), var(--content-width, 1280px));
+  }
+
+  .linux-guide .guide-choices-2,
+  .linux-guide .guide-choices-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .linux-guide .site-container {
+    width: min(calc(100% - 6rem), var(--content-width, 1280px));
+  }
+}
+
+@media (min-width: 1280px) {
+  .linux-guide .guide-choices-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-height: 700px) and (orientation: landscape) {
+  .linux-guide .site-container {
+    width: min(calc(100% - 3rem), var(--content-width, 1280px));
+  }
 }
 
 .linux-guide .distro-mark svg {
@@ -21,9 +70,15 @@
 }
 
 .linux-guide .subnav-mark svg {
+  width: 1rem;
+  height: 1rem;
+  fill: var(--ig, #fff);
+}
+
+.linux-guide .subnav-mark.is-art svg {
   width: 1.5rem;
   height: 1.5rem;
-  fill: var(--ig, #11120f);
+  fill: none;
 }
 
 .linux-guide .linux-code,
