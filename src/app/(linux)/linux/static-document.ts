@@ -34,11 +34,27 @@ const purged = new Map<string, string>();
 
 /** Keeps the site rules these pages use, then inlines them with the font and guide sheets. */
 /** Fallback faces stay in the first paint. The webfont files are applied on the next frame. */
-function splitFontFaces(css: string): { initial: string; delayed: string } {
+/** Latin is the subset that starts with the basic range and lists U+0131. */
+function isLatinFace(face: string): boolean {
+    return /unicode-range:U\+[^,]*,U\+131,U\+152-153/.test(face);
+}
+
+/** Extra subsets a language actually draws. English needs none of them. */
+function isLocaleFace(face: string, locale: string): boolean {
+    if (["de", "es", "fr", "pt-BR", "pt-PT", "tr"].includes(locale) && face.includes("U+100-2BA")) return true;
+    if (locale === "ru" && (face.includes("U+400-45F") || face.includes("U+100-2BA"))) return true;
+    return false;
+}
+
+function splitFontFaces(css: string, locale: string): { initial: string; delayed: string; preload: string | null } {
     const delayed: string[] = [];
+    let preload: string | null = null;
     const initial = css.replace(/@font-face\{[^}]+\}/g, (face) => {
         if (face.includes("url(")) {
-            delayed.push(face);
+            if (isLatinFace(face) || isLocaleFace(face, locale)) delayed.push(face);
+            const title = face.includes("font-family:Cormorant Garamond") && face.includes("font-weight:600") && isLatinFace(face);
+            const url = title ? face.match(/url\((\/_next\/static\/media\/[^)]+\.woff2)\)/) : null;
+            if (url) preload = url[1];
             return "";
         }
         // Next names Arial and Times, which this host does not install. Arimo and Tinos
@@ -47,10 +63,10 @@ function splitFontFaces(css: string): { initial: string; delayed: string } {
             .replace("src:local(Arial)", 'src:local(Arial),local(Arimo),local("Liberation Sans")')
             .replace("src:local(Times New Roman)", 'src:local("Times New Roman"),local(Tinos),local("Liberation Serif")');
     });
-    return { initial, delayed: delayed.join("") };
+    return { initial, delayed: delayed.join(""), preload };
 }
 
-function inlineCss(markup: string): { css: string; preload: string | null; delayed: string } {
+function inlineCss(markup: string, locale: string): { css: string; preload: string | null; delayed: string } {
     if (!cachedSheets) cachedSheets = readSheets();
     const used = new Set(SHELL_CLASSES);
     for (const match of markup.matchAll(/class="([^"]*)"/g)) {
@@ -62,8 +78,8 @@ function inlineCss(markup: string): { css: string; preload: string | null; delay
         site = purgeUtilities(cachedSheets.site, used);
         purged.set(key, site);
     }
-    const { initial, delayed } = splitFontFaces(cachedSheets.fonts);
-    return { css: `${initial}${site}${cachedSheets.guide}`, preload: cachedSheets.preload, delayed };
+    const { initial, delayed, preload } = splitFontFaces(cachedSheets.fonts, locale);
+    return { css: `${initial}${site}${cachedSheets.guide}`, preload, delayed };
 }
 
 /** Drops Tailwind utilities whose classes are not in the rendered document. */
@@ -157,11 +173,11 @@ export async function linuxDocument(path: string, title: string, description: st
     const image = `${SITE}/images/banner.png`;
     const { renderToStaticMarkup } = await import("react-dom/server");
     const markup = renderToStaticMarkup(body);
-    const { css, delayed } = inlineCss(markup);
+    const { css, delayed } = inlineCss(markup, locale);
     const links = [
         `<link rel="canonical" href="${SITE}${path}"/>`,
         `<link rel="icon" href="/favicon.ico" sizes="any"/>`,
-        `<link rel="preload" as="image" href="/images/linux/backdrop.webp" fetchpriority="low"/>`,
+        `<link rel="preload" as="image" href="/images/linux/backdrop.webp" fetchpriority="high"/>`,
     ];
     const fontScript = delayed
         ? `<script>requestAnimationFrame(function(){requestAnimationFrame(function(){var css=${JSON.stringify(delayed)};var faces=[];css.replace(/@font-face\\{([^}]+)\\}/g,function(_,body){var family=body.match(/font-family:([^;]+)/)[1];var weight=(body.match(/font-weight:([^;]+)/)||[])[1]||"normal";var style=(body.match(/font-style:([^;]+)/)||[])[1]||"normal";var url=body.match(/url\\(([^)]+)\\)/)[1];var range=(body.match(/unicode-range:([^;]+)/)||[])[1];faces.push(new FontFace(family,"url("+url+")",{weight:weight,style:style,unicodeRange:range,display:"swap"}))});Promise.all(faces.map(function(face){return face.load()})).then(function(loaded){loaded.forEach(function(face){document.fonts.add(face)})})})})</script>`
@@ -189,7 +205,7 @@ export async function linuxDocument(path: string, title: string, description: st
         `<meta name="twitter:description" content="${escapeAttribute(description)}"/>`,
         `<meta name="twitter:image" content="${image}"/>`,
     ];
-    const html = `<!DOCTYPE html><html ${htmlAttrs}><head><meta charset="utf-8"><script>${BOOT}</script><title>${escapeText(title)}</title>${metas.join("")}${links.join("")}<style>${css}</style>${fontScript}</head><body class="min-h-full flex flex-col">${markup}</body></html>`;
+    const html = `<!DOCTYPE html><html ${htmlAttrs}><head><meta charset="utf-8"><script>${BOOT}</script><title>${escapeText(title)}</title>${metas.join("")}${links.join("")}<style>${css}</style></head><body class="min-h-full flex flex-col">${markup}${fontScript}</body></html>`;
     return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
 }
 

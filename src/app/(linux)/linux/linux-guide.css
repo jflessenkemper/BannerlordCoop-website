@@ -11,35 +11,43 @@
   background: transparent;
 }
 
-.linux-backdrop {
+/* The artwork is a background, so Chrome does not treat the full-viewport picture as the LCP element. */
+.linux-backdrop-layer {
   position: fixed;
   inset: 0;
   z-index: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 180ms linear;
+  background: #070806 url("/images/linux/backdrop.webp") center / cover no-repeat;
 }
 
-.linux-backdrop.is-shown {
-  opacity: 1;
+/* The scrim fades, not the picture, so the image never enters LCP by animating in from zero. */
+.linux-backdrop-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: #070806;
+  animation: linux-backdrop-in 180ms linear forwards;
+}
+
+@keyframes linux-backdrop-in {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .linux-backdrop {
-    transition: none;
+  .linux-backdrop-veil {
+    animation: none;
+    opacity: 0;
   }
 }
 
 /* The picture sits above the page background and under the header, guide, and footer. */
-body:has(.linux-backdrop) > header {
+body:has(.linux-backdrop-layer) > header {
   z-index: 50;
 }
 
-body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
+body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdrop-veil):not(header) {
   position: relative;
   z-index: 1;
 }
