@@ -21,8 +21,9 @@ export function DistroPicker({
 }) {
     const { t } = useLinuxText();
     return (
-        <section className={`${pageFrame} py-10 sm:py-14`} aria-labelledby="distro-title">
-            <h1 id="distro-title" className={titleClass}>{t("nav.dTitle")}</h1>
+        <section className="guide-stage" aria-labelledby="distro-title">
+            <div className={pageFrame}>
+                <h1 id="distro-title" className={titleClass}>{t("nav.dTitle")}</h1>
             <div className="guide-choices guide-choices-2 mt-6 grid gap-3 sm:grid-cols-2" role="group" aria-label={t("nav.dGroup")}>
                 {distros.map((distro) => (
                     <button
@@ -44,6 +45,7 @@ export function DistroPicker({
                     <button type="button" className={goldButton} onClick={onKeep}>{t("nav.dKeep")}</button>
                 </p>
             )}
+            </div>
         </section>
     );
 }
