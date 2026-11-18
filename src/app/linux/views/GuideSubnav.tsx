@@ -51,7 +51,7 @@ export function GuideSubnav({
                 {route.view === "wizard" && <p className="sr-only">{progress}</p>}
             </div>
             {route.view === "wizard" && (
-                <div className="h-0.5 bg-transparent" role="progressbar" aria-valuemin={1} aria-valuemax={WIZARD_STEPS.length} aria-valuenow={WIZARD_STEPS.indexOf(route.step) + 1} aria-valuetext={progress}>
+                <div className="h-0.5 bg-transparent" role="progressbar" aria-label={progress} aria-valuemin={1} aria-valuemax={WIZARD_STEPS.length} aria-valuenow={WIZARD_STEPS.indexOf(route.step) + 1} aria-valuetext={progress}>
                     <span className="block h-full bg-gold" style={{ width: `${((WIZARD_STEPS.indexOf(route.step) + 1) / WIZARD_STEPS.length) * 100}%` }} />
                 </div>
             )}

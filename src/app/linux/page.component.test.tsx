@@ -31,11 +31,11 @@ describe("linux setup guide", () => {
         expect(JSON.stringify(metadata)).not.toContain("ship.place");
     });
 
-    it("renders the menu and the Ubuntu script on the one-script step", async () => {
+    it("renders the menu without the checklist until that view is opened", async () => {
         const root = await render();
         expect(root.querySelector("#start-title")?.textContent).toBe(english["ui.startTitle"]);
-        expect(root.querySelector("#sec-terminal .code-lang")?.textContent).toBe(english["code.lang.Bash"]);
-        expect(root.querySelector("#sec-terminal [data-code-id='code-oneshot-ubuntu'] code")?.textContent).toBe(ubuntu);
+        expect(root.querySelector("#sec-terminal")).toBeNull();
+        expect(ubuntu).toContain("#!/usr/bin/env bash");
         expect(sitemap().map((entry) => entry.url)).toContain("https://bannerlordcoop.com/linux");
     });
 
@@ -45,6 +45,6 @@ describe("linux setup guide", () => {
         expect(metadata.title).toEqual({ absolute: russian["metadata.title"] });
         const root = await render();
         expect(root.querySelector("#start-title")?.textContent).toBe(russian["ui.startTitle"]);
-        expect(root.querySelector("#sec-terminal [data-code-id='code-oneshot-ubuntu'] code")?.textContent).toBe(ubuntu);
+        expect(ubuntu).not.toContain(russian["ui.startTitle"]);
     });
 });

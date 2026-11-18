@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useId, useRef, useState } from "react";
+import { useContext, useId, useRef, useState } from "react";
+import { GuideContext, type GuideContextValue } from "./guide-context";
 import { useLinuxText } from "./hooks/useLinuxText";
 import { sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
 import { cx, glassCard, goldButton, primaryButton, sectionTitleClass } from "./guide-styles";
@@ -18,16 +19,6 @@ const COPY_STATES = {
 const PARAGRAPH_ROLE_CLASS: Record<string, string> = {
     lead: "mb-4 mt-3",
 };
-
-export type GuideContextValue = {
-    distro: Distro | null;
-    alone: boolean;
-    openId?: string;
-    onStatus: (message: string) => void;
-    onTerm: (title: string, body: string, rect: DOMRect) => void;
-};
-
-export const GuideContext = createContext<GuideContextValue | null>(null);
 
 /** Reads the guide render context. Blocks are only mounted under LinuxGuide. */
 function useGuide(): GuideContextValue {

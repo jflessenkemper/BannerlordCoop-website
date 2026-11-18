@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useLinuxText } from "./hooks/useLinuxText";
-import { GuideContext } from "./Blocks";
+import { GuideContext } from "./guide-context";
 import { AI_FAQ_ID, FAQ_SECTION, ONESHOT_SECTION, resolveRoute, routeLabels, WIZARD_STEPS, type GuideRoute } from "./guide-model";
 import { useGuideRoute } from "./hooks/useGuideRoute";
 import { useStoredDistro } from "./hooks/useStoredDistro";
 import { DistroPicker } from "./views/DistroPicker";
 import { GuideSubnav } from "./views/GuideSubnav";
-import { ManualView } from "./views/ManualView";
 import { StartMenu } from "./views/StartMenu";
-import { WizardView } from "./views/WizardView";
 import "./linux-guide.css";
+
+const ManualView = lazy(() => import("./views/ManualView").then((module) => ({ default: module.ManualView })));
+const WizardView = lazy(() => import("./views/WizardView").then((module) => ({ default: module.WizardView })));
 
 /** Popover width matches the 20rem panel, plus the page gutter and the gap under the term. */
 const POPOVER_WIDTH_PX = 320;
@@ -96,10 +97,14 @@ export function LinuxGuide() {
                     />
                 )}
                 {route.view === "wizard" && (
-                    <WizardView step={route.step} progress={labels.progress} nextLabel={labels.nextLabel} onGo={go} />
+                    <Suspense fallback={null}>
+                        <WizardView step={route.step} progress={labels.progress} nextLabel={labels.nextLabel} onGo={go} />
+                    </Suspense>
                 )}
-                {(route.view === "start" || isManual) && (
-                    <ManualView active={isManual} sectionId={manualSection} />
+                {isManual && (
+                    <Suspense fallback={null}>
+                        <ManualView active sectionId={manualSection} />
+                    </Suspense>
                 )}
                 {term && (
                     <div className="fixed z-40 w-80 max-w-[calc(100vw-2rem)] rounded-lg border border-gold/45 bg-[#11120e]/95 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_10px_28px_rgba(0,0,0,0.4)]" role="tooltip" style={{ left: term.left, top: term.top }} onClick={(event) => event.stopPropagation()}>
