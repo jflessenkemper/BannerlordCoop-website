@@ -8,19 +8,16 @@ import { linuxMetadata } from "./linux-metadata";
 const SITE = "https://bannerlordcoop.com";
 
 /** Stylesheets and the title font, read from the build so the hashes can change. */
-function documentAssets(): { styles: string[]; criticalCss: string } {
+function documentAssets(): string[] {
     const dir = join(process.cwd(), ".next/static/chunks");
     const styles: string[] = [];
-    const critical: string[] = [];
     for (const file of readdirSync(dir)) {
         if (!file.endsWith(".css")) continue;
         const text = readFileSync(join(dir, file), "utf8");
         if (!text.includes(".linux-guide") && !text.includes(".site-container") && !text.includes("@font-face")) continue;
         styles.push(`/_next/static/chunks/${file}`);
-        for (const rule of text.matchAll(/[^{}]+\{[^}]*--font-[^}]+\}/g)) critical.push(rule[0]);
-        for (const face of text.matchAll(/@font-face\{[^}]*Fallback[^}]*\}/g)) critical.push(face[0]);
     }
-    return { styles, criticalCss: critical.join("") };
+    return styles;
 }
 
 /** A full document with no framework scripts. The guide pages that must paint first use this. */
@@ -33,11 +30,10 @@ export async function linuxDocument(path: string, title: string, description: st
     const { renderToStaticMarkup } = await import("react-dom/server");
     const markup = renderToStaticMarkup(body);
     const links = [
-        ...assets.styles.map((href) => `<link rel="stylesheet" href="${href}" media="print" onload="this.media='all'"/><noscript><link rel="stylesheet" href="${href}"/></noscript>`),
+        ...assets.map((href) => `<link rel="stylesheet" href="${href}"/>`),
         `<link rel="canonical" href="${SITE}${path}"/>`,
         `<link rel="icon" href="/favicon.ico" sizes="any"/>`,
-    ].filter(Boolean);
-    const critical = `<style>${assets.criticalCss}html,body{background:#070806;color:#e8e4da}body{margin:0}.site-container{width:min(calc(100% - 2rem),1280px);margin-inline:auto}h1{font-family:var(--font-cormorant),Georgia,serif;font-weight:600;line-height:1;letter-spacing:-.03em;font-size:clamp(2.4rem,5vw,4.25rem);margin:0}</style>`;
+    ];
     const metas = [
         `<meta charSet="utf-8"/>`,
         `<meta name="viewport" content="width=device-width, initial-scale=1"/>`,
@@ -54,7 +50,7 @@ export async function linuxDocument(path: string, title: string, description: st
         `<meta name="twitter:description" content="${escapeAttribute(description)}"/>`,
         `<meta name="twitter:image" content="${image}"/>`,
     ];
-    const html = `<!DOCTYPE html><html lang="${escapeAttribute(locale)}" class="${fontClassName}"><head><title>${escapeText(title)}</title>${critical}${metas.join("")}${links.join("")}</head><body class="min-h-full flex flex-col">${markup}</body></html>`;
+    const html = `<!DOCTYPE html><html lang="${escapeAttribute(locale)}" class="${fontClassName}"><head><title>${escapeText(title)}</title>${metas.join("")}${links.join("")}</head><body class="min-h-full flex flex-col">${markup}</body></html>`;
     return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
 }
 

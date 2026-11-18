@@ -33,5 +33,5 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npx next typegen
       - run: npx tsc --noEmit
-      - run: npx eslint src/app/(site)/servers/onboarding-actions.ts src/app/(site)/servers/onboarding-actions.component.test.tsx src/app/components/servers/ServerOnboarding.tsx src/app/components/servers/ServerOnboarding.component.test.tsx
-      - run: npm run test:components -- src/app/(site)/servers/onboarding-actions.component.test.tsx src/app/components/servers/ServerOnboarding.component.test.tsx src/app/lib/localization/runtime.component.test.tsx
+      - run: npx eslint 'src/app/(site)/servers/onboarding-actions.ts' 'src/app/(site)/servers/onboarding-actions.component.test.tsx' src/app/components/servers/ServerOnboarding.tsx src/app/components/servers/ServerOnboarding.component.test.tsx
+      - run: npm run test:components -- 'src/app/(site)/servers/onboarding-actions.component.test.tsx' src/app/components/servers/ServerOnboarding.component.test.tsx src/app/lib/localization/runtime.component.test.tsx

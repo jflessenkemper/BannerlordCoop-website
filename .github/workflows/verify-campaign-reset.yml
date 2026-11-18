@@ -33,5 +33,5 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npx next typegen
       - run: npx tsc --noEmit
-      - run: npx eslint src/app/lib/hosting/server-campaigns.ts src/app/lib/hosting/server-campaigns.test.ts supabase/functions/_shared/server-campaign-contract.ts supabase/functions/_shared/my-servers.ts supabase/functions/my-servers/campaigns.test.ts src/app/(site)/servers/managed-server-campaign-actions.ts src/app/(site)/servers/managed-server-campaign-actions.component.test.tsx src/app/components/servers/ManagedServerCampaigns.tsx src/app/components/servers/ManagedServerCampaigns.component.test.tsx
+      - run: npx eslint src/app/lib/hosting/server-campaigns.ts src/app/lib/hosting/server-campaigns.test.ts supabase/functions/_shared/server-campaign-contract.ts supabase/functions/_shared/my-servers.ts supabase/functions/my-servers/campaigns.test.ts 'src/app/(site)/servers/managed-server-campaign-actions.ts' 'src/app/(site)/servers/managed-server-campaign-actions.component.test.tsx' src/app/components/servers/ManagedServerCampaigns.tsx src/app/components/servers/ManagedServerCampaigns.component.test.tsx
       - run: npm run test:campaign-reset
