@@ -586,5 +586,8 @@
   "distro.other.blurb": "Gentoo, Void, Alpine 등 그 밖의 모든 배포판: 상황에 맞게 바꿔 쓰는 일반 명령을 보여 줍니다.",
   "ui.oneScript": "스크립트 하나로 설치",
   "ui.oneScriptSub": "배포판용 복사 스크립트 하나",
-  "ui.faq": "FAQ"
+  "ui.faq": "FAQ",
+  "ui.doneTitle": "서버가 준비되었습니다",
+  "ui.doneBody": "이 컴퓨터에서 호스트한 뒤, 같은 버전의 클라이언트에서 참가하세요.",
+  "ui.contents": "이 페이지"
 }

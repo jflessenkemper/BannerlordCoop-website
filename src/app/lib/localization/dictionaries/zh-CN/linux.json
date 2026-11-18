@@ -586,5 +586,8 @@
   "distro.other.blurb": "Gentoo、Void、Alpine 或其他发行版：提供可自行调整的通用命令。",
   "ui.oneScript": "使用一个脚本安装",
   "ui.oneScriptSub": "适合你的发行版的复制脚本",
-  "ui.faq": "常见问题"
+  "ui.faq": "常见问题",
+  "ui.doneTitle": "服务器已就绪",
+  "ui.doneBody": "在这台机器上开服，再用匹配的客户端加入。",
+  "ui.contents": "本页内容"
 }

@@ -51,9 +51,18 @@ export function clearGuideDistroMemory() {
     memoryDistro = null;
 }
 
+/** Mirrors the choice into a cookie so the next full page load can render the right view. */
+function writeDistroCookie(id: string) {
+    try {
+        document.cookie = `${DISTRO_KEY}=${encodeURIComponent(id)}; Path=/; Max-Age=31536000; SameSite=Lax`;
+    } catch {
+        // The in-memory choice still covers this visit.
+    }
+}
+
 /** The chosen distro. The in-memory copy survives a blocked `localStorage.setItem`. */
-export function useStoredDistro() {
-    const distroId = useSyncExternalStore(subscribeDistro, readDistro, () => null);
+export function useStoredDistro(initialId: string | null = null) {
+    const distroId = useSyncExternalStore(subscribeDistro, readDistro, () => known(initialId));
     const chooseDistro = useCallback((id: string) => {
         memoryDistro = id;
         try {
@@ -61,6 +70,7 @@ export function useStoredDistro() {
         } catch {
             // memoryDistro already holds the choice for this visit.
         }
+        writeDistroCookie(id);
         emitDistro();
     }, []);
     const distro = distros.find((item) => item.id === distroId) ?? null;

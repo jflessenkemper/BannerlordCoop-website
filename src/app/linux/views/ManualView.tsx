@@ -20,7 +20,18 @@ export function ManualView({
         <section hidden={active ? undefined : true} aria-labelledby={active ? "manual-title" : undefined}>
             <div className={`${pageFrame} py-8 sm:py-10`}>
                 {active && !focused && (
-                    <h1 id="manual-title" className={titleClass}>{t("ui.fullChecklist")}</h1>
+                    <>
+                        <h1 id="manual-title" tabIndex={-1} className={titleClass}>{t("ui.fullChecklist")}</h1>
+                        <nav aria-label={t("ui.contents")} className="mt-4">
+                            <ol className="m-0 list-decimal space-y-1 pl-5 text-foreground">
+                                {sections.map((section) => (
+                                    <li key={section.id}>
+                                        <a className="text-foreground underline decoration-gold/60 underline-offset-4" href={`#sec-${section.id}`}>{t(section.titleKey)}</a>
+                                    </li>
+                                ))}
+                            </ol>
+                        </nav>
+                    </>
                 )}
                 {visible.map((section) => (
                     <GuideSection key={section.id} section={section} alone={focused} />

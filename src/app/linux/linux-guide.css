@@ -32,6 +32,18 @@ body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
   z-index: 1;
 }
 
+.linux-glass {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.01) 60%),
+    rgba(13, 14, 11, 0.94);
+}
+
+.linux-subnav {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.025)),
+    rgba(11, 12, 9, 0.92);
+}
+
 .linux-guide::before {
   content: "";
   position: absolute;
@@ -44,9 +56,33 @@ body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
     linear-gradient(to right, rgba(7, 8, 6, 0.88), rgba(7, 8, 6, 0.45) 55%, rgba(7, 8, 6, 0.2));
 }
 
-.linux-guide > * {
+.linux-guide > :not(.sticky):not(.fixed) {
   position: relative;
   z-index: 1;
+}
+
+.linux-guide {
+  overflow-x: clip;
+  scroll-padding-bottom: 6rem;
+}
+
+.linux-guide :where(a, button, input, summary, pre, [tabindex]) {
+  scroll-margin-top: 4.5rem;
+  scroll-margin-bottom: 6rem;
+}
+
+.linux-guide :where(p, li, dd, dt, td, th, figcaption, summary, h1, h2, h3, a) {
+  overflow-wrap: anywhere;
+}
+
+.linux-guide code:not(.linux-code code) {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.linux-wizard-bar {
+  background: #070806;
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
 
 /* Same width and gutters as .site-container, so the guide stays centred if utility CSS is absent. */
@@ -68,6 +104,15 @@ body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
 
 /* Four stacked cards need a little less height to sit centred on a phone. */
 @media (max-width: 639px) {
+  #distro-title {
+    min-height: 5.2rem;
+  }
+
+  .linux-guide .distro-blurb {
+    min-height: 6rem;
+    line-height: 1.5rem;
+  }
+
   .linux-guide .guide-stage {
     padding-block: 1rem;
   }
@@ -78,6 +123,12 @@ body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
 
   .linux-guide .guide-choices-4 > button {
     min-height: 7.75rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .linux-guide .distro-blurb {
+    min-height: 9rem;
   }
 }
 
@@ -97,7 +148,7 @@ body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
     0 0 12px rgba(214, 190, 120, 0.55),
     0 0 28px rgba(170, 151, 96, 0.72),
     0 8px 22px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: none;
 }
 
 .linux-guide .choice-recommended,
@@ -114,13 +165,13 @@ body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
   content: "";
   position: absolute;
   z-index: -1;
-  inset: -12px;
+  inset: 0;
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
   background: transparent;
   box-shadow: 0 0 18px 4px rgba(214, 190, 120, 0.85);
-  transition: opacity 160ms ease;
+  transition: opacity 160ms ease-out;
 }
 
 .linux-guide .choice-recommended:hover::after,
@@ -129,8 +180,15 @@ body:has(.linux-backdrop) > :not(.linux-backdrop):not(header) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .linux-guide .choice-recommended::after {
-    transition: none;
+  .linux-guide,
+  .linux-guide::before,
+  .linux-guide::after,
+  .linux-guide *,
+  .linux-guide *::before,
+  .linux-guide *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
   }
 }
 

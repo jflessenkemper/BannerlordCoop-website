@@ -46,7 +46,7 @@ function nextTabPosition(key: string, position: number, count: number): number |
 /** Renders inline content. Glossary buttons report their own rectangle. */
 function InlineText({ nodes }: { nodes: Inline[] }) {
     const { t } = useLinuxText();
-    const { onTerm } = useGuide();
+    const { onTerm, openTermKey } = useGuide();
     return (
         <>
             {nodes.map((node, index) => {
@@ -56,7 +56,7 @@ function InlineText({ nodes }: { nodes: Inline[] }) {
                     case "br":
                         return <br key={index} />;
                     case "code":
-                        return <code key={index} className="rounded bg-white/10 px-1 font-mono text-[0.92em]">{node.k ? t(node.k) : node.v}</code>;
+                        return <code key={index} className="rounded bg-[#0d0e0b] px-1 py-0.5 font-mono text-[0.92em] text-foreground">{node.k ? t(node.k) : node.v}</code>;
                     case "strong":
                         return <strong key={index}><InlineText nodes={node.c} /></strong>;
                     case "em":
@@ -69,20 +69,25 @@ function InlineText({ nodes }: { nodes: Inline[] }) {
                             </a>
                         );
                     }
-                    case "term":
+                    case "term": {
+                        const key = `${node.termKey}:${node.defKey}`;
+                        const open = openTermKey === key;
                         return (
                             <button
                                 key={index}
                                 type="button"
                                 className="cursor-help border-0 bg-transparent p-0 font-inherit text-inherit underline decoration-dotted decoration-gold underline-offset-[3px]"
+                                aria-expanded={open}
+                                aria-controls={open ? "linux-term" : undefined}
                                 onClick={(event) => {
                                     event.stopPropagation();
-                                    onTerm(t(node.termKey), t(node.defKey), event.currentTarget.getBoundingClientRect());
+                                    onTerm(key, t(node.termKey), t(node.defKey), event.currentTarget);
                                 }}
                             >
                                 {t(node.labelKey ?? node.termKey)}
                             </button>
                         );
+                    }
                     default: {
                         const unreachable: never = node;
                         throw new Error(`Unknown inline: ${JSON.stringify(unreachable)}`);
@@ -131,7 +136,7 @@ function CodeBlock({ block }: { block: Extract<Block, { type: "code" }> }) {
     }
 
     const pre = (
-        <pre ref={preRef} data-code-id={block.id} tabIndex={0} className="linux-code m-0 max-h-96 overflow-y-auto overflow-x-hidden bg-[#0c0d0b] p-4 font-mono text-[0.92rem] leading-normal text-[#e8e4da] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold">
+        <pre ref={preRef} data-code-id={block.id} tabIndex={0} className="linux-code m-0 overflow-x-hidden bg-[#0c0d0b] p-4 font-mono text-[0.92rem] leading-normal text-[#e8e4da] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold">
             <code>{source}</code>
         </pre>
     );
@@ -164,6 +169,7 @@ function Tabs({ block }: { block: Extract<Block, { type: "tabs" }> }) {
     const { distro } = useGuide();
     const baseId = useId();
     const [active, setActive] = useState(0);
+    const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
     const scoped = Boolean(distro) && block.tabs.some((tab) => tab.script || tab.families);
     const visible = block.tabs.filter((tab) => tabMatches(tab, distro, scoped));
     if (scoped) {
@@ -190,7 +196,8 @@ function Tabs({ block }: { block: Extract<Block, { type: "tabs" }> }) {
                             type="button"
                             role="tab"
                             id={`${baseId}-tab-${position}`}
-                            className={cx("min-h-11 cursor-pointer border-0 border-b-2 bg-transparent px-3 font-inherit", on ? "border-gold text-foreground" : "border-transparent text-foreground-muted")}
+                            ref={(node) => { tabRefs.current[position] = node; }}
+                            className={cx("min-h-12 cursor-pointer border-0 border-b-2 bg-transparent px-3 font-inherit text-foreground", on ? "border-gold" : "border-transparent")}
                             aria-selected={on}
                             aria-controls={`${baseId}-panel-${position}`}
                             tabIndex={on ? 0 : -1}
@@ -200,6 +207,7 @@ function Tabs({ block }: { block: Extract<Block, { type: "tabs" }> }) {
                                 if (next == null) return;
                                 event.preventDefault();
                                 setActive(next);
+                                tabRefs.current[next]?.focus();
                             }}
                         >
                             {t(tab.labelKey)}
@@ -231,7 +239,7 @@ function SectionRefs({ block }: { block: Extract<Block, { type: "sectionRefs" }>
     if (block.when === "alone" && !alone) return null;
     return (
         <details className={`${glassCard} my-2 px-4`}>
-            <summary className="flex min-h-11 cursor-pointer items-center gap-2 font-semibold"><InlineText nodes={block.summary} /></summary>
+            <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold"><InlineText nodes={block.summary} /></summary>
             {block.ids.map((id) => {
                 const section = sectionsById.get(id);
                 if (!section) throw new Error(`Missing folded section: ${id}`);
@@ -256,15 +264,17 @@ function hoistWarnings(blocks: Block[]): Block[] {
 /** Renders a heterogeneous list of guide blocks. Unknown types throw. */
 function Blocks({ blocks }: { blocks: Block[] }) {
     const { t } = useLinuxText();
-    const { openId } = useGuide();
+    const { openId, alone } = useGuide();
     return (
         <>
             {blocks.map((block, index) => {
                 switch (block.type) {
                     case "p":
                         return <p key={index} className={cx("leading-relaxed", block.role && PARAGRAPH_ROLE_CLASS[block.role])}><InlineText nodes={block.c} /></p>;
-                    case "h3":
-                        return <h3 key={index} className="font-label text-sm font-semibold uppercase tracking-[0.08em] text-gold"><InlineText nodes={block.c} /></h3>;
+                    case "h3": {
+                        const Heading = alone ? "h2" : "h3";
+                        return <Heading key={index} className="font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold"><InlineText nodes={block.c} /></Heading>;
+                    }
                     case "ul":
                         return <ul key={index} className="list-disc space-y-1 pl-5">{block.items.map((item, itemIndex) => <li key={itemIndex}><InlineText nodes={item} /></li>)}</ul>;
                     case "ol":
@@ -291,7 +301,7 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                     case "details":
                         return (
                             <details key={index} id={block.id} open={block.id && block.id === openId ? true : undefined} className={cx(glassCard, "my-2 px-4", block.className === "ai-optional" && "bg-transparent shadow-none")}>
-                                <summary className="flex min-h-11 cursor-pointer items-center gap-2 font-semibold"><InlineText nodes={block.summary} /></summary>
+                                <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold"><InlineText nodes={block.summary} /></summary>
                                 <div className="pb-3"><Blocks blocks={block.blocks} /></div>
                             </details>
                         );
@@ -305,7 +315,7 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                                 {block.items.map((item, itemIndex) => (
                                     <div key={itemIndex} className="grid gap-1 sm:grid-cols-[minmax(8rem,auto)_1fr] sm:gap-4">
                                         <dt className="font-semibold"><InlineText nodes={item.dt} /></dt>
-                                        <dd className="m-0 text-foreground-muted"><InlineText nodes={item.dd} /></dd>
+                                        <dd className="m-0 text-foreground"><InlineText nodes={item.dd} /></dd>
                                     </div>
                                 ))}
                             </dl>
@@ -354,7 +364,7 @@ function GuideTable({ block }: { block: Extract<Block, { type: "table" }> }) {
     return (
         <table id={block.id} className="my-4 w-full border-collapse text-left">
             <thead>
-                <tr>{headers.map((header) => <th key={header} scope="col" className="border-b border-white/10 px-2 py-2 font-label text-sm font-semibold uppercase tracking-[0.06em] text-gold">{header}</th>)}</tr>
+                <tr>{headers.map((header) => <th key={header} scope="col" className="border-b border-white/10 bg-[#0d0e0b] px-2 py-2 font-label text-sm font-semibold uppercase tracking-[0.22em] text-foreground">{header}</th>)}</tr>
             </thead>
             <tbody>
                 {block.rows.map((row, rowIndex) => (
@@ -373,10 +383,11 @@ function GuideTable({ block }: { block: Extract<Block, { type: "table" }> }) {
 export function GuideSection({ section, wizard = false, alone = false }: { section: Section; wizard?: boolean; alone?: boolean }) {
     const { t } = useLinuxText();
     const guide = useGuide();
-    const Heading = alone && !wizard ? "h1" : "h2";
+    const pageHeading = wizard || alone;
+    const Heading = pageHeading ? "h1" : "h2";
     return (
         <div className={wizard ? undefined : "border-b border-white/10 py-6"} id={wizard ? undefined : `sec-${section.id}`}>
-            <Heading className={sectionTitleClass} id={alone && !wizard ? "manual-title" : undefined}>{t(section.titleKey)}</Heading>
+            <Heading className={sectionTitleClass} id={wizard ? "wizard-title" : alone ? "manual-title" : undefined} tabIndex={pageHeading ? -1 : undefined}>{t(section.titleKey)}</Heading>
             <div className="mt-4">
                 <GuideContext.Provider value={{ ...guide, alone }}>
                     <Blocks blocks={hoistWarnings(section.blocks)} />

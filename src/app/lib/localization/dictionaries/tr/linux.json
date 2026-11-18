@@ -586,5 +586,8 @@
   "distro.other.blurb": "Gentoo, Void, Alpine ya da başka bir dağıtım: uyarlayabileceğiniz genel komutları alırsınız.",
   "ui.oneScript": "Tek bir betikle kur",
   "ui.oneScriptSub": "Dağıtımınız için kopyala-yapıştır betiği",
-  "ui.faq": "SSS"
+  "ui.faq": "SSS",
+  "ui.doneTitle": "Sunucu hazır",
+  "ui.doneBody": "Bu makinede sunucuyu açın, sonra eşleşen bir istemciden katılın.",
+  "ui.contents": "Bu sayfada"
 }

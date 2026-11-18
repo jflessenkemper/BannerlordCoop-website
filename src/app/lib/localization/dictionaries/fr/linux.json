@@ -586,5 +586,8 @@
   "distro.other.blurb": "Gentoo, Void, Alpine ou autre : vous obtenez les commandes génériques à adapter.",
   "ui.oneScript": "Installer avec un seul script",
   "ui.oneScriptSub": "Un script à copier-coller pour votre distribution",
-  "ui.faq": "FAQ"
+  "ui.faq": "FAQ",
+  "ui.doneTitle": "Le serveur est prêt",
+  "ui.doneBody": "Hébergez sur cette machine, puis rejoignez depuis un client correspondant.",
+  "ui.contents": "Sur cette page"
 }

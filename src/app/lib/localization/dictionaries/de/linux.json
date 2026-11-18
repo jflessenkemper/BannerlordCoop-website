@@ -586,5 +586,8 @@
   "distro.other.blurb": "Gentoo, Void, Alpine oder etwas anderes: Du bekommst die allgemeinen Befehle zum Anpassen.",
   "ui.oneScript": "Mit einem Skript installieren",
   "ui.oneScriptSub": "Ein Kopier-Skript für deine Distribution",
-  "ui.faq": "FAQ"
+  "ui.faq": "FAQ",
+  "ui.doneTitle": "Der Server ist bereit",
+  "ui.doneBody": "Starte den Server auf diesem Rechner und tritt mit einem passenden Client bei.",
+  "ui.contents": "Auf dieser Seite"
 }

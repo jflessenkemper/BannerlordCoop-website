@@ -586,5 +586,8 @@
   "distro.other.blurb": "Gentoo、Void、Alpine などその他すべて：調整して使う汎用コマンドを表示します。",
   "ui.oneScript": "スクリプト1つでインストール",
   "ui.oneScriptSub": "ディストリ向けのコピー用スクリプト",
-  "ui.faq": "FAQ"
+  "ui.faq": "FAQ",
+  "ui.doneTitle": "サーバーの準備ができました",
+  "ui.doneBody": "このマシンでホストし、同じバージョンのクライアントから参加します。",
+  "ui.contents": "このページ"
 }

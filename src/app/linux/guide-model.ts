@@ -7,8 +7,8 @@ export const ONESHOT_SECTION = "terminal";
 export const AI_FAQ_ID = "faq-ai-assistant";
 export const TROUBLESHOOTING_SECTION = "troubleshooting";
 
-/** Wizard order after the one-script step is moved to follow the overview. */
-export const WIZARD_STEPS = ["overview", "terminal", "configure", "launch", "firewall", "service", "client", "backups", "troubleshooting", "faq", "linux-notes", "agents"] as const;
+/** Setup steps. Reference sections stay on the checklist and the completion screen. */
+export const WIZARD_STEPS = ["overview", "terminal", "configure", "launch", "firewall", "service", "client", "backups"] as const;
 export type WizardStep = (typeof WIZARD_STEPS)[number];
 
 export type Inline =
@@ -51,6 +51,7 @@ export type Distro = {
 export type GuideRoute =
     | { view: "start" }
     | { view: "distro" }
+    | { view: "done" }
     | { view: "wizard"; step: WizardStep }
     | { view: "manual"; section?: string; openAi?: boolean };
 
@@ -63,16 +64,17 @@ export function isWizardStep(step: string): step is WizardStep {
     return (WIZARD_STEPS as readonly string[]).includes(step);
 }
 
-/** Previous step, or the menu after the last step. Shared by the keys and the buttons. */
+/** Previous step, or the completion screen after the last setup step. */
 export function wizardNeighbors(step: string): { previous: GuideRoute | null; next: GuideRoute } {
     const index = isWizardStep(step) ? WIZARD_STEPS.indexOf(step) : 0;
     const previous = index > 0 ? { view: "wizard" as const, step: WIZARD_STEPS[index - 1] } : null;
-    const next = index >= WIZARD_STEPS.length - 1 ? { view: "start" as const } : { view: "wizard" as const, step: WIZARD_STEPS[index + 1] };
+    const next = index >= WIZARD_STEPS.length - 1 ? { view: "done" as const } : { view: "wizard" as const, step: WIZARD_STEPS[index + 1] };
     return { previous, next };
 }
 
-/** FAQ and the assistant alias do not ask for a distro. Everything else with commands does. */
+/** FAQ, the assistant alias, and the completion screen do not ask for a distro. */
 export function skipsDistro(route: GuideRoute): boolean {
+    if (route.view === "done") return true;
     return route.view === "manual" && (route.section === FAQ_SECTION || route.openAi === true);
 }
 
@@ -82,16 +84,45 @@ export function resolveRoute(requested: GuideRoute, distroId: string | null): Gu
     return { view: "distro" };
 }
 
-/** The distro chip is hidden on the menu, the picker, and the FAQ. */
+/** The distro chip is hidden on the menu, the picker, the FAQ, and the completion screen. */
 export function showsDistroChip(route: GuideRoute, distroId: string | null): boolean {
     if (!distroId || skipsDistro(route)) return false;
     return route.view === "wizard" || route.view === "manual";
+}
+
+/** Canonical path for a route. Legacy hashes redirect here. */
+export function routePath(route: GuideRoute): string {
+    if (route.view === "start") return "/linux";
+    if (route.view === "distro") return "/linux/distro";
+    if (route.view === "done") return "/linux/done";
+    if (route.view === "wizard") return `/linux/step/${route.step}`;
+    if (route.section === FAQ_SECTION) return "/linux/faq";
+    if (route.section === ONESHOT_SECTION) return "/linux/script";
+    return "/linux/checklist";
+}
+
+/** Reads a pathname produced by `routePath`. Unknown paths are the menu. */
+export function parsePathname(pathname: string): GuideRoute {
+    const path = pathname.replace(/\/$/, "") || "/linux";
+    if (path === "/linux/distro") return { view: "distro" };
+    if (path === "/linux/done") return { view: "done" };
+    if (path === "/linux/faq") return { view: "manual", section: FAQ_SECTION };
+    if (path === "/linux/script") return { view: "manual", section: ONESHOT_SECTION };
+    if (path === "/linux/checklist") return { view: "manual" };
+    const stepMatch = /^\/linux\/step\/([^/]+)$/.exec(path);
+    if (stepMatch) {
+        let step = stepMatch[1];
+        try { step = decodeURIComponent(step); } catch { /* keep the raw segment */ }
+        if (isWizardStep(step)) return { view: "wizard", step };
+    }
+    return { view: "start" };
 }
 
 /** Hash for a route. The menu is `#start` so an empty URL can stay the canonical page. */
 export function routeHash(route: GuideRoute): string {
     if (route.view === "start") return "#start";
     if (route.view === "distro") return "#distro";
+    if (route.view === "done") return "#done";
     if (route.view === "wizard") return `#wizard/${encodeURIComponent(route.step)}`;
     if (route.section) return `#manual/${encodeURIComponent(route.section)}`;
     return "#manual";
@@ -101,6 +132,7 @@ export function routeHash(route: GuideRoute): string {
 export function parseRoute(hash: string, ids: ReadonlySet<string> = sectionIds): GuideRoute {
     const raw = hash.replace(/^#/, "");
     if (!raw || raw === "start") return { view: "start" };
+    if (raw === "done") return { view: "done" };
     const parts = raw.split("/").map((part) => {
         try {
             return decodeURIComponent(part);
@@ -114,7 +146,9 @@ export function parseRoute(hash: string, ids: ReadonlySet<string> = sectionIds):
     if (view === "distro") return { view: "distro" };
     if (view === "wizard") {
         const step = parts[1] ?? "";
-        return { view: "wizard", step: isWizardStep(step) ? step : WIZARD_STEPS[0] };
+        if (isWizardStep(step)) return { view: "wizard", step };
+        if (ids.has(step)) return { view: "manual", section: step };
+        return { view: "wizard", step: WIZARD_STEPS[0] };
     }
     if (view === "manual") {
         const section = parts[1];
@@ -140,6 +174,8 @@ export function routeLabels(route: GuideRoute, t: Translate): { here: string; sh
         }
         case "distro":
             return { here: t("ui.chooseDistro"), shortHere: "", progress: "", nextLabel: "" };
+        case "done":
+            return { here: t("ui.doneTitle"), shortHere: "", progress: "", nextLabel: "" };
         case "manual": {
             const section = route.section ? sectionsById.get(route.section) : undefined;
             const here = section ? t(section.titleKey) : t("ui.fullChecklist");

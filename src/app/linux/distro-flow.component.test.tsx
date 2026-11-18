@@ -42,7 +42,7 @@ it("opens the distro picker for a checklist link and resumes that section after 
     for (let attempt = 0; attempt < 20 && !container.querySelector("[data-code-id='code-oneshot-fedora']"); attempt += 1) {
         await act(async () => { await new Promise((resolve) => setTimeout(resolve, 10)); });
     }
-    expect(window.location.hash).toBe("#manual/terminal");
+    expect(window.location.pathname).toBe("/linux/script");
     const oneshots = [...container.querySelectorAll("[data-code-id]")].map((node) => node.getAttribute("data-code-id")).filter((id) => id?.startsWith("code-oneshot-"));
     expect(oneshots).toEqual(["code-oneshot-fedora"]);
     expect(container.querySelector("[data-code-id='code-oneshot-fedora'] code")?.textContent).toBe(scriptText("code-oneshot-fedora"));

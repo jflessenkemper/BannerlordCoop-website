@@ -1,40 +1,42 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLinuxText } from "../hooks/useLinuxText";
 import { GuideSection } from "../Blocks";
 import { goldButton, pageFrame, primaryButton } from "../guide-styles";
 import { sectionsById, TROUBLESHOOTING_SECTION, wizardNeighbors, type GuideRoute, type WizardStep } from "../guide-model";
 
-/** One wizard step, with the same next and previous routes as the arrow keys. */
+/** One wizard step. Arrow keys move only while focus is in this region and not in a control. */
 export function WizardView({
     step,
-    progress,
     nextLabel,
     onGo,
 }: {
     step: WizardStep;
-    progress: string;
     nextLabel: string;
     onGo: (route: GuideRoute) => void;
 }) {
     const { t } = useLinuxText();
+    const regionRef = useRef<HTMLElement>(null);
     const section = sectionsById.get(step);
     const neighbors = wizardNeighbors(step);
     if (!section) throw new Error(`Missing wizard section: ${step}`);
 
     useEffect(() => {
-        const keys = wizardNeighbors(step);
         function onKey(event: KeyboardEvent) {
-            const target = event.target as HTMLElement | null;
-            if (target?.closest("input, textarea, select, pre, [role='tablist']")) return;
+            const region = regionRef.current;
+            const target = event.target;
+            if (!(target instanceof Node) || !region?.contains(target)) return;
+            if (target instanceof Element && target.closest("input, textarea, select, pre, a, button, [role='tab'], [contenteditable='true']")) return;
             if (event.key === "ArrowRight") {
                 event.preventDefault();
-                onGo(keys.next);
+                onGo(wizardNeighbors(step).next);
             }
-            if (event.key === "ArrowLeft" && keys.previous) {
+            if (event.key === "ArrowLeft") {
+                const previous = wizardNeighbors(step).previous;
+                if (!previous) return;
                 event.preventDefault();
-                onGo(keys.previous);
+                onGo(previous);
             }
         }
         document.addEventListener("keydown", onKey);
@@ -42,17 +44,16 @@ export function WizardView({
     }, [onGo, step]);
 
     return (
-        <section aria-labelledby="wizard-live">
-            <h1 id="wizard-live" className="sr-only">{progress}: {t(section.titleKey)}</h1>
-            <div className={`${pageFrame} py-8 sm:py-10`}>
+        <section ref={regionRef} aria-labelledby="wizard-title">
+            <div className={`${pageFrame} wizard-copy py-8 pb-28 sm:py-10`}>
                 <GuideSection section={section} wizard alone />
             </div>
-            <div className="sticky bottom-0 flex flex-wrap justify-center gap-2 bg-gradient-to-b from-transparent to-background px-4 py-4">
+            <div className="linux-wizard-bar sticky bottom-0 z-20 flex flex-nowrap items-stretch justify-center gap-2 px-3 py-3">
                 {neighbors.previous && (
-                    <button type="button" className={goldButton} onClick={() => { const previous = wizardNeighbors(step).previous; if (previous) onGo(previous); }}>{t("ui.previous")}</button>
+                    <button type="button" className={`${goldButton} min-w-0 flex-1 px-2 text-xs sm:flex-none sm:px-4 sm:text-sm`} onClick={() => { const previous = wizardNeighbors(step).previous; if (previous) onGo(previous); }}>{t("ui.previous")}</button>
                 )}
-                <button type="button" className={goldButton} onClick={() => onGo({ view: "manual", section: TROUBLESHOOTING_SECTION })}>{t("ui.help")}</button>
-                <button type="button" className={primaryButton} onClick={() => onGo(neighbors.next)}>{nextLabel}</button>
+                <button type="button" className={`${goldButton} min-w-0 flex-1 px-2 text-xs sm:flex-none sm:px-4 sm:text-sm`} onClick={() => onGo({ view: "manual", section: TROUBLESHOOTING_SECTION })}>{t("ui.help")}</button>
+                <button type="button" className={`${primaryButton} min-w-0 flex-1 px-2 text-xs sm:flex-none sm:px-4 sm:text-sm`} onClick={() => onGo(neighbors.next)}>{nextLabel}</button>
             </div>
         </section>
     );
