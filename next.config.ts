@@ -6,6 +6,13 @@ const nextConfig: NextConfig = {
     turbopack: {root: process.cwd()},
     experimental: { serverActions: { bodySizeLimit: "22mb" } },
     output: process.env.WORKERS_CI === "1" ? "standalone" : undefined,
+    async rewrites() {
+        const locales = ["de", "es", "fr", "ja", "ko", "ru", "tr", "zh-CN", "pt-BR", "pt-PT"];
+        return locales.flatMap((locale) => [
+            { source: `/${locale}/linux`, destination: `/linux?lang=${locale}` },
+            { source: `/${locale}/linux/:path*`, destination: `/linux/:path*?lang=${locale}` },
+        ]);
+    },
     async redirects() {
         return [
             {

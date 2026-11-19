@@ -2,7 +2,7 @@ import { act, cloneElement, isValidElement, type ReactNode } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createRoot } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import Home, { generateMetadata } from "@/app/page";
+import Home, { generateMetadata } from "@/app/(site)/page";
 import { ActiveGroups } from "./community/ActiveGroups";
 import { VideoCarousel } from "./media/VideoCarousel";
 import { CommunityMedia } from "./media/CommunityMedia";

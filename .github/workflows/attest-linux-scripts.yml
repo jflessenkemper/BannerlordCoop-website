@@ -1,0 +1,34 @@
+name: Attest Linux guide scripts
+
+on:
+  push:
+    branches:
+      - main
+      - cursor/linux-guide-review-fixes
+    paths:
+      - 'public/linux/scripts/**'
+      - '.github/workflows/attest-linux-scripts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+jobs:
+  attest:
+    name: Sign published guide scripts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Attest the script files
+        id: scripts
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        with:
+          subject-path: public/linux/scripts/*.sh
+      - name: Attest the checksum manifest
+        id: sums
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        with:
+          subject-path: public/linux/scripts/SHA256SUMS

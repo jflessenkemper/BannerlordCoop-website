@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { RefreshCw, Sparkles, Trash2 } from "lucide-react";
-import { changeManagedServerCampaign, listManagedServerCampaigns, readManagedServerCampaignReset } from "@/app/servers/managed-server-campaign-actions";
+import { changeManagedServerCampaign, listManagedServerCampaigns, readManagedServerCampaignReset } from "@/app/(site)/servers/managed-server-campaign-actions";
 import { useTranslations } from "@/app/lib/localization/client";
 import type { Translator } from "@/app/lib/localization/types";
 import { useSaveDeletion } from "./use-save-deletion";

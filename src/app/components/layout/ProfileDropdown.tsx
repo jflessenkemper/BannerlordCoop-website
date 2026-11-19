@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "@/app/lib/localization/client";
-import { signOut } from "@/app/auth/actions";
+import { signOut } from "@/app/(site)/auth/actions";
 import { LoadingButton } from "@/app/components/ui/LoadingButton";
 import { ChevronDown, ShieldCheck, UserRound } from "lucide-react";
 import Link from "next/link";

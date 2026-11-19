@@ -10,8 +10,8 @@ import { ZONED_DATE_TIME_FORMAT } from "./viewer-time-zone";
 
 const mocks = vi.hoisted(() => ({ read: vi.fn(), dismiss: vi.fn(), refresh: vi.fn() }));
 vi.mock("next/navigation", () => { const router = { refresh: mocks.refresh }; return { useRouter: () => router }; });
-vi.mock("@/app/servers/managed-server-move-actions", () => ({ readManagedServerMoveStatus: mocks.read }));
-vi.mock("@/app/servers/server-notice-actions", () => ({ dismissManagedServerNotice: mocks.dismiss }));
+vi.mock("@/app/(site)/servers/managed-server-move-actions", () => ({ readManagedServerMoveStatus: mocks.read }));
+vi.mock("@/app/(site)/servers/server-notice-actions", () => ({ dismissManagedServerNotice: mocks.dismiss }));
 
 const messages = serverTestMessages["managed-server"];
 const serverId = "11111111-1111-4111-8111-111111111111";

@@ -11,8 +11,8 @@ import {
     useManagedServerStatusSlot,
     type ManagedConsoleSignal,
 } from "@/app/components/servers/ManagedServerPollingProvider";
-import { cancelManagedServerStart, operateManagedServer, readManagedServerStartStatus, setManagedServerPassword } from "@/app/servers/managed-server-actions";
-import { readServerBuildStatus } from "@/app/servers/server-build-actions";
+import { cancelManagedServerStart, operateManagedServer, readManagedServerStartStatus, setManagedServerPassword } from "@/app/(site)/servers/managed-server-actions";
+import { readServerBuildStatus } from "@/app/(site)/servers/server-build-actions";
 import { VersionProgress } from "./ManagedServerVersion";
 import type { BuildChangeJob } from "../../../../supabase/functions/_shared/server-build-contract";
 import { useRouter } from "next/navigation";

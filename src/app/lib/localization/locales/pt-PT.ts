@@ -31,6 +31,7 @@ const definition: LocaleDefinition = {
         // Loads the support namespace only when requested.
         "support": () => import("../dictionaries/pt-PT/support.json"),
         "hosting": () => import("../dictionaries/pt-PT/hosting.json"),
+        "linux": () => import("../dictionaries/pt-PT/linux.json"),
         // Loads the not-found namespace only when requested.
         "not-found": () => import("../dictionaries/pt-PT/not-found.json"),
     },

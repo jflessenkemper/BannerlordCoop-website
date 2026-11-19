@@ -1,6 +1,6 @@
 "use client";
 
-import { configurationImportMessages } from "@/app/servers/managed-server-messages";
+import { configurationImportMessages } from "@/app/(site)/servers/managed-server-messages";
 
 import { useTranslations } from "@/app/lib/localization/client";
 import type { Translator } from "@/app/lib/localization/types";
@@ -12,7 +12,7 @@ import { Download, Upload, X, LoaderCircle } from "lucide-react";
 import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
 import { workspaceNoticeClass } from "./server-workspace-ui";
 import { useRouter } from "next/navigation";
-import { checkManagedServerFile, downloadManagedServerSave, exportManagedServerConfig, readManagedServerFileStatus, submitManagedServerFile } from "@/app/servers/managed-server-file-actions";
+import { checkManagedServerFile, downloadManagedServerSave, exportManagedServerConfig, readManagedServerFileStatus, submitManagedServerFile } from "@/app/(site)/servers/managed-server-file-actions";
 import { readConfigurationFile, applyConfigurationImport, type ConfigurationPart } from "../../../../supabase/functions/_shared/configuration-file-import";
 import { MAXIMUM_WEB_SAVE_BYTES, MAXIMUM_WEB_CONFIG_BYTES, requireUuid, requireFileTimestamp, type OwnerFileStatus, type OwnerFileResult } from "../../../../supabase/functions/_shared/server-file-contract";
 

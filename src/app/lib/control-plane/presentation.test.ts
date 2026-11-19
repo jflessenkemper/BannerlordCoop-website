@@ -101,7 +101,7 @@ test("the website creates servers on Public without asking for a redundant relea
     assert.deepEqual(unrelated, { action: "start" });
 
     const source = await readFile(
-        new URL("../../admin/control-plane/page.tsx", import.meta.url),
+        new URL("../../(site)/admin/control-plane/page.tsx", import.meta.url),
         "utf8",
     );
     const createCard = source.match(/operation: "create-server"[\s\S]+?operation: "set-global-controls"/u)?.[0];
@@ -112,7 +112,7 @@ test("the website creates servers on Public without asking for a redundant relea
 
 test("the administrator page omits the retired role-deletion control", async () => {
     const source = await readFile(
-        new URL("../../admin/control-plane/page.tsx", import.meta.url),
+        new URL("../../(site)/admin/control-plane/page.tsx", import.meta.url),
         "utf8",
     );
     assert.doesNotMatch(source, /roleDeletionsPaused|Role deletions|Pause role deletions/u);
@@ -140,7 +140,7 @@ test("server ownership resolves the durable website account and has explicit fal
 
 test("the VPS view presents slot occupants and resources with their owning host", async () => {
     const pageSource = await readFile(
-        new URL("../../admin/control-plane/page.tsx", import.meta.url),
+        new URL("../../(site)/admin/control-plane/page.tsx", import.meta.url),
         "utf8",
     );
     const inventorySource = await readFile(
@@ -162,7 +162,7 @@ test("the VPS view presents slot occupants and resources with their owning host"
 
 test("administrator reason fields are optional and explain the audit fallback", async () => {
     const source = await readFile(
-        new URL("../../admin/control-plane/page.tsx", import.meta.url),
+        new URL("../../(site)/admin/control-plane/page.tsx", import.meta.url),
         "utf8",
     );
     const declaration = source.match(/const reasonField: AdminActionField = \{[^\n]+\};/u)?.[0];
@@ -391,7 +391,7 @@ test("operation card rows expand to their row width", () => {
 
 // Ensure discovery replaces receipt import and renders backend metadata rather than legacy guesses.
 test("Builds refreshes GHCR discovery and displays exact release labels", async () => {
-    const source = await readFile(new URL("../../admin/control-plane/page.tsx", import.meta.url), "utf8");
+    const source = await readFile(new URL("../../(site)/admin/control-plane/page.tsx", import.meta.url), "utf8");
     const details = await readFile(new URL("../../components/admin/ControlPlanePresentation.tsx", import.meta.url), "utf8");
     const server = await readFile(new URL("../../components/admin/ControlPlaneServerView.tsx", import.meta.url), "utf8");
     assert.match(source, /<RefreshReleaseCatalog/u);
@@ -409,7 +409,7 @@ test("Builds refreshes GHCR discovery and displays exact release labels", async 
 
 // Operations must offer the full discovery bound, not the overview's truncated 20-version lists.
 test("release selectors load the same full catalog as the Releases view", async () => {
-    const source = await readFile(new URL("../../admin/control-plane/page.tsx", import.meta.url), "utf8");
+    const source = await readFile(new URL("../../(site)/admin/control-plane/page.tsx", import.meta.url), "utf8");
     const operations = source.slice(source.indexOf('case "operations":'), source.indexOf('case "vps":'));
     assert.match(operations, /operation: "overview", input: \{ operations: true \}/u);
     assert.match(operations, /loadReleaseCatalog\(token, signal, identity\)/u);

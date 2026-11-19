@@ -6,10 +6,10 @@ import { createContext, useContext, useEffect, useId, useRef, useState, useSyncE
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, ChevronDown, ChevronRight, Copy, Database, Eye, EyeOff, FileJson, Play, Puzzle, RotateCw, Search, Settings2, Square, Terminal } from "lucide-react";
 
-import commandsData from "@/app/cheats/commands.json";
-import { isPublishedCheat } from "@/app/cheats/debugOnly";
-import { idLookupOutputs } from "@/app/cheats/idLookups";
-import { translateCheat } from "@/app/cheats/translation";
+import commandsData from "@/app/(site)/cheats/commands.json";
+import { isPublishedCheat } from "@/app/(site)/cheats/debugOnly";
+import { idLookupOutputs } from "@/app/(site)/cheats/idLookups";
+import { translateCheat } from "@/app/(site)/cheats/translation";
 import { segmentedButtonClass, segmentedGroupClass } from "./segmented-controls";
 import { SERVER_WORKSPACE_TAB_PARAMETER, serverWorkspaceSectionFromTab, serverWorkspaceTab, type ServerWorkspaceSection } from "./server-workspace-tabs";
 

@@ -13,7 +13,10 @@ export async function createSupabaseServerClient(administratorBackup = false): P
     return createServerClient(url, publishableKey, {
         ...(administratorBackup ? { cookieOptions: ADMIN_SESSION_COOKIE_OPTIONS } : {}),
         cookies: {
-            getAll() { return cookieStore.getAll(); },
+            getAll() {
+                try { return typeof cookieStore.getAll === "function" ? cookieStore.getAll() : []; }
+                catch { return []; }
+            },
             setAll(cookiesToSet) {
                 try { cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options)); }
                 // src/middleware.ts refreshes sessions first; a refresh here in an action re-renders the page.

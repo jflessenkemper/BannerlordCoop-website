@@ -12,8 +12,8 @@ import { DEFAULT_MANAGED_SERVER_CONFIGURATION } from "../../../../supabase/funct
 import { OWNER_FILE_REJECTION_REASONS, type OwnerFileStatus } from "../../../../supabase/functions/_shared/server-file-contract";
 const mocks = vi.hoisted(() => ({ submit: vi.fn(), check: vi.fn(), download: vi.fn(), config: vi.fn(), refresh: vi.fn(), read: vi.fn(), save: vi.fn(), fileStatus: vi.fn() }));
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: mocks.refresh }) }));
-vi.mock("@/app/servers/managed-server-file-actions", () => ({ submitManagedServerFile: mocks.submit, checkManagedServerFile: mocks.check, downloadManagedServerSave: mocks.download, exportManagedServerConfig: mocks.config, readManagedServerFileStatus: mocks.fileStatus }));
-vi.mock("@/app/servers/managed-server-config-actions", () => ({
+vi.mock("@/app/(site)/servers/managed-server-file-actions", () => ({ submitManagedServerFile: mocks.submit, checkManagedServerFile: mocks.check, downloadManagedServerSave: mocks.download, exportManagedServerConfig: mocks.config, readManagedServerFileStatus: mocks.fileStatus }));
+vi.mock("@/app/(site)/servers/managed-server-config-actions", () => ({
     readManagedServerConfig: mocks.read, saveManagedServerConfig: mocks.save,
     readManagedServerConfigFiles: async (serverId: string, userId: string) => ({ server: await mocks.read(serverId, "server", userId), mod: await mocks.read(serverId, "mod", userId) }),
 }));

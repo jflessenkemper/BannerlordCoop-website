@@ -18,6 +18,7 @@ vi.mock("@/app/components/admin/ImpersonationBanner", () => ({ ImpersonationBann
 import { getLocale, getMessages, getTranslations } from "./server";
 import { setLocale } from "./actions";
 import RootLayout, { generateMetadata } from "@/app/layout";
+import SiteLayout from "@/app/(site)/layout";
 
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
 afterEach(() => { request.value = undefined; request.set.mockReset(); });
@@ -47,7 +48,8 @@ describe("localization runtime", () => {
             expect((await getTranslations("common")).locale).toBe("en");
             const layout = await RootLayout({ children: <span />, params: Promise.resolve({}) });
             expect(layout.props.lang).toBe("en");
-            expect(layout.props.children.props.children.props.locale).toBe("en");
+            const site = await SiteLayout({ children: <span />, params: Promise.resolve({}) });
+            expect(site.props.locale).toBe("en");
             expect((await generateMetadata()).openGraph).toMatchObject({ locale: "en_US", description: common["metadata.description"] });
         }
     });
@@ -72,7 +74,8 @@ describe("localization runtime", () => {
             expect((await getTranslations("common")).t("loading.page")).toBe("Загрузка…");
             const layout = await RootLayout({ children: <span />, params: Promise.resolve({}) });
             expect(layout.props.lang).toBe("ru");
-            expect(layout.props.children.props.children.props.locale).toBe("ru");
+            const site = await SiteLayout({ children: <span />, params: Promise.resolve({}) });
+            expect(site.props.locale).toBe("ru");
             expect((await generateMetadata()).openGraph).toMatchObject({ locale: "ru_RU", description: "Описание" });
         } finally { localeDefinitions.ru = original; }
     });
@@ -81,8 +84,8 @@ describe("localization runtime", () => {
         const spy = vi.spyOn(localeDefinitions.en.dictionaries as Required<typeof localeDefinitions.en.dictionaries>, "cheats");
         try {
             expect(Object.keys(await getMessages(["common"]))).toEqual(["common"]);
-            const layout = await RootLayout({ children: <span />, params: Promise.resolve({}) });
-            expect(Object.keys(layout.props.children.props.children.props.messages)).toEqual(["common"]);
+            const site = await SiteLayout({ children: <span />, params: Promise.resolve({}) });
+            expect(Object.keys(site.props.messages)).toEqual(["common"]);
             expect(spy).not.toHaveBeenCalled();
             const disabled = locales.find((locale) => !localeDefinitions[locale].enabled);
             if (disabled) await expect(getMessages(["common"], disabled)).rejects.toThrow("not enabled");

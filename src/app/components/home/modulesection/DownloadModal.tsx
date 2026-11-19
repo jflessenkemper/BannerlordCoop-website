@@ -52,12 +52,16 @@ type DownloadModalProps = {
     trigger?: keyof typeof triggerVariants;
     /** Optional subtitle under the trigger label, already localized by the caller. */
     detail?: string;
+    /** Opens the dialog as soon as this chunk has loaded. */
+    initialOpen?: boolean;
+    /** The navbar trigger renders its own button and loads this dialog on click. */
+    showTrigger?: boolean;
 }
 
 /** Presents common download messages even when opened by Navbar outside the home route. */
-export function DownloadModal({trigger = "section", detail} : DownloadModalProps) {
+export function DownloadModal({trigger = "section", detail, initialOpen = false, showTrigger = true} : DownloadModalProps) {
     const { t } = useTranslations("common");
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(initialOpen);
     const dialogRef = useRef<HTMLDivElement>(null);
     const openButtonRef = useRef<HTMLButtonElement>(null);
     const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -110,7 +114,7 @@ export function DownloadModal({trigger = "section", detail} : DownloadModalProps
 
     return (
         <>
-            <button
+            {showTrigger && <button
                 ref={openButtonRef}
                 type="button"
                 aria-haspopup="dialog"
@@ -124,7 +128,7 @@ export function DownloadModal({trigger = "section", detail} : DownloadModalProps
                         <span className="mt-0.5 font-sans text-xs font-normal normal-case tracking-normal text-foreground-muted">{detail}</span>
                     </span>
                 )}
-            </button>
+            </button>}
 
             {isOpen && createPortal(
                 <div

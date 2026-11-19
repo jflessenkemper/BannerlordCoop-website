@@ -20,6 +20,7 @@ const definition: LocaleDefinition = {
         "server-wireframe": () => import("../dictionaries/ko/server-wireframe.json"),
         "support": () => import("../dictionaries/ko/support.json"),
         "hosting": () => import("../dictionaries/ko/hosting.json"),
+        "linux": () => import("../dictionaries/ko/linux.json"),
         "not-found": () => import("../dictionaries/ko/not-found.json"),
     },
 };

@@ -8,9 +8,9 @@ import { ServerManagementWorkspace, ServerWorkspacePanel, ServerConsoleWorkspace
 
 const settingsMocks = vi.hoisted(() => ({ settings: vi.fn(), visibility: vi.fn(), refresh: vi.fn(), release: vi.fn(), releaseStatus: vi.fn() }));
 vi.mock("next/navigation", () => { const router = { refresh: settingsMocks.refresh }; return { useRouter: () => router }; });
-vi.mock("@/app/servers/server-visibility-actions", () => ({ setServerVisibility: settingsMocks.visibility }));
-vi.mock("@/app/servers/server-settings-actions", () => ({ saveServerSettings: settingsMocks.settings }));
-vi.mock("@/app/servers/server-release-actions", () => ({ changeServerRelease: settingsMocks.release, readServerReleaseStatus: settingsMocks.releaseStatus }));
+vi.mock("@/app/(site)/servers/server-visibility-actions", () => ({ setServerVisibility: settingsMocks.visibility }));
+vi.mock("@/app/(site)/servers/server-settings-actions", () => ({ saveServerSettings: settingsMocks.settings }));
+vi.mock("@/app/(site)/servers/server-release-actions", () => ({ changeServerRelease: settingsMocks.release, readServerReleaseStatus: settingsMocks.releaseStatus }));
 let container: HTMLDivElement;
 let root: Root;
 beforeEach(() => {

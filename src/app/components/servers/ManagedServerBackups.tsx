@@ -22,15 +22,15 @@ import type {
     MyServerSaveGenerationSummary,
     MyServerSummary,
 } from "@/app/lib/control-plane/types";
-import { manageServerBackup } from "@/app/servers/managed-server-backup-actions";
-import type { ManagedServerBackupInput } from "@/app/servers/managed-server-backup-input";
+import { manageServerBackup } from "@/app/(site)/servers/managed-server-backup-actions";
+import type { ManagedServerBackupInput } from "@/app/(site)/servers/managed-server-backup-input";
 import {
     clearManagedServerBackupIntent,
     managedServerBackupIntentKey,
     readManagedServerBackupIntent,
     retainManagedServerBackupIntent,
     storeManagedServerBackupIntent,
-} from "@/app/servers/managed-server-backup-intent";
+} from "@/app/(site)/servers/managed-server-backup-intent";
 import { Archive, ChevronDown, Database, LoaderCircle, RotateCcw } from "lucide-react";
 import { fileButtonClass, fileDangerButtonClass, filePrimaryButtonClass } from "./server-file-styles";
 import { WorkspaceCard, workspaceEmptyClass, workspaceListClass, workspaceNoticeClass, workspaceSubheadingClass } from "./server-workspace-ui";

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Trash2, TriangleAlert, X } from "lucide-react";
 import { WorkspaceCard } from "./server-workspace-ui";
 import { useTranslations } from "@/app/lib/localization/client";
-import { deleteManagedServer, type ServerDeletionActionResult } from "@/app/servers/server-deletion-actions";
+import { deleteManagedServer, type ServerDeletionActionResult } from "@/app/(site)/servers/server-deletion-actions";
 import { useOptionalManagedServerPolling } from "./ManagedServerPollingProvider";
 import type { MyServerDeletionJob, MyServerDeletionStatus } from "@/app/lib/hosting/my-servers";
 import type { ServerDeletionIntent } from "../../../../supabase/functions/_shared/server-deletion-contract";

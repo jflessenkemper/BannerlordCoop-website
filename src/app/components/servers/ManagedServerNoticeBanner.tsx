@@ -6,7 +6,7 @@ import type { MyServerNotice } from "@/app/lib/control-plane/types";
 import { isJoinAddress } from "@/app/lib/hosting/connection-address";
 import { useTranslations } from "@/app/lib/localization/client";
 import type { Translator } from "@/app/lib/localization/types";
-import { dismissManagedServerNotice } from "@/app/servers/server-notice-actions";
+import { dismissManagedServerNotice } from "@/app/(site)/servers/server-notice-actions";
 import { moveCoversNotice, useManagedServerMove } from "./managed-server-move-context";
 import { useViewerTimeZone, ZONED_DATE_TIME_FORMAT as START_FORMAT } from "./viewer-time-zone";
 

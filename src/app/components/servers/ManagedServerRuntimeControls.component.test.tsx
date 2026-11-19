@@ -15,8 +15,8 @@ vi.mock("./ManagedServerPollingProvider", async (original) => ({
     useManagedConsoleSignals: () => mocks.signals,
 }));
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
-vi.mock("@/app/servers/managed-server-console-actions", () => ({ submitManagedConsoleCommand: mocks.submit, checkManagedConsoleCommand: mocks.check, acknowledgeManagedConsoleCommand: mocks.ack }));
-vi.mock("@/app/servers/managed-server-actions", () => ({
+vi.mock("@/app/(site)/servers/managed-server-console-actions", () => ({ submitManagedConsoleCommand: mocks.submit, checkManagedConsoleCommand: mocks.check, acknowledgeManagedConsoleCommand: mocks.ack }));
+vi.mock("@/app/(site)/servers/managed-server-actions", () => ({
     readManagedServerResources: mocks.resources, operateManagedServer: mocks.operate, readManagedServerStartStatus: vi.fn(), setManagedServerPassword: vi.fn(),
 }));
 vi.mock("./DownloadServerLogButton", () => ({ DownloadServerLogButton: () => <span>Download logs</span> }));

@@ -1,4 +1,4 @@
-import { MEMBER_PAGE_SIZES, memberListHref, type MemberListState } from "@/app/admin/member-list";
+import { MEMBER_PAGE_SIZES, memberListHref, type MemberListState } from "@/app/(site)/admin/member-list";
 import type { PageSlice } from "@/app/lib/pagination";
 import Link from "next/link";
 

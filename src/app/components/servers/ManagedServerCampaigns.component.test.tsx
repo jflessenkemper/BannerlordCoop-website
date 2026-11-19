@@ -9,8 +9,8 @@ const CAMPAIGN_RESET_RUNNER_UPDATE_INSTRUCTION = "Contact support to update this
 
 const mocks = vi.hoisted(() => ({ list: vi.fn(), change: vi.fn(), resetStatus: vi.fn(), deleteSave: vi.fn(), deletionStatus: vi.fn(), refresh: vi.fn() }));
 vi.mock("next/navigation", () => { const router = { refresh: mocks.refresh }; return { useRouter: () => router }; });
-vi.mock("@/app/servers/managed-server-campaign-actions", () => ({ listManagedServerCampaigns: mocks.list, changeManagedServerCampaign: mocks.change, readManagedServerCampaignReset: mocks.resetStatus }));
-vi.mock("@/app/servers/managed-server-save-actions", () => ({ deleteManagedServerSave: mocks.deleteSave, readManagedServerSaveDeletion: mocks.deletionStatus }));
+vi.mock("@/app/(site)/servers/managed-server-campaign-actions", () => ({ listManagedServerCampaigns: mocks.list, changeManagedServerCampaign: mocks.change, readManagedServerCampaignReset: mocks.resetStatus }));
+vi.mock("@/app/(site)/servers/managed-server-save-actions", () => ({ deleteManagedServerSave: mocks.deleteSave, readManagedServerSaveDeletion: mocks.deletionStatus }));
 
 const serverId = "11111111-1111-4111-8111-111111111111";
 const defaultId = "22222222-2222-4222-8222-222222222222";

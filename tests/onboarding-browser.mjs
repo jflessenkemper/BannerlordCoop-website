@@ -16,7 +16,7 @@ const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => ["P
 Object.assign(env, { NEXT_TELEMETRY_DISABLED: "1", HOME: join(owned, "home"), USERPROFILE: join(owned, "home") });
 await new Promise((yes, no) => { const probe = createServer(); probe.once("error", no); probe.listen(port, "127.0.0.1", () => probe.close(yes)); });
 await mkdir(source, { recursive: true }); await mkdir(env.HOME, { recursive: true });
-for (const path of ["src/app/components/servers/ServerOnboarding.tsx", "src/app/components/servers/ServerDirectoryTable.tsx", "src/app/components/servers/CopyJoinButton.tsx", "src/app/components/servers/MembershipNextStep.tsx", "src/app/servers/onboarding-intent.ts", "supabase/functions/_shared/server-onboarding-contract.ts", "tests/onboarding-fixtures.ts", "src/app/globals.css", "postcss.config.mjs", "tsconfig.json"]) {
+for (const path of ["src/app/components/servers/ServerOnboarding.tsx", "src/app/components/servers/ServerDirectoryTable.tsx", "src/app/components/servers/CopyJoinButton.tsx", "src/app/components/servers/MembershipNextStep.tsx", "src/app/(site)/servers/onboarding-intent.ts", "supabase/functions/_shared/server-onboarding-contract.ts", "tests/onboarding-fixtures.ts", "src/app/globals.css", "postcss.config.mjs", "tsconfig.json"]) {
     await mkdir(dirname(join(source, path)), { recursive: true }); await copyFile(path, join(source, path));
 }
 await writeFile(join(source, "package.json"), JSON.stringify({ private: true, dependencies: { next: "16.3.3", react: "19.2.8", "react-dom": "19.2.8" } }));
@@ -24,11 +24,11 @@ await writeFile(join(source, "next.config.mjs"), `export default { devIndicators
 await writeFile(join(source, "src/app/page.tsx"), (await readFile("tests/onboarding-browser-fixture.tsx", "utf8")).replace('"./onboarding-fixtures"', '"../../tests/onboarding-fixtures"'));
 await writeFile(join(source, "src/app/layout.tsx"), `import './globals.css'; export default function Layout({children}) { return <html lang="en"><body>{children}</body></html>; }`);
 await mkdir(join(source, "src/app/account"), { recursive: true });
-await writeFile(join(source, "src/app/account/actions.ts"), `// MOCK-ONLY: never invoke a real account action.
+await writeFile(join(source, "src/app/(site)/account/actions.ts"), `// MOCK-ONLY: never invoke a real account action.
 export async function linkPatreonAccount() { throw new Error('Account linking is outside this fixture'); }
 `);
-await writeFile(join(source, "src/app/servers/onboarding-actions.ts"), `// MOCK-ONLY: disposable browser fixture, never deployed.
-import { onboardingCreated, onboardingRequested } from '../../../tests/onboarding-fixtures';
+await writeFile(join(source, "src/app/(site)/servers/onboarding-actions.ts"), `// MOCK-ONLY: disposable browser fixture, never deployed.
+import { onboardingCreated, onboardingRequested } from '../../../../tests/onboarding-fixtures';
 export async function submitServerOnboarding(input, expectedUser) {
  const calls = JSON.parse(sessionStorage.getItem('fixture-calls') || '[]'); calls.push(input); sessionStorage.setItem('fixture-calls', JSON.stringify(calls));
  const mode = sessionStorage.getItem('fixture-response');

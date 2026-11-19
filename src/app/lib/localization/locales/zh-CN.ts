@@ -21,6 +21,7 @@ const definition: LocaleDefinition = {
         "server-wireframe": () => import("../dictionaries/zh-CN/server-wireframe.json"),
         "support": () => import("../dictionaries/zh-CN/support.json"),
         "hosting": () => import("../dictionaries/zh-CN/hosting.json"),
+        "linux": () => import("../dictionaries/zh-CN/linux.json"),
         "not-found": () => import("../dictionaries/zh-CN/not-found.json"),
     },
 };

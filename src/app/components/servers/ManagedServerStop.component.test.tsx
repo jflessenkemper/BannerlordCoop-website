@@ -8,10 +8,10 @@ import { TestLocalization } from "./ManagedServerLocalization.test-utils";
 
 const { operate, router } = vi.hoisted(() => ({ operate: vi.fn(), router: { refresh: vi.fn() } }));
 vi.mock("next/navigation", () => ({ useRouter: () => router }));
-vi.mock("@/app/servers/managed-server-actions", () => ({
+vi.mock("@/app/(site)/servers/managed-server-actions", () => ({
     operateManagedServer: operate, readManagedServerStartStatus: vi.fn(), setManagedServerPassword: vi.fn(),
 }));
-vi.mock("@/app/servers/managed-server-backup-actions", () => ({ manageServerBackup: vi.fn() }));
+vi.mock("@/app/(site)/servers/managed-server-backup-actions", () => ({ manageServerBackup: vi.fn() }));
 
 const server = { serverId: "22222222-2222-4222-8222-222222222222", displayName: "Campaign",
     accessRole: "owner" as const, operationState: "running", observedGameState: "running",

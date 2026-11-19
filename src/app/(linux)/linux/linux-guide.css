@@ -1,0 +1,714 @@
+/* Backdrop, counters, disclosure markers, wrapping code, and the phone subnav
+   labels. Layout, color, and type use Tailwind utilities. */
+.linux-guide {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: none;
+  /* Fill the screen under the 4rem navbar so the footer starts at the bottom, not mid-page. */
+  min-height: calc(100svh - 4rem);
+  min-height: calc(100dvh - 4rem);
+  background: transparent;
+}
+
+/* The artwork is a background, so Chrome does not treat the full-viewport picture as the LCP element. */
+.linux-backdrop-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: #070806 url("/images/linux/backdrop.webp") center / cover no-repeat;
+}
+
+/* The scrim fades, not the picture, so the image never enters LCP by animating in from zero. */
+.linux-backdrop-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: #070806;
+  animation: linux-backdrop-in 180ms linear forwards;
+}
+
+@keyframes linux-backdrop-in {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linux-backdrop-veil {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* The picture sits above the page background and under the header, guide, and footer. */
+html:has(.linux-guide) {
+  scroll-padding-top: 4.5rem;
+}
+
+html:has(.linux-subnav) {
+  scroll-padding-top: 7.75rem;
+}
+
+.linux-guide [id^="sec-"] {
+  scroll-margin-top: 7.75rem;
+}
+
+body:has(.linux-backdrop-layer) > header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdrop-veil):not(header) {
+  position: relative;
+  z-index: 1;
+}
+
+.linux-glass {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.01) 60%),
+    rgba(13, 14, 11, 0.94);
+}
+
+.linux-subnav .subnav-sep {
+  align-self: stretch;
+  width: 1px;
+  min-height: 3rem;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.linux-subnav {
+  position: fixed;
+  top: 4rem;
+  right: 0;
+  left: 0;
+  z-index: 40;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.025)),
+    rgba(11, 12, 9, 0.92);
+}
+
+.linux-guide::before {
+  content: "";
+  position: fixed;
+  top: 4rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(143, 29, 35, 0.16), transparent 32%),
+    linear-gradient(to top, var(--background) 0%, rgba(7, 8, 6, 0.72) 28%, rgba(7, 8, 6, 0.55) 100%),
+    linear-gradient(to right, rgba(7, 8, 6, 0.88), rgba(7, 8, 6, 0.45) 55%, rgba(7, 8, 6, 0.2));
+}
+
+.linux-guide > :not(.sticky):not(.fixed) {
+  position: relative;
+  z-index: 1;
+}
+
+.linux-guide {
+  overflow-x: visible;
+  scroll-padding-top: 4.5rem;
+  scroll-padding-bottom: 6rem;
+}
+
+.linux-guide:has(.linux-subnav) {
+  padding-top: 3.5rem;
+  scroll-padding-top: 7.75rem;
+}
+
+.linux-guide pre {
+  max-width: 100%;
+}
+
+.linux-guide :where(a, button, input, summary, pre, [tabindex]) {
+  scroll-margin-top: 4.5rem;
+  scroll-margin-bottom: 6rem;
+}
+
+.linux-guide:has(.linux-subnav) :where(a, button, input, summary, pre, [tabindex]) {
+  scroll-margin-top: 7.75rem;
+}
+
+.linux-guide :where(p, li, dd, dt, td, th, figcaption, summary, h1, h2, h3, a) {
+  overflow-wrap: anywhere;
+}
+
+.linux-guide code:not(.linux-code code) {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.linux-wizard-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  overflow-x: auto;
+  background: var(--background);
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+.linux-wizard-bar a {
+  white-space: nowrap;
+}
+
+body:has(.linux-wizard-bar) > main {
+  z-index: 2;
+}
+
+body:has(.linux-wizard-bar) > footer {
+  padding-bottom: calc(5.75rem + env(safe-area-inset-bottom));
+}
+
+.linux-guide .wizard-copy {
+  padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+}
+
+:is(.linux-guide, header) :is(a, button, summary, label):active {
+  transition: none;
+  filter: brightness(1.4);
+}
+
+.linux-flow {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.linux-flow > * {
+  margin: 0;
+}
+
+.linux-note {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(13, 14, 11, 0.72);
+  padding: 0.85rem 1rem;
+}
+
+.linux-note-label {
+  margin: 0 0 0.35rem;
+  color: #d6be78;
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.linux-columns {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .linux-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.linux-flow .text-foreground-muted {
+  color: var(--foreground);
+}
+
+.linux-guide a.text-gold:not(.no-underline) {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.linux-guide :is(button, summary):not(.linux-term-btn),
+.linux-guide :is(button, summary):not(.linux-term-btn):is(:hover, :focus, :focus-visible, :active),
+.linux-guide a.no-underline,
+.linux-guide a.no-underline:is(:hover, :focus, :focus-visible, :active, :visited),
+body:has(.linux-guide) header :is(button, summary, a.no-underline),
+body:has(.linux-guide) header :is(button, summary, a.no-underline):is(:hover, :focus, :focus-visible, :active, :visited) {
+  text-decoration-line: none;
+}
+
+.linux-guide :is(button, summary, a.no-underline):focus-visible,
+body:has(.linux-guide) header :is(button, summary, a.no-underline):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.linux-guide .code-trust {
+  color: #d6be78;
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.linux-guide .code-trust-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #d6be78;
+  cursor: pointer;
+}
+
+.linux-guide .code-trust-pop {
+  max-width: min(22rem, calc(100vw - 1rem));
+  border: 1px solid rgba(214, 190, 120, 0.45);
+  background: #11120e;
+  color: var(--foreground);
+  padding: 0.85rem 1rem;
+}
+
+.linux-guide .code-trust-pop p {
+  margin: 0 0 0.5rem;
+}
+
+.linux-guide .code-trust-cmd {
+  margin: 0 0 0.5rem;
+  white-space: pre-wrap;
+  font-family: ui-monospace, monospace;
+  font-size: 0.82rem;
+}
+
+.linux-guide .linux-term-btn {
+  display: inline;
+  white-space: nowrap;
+}
+
+.linux-guide .linux-keep {
+  white-space: nowrap;
+}
+
+.linux-code .tok-comment { color: #8d887c; }
+.linux-code .tok-keyword { color: #e07a72; }
+.linux-code .tok-string { color: #e6c98a; }
+.linux-code .tok-number { color: #e7a08a; }
+.linux-code .tok-flag,
+.linux-code .tok-key { color: #d6be78; }
+.linux-code .tok-var { color: #d7c4a3; }
+.linux-code .tok-punct { color: #9a9488; }
+
+/* Same width and gutters as .site-container, so the guide stays centred if utility CSS is absent. */
+.linux-guide .site-container {
+  width: min(calc(100% - 2rem), var(--content-width, 1280px));
+  margin-inline: auto;
+}
+
+/* Opening menu and distro picker: centre the block when it fits, and grow when it does not. */
+.linux-guide .guide-stage {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+  width: 100%;
+  padding-block: 2rem;
+}
+
+/* Four stacked cards need a little less height to sit centred on a phone. */
+@media (max-width: 639px) {
+  #distro-title {
+    min-height: 5.2rem;
+  }
+
+  .linux-guide .distro-blurb {
+    min-height: 6rem;
+    line-height: 1.5rem;
+  }
+
+  .linux-guide .guide-stage {
+    padding-block: 1rem;
+  }
+
+  .linux-guide .guide-choices {
+    margin-top: 1rem;
+  }
+
+  .linux-guide .guide-choices-4 > button,
+  .linux-guide .guide-choices-4 > a {
+    min-height: 7.75rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .linux-guide .distro-blurb {
+    min-height: 9rem;
+  }
+}
+
+/* Lit glass: gold toward the top edge, a dark scrim under the words, and a halo outside. */
+.linux-guide .choice-recommended,
+.linux-guide .choice-recommended:hover,
+.linux-guide .choice-recommended:focus-visible {
+  isolation: isolate;
+  border-color: rgba(214, 190, 120, 0.45);
+  background-color: #3a2c14;
+  background-image:
+    linear-gradient(180deg, rgba(214, 190, 120, 0.11) 0%, rgba(170, 151, 96, 0.05) 40%, rgba(10, 8, 4, 0.18) 100%),
+    radial-gradient(ellipse 90% 50% at 50% 0%, rgba(230, 207, 140, 0.14), transparent 58%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 236, 190, 0.35),
+    inset 0 0 16px rgba(170, 151, 96, 0.21),
+    0 0 6px rgba(214, 190, 120, 0.28),
+    0 0 14px rgba(170, 151, 96, 0.36),
+    0 8px 22px rgba(0, 0, 0, 0.28);
+  backdrop-filter: none;
+}
+
+.linux-guide .choice-recommended,
+.linux-guide .choice-recommended strong,
+.linux-guide .choice-recommended .text-foreground-muted {
+  color: var(--foreground);
+}
+
+.linux-guide .choice-recommended .text-gold {
+  color: #fff6e4;
+}
+
+.linux-guide .choice-recommended::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: transparent;
+  box-shadow: 0 0 10px 2px rgba(214, 190, 120, 0.42);
+  transition: opacity 160ms ease-out;
+}
+
+.linux-guide .choice-recommended:hover::after,
+.linux-guide .choice-recommended:focus-visible::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linux-guide,
+  .linux-guide::before,
+  .linux-guide::after,
+  .linux-guide *,
+  .linux-guide *::before,
+  .linux-guide *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.linux-guide .guide-choices {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.linux-guide .guide-choices > * {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .linux-guide .site-container {
+    width: min(calc(100% - 3rem), var(--content-width, 1280px));
+  }
+
+  .linux-guide .guide-choices-2,
+  .linux-guide .guide-choices-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .linux-guide .site-container {
+    width: min(calc(100% - 6rem), var(--content-width, 1280px));
+  }
+}
+
+@media (min-width: 1280px) {
+  .linux-guide .guide-choices-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-height: 700px) and (orientation: landscape) {
+  .linux-guide .site-container {
+    width: min(calc(100% - 3rem), var(--content-width, 1280px));
+  }
+}
+
+body:has(#linux-guide) footer .text-foreground-dim {
+  color: var(--foreground-muted);
+}
+
+.linux-guide .distro-mark svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  fill: var(--ig, #fff);
+}
+
+.linux-guide .distro-mark.is-art svg {
+  width: 3rem;
+  height: 3rem;
+  fill: none;
+}
+
+.linux-guide .subnav-mark svg {
+  width: 1rem;
+  height: 1rem;
+  fill: var(--ig, #fff);
+}
+
+.linux-guide .subnav-mark.is-art svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+}
+
+.linux-guide .linux-code,
+.linux-guide .linux-code code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.linux-guide .linux-code {
+  tab-size: 4;
+  overscroll-behavior: auto;
+}
+
+.linux-menu:not([open]) > :not(summary),
+.linux-guide details:not([open]) > :not(summary) {
+  display: none;
+}
+
+.linux-guide details > summary,
+.linux-menu > summary {
+  list-style: none;
+}
+
+.linux-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.linux-guide details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.linux-guide details > summary::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  transform: rotate(-45deg);
+}
+
+.linux-guide details.linux-stage > summary {
+  display: grid;
+  grid-template-columns: 1.8rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3.5rem;
+  padding: 0.85rem 0;
+  cursor: pointer;
+}
+
+.linux-guide details.linux-stage > summary::before {
+  order: 2;
+  align-self: center;
+}
+
+.linux-guide .linux-stage-num,
+.linux-guide ol.step-cards > li::before {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  place-items: center;
+  border: 1px solid rgba(170, 151, 96, 0.6);
+  border-radius: 6px;
+  background: rgba(170, 151, 96, 0.14);
+  color: #e6cf8c;
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.linux-guide details.linux-stage > summary h2 {
+  margin: 0;
+  min-width: 0;
+}
+
+.linux-guide details.linux-stage > .linux-stage-body {
+  padding-bottom: 1.5rem;
+}
+
+.linux-guide details[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+.linux-guide ol.step-cards {
+  counter-reset: linux-step;
+  list-style: none;
+}
+
+.linux-guide ol.step-cards > li {
+  counter-increment: linux-step;
+}
+
+.linux-guide ol.step-cards > li::before {
+  content: counter(linux-step);
+  position: absolute;
+  top: 0.7rem;
+  left: 0.75rem;
+}
+
+html[data-distro] .distro-panel { display: none; }
+html[data-distro="ubuntu"] .distro-panel[data-for~="script-ubuntu"],
+html[data-distro="debian"] .distro-panel[data-for~="script-debian"],
+html[data-distro="mint"] .distro-panel[data-for~="script-mint"],
+html[data-distro="fedora"] .distro-panel[data-for~="script-fedora"],
+html[data-distro="arch"] .distro-panel[data-for~="script-arch"],
+html[data-distro="manjaro"] .distro-panel[data-for~="script-manjaro"],
+html[data-distro="suse"] .distro-panel[data-for~="script-suse"],
+html[data-distro="bazzite"] .distro-panel[data-for~="script-bazzite"],
+html[data-distro="deck"] .distro-panel[data-for~="script-deck"],
+html[data-distro="nix"] .distro-panel[data-for~="script-nix"],
+html[data-distro="other"] .distro-panel[data-for~="script-other"],
+html[data-family="debian"] .distro-panel[data-for~="family-debian"],
+html[data-family="fedora"] .distro-panel[data-for~="family-fedora"],
+html[data-family="arch"] .distro-panel[data-for~="family-arch"],
+html[data-family="suse"] .distro-panel[data-for~="family-suse"],
+html[data-family="immutable"] .distro-panel[data-for~="family-immutable"],
+html[data-family="deck"] .distro-panel[data-for~="family-deck"],
+html[data-family="nix"] .distro-panel[data-for~="family-nix"],
+html[data-family="other"] .distro-panel[data-for~="family-other"] { display: block; }
+.distro-picked { display: none; }
+html[data-distro="ubuntu"] [data-pick="ubuntu"] .distro-picked,
+html[data-distro="debian"] [data-pick="debian"] .distro-picked,
+html[data-distro="mint"] [data-pick="mint"] .distro-picked,
+html[data-distro="fedora"] [data-pick="fedora"] .distro-picked,
+html[data-distro="arch"] [data-pick="arch"] .distro-picked,
+html[data-distro="manjaro"] [data-pick="manjaro"] .distro-picked,
+html[data-distro="suse"] [data-pick="suse"] .distro-picked,
+html[data-distro="bazzite"] [data-pick="bazzite"] .distro-picked,
+html[data-distro="deck"] [data-pick="deck"] .distro-picked,
+html[data-distro="nix"] [data-pick="nix"] .distro-picked,
+html[data-distro="other"] [data-pick="other"] .distro-picked { display: block; }
+html[data-distro="ubuntu"] [data-pick="ubuntu"] > button,
+html[data-distro="debian"] [data-pick="debian"] > button,
+html[data-distro="mint"] [data-pick="mint"] > button,
+html[data-distro="fedora"] [data-pick="fedora"] > button,
+html[data-distro="arch"] [data-pick="arch"] > button,
+html[data-distro="manjaro"] [data-pick="manjaro"] > button,
+html[data-distro="suse"] [data-pick="suse"] > button,
+html[data-distro="bazzite"] [data-pick="bazzite"] > button,
+html[data-distro="deck"] [data-pick="deck"] > button,
+html[data-distro="nix"] [data-pick="nix"] > button,
+html[data-distro="other"] [data-pick="other"] > button { border-color: var(--gold); }
+.distro-chip { display: none; min-width: 0; max-width: 100%; }
+html[data-distro="ubuntu"] .distro-chip[data-for="ubuntu"],
+html[data-distro="debian"] .distro-chip[data-for="debian"],
+html[data-distro="mint"] .distro-chip[data-for="mint"],
+html[data-distro="fedora"] .distro-chip[data-for="fedora"],
+html[data-distro="arch"] .distro-chip[data-for="arch"],
+html[data-distro="manjaro"] .distro-chip[data-for="manjaro"],
+html[data-distro="suse"] .distro-chip[data-for="suse"],
+html[data-distro="bazzite"] .distro-chip[data-for="bazzite"],
+html[data-distro="deck"] .distro-chip[data-for="deck"],
+html[data-distro="nix"] .distro-chip[data-for="nix"],
+html[data-distro="other"] .distro-chip[data-for="other"] { display: flex; }
+
+.linux-tabs { position: relative; }
+.linux-tabs > .linux-tab-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.linux-tabs > .linux-tab-panels > div { display: none; }
+.linux-tabs > .linux-tab-input:nth-of-type(1):checked ~ .linux-tablist label:nth-child(1),
+.linux-tabs > .linux-tab-input:nth-of-type(2):checked ~ .linux-tablist label:nth-child(2),
+.linux-tabs > .linux-tab-input:nth-of-type(3):checked ~ .linux-tablist label:nth-child(3),
+.linux-tabs > .linux-tab-input:nth-of-type(4):checked ~ .linux-tablist label:nth-child(4),
+.linux-tabs > .linux-tab-input:nth-of-type(5):checked ~ .linux-tablist label:nth-child(5),
+.linux-tabs > .linux-tab-input:nth-of-type(6):checked ~ .linux-tablist label:nth-child(6),
+.linux-tabs > .linux-tab-input:nth-of-type(7):checked ~ .linux-tablist label:nth-child(7),
+.linux-tabs > .linux-tab-input:nth-of-type(8):checked ~ .linux-tablist label:nth-child(8),
+.linux-tabs > .linux-tab-input:nth-of-type(9):checked ~ .linux-tablist label:nth-child(9),
+.linux-tabs > .linux-tab-input:nth-of-type(10):checked ~ .linux-tablist label:nth-child(10),
+.linux-tabs > .linux-tab-input:nth-of-type(11):checked ~ .linux-tablist label:nth-child(11),
+.linux-tabs > .linux-tab-input:nth-of-type(12):checked ~ .linux-tablist label:nth-child(12) { border-bottom-color: var(--gold); }
+.linux-tabs > .linux-tab-input:nth-of-type(1):checked ~ .linux-tab-panels > div:nth-child(1),
+.linux-tabs > .linux-tab-input:nth-of-type(2):checked ~ .linux-tab-panels > div:nth-child(2),
+.linux-tabs > .linux-tab-input:nth-of-type(3):checked ~ .linux-tab-panels > div:nth-child(3),
+.linux-tabs > .linux-tab-input:nth-of-type(4):checked ~ .linux-tab-panels > div:nth-child(4),
+.linux-tabs > .linux-tab-input:nth-of-type(5):checked ~ .linux-tab-panels > div:nth-child(5),
+.linux-tabs > .linux-tab-input:nth-of-type(6):checked ~ .linux-tab-panels > div:nth-child(6),
+.linux-tabs > .linux-tab-input:nth-of-type(7):checked ~ .linux-tab-panels > div:nth-child(7),
+.linux-tabs > .linux-tab-input:nth-of-type(8):checked ~ .linux-tab-panels > div:nth-child(8),
+.linux-tabs > .linux-tab-input:nth-of-type(9):checked ~ .linux-tab-panels > div:nth-child(9),
+.linux-tabs > .linux-tab-input:nth-of-type(10):checked ~ .linux-tab-panels > div:nth-child(10),
+.linux-tabs > .linux-tab-input:nth-of-type(11):checked ~ .linux-tab-panels > div:nth-child(11),
+.linux-tabs > .linux-tab-input:nth-of-type(12):checked ~ .linux-tab-panels > div:nth-child(12) { display: block; }
+
+@media (max-width: 560px) {
+  .linux-guide .subnav-distro-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .linux-guide .subnav-change {
+    padding-inline: 0.35rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .linux-guide .subnav-here[data-short] {
+    font-size: 0;
+  }
+
+  .linux-guide .subnav-here[data-short]::after {
+    content: attr(data-short);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .linux-guide table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .linux-guide table,
+  .linux-guide tbody,
+  .linux-guide tr,
+  .linux-guide td {
+    display: block;
+    width: 100%;
+  }
+
+  .linux-guide tr {
+    margin: 0 0 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+  }
+
+  .linux-guide td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.15rem;
+    color: var(--gold);
+    font-family: var(--font-barlow), system-ui, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}

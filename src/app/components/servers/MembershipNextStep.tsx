@@ -2,8 +2,8 @@
 
 import { useTranslations } from "@/app/lib/localization/client";
 import Link from "next/link";
-import { linkPatreonAccount } from "@/app/account/actions";
-import { AccountStatusSync } from "@/app/account/AccountStatusSync";
+import { linkPatreonAccount } from "@/app/(site)/account/actions";
+import { AccountStatusSync } from "@/app/(site)/account/AccountStatusSync";
 import type { WebsiteOnboardingSummary } from "@/app/lib/hosting/membership-onboarding";
 
 /** Presents the next membership step without changing eligibility or authorization actions. */

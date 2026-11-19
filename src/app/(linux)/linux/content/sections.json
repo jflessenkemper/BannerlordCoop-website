@@ -1,0 +1,4314 @@
+{
+  "sections": [
+    {
+      "id": "terminal",
+      "kickerKey": "section.terminal.kicker",
+      "titleKey": "section.terminal.title",
+      "subKey": "section.terminal.sub",
+      "blocks": [
+        {
+          "type": "p",
+          "c": [
+            {
+              "t": "text",
+              "k": "section.terminal.b0.0"
+            }
+          ],
+          "role": "lead"
+        },
+        {
+          "type": "tabs",
+          "name": "oneshot",
+          "labelKey": "section.terminal.b1.label",
+          "tabs": [
+            {
+              "labelKey": "section.terminal.b1.tab0",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-ubuntu",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab0.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "ubuntu"
+            },
+            {
+              "labelKey": "section.terminal.b1.tab1",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-debian",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab1.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "debian"
+            },
+            {
+              "labelKey": "section.terminal.b1.tab2",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-mint",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab2.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "mint"
+            },
+            {
+              "labelKey": "section.terminal.b1.tab3",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-fedora",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab3.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "fedora"
+            },
+            {
+              "labelKey": "section.terminal.b1.tab4",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-arch",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab4.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "arch"
+            },
+            {
+              "labelKey": "section.terminal.b1.tab5",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-manjaro",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab5.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "manjaro"
+            },
+            {
+              "labelKey": "section.terminal.b1.tab6",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-suse",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab6.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "suse"
+            },
+            {
+              "labelKey": "section.terminal.b1.tab7",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-bazzite",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab7.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "bazzite"
+            },
+            {
+              "labelKey": "section.terminal.b1.tab8",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-deck",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab8.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "deck"
+            },
+            {
+              "labelKey": "section.terminal.b1.tab9",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-nix",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab9.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "nix"
+            },
+            {
+              "labelKey": "section.terminal.b1.tab10",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-oneshot-other",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab10.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash",
+                  "oneshot": true
+                }
+              ],
+              "script": "other"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "c": [
+            {
+              "t": "text",
+              "k": "section.terminal.b2.0"
+            }
+          ],
+          "role": "safe"
+        },
+        {
+          "type": "columns",
+          "columns": [
+            {
+              "blocks": [
+                {
+                  "type": "h3",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b3.c0.b0.0"
+                    }
+                  ]
+                },
+                {
+                  "type": "ul",
+                  "items": [
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c0.b1.i0.0"
+                      }
+                    ],
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c0.b1.i1.0"
+                      }
+                    ],
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c0.b1.i2.0"
+                      }
+                    ],
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c0.b1.i3.0"
+                      }
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "blocks": [
+                {
+                  "type": "h3",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b3.c1.b0.0"
+                    }
+                  ]
+                },
+                {
+                  "type": "ul",
+                  "items": [
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c1.b1.i0.0"
+                      }
+                    ],
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c1.b1.i1.0"
+                      }
+                    ],
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c1.b1.i2.0"
+                      }
+                    ],
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c1.b1.i3.0"
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "sectionRefs",
+          "when": "alone",
+          "ids": [
+            "variables",
+            "deps",
+            "steam",
+            "download"
+          ],
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.terminal.b4.summary.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "overview",
+      "kickerKey": "section.overview.kicker",
+      "titleKey": "section.overview.title",
+      "subKey": "section.overview.sub",
+      "blocks": [
+        {
+          "type": "callout",
+          "kind": "info",
+          "titleKey": "section.overview.b0.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.overview.b0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "c": [
+            {
+              "t": "text",
+              "k": "section.overview.b1.0"
+            },
+            {
+              "t": "strong",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.overview.b1.1.0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "k": "section.overview.b1.2"
+            },
+            {
+              "t": "term",
+              "termKey": "faq.faq-proton.label0",
+              "defKey": "faq.faq-proton.def0"
+            },
+            {
+              "t": "text",
+              "k": "faq.faq-ports.gap11"
+            },
+            {
+              "t": "term",
+              "termKey": "faq.faq-proton.label1",
+              "defKey": "faq.faq-proton.def1"
+            },
+            {
+              "t": "text",
+              "k": "section.overview.b1.6"
+            },
+            {
+              "t": "strong",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.overview.b1.7.0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "k": "section.overview.b1.8"
+            },
+            {
+              "t": "term",
+              "termKey": "faq.faq-epic-steam.label0",
+              "defKey": "faq.faq-epic-steam.def0"
+            },
+            {
+              "t": "strong",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.overview.b1.10.0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "k": "section.overview.b1.11"
+            }
+          ]
+        },
+        {
+          "type": "ol",
+          "items": [
+            [
+              {
+                "t": "text",
+                "k": "section.overview.b2.i0.0"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.overview.b2.i1.0"
+              },
+              {
+                "t": "code",
+                "v": ".7z"
+              },
+              {
+                "t": "text",
+                "k": "section.overview.b2.i1.2"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.overview.b2.i2.0"
+              },
+              {
+                "t": "code",
+                "v": "server-config.json"
+              },
+              {
+                "t": "text",
+                "k": "section.overview.b2.i2.2"
+              }
+            ]
+          ],
+          "className": "step-cards"
+        }
+      ]
+    },
+    {
+      "id": "variables",
+      "kickerKey": "section.variables.kicker",
+      "titleKey": "section.variables.title",
+      "subKey": "section.variables.sub",
+      "blocks": [
+        {
+          "type": "dl",
+          "items": [
+            {
+              "dt": [
+                {
+                  "t": "code",
+                  "v": "<STEAMROOT>"
+                }
+              ],
+              "dd": [
+                {
+                  "t": "text",
+                  "k": "section.variables.b0.dd0.0"
+                }
+              ]
+            },
+            {
+              "dt": [
+                {
+                  "t": "code",
+                  "v": "<SERVER_DIR>"
+                }
+              ],
+              "dd": [
+                {
+                  "t": "text",
+                  "k": "section.variables.b0.dd1.0"
+                }
+              ]
+            },
+            {
+              "dt": [
+                {
+                  "t": "code",
+                  "v": "<COOP_DATA>"
+                }
+              ],
+              "dd": [
+                {
+                  "t": "text",
+                  "k": "section.variables.b0.dd2.0"
+                }
+              ]
+            },
+            {
+              "dt": [
+                {
+                  "t": "code",
+                  "v": "<SAVE_NAME>"
+                }
+              ],
+              "dd": [
+                {
+                  "t": "text",
+                  "k": "section.variables.b0.dd3.0"
+                },
+                {
+                  "t": "code",
+                  "v": ".sav"
+                }
+              ]
+            },
+            {
+              "dt": [
+                {
+                  "t": "code",
+                  "v": "<SERVER_PASSWORD>"
+                }
+              ],
+              "dd": [
+                {
+                  "t": "text",
+                  "k": "section.variables.b0.dd4.0"
+                }
+              ]
+            },
+            {
+              "dt": [
+                {
+                  "t": "code",
+                  "v": "COOP_VERSION"
+                }
+              ],
+              "dd": [
+                {
+                  "t": "text",
+                  "k": "section.variables.b0.dd5.0"
+                },
+                {
+                  "t": "code",
+                  "v": "v0.1.7"
+                },
+                {
+                  "t": "text",
+                  "k": "section.variables.b0.dd5.2"
+                }
+              ]
+            },
+            {
+              "dt": [
+                {
+                  "t": "code",
+                  "v": "<UDP_PORT>"
+                }
+              ],
+              "dd": [
+                {
+                  "t": "text",
+                  "k": "section.variables.b0.dd6.0"
+                },
+                {
+                  "t": "code",
+                  "v": "4200"
+                },
+                {
+                  "t": "text",
+                  "k": "section.variables.b0.dd6.2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "field",
+          "label": [
+            {
+              "t": "text",
+              "k": "section.variables.b1.label.0"
+            },
+            {
+              "t": "code",
+              "v": "SERVER_DIR"
+            },
+            {
+              "t": "text",
+              "k": "section.variables.b1.label.2"
+            }
+          ],
+          "placeholder": "$HOME/Games/BannerlordCoop-DedicatedServer"
+        },
+        {
+          "type": "code",
+          "id": "code-environment-8227218",
+          "title": [
+            {
+              "t": "text",
+              "k": "section.variables.b2.title.0"
+            }
+          ],
+          "langKey": "code.lang.Bash"
+        }
+      ]
+    },
+    {
+      "id": "deps",
+      "kickerKey": "section.deps.kicker",
+      "titleKey": "section.deps.title",
+      "subKey": "section.deps.sub",
+      "blocks": [
+        {
+          "type": "tabs",
+          "name": "deps",
+          "labelKey": "section.deps.b0.label",
+          "tabs": [
+            {
+              "labelKey": "section.deps.b0.tab0",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-apt-60837352",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.deps.b0.tab0.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "debian",
+                "other"
+              ]
+            },
+            {
+              "labelKey": "section.deps.b0.tab1",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-dnf-85923249",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.deps.b0.tab1.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "fedora",
+                "other"
+              ]
+            },
+            {
+              "labelKey": "section.deps.b0.tab2",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-pacman-79745825",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.deps.b0.tab2.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "arch",
+                "other"
+              ]
+            },
+            {
+              "labelKey": "section.terminal.b1.tab6",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-zypper-95307813",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.deps.b0.tab3.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "suse",
+                "other"
+              ]
+            },
+            {
+              "labelKey": "section.deps.b0.tab4",
+              "blocks": [
+                {
+                  "type": "callout",
+                  "kind": "info",
+                  "titleKey": "section.deps.b0.tab4.b0.title",
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "c": [
+                        {
+                          "t": "text",
+                          "k": "section.deps.b0.tab4.b0.b0.0"
+                        },
+                        {
+                          "t": "code",
+                          "v": "distrobox"
+                        },
+                        {
+                          "t": "text",
+                          "k": "section.deps.b0.tab4.b0.b0.2"
+                        },
+                        {
+                          "t": "code",
+                          "v": "rpm-ostree"
+                        },
+                        {
+                          "t": "text",
+                          "k": "section.deps.b0.tab4.b0.b0.4"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "code",
+                  "id": "code-distrobox-26746609",
+                  "title": [
+                    {
+                      "t": "term",
+                      "termKey": "section.deps.b0.tab4.b1.title.0.term",
+                      "defKey": "section.deps.b0.tab4.b1.title.0.def",
+                      "labelKey": "section.deps.b0.tab4.b1.title.0.label"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "immutable",
+                "deck",
+                "other"
+              ]
+            },
+            {
+              "labelKey": "section.terminal.b1.tab9",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-nix-28769868",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.deps.b0.tab5.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "nix",
+                "other"
+              ]
+            },
+            {
+              "labelKey": "section.terminal.b1.tab8",
+              "blocks": [
+                {
+                  "type": "callout",
+                  "kind": "info",
+                  "titleKey": "section.terminal.b1.tab8",
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "c": [
+                        {
+                          "t": "text",
+                          "k": "section.deps.b0.tab6.b0.b0.0"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "code",
+                  "id": "code-verify-75258262",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.deps.b0.tab6.b1.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "deck",
+                "other"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "ok",
+          "titleKey": "section.deps.b1.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "code",
+                  "v": "command -v curl python3 ss"
+                },
+                {
+                  "t": "text",
+                  "k": "section.deps.b1.b0.1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "steam",
+      "kickerKey": "section.steam.kicker",
+      "titleKey": "section.steam.title",
+      "subKey": "section.steam.sub",
+      "blocks": [
+        {
+          "type": "callout",
+          "kind": "warn",
+          "titleKey": "section.steam.b0.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.steam.b0.b0.0"
+                },
+                {
+                  "t": "code",
+                  "v": "~/.var/app/com.valvesoftware.Steam/..."
+                },
+                {
+                  "t": "text",
+                  "k": "section.steam.b0.b0.2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tabs",
+          "name": "steam",
+          "labelKey": "section.steam.b1.label",
+          "tabs": [
+            {
+              "labelKey": "section.deps.b0.tab0",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-steam-ubuntu",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.steam.b1.tab0.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                },
+                {
+                  "type": "code",
+                  "id": "code-steam-debian",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab1"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "debian"
+              ]
+            },
+            {
+              "labelKey": "section.deps.b0.tab1",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-steam-fedora",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.steam.b1.tab1.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "fedora"
+              ]
+            },
+            {
+              "labelKey": "section.deps.b0.tab2",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-steam-arch",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab4"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                },
+                {
+                  "type": "code",
+                  "id": "code-steam-manjaro",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab5"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "arch"
+              ]
+            },
+            {
+              "labelKey": "section.terminal.b1.tab6",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-steam-suse",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.terminal.b1.tab6"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "suse"
+              ]
+            },
+            {
+              "labelKey": "section.deps.b0.tab4",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-steam-immutable",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.steam.b1.tab4.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "immutable"
+              ]
+            },
+            {
+              "labelKey": "section.steam.b1.tab5",
+              "blocks": [
+                {
+                  "type": "callout",
+                  "kind": "warn",
+                  "titleKey": "section.steam.b1.tab5.b0.title",
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "c": [
+                        {
+                          "t": "text",
+                          "k": "section.steam.b1.tab5.b0.b0.0"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "code",
+                  "id": "code-steamos-inspection-55952700",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.steam.b1.tab5.b1.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "deck"
+              ]
+            },
+            {
+              "labelKey": "section.terminal.b1.tab9",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-steam-nix",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.steam.b1.tab6.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Nix"
+                }
+              ],
+              "families": [
+                "nix"
+              ]
+            },
+            {
+              "labelKey": "section.terminal.b1.tab10",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-steam-flatpak",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.steam.b1.tab7.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ],
+              "families": [
+                "other"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "download",
+      "kickerKey": "section.download.kicker",
+      "titleKey": "section.download.title",
+      "subKey": "section.download.sub",
+      "blocks": [
+        {
+          "type": "callout",
+          "kind": "warn",
+          "titleKey": "section.download.b0.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.download.b0.b0.0"
+                },
+                {
+                  "t": "code",
+                  "v": "manifest.json"
+                },
+                {
+                  "t": "text",
+                  "k": "section.download.b0.b0.2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "warn",
+          "titleKey": "section.download.b1.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.download.b1.b0.0"
+                },
+                {
+                  "t": "code",
+                  "v": "Modules/Coop"
+                },
+                {
+                  "t": "text",
+                  "k": "section.download.b1.b0.2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "c": [
+            {
+              "t": "text",
+              "k": "section.download.b2.0"
+            },
+            {
+              "t": "strong",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.download.b2.1.0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "k": "section.download.b2.2"
+            },
+            {
+              "t": "em",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.download.b2.3.0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "k": "section.download.b2.4"
+            },
+            {
+              "t": "a",
+              "href": "https://github.com/Bannerlord-Coop-Team/BannerlordCoop/releases",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.download.b2.5.0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "k": "section.download.b2.6"
+            },
+            {
+              "t": "code",
+              "v": "COOP_VERSION"
+            },
+            {
+              "t": "text",
+              "k": "section.download.b2.8"
+            }
+          ]
+        },
+        {
+          "type": "ol",
+          "items": [
+            [
+              {
+                "t": "text",
+                "k": "section.download.b3.i0.0"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.download.b3.i1.0"
+              },
+              {
+                "t": "code",
+                "v": "client-module/Coop"
+              },
+              {
+                "t": "text",
+                "k": "section.download.b3.i1.2"
+              },
+              {
+                "t": "code",
+                "v": "Modules/"
+              },
+              {
+                "t": "text",
+                "k": "section.download.b3.i1.4"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.download.b3.i2.0"
+              }
+            ]
+          ],
+          "className": "step-cards"
+        },
+        {
+          "type": "code",
+          "id": "code-resolve-latest-client-server-preferred-87734510",
+          "title": [
+            {
+              "t": "text",
+              "k": "section.download.b4.title.0"
+            }
+          ],
+          "langKey": "code.lang.Bash"
+        },
+        {
+          "type": "code",
+          "id": "code-version-pin-installed-client-check-14939572",
+          "title": [
+            {
+              "t": "text",
+              "k": "section.download.b5.title.0"
+            }
+          ],
+          "langKey": "code.lang.Bash"
+        },
+        {
+          "type": "callout",
+          "kind": "ok",
+          "titleKey": "section.download.b6.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.download.b6.b0.0"
+                },
+                {
+                  "t": "code",
+                  "v": "server/BannerlordCoopServer.exe"
+                },
+                {
+                  "t": "text",
+                  "k": "section.download.b6.b0.2"
+                },
+                {
+                  "t": "code",
+                  "v": "client-module/Coop/SubModule.xml"
+                },
+                {
+                  "t": "text",
+                  "k": "section.download.b6.b0.4"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "configure",
+      "kickerKey": "section.configure.kicker",
+      "titleKey": "section.configure.title",
+      "subKey": "section.configure.sub",
+      "blocks": [
+        {
+          "type": "callout",
+          "kind": "warn",
+          "id": "callout-eula",
+          "titleKey": "section.configure.b0.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.configure.b0.b0.0"
+                },
+                {
+                  "t": "code",
+                  "v": "Accept the EULA? [y/N]"
+                },
+                {
+                  "t": "text",
+                  "k": "section.configure.b0.b0.2"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-epic-steam.label0",
+                  "defKey": "faq.faq-epic-steam.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "section.configure.b0.b0.4"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "warn",
+          "titleKey": "section.configure.b1.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.configure.b1.b0.0"
+                },
+                {
+                  "t": "code",
+                  "v": "server-config.json"
+                },
+                {
+                  "t": "text",
+                  "k": "section.configure.b1.b0.2"
+                },
+                {
+                  "t": "code",
+                  "v": "port"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap11"
+                },
+                {
+                  "t": "code",
+                  "v": "steam"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap11"
+                },
+                {
+                  "t": "code",
+                  "v": "password"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap11"
+                },
+                {
+                  "t": "code",
+                  "v": "saveName"
+                },
+                {
+                  "t": "text",
+                  "k": "section.configure.b1.b0.10"
+                },
+                {
+                  "t": "code",
+                  "v": "<your-password>"
+                },
+                {
+                  "t": "text",
+                  "k": "section.download.b2.3.0"
+                },
+                {
+                  "t": "code",
+                  "v": "<server-name>"
+                },
+                {
+                  "t": "text",
+                  "k": "section.configure.b1.b0.14"
+                },
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.overview.b1.10.0"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "section.overview.b2.i1.2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "c": [
+            {
+              "t": "text",
+              "k": "section.configure.b2.0"
+            },
+            {
+              "t": "term",
+              "termKey": "faq.faq-proton.label0",
+              "defKey": "faq.faq-proton.def0"
+            },
+            {
+              "t": "text",
+              "k": "section.configure.b2.2"
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "id": "bare-32",
+          "title": [
+            {
+              "t": "text",
+              "k": "section.configure.b3.title.0"
+            }
+          ],
+          "langKey": "code.lang.Text",
+          "bare": true
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.configure.b4.summary.0"
+            },
+            {
+              "t": "code",
+              "v": "server-config.json"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "code",
+              "id": "code-server-config-json-2242099",
+              "title": [
+                {
+                  "t": "text",
+                  "k": "section.configure.b4.d0.b0.title.0"
+                }
+              ],
+              "langKey": "code.lang.JSON"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headerKeys": [
+            "section.configure.b5.h0",
+            "section.configure.b5.h1"
+          ],
+          "rows": [
+            {
+              "cells": [
+                [
+                  {
+                    "t": "code",
+                    "v": "saveName"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.configure.b5.r0.c1.0"
+                  },
+                  {
+                    "t": "code",
+                    "v": ".sav"
+                  },
+                  {
+                    "t": "text",
+                    "k": "section.variables.b0.dd6.2"
+                  }
+                ]
+              ]
+            },
+            {
+              "cells": [
+                [
+                  {
+                    "t": "code",
+                    "v": "password"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.configure.b5.r1.c1.0"
+                  }
+                ]
+              ]
+            },
+            {
+              "cells": [
+                [
+                  {
+                    "t": "code",
+                    "v": "port"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.configure.b5.r2.c1.0"
+                  }
+                ]
+              ]
+            },
+            {
+              "cells": [
+                [
+                  {
+                    "t": "code",
+                    "v": "steam"
+                  }
+                ],
+                [
+                  {
+                    "t": "code",
+                    "v": "true"
+                  },
+                  {
+                    "t": "text",
+                    "k": "section.configure.b5.r3.c1.1"
+                  }
+                ]
+              ]
+            },
+            {
+              "cells": [
+                [
+                  {
+                    "t": "code",
+                    "v": "logFile"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.configure.b5.r4.c1.0"
+                  },
+                  {
+                    "t": "code",
+                    "v": "logs/"
+                  }
+                ]
+              ]
+            },
+            {
+              "cells": [
+                [
+                  {
+                    "t": "code",
+                    "v": "autosaveMinutes"
+                  }
+                ],
+                [
+                  {
+                    "t": "code",
+                    "v": "0"
+                  },
+                  {
+                    "t": "text",
+                    "k": "section.configure.b5.r5.c1.1"
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "c": [
+            {
+              "t": "text",
+              "k": "section.configure.b6.0"
+            },
+            {
+              "t": "code",
+              "v": "--data-dir '/absolute/path'"
+            },
+            {
+              "t": "text",
+              "k": "section.overview.b2.i1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "launch",
+      "kickerKey": "section.launch.kicker",
+      "titleKey": "section.launch.title",
+      "subKey": "section.launch.sub",
+      "blocks": [
+        {
+          "type": "callout",
+          "kind": "info",
+          "titleKey": "section.launch.b0.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.launch.b0.b0.0"
+                },
+                {
+                  "t": "code",
+                  "v": "[DedicatedServer] SERVING"
+                },
+                {
+                  "t": "text",
+                  "k": "section.launch.b0.b0.2"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "code",
+                  "v": "\"steam\": false"
+                },
+                {
+                  "t": "text",
+                  "k": "section.launch.b0.b1.1"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-epic-steam.label0",
+                  "defKey": "faq.faq-epic-steam.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "section.launch.b0.b1.3"
+                },
+                {
+                  "t": "term",
+                  "termKey": "section.launch.b0.b1.4.term",
+                  "defKey": "section.launch.b0.b1.4.def",
+                  "labelKey": "section.launch.b0.b1.4.label"
+                },
+                {
+                  "t": "text",
+                  "k": "section.launch.b0.b1.5"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-proton.label1",
+                  "defKey": "faq.faq-proton.def1"
+                },
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.launch.b0.b1.7.0"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "section.launch.b0.b1.8"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-proton.label2",
+                  "defKey": "faq.faq-proton.def2"
+                },
+                {
+                  "t": "text",
+                  "k": "section.launch.b0.b1.10"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tabs",
+          "name": "runtime",
+          "labelKey": "section.launch.b1.label",
+          "tabs": [
+            {
+              "labelKey": "section.launch.b1.tab0",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-proton-82795168",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-proton.gap5"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ]
+            },
+            {
+              "labelKey": "faq.faq-proton.label1",
+              "blocks": [
+                {
+                  "type": "callout",
+                  "kind": "warn",
+                  "titleKey": "section.launch.b1.tab1.b0.title",
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "c": [
+                        {
+                          "t": "text",
+                          "k": "section.launch.b1.tab1.b0.b0.0"
+                        },
+                        {
+                          "t": "code",
+                          "v": "steam:false"
+                        },
+                        {
+                          "t": "text",
+                          "k": "faq.faq-ports.gap11"
+                        },
+                        {
+                          "t": "term",
+                          "termKey": "section.launch.b0.b1.4.term",
+                          "defKey": "section.launch.b0.b1.4.def"
+                        },
+                        {
+                          "t": "text",
+                          "k": "section.launch.b1.tab1.b0.b0.4"
+                        },
+                        {
+                          "t": "strong",
+                          "c": [
+                            {
+                              "t": "text",
+                              "k": "section.launch.b1.tab1.b0.b0.5.0"
+                            },
+                            {
+                              "t": "term",
+                              "termKey": "faq.faq-proton.label1",
+                              "defKey": "faq.faq-proton.def1"
+                            },
+                            {
+                              "t": "text",
+                              "k": "section.launch.b0.b1.7.0"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "text",
+                          "k": "section.launch.b0.b1.8"
+                        },
+                        {
+                          "t": "term",
+                          "termKey": "faq.faq-proton.label2",
+                          "defKey": "faq.faq-proton.def2"
+                        },
+                        {
+                          "t": "text",
+                          "k": "section.launch.b1.tab1.b0.b0.8"
+                        },
+                        {
+                          "t": "strong",
+                          "c": [
+                            {
+                              "t": "text",
+                              "k": "section.launch.b1.tab1.b0.b0.9.0"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "text",
+                          "k": "section.launch.b1.tab1.b0.b0.10"
+                        },
+                        {
+                          "t": "term",
+                          "termKey": "faq.faq-proton.label0",
+                          "defKey": "faq.faq-proton.def0"
+                        },
+                        {
+                          "t": "text",
+                          "k": "section.launch.b1.tab1.b0.b0.12"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "labelKey": "section.launch.b1.tab2",
+              "blocks": [
+                {
+                  "type": "callout",
+                  "kind": "warn",
+                  "titleKey": "section.launch.b1.tab2.b0.title",
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "c": [
+                        {
+                          "t": "text",
+                          "k": "section.launch.b1.tab2.b0.b0.0"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "code",
+                  "id": "code-umu-2800646",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-proton.label3"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "id": "code-ready-check-65772305",
+          "title": [
+            {
+              "t": "text",
+              "k": "section.launch.b2.title.0"
+            }
+          ],
+          "langKey": "code.lang.Bash"
+        }
+      ]
+    },
+    {
+      "id": "firewall",
+      "kickerKey": "section.firewall.kicker",
+      "titleKey": "section.firewall.title",
+      "subKey": "section.firewall.sub",
+      "blocks": [
+        {
+          "type": "tabs",
+          "name": "fw",
+          "labelKey": "section.firewall.b0.label",
+          "tabs": [
+            {
+              "labelKey": "section.firewall.b0.tab0",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-ufw-51623524",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.firewall.b0.tab0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ]
+            },
+            {
+              "labelKey": "section.firewall.b0.tab1",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-firewalld-25960623",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.firewall.b0.tab1"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ]
+            },
+            {
+              "labelKey": "section.firewall.b0.tab2",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-iptables-16551329",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.firewall.b0.tab2"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service",
+      "kickerKey": "section.service.kicker",
+      "titleKey": "section.service.title",
+      "subKey": "section.service.sub",
+      "blocks": [
+        {
+          "type": "tabs",
+          "name": "svc",
+          "labelKey": "section.service.b0.label",
+          "tabs": [
+            {
+              "labelKey": "faq.faq-keep-running.label0",
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-install-a-new-isolated-user-service-43365780",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.service.b0.tab0.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ]
+            },
+            {
+              "labelKey": "section.service.b0.tab1",
+              "blocks": [
+                {
+                  "type": "callout",
+                  "kind": "info",
+                  "titleKey": "section.service.b0.tab1.b0.title",
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "c": [
+                        {
+                          "t": "text",
+                          "k": "section.service.b0.tab1.b0.b0.0"
+                        },
+                        {
+                          "t": "code",
+                          "v": "run"
+                        },
+                        {
+                          "t": "text",
+                          "k": "section.service.b0.tab1.b0.b0.2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "client",
+      "kickerKey": "section.client.kicker",
+      "titleKey": "section.client.title",
+      "subKey": "section.client.sub",
+      "blocks": [
+        {
+          "type": "callout",
+          "kind": "warn",
+          "titleKey": "section.client.b0.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.client.b0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "ol",
+          "items": [
+            [
+              {
+                "t": "text",
+                "k": "section.client.b1.i0.0"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.client.b1.i1.0"
+              },
+              {
+                "t": "code",
+                "v": "Modules/"
+              },
+              {
+                "t": "text",
+                "k": "section.client.b1.i1.2"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.client.b1.i2.0"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.client.b1.i3.0"
+              },
+              {
+                "t": "code",
+                "v": "steam:true"
+              },
+              {
+                "t": "text",
+                "k": "section.client.b1.i3.2"
+              },
+              {
+                "t": "code",
+                "v": "host:4200"
+              },
+              {
+                "t": "text",
+                "k": "section.client.b1.i3.4"
+              }
+            ]
+          ],
+          "className": "step-cards"
+        }
+      ]
+    },
+    {
+      "id": "backups",
+      "kickerKey": "section.backups.kicker",
+      "titleKey": "section.backups.title",
+      "subKey": "section.backups.sub",
+      "blocks": [
+        {
+          "type": "callout",
+          "kind": "warn",
+          "titleKey": "section.backups.b0.title",
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.backups.b0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "ul",
+          "items": [
+            [
+              {
+                "t": "text",
+                "k": "section.backups.b1.i0.0"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.backups.b1.i1.0"
+              },
+              {
+                "t": "code",
+                "v": "<saveName>.backup1"
+              },
+              {
+                "t": "text",
+                "k": "faq.faq-ports.gap11"
+              },
+              {
+                "t": "code",
+                "v": ".backup2"
+              },
+              {
+                "t": "text",
+                "k": "section.overview.b2.i1.2"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.backups.b1.i2.0"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "kickerKey": "section.troubleshooting.kicker",
+      "titleKey": "section.troubleshooting.title",
+      "subKey": "section.troubleshooting.sub",
+      "blocks": [
+        {
+          "type": "table",
+          "id": "trouble-table",
+          "headerKeys": [
+            "section.troubleshooting.b0.h0",
+            "section.troubleshooting.b0.h1",
+            "section.troubleshooting.b0.h2"
+          ],
+          "rows": [
+            {
+              "id": "trouble-steamapi",
+              "cells": [
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r0.c0.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r0.c1.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r0.c2.0"
+                  }
+                ]
+              ]
+            },
+            {
+              "id": "trouble-exit-4",
+              "cells": [
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r1.c0.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r1.c1.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r1.c2.0"
+                  }
+                ]
+              ]
+            },
+            {
+              "id": "trouble-exit-25",
+              "cells": [
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r2.c0.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r2.c1.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r2.c2.0"
+                  }
+                ]
+              ]
+            },
+            {
+              "id": "trouble-no-udp",
+              "cells": [
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r3.c0.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r3.c1.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r3.c2.0"
+                  }
+                ]
+              ]
+            },
+            {
+              "id": "trouble-joining-stalls",
+              "cells": [
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r4.c0.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r4.c1.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r4.c2.0"
+                  }
+                ]
+              ]
+            },
+            {
+              "id": "trouble-cannot-join",
+              "cells": [
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r5.c0.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r5.c1.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r5.c2.0"
+                  }
+                ]
+              ]
+            },
+            {
+              "id": "trouble-module-mismatch",
+              "cells": [
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r6.c0.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r6.c1.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.troubleshooting.b0.r6.c2.0"
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "kickerKey": "section.faq.kicker",
+      "titleKey": "section.faq.title",
+      "subKey": "section.faq.sub",
+      "blocks": [
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b0.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-versions-match.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-versions-match.gap3"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-versions-match.gap5"
+                }
+              ]
+            }
+          ],
+          "id": "faq-versions-match"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b1.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-cant-connect.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-cant-connect.label0",
+                      "defKey": "faq.faq-cant-connect.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-cant-connect.gap3"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-cant-connect.label1",
+                      "defKey": "faq.faq-cant-connect.def1"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-cant-connect.gap4"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-cant-connect.gap8"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-cant-connect.label2",
+                    "defKey": "faq.faq-cant-connect.def2"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-cant-connect.gap9"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-cant-connect.gap11"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-cant-connect.label3",
+                    "defKey": "faq.faq-cant-connect.def3"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-cant-connect.gap12"
+                  }
+                ],
+                [
+                  {
+                    "t": "em",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-cant-connect.gap15"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-cant-connect.gap16"
+                  }
+                ]
+              ]
+            }
+          ],
+          "id": "faq-cant-connect"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b2.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-platforms.gap1"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "strong",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap5"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-platforms.gap6"
+                  },
+                  {
+                    "t": "em",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap7"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-platforms.gap8"
+                  }
+                ],
+                [
+                  {
+                    "t": "strong",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap11"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-platforms.gap12"
+                  }
+                ],
+                [
+                  {
+                    "t": "strong",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap15"
+                      },
+                      {
+                        "t": "term",
+                        "termKey": "faq.faq-platforms.label0",
+                        "defKey": "faq.faq-platforms.def0"
+                      },
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap16"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-platforms.gap17"
+                  }
+                ],
+                [
+                  {
+                    "t": "strong",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap20"
+                      },
+                      {
+                        "t": "term",
+                        "termKey": "faq.faq-platforms.label1",
+                        "defKey": "faq.faq-platforms.def1"
+                      },
+                      {
+                        "t": "text",
+                        "k": "faq.faq-platforms.gap21"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-platforms.gap22"
+                  }
+                ]
+              ]
+            }
+          ],
+          "id": "faq-platforms"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b3.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-proton.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-proton.label0",
+                      "defKey": "faq.faq-proton.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-proton.gap3"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-proton.gap4"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-proton.gap5"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-proton.gap6"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap9"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-proton.label1",
+                    "defKey": "faq.faq-proton.def1"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap10"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap12"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-proton.label2",
+                    "defKey": "faq.faq-proton.def2"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap13"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap15"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-proton.label3",
+                    "defKey": "faq.faq-proton.def3"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap16"
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-proton.gap19"
+                }
+              ]
+            }
+          ],
+          "id": "faq-proton"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b4.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-server-crash.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-server-crash.label0",
+                      "defKey": "faq.faq-server-crash.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-server-crash.gap3"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ol",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-server-crash.gap7"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-server-crash.gap9"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-server-crash.gap11"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-server-crash.gap12"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-server-crash.gap13"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-server-crash.gap14"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-server-crash.gap15"
+                  }
+                ]
+              ],
+              "className": "step-cards"
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-server-crash.gap19"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "faq-server-crash"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b5.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-workshop-updates.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-updates.gap3"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-workshop-updates.label0",
+                  "defKey": "faq.faq-workshop-updates.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-updates.gap4"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-updates.gap6"
+                },
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-workshop-updates.gap7"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "faq-workshop-updates"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b6.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-gpu-display.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-gpu-display.label0",
+                      "defKey": "faq.faq-server-crash.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-gpu-display.gap3"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-gpu-display.gap7"
+                  },
+                  {
+                    "t": "term",
+                    "termKey": "faq.faq-proton.label0",
+                    "defKey": "faq.faq-proton.def0"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-gpu-display.gap8"
+                  },
+                  {
+                    "t": "em",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-gpu-display.gap9"
+                      }
+                    ]
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-gpu-display.gap10"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-gpu-display.gap12"
+                  }
+                ]
+              ]
+            }
+          ],
+          "id": "faq-gpu-display"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b7.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-update-safely.gap2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ol",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-update-safely.gap6"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-update-safely.gap8"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-update-safely.gap9"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-update-safely.gap10"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-update-safely.gap12"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-update-safely.gap14"
+                  }
+                ]
+              ],
+              "className": "step-cards"
+            }
+          ],
+          "id": "faq-update-safely"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b8.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-keep-running.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-keep-running.label0",
+                      "defKey": "faq.faq-keep-running.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-keep-running.gap3"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-keep-running.gap6"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-keep-running.gap7"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-keep-running.gap8"
+                },
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-keep-running.gap9"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-gpu-display.gap10"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-keep-running.gap12"
+                }
+              ]
+            }
+          ],
+          "id": "faq-keep-running"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b9.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-logs-saves.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-proton.label0",
+                      "defKey": "faq.faq-proton.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-logs-saves.gap3"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "code",
+                  "k": "faq.faq-logs-saves.gap7"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-logs-saves.gap11"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-logs-saves.gap12"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-logs-saves.gap13"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-logs-saves.gap15"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-logs-saves.gap16"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-logs-saves.gap13"
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-logs-saves.gap20"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-logs-saves.gap21"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-logs-saves.gap22"
+                }
+              ]
+            }
+          ],
+          "id": "faq-logs-saves"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b10.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-dedicated-download.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-dedicated-download.gap3"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-dedicated-download.gap4"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-dedicated-download.gap5"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-dedicated-download.gap7"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-dedicated-download.label0",
+                  "defKey": "faq.faq-dedicated-download.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-dedicated-download.gap8"
+                },
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-dedicated-download.gap9"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "faq-dedicated-download"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b11.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-watchdog.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-watchdog.gap3"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-watchdog.gap6"
+                  }
+                ],
+                [
+                  {
+                    "t": "code",
+                    "k": "faq.faq-watchdog.gap9"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-watchdog.gap10"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-watchdog.gap12"
+                  }
+                ]
+              ]
+            }
+          ],
+          "id": "faq-watchdog"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b12.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-workshop-ds.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-workshop-ds.label0",
+                      "defKey": "faq.faq-workshop-updates.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-workshop-ds.gap3"
+                    },
+                    {
+                      "t": "code",
+                      "k": "faq.faq-workshop-ds.gap4"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-workshop-ds.gap5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-ds.gap8"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-ds.gap10"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-workshop-ds.gap11"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-workshop-ds.gap12"
+                }
+              ]
+            }
+          ],
+          "id": "faq-workshop-ds"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b13.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-ports.label0",
+                      "defKey": "faq.faq-ports.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap3"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-ports.label1",
+                      "defKey": "faq.faq-ports.def1"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap4"
+                    },
+                    {
+                      "t": "code",
+                      "k": "faq.faq-ports.gap5"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap6"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap7"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap9"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-ports.label2",
+                  "defKey": "faq.faq-cant-connect.def2"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap10"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-proton.label0",
+                  "defKey": "faq.faq-proton.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap11"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-proton.label1",
+                  "defKey": "faq.faq-proton.def1"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap12"
+                },
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap13"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap14"
+                }
+              ]
+            }
+          ],
+          "id": "faq-ports"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b14.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-no-udp-eula.gap2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-no-udp-eula.label0",
+                      "defKey": "faq.faq-no-udp-eula.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-no-udp-eula.gap3"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ol",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap7"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-no-udp-eula.gap8"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap9"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-no-udp-eula.gap10"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap11"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap13"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap15"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-no-udp-eula.gap16"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-no-udp-eula.gap17"
+                  }
+                ]
+              ],
+              "className": "step-cards"
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-no-udp-eula.gap21"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "faq-no-udp-eula"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b15.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-linux-deck.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-linux-deck.gap3"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-linux-deck.gap5"
+                }
+              ]
+            }
+          ],
+          "id": "faq-linux-deck"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b16.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-host-and-play.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-host-and-play.gap3"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-host-and-play.gap5"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-host-and-play.label0",
+                  "defKey": "faq.faq-server-crash.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-host-and-play.gap6"
+                },
+                {
+                  "t": "em",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-host-and-play.gap7"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "id": "faq-host-and-play"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b17.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-difficulty.gap2"
+                    },
+                    {
+                      "t": "code",
+                      "k": "faq.faq-difficulty.gap3"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-difficulty.gap4"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-difficulty.gap5"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-difficulty.gap6"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-difficulty.gap4"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-difficulty.gap10"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-difficulty.gap12"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-difficulty.gap13"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-difficulty.gap14"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "faq.faq-difficulty.gap16"
+                  }
+                ]
+              ]
+            }
+          ],
+          "id": "faq-difficulty"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b18.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-epic-steam.gap2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-epic-steam.gap5"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-epic-steam.label0",
+                  "defKey": "faq.faq-epic-steam.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-epic-steam.gap6"
+                }
+              ]
+            }
+          ],
+          "id": "faq-epic-steam"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b19.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-client-server-match.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-client-server-match.gap3"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-client-server-match.label0",
+                  "defKey": "faq.faq-server-crash.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-client-server-match.gap4"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-client-server-match.gap6"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-client-server-match.gap7"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-client-server-match.gap8"
+                },
+                {
+                  "t": "code",
+                  "k": "faq.faq-client-server-match.gap9"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-client-server-match.gap10"
+                }
+              ]
+            }
+          ],
+          "id": "faq-client-server-match"
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.faq.b20.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "strong",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ai-assistant.gap2"
+                    }
+                  ]
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ai-assistant.gap3"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "faq.faq-ai-assistant.gap5"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "role": "note",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "ui.aiPromptNote"
+                }
+              ]
+            },
+            {
+              "type": "code",
+              "id": "ai-prompt-pre",
+              "title": [
+                {
+                  "t": "text",
+                  "k": "section.faq.b20.d2.b0.title.0"
+                }
+              ],
+              "langKey": "code.lang.Text",
+              "download": {
+                "href": "/linux/guide.md",
+                "filename": "LINUX.md",
+                "labelKey": "ui.downloadMd",
+                "titleKey": "ui.downloadMdTitle"
+              }
+            },
+            {
+              "type": "details",
+              "summary": [
+                {
+                  "t": "text",
+                  "k": "section.faq.b20.d3.b0.summary.0"
+                }
+              ],
+              "blocks": [
+                {
+                  "type": "p",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.faq.b20.d3.b0.d0.b0.0"
+                    },
+                    {
+                      "t": "strong",
+                      "c": [
+                        {
+                          "t": "text",
+                          "k": "ui.downloadMd"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.faq.b20.d3.b0.d0.b0.2"
+                    }
+                  ],
+                  "role": "muted"
+                }
+              ],
+              "className": "ai-optional"
+            }
+          ],
+          "id": "faq-ai-assistant"
+        }
+      ]
+    },
+    {
+      "id": "linux-notes",
+      "kickerKey": "section.linux-notes.kicker",
+      "titleKey": "section.linux-notes.title",
+      "subKey": "section.linux-notes.sub",
+      "blocks": [
+        {
+          "type": "p",
+          "c": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b0.0"
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b1.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b1.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b2.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b2.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b3.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b3.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b4.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b4.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b5.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b5.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b6.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b6.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b7.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b7.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b8.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b8.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b9.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b9.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b10.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b10.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b11.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b11.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b12.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b12.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b13.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b13.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "details",
+          "summary": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b14.summary.0"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.linux-notes.b14.d0.b0.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "id": "code-dockerfile-wine-11-0-validated-outline-71121604",
+          "title": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b15.title.0"
+            }
+          ],
+          "langKey": "code.lang.Dockerfile"
+        },
+        {
+          "type": "code",
+          "id": "code-compose-wine-11-0-rootless-podman-outlin-74440469",
+          "title": [
+            {
+              "t": "text",
+              "k": "section.linux-notes.b16.title.0"
+            }
+          ],
+          "langKey": "code.lang.YAML"
+        }
+      ]
+    },
+    {
+      "id": "agents",
+      "kickerKey": "section.agents.kicker",
+      "titleKey": "section.agents.title",
+      "subKey": "section.agents.sub",
+      "blocks": [
+        {
+          "type": "ol",
+          "items": [
+            [
+              {
+                "t": "text",
+                "k": "section.agents.b0.i0.0"
+              },
+              {
+                "t": "code",
+                "v": "sudo"
+              },
+              {
+                "t": "text",
+                "k": "section.agents.b0.i0.2"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.agents.b0.i1.0"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.agents.b0.i2.0"
+              },
+              {
+                "t": "term",
+                "termKey": "faq.faq-epic-steam.label0",
+                "defKey": "faq.faq-epic-steam.def0"
+              },
+              {
+                "t": "text",
+                "k": "section.overview.b2.i1.2"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.agents.b0.i3.0"
+              }
+            ],
+            [
+              {
+                "t": "text",
+                "k": "section.agents.b0.i4.0"
+              },
+              {
+                "t": "code",
+                "v": "$HOME"
+              },
+              {
+                "t": "text",
+                "k": "faq.faq-ports.gap11"
+              },
+              {
+                "t": "term",
+                "termKey": "section.deps.b0.tab4.b1.title.0.term",
+                "defKey": "section.deps.b0.tab4.b1.title.0.def",
+                "labelKey": "section.deps.b0.tab4.b1.title.0.label"
+              },
+              {
+                "t": "text",
+                "k": "faq.faq-ports.gap11"
+              },
+              {
+                "t": "term",
+                "termKey": "faq.faq-platforms.label0",
+                "defKey": "faq.faq-platforms.def0"
+              },
+              {
+                "t": "text",
+                "k": "section.overview.b2.i1.2"
+              }
+            ]
+          ],
+          "className": "step-cards"
+        }
+      ]
+    }
+  ]
+}

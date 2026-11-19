@@ -7,10 +7,10 @@ import { ServerSettingsPanel } from "./ServerSettingsPanel";
 
 const mocks = vi.hoisted(() => ({ router: { refresh: vi.fn() }, settings: vi.fn(), visibility: vi.fn(), release: vi.fn(), status: vi.fn(), manager: vi.fn(), removeManager: vi.fn() }));
 vi.mock("next/navigation", () => ({ useRouter: () => mocks.router }));
-vi.mock("@/app/servers/server-settings-actions", () => ({ saveServerSettings: mocks.settings }));
-vi.mock("@/app/servers/server-visibility-actions", () => ({ setServerVisibility: mocks.visibility }));
-vi.mock("@/app/servers/server-release-actions", () => ({ changeServerRelease: mocks.release, readServerReleaseStatus: mocks.status }));
-vi.mock("@/app/servers/server-manager-actions", () => ({ setServerManager: mocks.manager, removeServerManager: mocks.removeManager }));
+vi.mock("@/app/(site)/servers/server-settings-actions", () => ({ saveServerSettings: mocks.settings }));
+vi.mock("@/app/(site)/servers/server-visibility-actions", () => ({ setServerVisibility: mocks.visibility }));
+vi.mock("@/app/(site)/servers/server-release-actions", () => ({ changeServerRelease: mocks.release, readServerReleaseStatus: mocks.status }));
+vi.mock("@/app/(site)/servers/server-manager-actions", () => ({ setServerManager: mocks.manager, removeServerManager: mocks.removeManager }));
 
 const serverId = "11111111-1111-4111-8111-111111111111";
 const updatedAt = "2026-10-01T00:00:00.000Z";

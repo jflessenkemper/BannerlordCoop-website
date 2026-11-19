@@ -7,7 +7,7 @@ import { expect, it, vi } from "vitest";
 import { MembershipNextStep } from "./MembershipNextStep";
 import { renderToStaticMarkup } from "react-dom/server";
 import { composeOnboarding, EMPTY_MEMBERSHIP, type WebsiteOnboardingSummary } from "@/app/lib/hosting/membership-onboarding";
-vi.mock("@/app/account/actions", () => ({ linkDiscordAccount: vi.fn(), linkPatreonAccount: vi.fn() }));
+vi.mock("@/app/(site)/account/actions", () => ({ linkDiscordAccount: vi.fn(), linkPatreonAccount: vi.fn() }));
 const refresh = vi.hoisted(() => vi.fn());
 const router = { refresh };
 vi.mock("next/navigation", () => ({ useRouter: () => router }));

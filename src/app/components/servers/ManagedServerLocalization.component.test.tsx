@@ -14,10 +14,10 @@ import { vi } from "vitest";
 
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
 import { DEFAULT_MANAGED_SERVER_CONFIGURATION } from "../../../../supabase/functions/_shared/managed-server-configuration";
-import { configurationImportMessages } from "@/app/servers/managed-server-messages";
+import { configurationImportMessages } from "@/app/(site)/servers/managed-server-messages";
 import { readConfigurationFile } from "../../../../supabase/functions/_shared/configuration-file-import";
-import catalog from "@/app/cheats/commands.json";
-import { isPublishedCheat } from "@/app/cheats/debugOnly";
+import catalog from "@/app/(site)/cheats/commands.json";
+import { isPublishedCheat } from "@/app/(site)/cheats/debugOnly";
 
 it.each(Object.values(localeDefinitions).filter(locale => locale.enabled))("renders initialization guidance in $locale", async definition => {
     const dictionary = (await definition.dictionaries["managed-server"]!()).default;
