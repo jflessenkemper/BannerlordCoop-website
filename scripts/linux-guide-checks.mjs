@@ -35,6 +35,8 @@ for (const locale of locales) {
                 continue;
             }
             await page.waitForSelector("h1");
+            await page.waitForFunction(() => document.documentElement.classList.contains("linux-ready")).catch(() => {});
+            await page.waitForTimeout(220);
             const label = `${path} @${width}`;
 
             await page.evaluate(() => { document.documentElement.style.scrollBehavior = "auto"; });
