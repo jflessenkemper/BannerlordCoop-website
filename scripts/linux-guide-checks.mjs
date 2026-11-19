@@ -442,10 +442,11 @@ for path in sorted(glob.glob("${filmDir}/*.png")):
     rows.append((round(avg,1), bright))
 print(",".join(f"{a}/{b}" for a,b in rows))
 usable=[row for row in rows if row[0]<200]
-black=any(avg<20 and bright==0 for avg,bright in usable)
-shown=any(bright>8 for avg,bright in usable)
-first_shown=next((i for i,(avg,bright) in enumerate(usable) if bright>8), None)
-black_before=first_shown is not None and any(avg<20 and bright==0 for avg,bright in usable[:first_shown])
+black_index=next((i for i,(avg,bright) in enumerate(usable) if avg<20 and bright==0), None)
+tail=usable[black_index:] if black_index is not None else []
+black=black_index is not None
+shown=any(bright>8 for avg,bright in tail)
+black_before=black and shown and tail[0][1]==0
 print("black", black, "shown", shown, "black_before", black_before)
 `]);
 console.log("12 film", filmProbe.stdout.toString().trim());
