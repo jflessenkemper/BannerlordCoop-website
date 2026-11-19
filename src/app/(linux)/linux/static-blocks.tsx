@@ -14,7 +14,7 @@ export function StaticSection({ section, t, annotate = false }: { section: Secti
     return (
         <div className="border-b border-white/10 py-6" id={`sec-${section.id}`}>
             <h1 className={sectionTitleClass} id="manual-title" tabIndex={-1}>{t(section.titleKey)}</h1>
-            <div className="mt-4">
+            <div className={annotate ? "linux-flow mt-4" : "mt-4"}>
                 <StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} annotate={annotate} />
             </div>
         </div>
@@ -28,8 +28,21 @@ function hoistWarnings(blocks: Block[]): Block[] {
     return [...warnings, ...rest];
 }
 
+/** Ordered instructions. English pages use the same numbered glass card for every list. */
+function StepCards({ items, t }: { items: Inline[][]; t: Translate }) {
+    return (
+        <ol className="step-cards my-0 grid gap-2 p-0">
+            {items.map((item, itemIndex) => (
+                <li key={itemIndex} className={`${glassCard} relative min-h-12 py-3 pl-14 pr-3`}>
+                    <StaticInline nodes={item} t={t} />
+                </li>
+            ))}
+        </ol>
+    );
+}
+
 /** Renders guide blocks without a client component. */
-function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = false }: { blocks: Block[]; t: Translate; distro?: Distro | null; alone?: boolean; annotate?: boolean }) {
+function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = false, flat = false }: { blocks: Block[]; t: Translate; distro?: Distro | null; alone?: boolean; annotate?: boolean; flat?: boolean }) {
     return (
         <>
             {blocks.map((block, index) => {
@@ -41,24 +54,28 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                         return <Heading key={index} className="font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold"><StaticInline nodes={block.c} t={t} /></Heading>;
                     }
                     case "ul":
-                        return <ul key={index} className="list-disc space-y-1 pl-5">{block.items.map((item, itemIndex) => <li key={itemIndex}><StaticInline nodes={item} t={t} /></li>)}</ul>;
                     case "ol":
-                        return (
-                            <ol key={index} className={block.className === "step-cards" ? "step-cards my-4 grid gap-2 p-0" : "list-decimal space-y-1 pl-5"}>
-                                {block.items.map((item, itemIndex) => (
-                                    <li key={itemIndex} className={block.className === "step-cards" ? `${glassCard} relative min-h-12 py-3 pl-14 pr-3` : undefined}>
-                                        <StaticInline nodes={item} t={t} />
-                                    </li>
-                                ))}
-                            </ol>
-                        );
-                    case "callout":
+                        if (flat) return <div key={index} className="grid gap-2">{block.items.map((item, itemIndex) => <p key={itemIndex} className="m-0 leading-relaxed"><StaticInline nodes={item} t={t} /></p>)}</div>;
+                        if (annotate || block.className === "step-cards") return <StepCards key={index} items={block.items} t={t} />;
+                        return block.type === "ul"
+                            ? <ul key={index} className="list-disc space-y-1 pl-5">{block.items.map((item, itemIndex) => <li key={itemIndex}><StaticInline nodes={item} t={t} /></li>)}</ul>
+                            : <ol key={index} className="list-decimal space-y-1 pl-5">{block.items.map((item, itemIndex) => <li key={itemIndex}><StaticInline nodes={item} t={t} /></li>)}</ol>;
+                    case "callout": {
+                        if (annotate) {
+                            return (
+                                <div key={index} id={block.id} className="linux-note">
+                                    <p className="linux-note-label">{t(block.titleKey)}</p>
+                                    <StaticBlocks blocks={block.blocks} t={t} distro={distro} alone={alone} annotate={annotate} flat />
+                                </div>
+                            );
+                        }
                         return (
                             <div key={index} id={block.id} className="my-4 border border-white/20 bg-surface px-4 py-3 text-foreground">
                                 <p className={cx("mb-1 font-label text-sm font-semibold uppercase tracking-[0.08em]", calloutTone(block.kind))}>{t(block.titleKey)}</p>
                                 <StaticBlocks blocks={block.blocks} t={t} distro={distro} alone={alone} annotate={annotate} />
                             </div>
                         );
+                    }
                     case "tabs":
                         return <StaticTabs key={index} block={block} t={t} distro={distro} alone={alone} annotate={annotate} />;
                     case "details":
@@ -110,6 +127,15 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                             </label>
                         );
                     case "columns":
+                        if (annotate) {
+                            return (
+                                <div key={index} className="linux-columns">
+                                    {block.columns.map((column, columnIndex) => (
+                                        <div key={columnIndex} className="linux-note"><StaticBlocks blocks={column.blocks} t={t} distro={distro} alone={alone} annotate={annotate} flat /></div>
+                                    ))}
+                                </div>
+                            );
+                        }
                         return (
                             <div key={index} className="grid gap-3 sm:grid-cols-2">
                                 {block.columns.map((column, columnIndex) => (
@@ -355,14 +381,14 @@ export function StaticGuideSection({ section, t, distro = null, wizard = false, 
                     <span className="linux-stage-num">{stageIndex + 1}</span>
                     <Heading className={sectionTitleClass}>{t(section.titleKey)}</Heading>
                 </summary>
-                <div className="linux-stage-body mt-2">{body}</div>
+                <div className={annotate ? "linux-flow linux-stage-body mt-2" : "linux-stage-body mt-2"}>{body}</div>
             </details>
         );
     }
     return (
         <div className={wizard ? undefined : "border-b border-white/10 py-6"} id={wizard ? undefined : `sec-${section.id}`}>
             <Heading className={sectionTitleClass} id={wizard ? "wizard-title" : alone ? "manual-title" : undefined} tabIndex={pageHeading ? -1 : undefined}>{t(section.titleKey)}</Heading>
-            <div className="mt-4">{body}</div>
+            <div className={annotate ? "linux-flow mt-4" : "mt-4"}>{body}</div>
         </div>
     );
 }

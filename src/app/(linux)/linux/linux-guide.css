@@ -170,6 +170,51 @@ body:has(.linux-wizard-bar) > footer {
   padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
 }
 
+:is(.linux-guide, header) :is(a, button, summary, label):active {
+  transition: none;
+  filter: brightness(1.4);
+}
+
+.linux-flow {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.linux-flow > * {
+  margin: 0;
+}
+
+.linux-note {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(13, 14, 11, 0.72);
+  padding: 0.85rem 1rem;
+}
+
+.linux-note-label {
+  margin: 0 0 0.35rem;
+  color: #d6be78;
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.linux-columns {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .linux-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.linux-flow .text-foreground-muted {
+  color: var(--foreground);
+}
+
 .linux-guide a.text-gold {
   text-decoration-line: underline;
   text-decoration-thickness: 1px;

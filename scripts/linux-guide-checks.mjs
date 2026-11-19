@@ -325,9 +325,9 @@ await fontPage.addInitScript(() => {
     });
 });
 await fontPage.setViewportSize({ width: 1280, height: 900 });
-await fontPage.goto(`${base}/linux`, { waitUntil: "commit" });
+await fontPage.goto(`${base}/linux`, { waitUntil: "domcontentloaded" });
+await fontPage.waitForFunction(() => document.documentElement.classList.contains("linux-ready"));
 const font = await fontPage.evaluate(async () => {
-    await window.__fcp;
     const h1 = document.querySelector("h1");
     const before = h1 ? h1.getBoundingClientRect().width : 0;
     const family = h1 ? getComputedStyle(h1).fontFamily : "";
@@ -337,10 +337,117 @@ const font = await fontPage.evaluate(async () => {
     return { family, ready, delta: Math.abs(after - before) };
 });
 console.log("font", JSON.stringify(font));
-if (!font.ready) fail("8 font", "webfont was not ready at first contentful paint");
+if (!font.ready) fail("8 font", "webfont was not ready when the page was revealed");
 if (!font.family.includes("Cormorant")) fail("8 font family", font.family);
 if (font.delta > 1) fail("8 font shift", `title width changed by ${font.delta}`);
 await fontPage.close();
+
+const speedRoutes = ["", "/distro", "/checklist", "/step/terminal", "/faq"];
+const speedProbes = [
+    [".guide-choices a", true],
+    ["form.distro-choice button", true],
+    [".linux-wizard-bar a[rel=prefetch]", true],
+    ["a.subnav-change", true],
+    [".subnav-crumb a", true],
+    [".linux-tablist label", false],
+    ["[data-copy]", false],
+    [".linux-fold", false],
+    ["details.linux-stage > summary", false],
+    ["details:not(.linux-stage):not(.linux-menu) > summary", false],
+    ["[data-term]", false],
+    ["details.linux-menu summary:has(.sr-only)", false],
+    ["button[popovertarget='linux-download']", false],
+];
+for (const profile of ["desktop", "mobile"]) {
+    const speed = await context.newPage();
+    await speed.setViewportSize(profile === "mobile" ? { width: 390, height: 844 } : { width: 1440, height: 900 });
+    if (profile === "mobile") {
+        const session = await context.newCDPSession(speed);
+        await session.send("Emulation.setCPUThrottlingRate", { rate: 4 });
+    }
+    for (const route of speedRoutes) {
+        await speed.goto(`${base}/linux${route}`, { waitUntil: "domcontentloaded" });
+        await speed.waitForFunction(() => document.documentElement.classList.contains("linux-ready")).catch(() => {});
+        for (const [selector, navigates] of speedProbes) {
+            const present = await speed.evaluate((sel) => {
+                const el = document.querySelector(sel);
+                return !!(el && el.getClientRects().length);
+            }, selector);
+            if (!present) continue;
+            if (!navigates) {
+                const paint = await speed.evaluate((sel) => new Promise((resolve) => {
+                    const el = document.querySelector(sel);
+                    const start = performance.now();
+                    el.click();
+                    requestAnimationFrame(() => requestAnimationFrame(() => resolve(Math.round(performance.now() - start))));
+                }), selector);
+                console.log("11", profile, route || "/", selector, `${paint}ms`);
+                if (profile === "desktop" && paint >= 100) fail("11 response", `${route || "/"} ${selector} ${paint}ms`);
+                await speed.keyboard.press("Escape").catch(() => {});
+                continue;
+            }
+            const href = await speed.evaluate((sel) => {
+                const el = document.querySelector(sel);
+                return el.href || el.closest("form")?.action || "";
+            }, selector);
+            if (!href.startsWith(base)) continue;
+            const from = speed.url();
+            const started = Date.now();
+            await speed.evaluate((sel) => document.querySelector(sel).click(), selector);
+            await speed.waitForLoadState("domcontentloaded", { timeout: 8000 }).catch(() => {});
+            await speed.waitForSelector("h1", { timeout: 8000 }).catch(() => {});
+            await speed.waitForFunction(() => document.documentElement.classList.contains("linux-ready"), { timeout: 4000 }).catch(() => {});
+            const routeMs = Date.now() - started;
+            console.log("11", profile, route || "/", selector, `route ${routeMs}ms`);
+            if (profile === "desktop" && routeMs >= 1000) fail("11 route", `${route || "/"} ${selector} ${routeMs}ms`);
+            if (speed.url() !== from) {
+                await speed.goto(`${base}/linux${route}`, { waitUntil: "domcontentloaded" });
+                await speed.waitForFunction(() => document.documentElement.classList.contains("linux-ready")).catch(() => {});
+            }
+        }
+    }
+    await speed.close();
+}
+
+const film = await context.newPage();
+await film.setViewportSize({ width: 1024, height: 700 });
+const filmClient = await context.newCDPSession(film);
+const filmFrames = [];
+filmClient.on("Page.screencastFrame", (frame) => {
+    filmFrames.push(frame.data);
+    filmClient.send("Page.screencastFrameAck", { sessionId: frame.sessionId }).catch(() => {});
+});
+await filmClient.send("Page.startScreencast", { format: "png", quality: 40, everyNthFrame: 1, maxWidth: 480, maxHeight: 320 });
+await film.goto(`${base}/linux`, { waitUntil: "domcontentloaded" });
+await film.waitForFunction(() => document.documentElement.classList.contains("linux-ready"));
+await film.waitForTimeout(240);
+await filmClient.send("Page.stopScreencast");
+const filmDir = "/tmp/linux-film";
+await import("node:fs").then((fs) => fs.mkdirSync(filmDir, { recursive: true }));
+const { writeFileSync } = await import("node:fs");
+filmFrames.forEach((data, index) => writeFileSync(`${filmDir}/${String(index).padStart(3, "0")}.png`, Buffer.from(data, "base64")));
+const filmProbe = spawnSync("python3", ["-c", `
+from PIL import Image
+import glob
+rows=[]
+for path in sorted(glob.glob("${filmDir}/*.png")):
+    im=Image.open(path).convert("RGB")
+    px=list(im.resize((32,20)).getdata())
+    avg=sum(sum(p) for p in px)/(3*len(px))
+    bright=sum(1 for p in px if max(p)>80)
+    rows.append((round(avg,1), bright))
+print(",".join(f"{a}/{b}" for a,b in rows))
+usable=[row for row in rows if row[0]<200]
+black=any(avg<20 and bright==0 for avg,bright in usable)
+shown=any(bright>8 for avg,bright in usable)
+first_shown=next((i for i,(avg,bright) in enumerate(usable) if bright>8), None)
+black_before=first_shown is not None and any(avg<20 and bright==0 for avg,bright in usable[:first_shown])
+print("black", black, "shown", shown, "black_before", black_before)
+`]);
+console.log("12 film", filmProbe.stdout.toString().trim());
+const filmLines = filmProbe.stdout.toString().trim().split("\n");
+if (!filmLines.some((line) => line.includes("black_before True"))) fail("12 reveal", filmLines.join(" | "));
+await film.close();
 
 await browser.close();
 if (failures.length) {

@@ -173,6 +173,14 @@ const FAMILIES: Record<string, string> = { ubuntu: "debian", debian: "debian", m
 
 const BOOT = `(function(){var K="blc-distro-v1",F=${JSON.stringify(FAMILIES)};function known(id){return id&&F[id]?id:""}var mem="";function read(){var m=document.cookie.match(/(?:^|; )blc-distro-v1=([^;]*)/);var id=known(m?decodeURIComponent(m[1]):"");if(id)return id;try{id=localStorage.getItem(K)||""}catch(e){id=""}return known(id)||known(mem)}function write(id){mem=id;try{document.cookie=K+"="+encodeURIComponent(id)+"; Path=/; Max-Age=31536000; SameSite=Lax"}catch(e){}try{localStorage.setItem(K,id)}catch(e){}}var q=new URLSearchParams(location.search),pick=known(q.get("pick")||""),id=pick||read(),root=document.documentElement,page=root.getAttribute("data-distro-page")||"/linux/distro";if(id){write(id);root.setAttribute("data-distro",id);root.setAttribute("data-family",F[id])}var resume=q.get("resume")||"";if(pick&&resume.charAt(0)==="/"&&resume.indexOf("//")<0&&resume.indexOf("\\\\")<0&&resume.indexOf("/linux")>=0){location.replace(resume);return}if(!id&&root.getAttribute("data-needs-distro")==="1")location.replace(page+"?resume="+encodeURIComponent(location.pathname+location.search+location.hash))})();`;
 
+/** Hides the page on the site background until fonts, the backdrop, and layout are ready. */
+const REVEAL_STYLE = `<style>html.linux-booting,html.linux-booting body{background:#070806}html.linux-booting body{opacity:0}html.linux-ready body{animation:linux-reveal 180ms cubic-bezier(0.2,0,0,1) both}@keyframes linux-reveal{from{opacity:0}to{opacity:1}}@media (prefers-reduced-motion:reduce){html.linux-ready body{animation:none}}</style>`;
+const REVEAL = `(function(){var root=document.documentElement;root.classList.add("linux-booting");var done=false;function reveal(){if(done)return;done=true;root.classList.remove("linux-booting");root.classList.add("linux-ready")}function arm(){var fonts=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();var picture=new Promise(function(resolve){var img=new Image();var finish=function(){resolve()};img.onload=function(){if(img.decode)img.decode().then(finish,finish);else finish()};img.onerror=finish;img.src="/images/linux/backdrop.webp";if(img.complete){if(img.decode)img.decode().then(finish,finish);else finish()}});Promise.all([fonts,picture]).then(function(){requestAnimationFrame(function(){requestAnimationFrame(reveal)})}).catch(reveal)}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",arm);else arm();setTimeout(reveal,3000)})();`;
+const SPECULATION = `<script type="speculationrules">${JSON.stringify({
+    prerender: [{ where: { selector_matches: "a[rel~=prefetch]" }, eagerness: "immediate" }],
+    prefetch: [{ where: { href_matches: "/*linux*" }, eagerness: "moderate" }],
+})}</script>`;
+
 /** A full document with no framework scripts. The guide pages that must paint first use this. */
 export async function linuxDocument(path: string, title: string, description: string, body: ReactElement, options?: { locale?: string; distroId?: string | null; needsDistro?: boolean }) {
     const locale = resolveLocale(options?.locale ?? await getLocale());
@@ -213,7 +221,7 @@ export async function linuxDocument(path: string, title: string, description: st
         `<meta name="twitter:description" content="${escapeAttribute(description)}"/>`,
         `<meta name="twitter:image" content="${image}"/>`,
     ];
-    const html = `<!DOCTYPE html><html ${htmlAttrs}><head><meta charset="utf-8"><script>${BOOT}</script><title>${escapeText(title)}</title>${metas.join("")}${links.join("")}<style>${css}</style></head><body class="min-h-full flex flex-col">${markup}${fontScript}</body></html>`;
+    const html = `<!DOCTYPE html><html ${htmlAttrs}><head><meta charset="utf-8">${REVEAL_STYLE}<script>${REVEAL}</script><script>${BOOT}</script><title>${escapeText(title)}</title>${metas.join("")}${links.join("")}<style>${css}</style>${SPECULATION}<noscript><style>html.linux-booting body{opacity:1!important}</style></noscript></head><body class="min-h-full flex flex-col">${markup}${fontScript}</body></html>`;
     return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
 }
 
