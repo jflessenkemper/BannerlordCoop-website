@@ -249,17 +249,20 @@ function StaticCode({ block, t, annotate = false }: { block: Extract<Block, { ty
     const shown = groups ?? [{ title: "", body: source }];
     const copyClass = block.oneshot ? primaryButton : goldButton;
     return shown.map((group, groupIndex) => (
-        <CodeFigure key={`${block.id}-${groupIndex}`} id={groupIndex === 0 ? block.id : `${block.id}-part-${groupIndex + 1}`} title={group.title ? [{ t: "text" as const, k: "" }] : block.title} plainTitle={group.title} source={group.body} t={t} copyClass={copyClass} oneshot={block.oneshot} download={groupIndex === 0 ? block.download : undefined} langKey={block.langKey} />
+        <CodeFigure key={`${block.id}-${groupIndex}`} id={groupIndex === 0 ? block.id : `${block.id}-part-${groupIndex + 1}`} title={group.title ? [{ t: "text" as const, k: "" }] : block.title} plainTitle={group.title} source={group.body} t={t} copyClass={copyClass} oneshot={block.oneshot} download={groupIndex === 0 ? block.download : undefined} langKey={block.langKey} showTrust={annotate} />
     ));
 }
 
-function CodeFigure({ id, title, plainTitle, source, t, copyClass, oneshot, download, langKey }: { id: string; title: Inline[]; plainTitle: string; source: string; t: Translate; copyClass: string; oneshot?: boolean; download?: Extract<Block, { type: "code" }>["download"]; langKey: string }) {
+function CodeFigure({ id, title, plainTitle, source, t, copyClass, oneshot, download, langKey, showTrust = false }: { id: string; title: Inline[]; plainTitle: string; source: string; t: Translate; copyClass: string; oneshot?: boolean; download?: Extract<Block, { type: "code" }>["download"]; langKey: string; showTrust?: boolean }) {
     return (
         <figure className={cx(glassCard, "my-4 overflow-hidden", oneshot && "border-gold/45")}>
             <figcaption className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-white/5 px-3 py-2">
                 <span className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
                     <span>{plainTitle || <StaticInline nodes={title} t={t} />}</span>
-                    <span className="code-lang font-label text-xs font-semibold uppercase tracking-[0.08em] text-foreground-muted">{t(langKey)}</span>
+                    <span className="inline-flex shrink-0 items-center gap-2">
+                        {showTrust ? <span className="code-trust">Read before running</span> : null}
+                        <span className="code-lang font-label text-xs font-semibold uppercase tracking-[0.08em] text-foreground-muted">{t(langKey)}</span>
+                    </span>
                 </span>
                 <span className="ml-auto flex flex-wrap gap-2">
                     <button type="button" className={copyClass} data-copy={id} data-label={t("ui.copy")} data-copied={t("ui.copied")} data-failed={t("ui.copyFailed")} data-reset-ok={COPY_RESET_MS.copied} data-reset-fail={COPY_RESET_MS.failed}>{t("ui.copy")}</button>

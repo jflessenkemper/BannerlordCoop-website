@@ -451,6 +451,55 @@ const filmLines = filmProbe.stdout.toString().trim().split("\n");
 if (!filmLines.some((line) => line.includes("black_before True"))) fail("12 reveal", filmLines.join(" | "));
 await film.close();
 
+const underlineRoutes = ["", "/faq", "/distro", "/checklist", "/script", "/done", "/step/overview", "/step/terminal", "/step/configure", "/step/launch", "/step/firewall", "/step/service", "/step/client", "/step/backups"];
+const underlineWidths = [320, 390, 1024, 1440];
+const underlinePage = await context.newPage();
+for (const width of underlineWidths) {
+    await underlinePage.setViewportSize({ width, height: width < 800 ? 844 : 900 });
+    for (const route of underlineRoutes) {
+        await underlinePage.goto(`${base}/linux${route}`, { waitUntil: "domcontentloaded" });
+        await underlinePage.waitForFunction(() => document.documentElement.classList.contains("linux-ready")).catch(() => {});
+        const resting = await underlinePage.evaluate(() => {
+            const nodes = [...document.querySelectorAll("button, summary, a.no-underline, .guide-choices a, .linux-wizard-bar a, header button, header summary")];
+            return nodes.filter((el) => !el.classList.contains("linux-term-btn") && el.getClientRects().length && getComputedStyle(el).textDecorationLine.includes("underline")).slice(0, 3).map((el) => (el.innerText || "").replace(/\s+/g, " ").trim().slice(0, 40));
+        });
+        if (resting.length) fail("13 underline", `${route || "/"} @${width} ${resting.join(" | ")}`);
+    }
+    await underlinePage.goto(`${base}/linux/step/terminal`, { waitUntil: "domcontentloaded" });
+    await underlinePage.waitForFunction(() => document.documentElement.classList.contains("linux-ready")).catch(() => {});
+    for (const selector of ["a.no-underline", "button:not(.linux-term-btn)", "summary"]) {
+        const control = underlinePage.locator(selector).locator("visible=true").first();
+        if (!await control.count()) continue;
+        await control.scrollIntoViewIfNeeded();
+        for (const state of ["hover", "focus", "active"]) {
+            if (state === "hover") await control.hover();
+            if (state === "focus") await control.focus();
+            if (state === "active") await underlinePage.mouse.down();
+            const line = await control.evaluate((el) => getComputedStyle(el).textDecorationLine);
+            if (state === "active") await underlinePage.mouse.up();
+            if (line.includes("underline")) fail("13 underline", `terminal @${width} ${selector} ${state} ${line}`);
+        }
+    }
+    const kept = await underlinePage.evaluate(() => {
+        const term = document.querySelector(".linux-term-btn");
+        const prose = document.querySelector(".linux-guide a.text-gold:not(.no-underline)");
+        const visited = [...document.styleSheets].some((sheet) => {
+            let rules = [];
+            try { rules = [...sheet.cssRules]; } catch { return false; }
+            return rules.some((rule) => rule.selectorText && rule.selectorText.includes(":visited") && rule.style && rule.style.textDecorationLine === "none");
+        });
+        return {
+            term: term ? getComputedStyle(term).textDecorationLine : "skip",
+            prose: prose ? getComputedStyle(prose).textDecorationLine : "skip",
+            visited,
+        };
+    });
+    if (kept.term !== "skip" && !kept.term.includes("underline")) fail("13 glossary", `terminal @${width} ${kept.term}`);
+    if (kept.prose !== "skip" && !kept.prose.includes("underline")) fail("13 prose", `terminal @${width} ${kept.prose}`);
+    if (!kept.visited) fail("13 visited", `@${width} missing visited none rule`);
+}
+await underlinePage.close();
+
 await browser.close();
 if (failures.length) {
     console.log(`\n${failures.length} failed`);

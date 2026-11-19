@@ -14,3 +14,4 @@ These run against the static guide. A violation fails the check.
 10. Checklist stages. The full checklist has no table of contents. Every stage is a native disclosure with a numbered header, the first stage starts open, and the others start closed. A deep link opens that stage and lands below both pinned bars. A closed stage still contains its `data-raw` commands.
 11. Response. On the desktop, every guide control's next paint is under 100ms, and a route change shows the next page's heading in under 1s. Mobile 4x timings are reported and are not a failure by themselves.
 12. Reveal. The filmstrip of a guide load is the site background only, then the finished page. Nothing is drawn before the fade.
+13. Button underlines. At 320, 390, 1024 and 1440, no button or button-styled link has a computed text underline in the resting, hover, focus, active, or visited state. Glossary terms keep their dotted underline. Prose links keep a solid underline.

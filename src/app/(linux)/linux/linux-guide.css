@@ -215,10 +215,34 @@ body:has(.linux-wizard-bar) > footer {
   color: var(--foreground);
 }
 
-.linux-guide a.text-gold {
+.linux-guide a.text-gold:not(.no-underline) {
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
+}
+
+.linux-guide :is(button, summary):not(.linux-term-btn),
+.linux-guide :is(button, summary):not(.linux-term-btn):is(:hover, :focus, :focus-visible, :active),
+.linux-guide a.no-underline,
+.linux-guide a.no-underline:is(:hover, :focus, :focus-visible, :active, :visited),
+body:has(.linux-guide) header :is(button, summary, a.no-underline),
+body:has(.linux-guide) header :is(button, summary, a.no-underline):is(:hover, :focus, :focus-visible, :active, :visited) {
+  text-decoration-line: none;
+}
+
+.linux-guide :is(button, summary, a.no-underline):focus-visible,
+body:has(.linux-guide) header :is(button, summary, a.no-underline):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.linux-guide .code-trust {
+  color: #d6be78;
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .linux-guide .linux-term-btn {
