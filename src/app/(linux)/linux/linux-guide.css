@@ -245,6 +245,38 @@ body:has(.linux-guide) header :is(button, summary, a.no-underline):focus-visible
   text-transform: uppercase;
 }
 
+.linux-guide .code-trust-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #d6be78;
+  cursor: pointer;
+}
+
+.linux-guide .code-trust-pop {
+  max-width: min(22rem, calc(100vw - 1rem));
+  border: 1px solid rgba(214, 190, 120, 0.45);
+  background: #11120e;
+  color: var(--foreground);
+  padding: 0.85rem 1rem;
+}
+
+.linux-guide .code-trust-pop p {
+  margin: 0 0 0.5rem;
+}
+
+.linux-guide .code-trust-cmd {
+  margin: 0 0 0.5rem;
+  white-space: pre-wrap;
+  font-family: ui-monospace, monospace;
+  font-size: 0.82rem;
+}
+
 .linux-guide .linux-term-btn {
   display: inline;
   white-space: nowrap;

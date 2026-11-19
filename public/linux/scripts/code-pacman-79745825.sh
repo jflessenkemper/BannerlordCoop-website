@@ -1,0 +1,1 @@
+sudo pacman -Syu --needed curl 7zip python iproute2

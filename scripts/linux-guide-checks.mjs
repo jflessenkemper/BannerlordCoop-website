@@ -4,6 +4,8 @@
  */
 import { createRequire } from "node:module";
 import { spawnSync } from "node:child_process";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 const { chromium } = createRequire(new URL("../package.json", import.meta.url))("playwright");
 const base = process.argv[2] || "http://127.0.0.1:3458";
@@ -499,6 +501,28 @@ for (const width of underlineWidths) {
     if (!kept.visited) fail("13 visited", `@${width} missing visited none rule`);
 }
 await underlinePage.close();
+
+const signingManifest = JSON.parse(readFileSync(join(process.cwd(), "src/app/(linux)/linux/content/scripts-manifest.json"), "utf8"));
+const signingPage = await context.newPage();
+await signingPage.setViewportSize({ width: 1024, height: 900 });
+await signingPage.goto(`${base}/linux/step/terminal`, { waitUntil: "domcontentloaded" });
+await signingPage.waitForFunction(() => document.documentElement.classList.contains("linux-ready")).catch(() => {});
+const marks = await signingPage.evaluate(() => [...document.querySelectorAll(".code-trust-mark")].map((node) => ({
+    id: node.getAttribute("data-script-id"),
+    sha: node.getAttribute("data-sha256"),
+    attestation: node.parentElement?.querySelector("[data-attestation]")?.getAttribute("href") || document.getElementById(node.getAttribute("aria-controls") || "")?.querySelector("[data-attestation]")?.getAttribute("href") || "",
+    virusTotal: document.getElementById(node.getAttribute("aria-controls") || "")?.querySelector("[data-virustotal]")?.getAttribute("href") || "",
+})));
+const byId = new Map(signingManifest.scripts.map((entry) => [entry.id, entry]));
+if (!signingManifest.attestationUrl && marks.length) fail("14 hidden", `${marks.length} check marks without an attestation`);
+for (const mark of marks) {
+    const entry = byId.get(mark.id);
+    if (!entry) fail("14 missing", mark.id || "no id");
+    else if (mark.sha !== entry.sha256) fail("14 sha", `${mark.id} ${mark.sha} != ${entry.sha256}`);
+    else if (!mark.virusTotal.includes(entry.sha256)) fail("14 virustotal", mark.id);
+    else if (mark.attestation !== signingManifest.attestationUrl) fail("14 attestation", mark.id);
+}
+await signingPage.close();
 
 await browser.close();
 if (failures.length) {

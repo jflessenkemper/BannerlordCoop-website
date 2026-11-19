@@ -1,0 +1,1 @@
+umu-run "$SERVER_DIR/BannerlordCoopServer.exe"

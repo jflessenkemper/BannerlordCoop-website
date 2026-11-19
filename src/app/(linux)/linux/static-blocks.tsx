@@ -3,6 +3,7 @@ import type { Translator } from "@/app/lib/localization/types";
 import { FAQ_SECTION, sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
 import { COPY_RESET_MS, cx, glassCard, goldButton, PARAGRAPH_ROLE_CLASS, primaryButton, sectionTitleClass } from "./guide-styles";
 import { codeMatchesDistro, englishCodeGroups, HAND_SECTIONS, HAND_SUMMARY, OPTIONAL_CODES, OPTIONAL_TIME, SKIP_IF_SCRIPT } from "./english-code";
+import manifest from "./content/scripts-manifest.json";
 import { highlight } from "./highlight";
 import { inlineVisible, isPunctuationJoin, needsBoundarySpace } from "./inline-flow";
 import { scriptText } from "./script-text";
@@ -242,6 +243,12 @@ function renderInlineNode(node: Inline, t: Translate, key: string): ReactNode {
     }
 }
 
+/** The published file for a bash block, once the repo attestation exists. */
+function publishedScript(id: string) {
+    if (!manifest.attestationUrl) return null;
+    return manifest.scripts.find((entry) => entry.id === id && entry.sha256 && entry.virusTotalUrl) ?? null;
+}
+
 /** A script listing with a copy button the page script wires up. */
 function StaticCode({ block, t, annotate = false }: { block: Extract<Block, { type: "code" }>; t: Translate; annotate?: boolean }) {
     const source = scriptText(block.id);
@@ -249,18 +256,36 @@ function StaticCode({ block, t, annotate = false }: { block: Extract<Block, { ty
     const shown = groups ?? [{ title: "", body: source }];
     const copyClass = block.oneshot ? primaryButton : goldButton;
     return shown.map((group, groupIndex) => (
-        <CodeFigure key={`${block.id}-${groupIndex}`} id={groupIndex === 0 ? block.id : `${block.id}-part-${groupIndex + 1}`} title={group.title ? [{ t: "text" as const, k: "" }] : block.title} plainTitle={group.title} source={group.body} t={t} copyClass={copyClass} oneshot={block.oneshot} download={groupIndex === 0 ? block.download : undefined} langKey={block.langKey} showTrust={annotate} />
+        <CodeFigure key={`${block.id}-${groupIndex}`} id={groupIndex === 0 ? block.id : `${block.id}-part-${groupIndex + 1}`} scriptId={block.id} title={group.title ? [{ t: "text" as const, k: "" }] : block.title} plainTitle={group.title} source={group.body} t={t} copyClass={copyClass} oneshot={block.oneshot} download={groupIndex === 0 ? block.download : undefined} langKey={block.langKey} showTrust={annotate} />
     ));
 }
 
-function CodeFigure({ id, title, plainTitle, source, t, copyClass, oneshot, download, langKey, showTrust = false }: { id: string; title: Inline[]; plainTitle: string; source: string; t: Translate; copyClass: string; oneshot?: boolean; download?: Extract<Block, { type: "code" }>["download"]; langKey: string; showTrust?: boolean }) {
+function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, oneshot, download, langKey, showTrust = false }: { id: string; scriptId: string; title: Inline[]; plainTitle: string; source: string; t: Translate; copyClass: string; oneshot?: boolean; download?: Extract<Block, { type: "code" }>["download"]; langKey: string; showTrust?: boolean }) {
+    const published = showTrust ? publishedScript(scriptId) : null;
+    const popoverId = `code-trust-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+    const marker = published ? (
+        <>
+            <button type="button" className="code-trust-mark" aria-label="How this published script is signed" aria-controls={popoverId} aria-expanded="false" popoverTarget={popoverId} popoverTargetAction="toggle" data-script-id={scriptId} data-sha256={published.sha256}>
+                <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8.5 6.2 12 13 4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+            <div id={popoverId} popover="auto" role="dialog" className="code-trust-pop" aria-label="How to verify this script">
+                <p className="code-trust">Read before running</p>
+                <p><a className="text-gold underline underline-offset-4" href={manifest.attestationUrl ?? undefined} data-attestation>Signed by the Coop website repo</a></p>
+                <p><a className="text-gold underline underline-offset-4" href={published.virusTotalUrl} data-virustotal>Scanned on VirusTotal</a></p>
+                <p className="code-trust">How to verify</p>
+                <p className="code-trust-cmd">gh attestation verify {published.file} --repo {manifest.repository}{"\n"}sha256sum -c SHA256SUMS</p>
+                <p>Attestation proves the published file is exactly what that repository published. It does not say the script is safe.</p>
+                <p><a className="text-gold underline underline-offset-4" href={`/linux/scripts/${published.file}`}>Published file</a></p>
+            </div>
+        </>
+    ) : showTrust ? <span className="code-trust">Read before running</span> : null;
     return (
         <figure className={cx(glassCard, "my-4 overflow-hidden", oneshot && "border-gold/45")}>
             <figcaption className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-white/5 px-3 py-2">
                 <span className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
                     <span>{plainTitle || <StaticInline nodes={title} t={t} />}</span>
                     <span className="inline-flex shrink-0 items-center gap-2">
-                        {showTrust ? <span className="code-trust">Read before running</span> : null}
+                        {marker}
                         <span className="code-lang font-label text-xs font-semibold uppercase tracking-[0.08em] text-foreground-muted">{t(langKey)}</span>
                     </span>
                 </span>
