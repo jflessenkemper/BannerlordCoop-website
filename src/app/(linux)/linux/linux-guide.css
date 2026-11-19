@@ -72,6 +72,13 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
     rgba(13, 14, 11, 0.94);
 }
 
+.linux-subnav .subnav-sep {
+  align-self: stretch;
+  width: 1px;
+  min-height: 3rem;
+  background: rgba(255, 255, 255, 0.15);
+}
+
 .linux-subnav {
   position: fixed;
   top: 4rem;
@@ -403,6 +410,44 @@ body:has(#linux-guide) footer .text-foreground-dim {
   transform: rotate(-45deg);
 }
 
+.linux-guide details.linux-stage > summary {
+  display: grid;
+  grid-template-columns: 1.8rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3.5rem;
+  padding: 0.85rem 0;
+  cursor: pointer;
+}
+
+.linux-guide details.linux-stage > summary::before {
+  order: 2;
+  align-self: center;
+}
+
+.linux-guide .linux-stage-num,
+.linux-guide ol.step-cards > li::before {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  place-items: center;
+  border: 1px solid rgba(170, 151, 96, 0.6);
+  border-radius: 6px;
+  background: rgba(170, 151, 96, 0.14);
+  color: #e6cf8c;
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.linux-guide details.linux-stage > summary h2 {
+  margin: 0;
+  min-width: 0;
+}
+
+.linux-guide details.linux-stage > .linux-stage-body {
+  padding-bottom: 1.5rem;
+}
+
 .linux-guide details[open] > summary::before {
   transform: rotate(45deg);
 }
@@ -421,16 +466,6 @@ body:has(#linux-guide) footer .text-foreground-dim {
   position: absolute;
   top: 0.7rem;
   left: 0.75rem;
-  display: grid;
-  width: 1.8rem;
-  height: 1.8rem;
-  place-items: center;
-  border: 1px solid rgba(170, 151, 96, 0.6);
-  border-radius: 6px;
-  background: rgba(170, 151, 96, 0.14);
-  color: #e6cf8c;
-  font-family: var(--font-barlow), system-ui, sans-serif;
-  font-weight: 700;
 }
 
 html[data-distro] .distro-panel { display: none; }
@@ -517,23 +552,7 @@ html[data-distro="other"] .distro-chip[data-for="other"] { display: flex; }
 .linux-tabs > .linux-tab-input:nth-of-type(11):checked ~ .linux-tab-panels > div:nth-child(11),
 .linux-tabs > .linux-tab-input:nth-of-type(12):checked ~ .linux-tab-panels > div:nth-child(12) { display: block; }
 
-@media (max-width: 768px) {
-  .linux-subnav.has-distro .subnav-sep,
-  .linux-subnav.has-distro .subnav-here,
-  html[data-distro] .linux-subnav.can-distro .subnav-sep,
-  html[data-distro] .linux-subnav.can-distro .subnav-here {
-    display: none;
-  }
-}
-
 @media (max-width: 560px) {
-  .linux-subnav.has-distro .subnav-sep,
-  .linux-subnav.has-distro .subnav-here,
-  html[data-distro] .linux-subnav.can-distro .subnav-sep,
-  html[data-distro] .linux-subnav.can-distro .subnav-here {
-    display: none;
-  }
-
   .linux-guide .subnav-distro-name {
     position: absolute;
     width: 1px;

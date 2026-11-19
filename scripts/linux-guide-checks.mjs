@@ -86,6 +86,81 @@ for (const locale of locales) {
             });
             if (codeGap.length) fail("2 code space", `${label} ${codeGap.join(" ; ")}`);
 
+            const divider = await page.evaluate(() => {
+                const sep = document.querySelector(".subnav-sep");
+                if (!sep || !sep.getClientRects().length) return null;
+                const change = [...document.querySelectorAll(".subnav-change")].find((node) => node.getClientRects().length);
+                const sepBox = sep.getBoundingClientRect();
+                const changeBox = change ? change.getBoundingClientRect() : null;
+                return {
+                    text: sep.textContent.trim(),
+                    color: getComputedStyle(sep).backgroundColor,
+                    line: change ? getComputedStyle(change).borderLeftColor : "",
+                    sepHeight: sepBox.height,
+                    lineHeight: changeBox ? changeBox.height : 0,
+                };
+            });
+            if (divider) {
+                if (divider.text) fail("9 divider", `${label} separator is "${divider.text}"`);
+                if (divider.line) {
+                    const same = await page.evaluate(({ color, line }) => {
+                        const canvas = document.createElement("canvas");
+                        canvas.width = canvas.height = 1;
+                        const context = canvas.getContext("2d", { willReadFrequently: true });
+                        function pixel(value) {
+                            context.clearRect(0, 0, 1, 1);
+                            context.fillStyle = value;
+                            context.fillRect(0, 0, 1, 1);
+                            return [...context.getImageData(0, 0, 1, 1).data].join(",");
+                        }
+                        return pixel(color) === pixel(line);
+                    }, divider);
+                    if (!same) fail("9 divider color", `${label} ${divider.color} vs ${divider.line}`);
+                }
+                if (divider.line && Math.abs(divider.sepHeight - divider.lineHeight) > 2) fail("9 divider height", `${label} sep ${divider.sepHeight} line ${divider.lineHeight}`);
+            }
+
+            if (route === "/checklist") {
+                const stages = await page.evaluate((english) => {
+                    const list = [...document.querySelectorAll("details.linux-stage")];
+                    const bad = [];
+                    list.forEach((stage, index) => {
+                        const num = stage.querySelector(":scope > summary .linux-stage-num");
+                        const title = stage.querySelector(":scope > summary h2");
+                        if (!num || !title || num.textContent.trim() !== String(index + 1) || !title.textContent.trim()) bad.push(stage.id || String(index));
+                    });
+                    const closed = list.filter((stage) => !stage.open);
+                    return {
+                        toc: !!document.querySelector("#linux-guide nav ol a[href^='#sec-']"),
+                        count: list.length,
+                        bad: bad.slice(0, 3),
+                        firstOpen: !!list[0] && list[0].open,
+                        restClosed: list.slice(1).every((stage) => !stage.open),
+                        closedCopy: closed.some((stage) => stage.querySelector("pre[data-raw]") && stage.querySelector("[data-copy]")),
+                        target: (closed.find((stage) => stage.id) || {}).id || "",
+                        expand: english ? (document.querySelector(".linux-fold")?.textContent || "") : "skip",
+                    };
+                }, locale === "");
+                if (stages.toc || stages.count < 2 || stages.bad.length || !stages.firstOpen || !stages.restClosed || !stages.closedCopy) {
+                    fail("10 stages", `${label} toc ${stages.toc} count ${stages.count} bad ${stages.bad.join(",")} first ${stages.firstOpen} rest ${stages.restClosed} copy ${stages.closedCopy}`);
+                }
+                if (stages.expand !== "skip" && stages.expand !== "Expand all") fail("10 expand", `${label} ${stages.expand}`);
+                if (stages.target) {
+                    await page.goto(`${base}${path}#${stages.target}`, { waitUntil: "domcontentloaded" });
+                    await page.waitForFunction((id) => {
+                        const el = document.getElementById(id);
+                        return !!(el && el.open);
+                    }, stages.target);
+                    const landed = await page.evaluate((id) => {
+                        const el = document.getElementById(id);
+                        const sub = document.querySelector(".linux-subnav");
+                        const bar = sub ? sub.getBoundingClientRect().bottom : document.querySelector("header").getBoundingClientRect().bottom;
+                        return { top: Math.round(el.getBoundingClientRect().top), bar: Math.round(bar) };
+                    }, stages.target);
+                    if (landed.top < landed.bar - 2) fail("10 link", `${label} #${stages.target} top ${landed.top} bar ${landed.bar}`);
+                }
+            }
+
             if (route === "") {
                 const glow = await page.evaluate(() => getComputedStyle(document.querySelector(".choice-recommended")).boxShadow);
                 if (glow.includes("0.72") || /28px/.test(glow.split("rgba(170, 151, 96")[1] || "")) fail("6 glow", `${label} ${glow.slice(0, 180)}`);
@@ -130,7 +205,7 @@ for (const locale of locales) {
                     const parts = [];
                     function walk(node) {
                         if (node.nodeType === 1) {
-                            if (node.matches("[popover], pre, .linux-code")) return;
+                            if (node.matches("[popover], pre, .linux-code, .linux-stage-num")) return;
                             node.childNodes.forEach(walk);
                             return;
                         }

@@ -331,24 +331,38 @@ function StaticTabs({ block, t, distro, alone, annotate = false }: { block: Extr
     );
 }
 
-/** One guide section. The wizard and a focused manual page use the page heading. */
-export function StaticGuideSection({ section, t, distro = null, wizard = false, alone = false, annotate = false }: { section: Section; t: Translate; distro?: Distro | null; wizard?: boolean; alone?: boolean; annotate?: boolean }) {
+/** One guide section. The wizard and a focused manual page use the page heading. Checklist stages are numbered disclosures. */
+export function StaticGuideSection({ section, t, distro = null, wizard = false, alone = false, annotate = false, stageIndex = null }: { section: Section; t: Translate; distro?: Distro | null; wizard?: boolean; alone?: boolean; annotate?: boolean; stageIndex?: number | null }) {
     const pageHeading = wizard || alone;
     const Heading = pageHeading ? "h1" : "h2";
+    const body = (
+        <>
+            {annotate && HAND_SECTIONS.has(section.id) ? <p className="mb-3 text-foreground-muted">{SKIP_IF_SCRIPT}</p> : null}
+            {annotate && section.id === "service" ? (
+                <details className={cx(glassCard, "my-2 px-4")}>
+                    <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold"><span>{t(section.titleKey)}</span><span className="font-normal text-foreground-muted">· {OPTIONAL_TIME}</span></summary>
+                    <div className="pb-3"><StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone || wizard} annotate={annotate} /></div>
+                </details>
+            ) : (
+                <StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone || wizard} annotate={annotate} />
+            )}
+        </>
+    );
+    if (stageIndex != null) {
+        return (
+            <details id={`sec-${section.id}`} className="linux-stage border-b border-white/10" open={stageIndex === 0}>
+                <summary>
+                    <span className="linux-stage-num">{stageIndex + 1}</span>
+                    <Heading className={sectionTitleClass}>{t(section.titleKey)}</Heading>
+                </summary>
+                <div className="linux-stage-body mt-2">{body}</div>
+            </details>
+        );
+    }
     return (
         <div className={wizard ? undefined : "border-b border-white/10 py-6"} id={wizard ? undefined : `sec-${section.id}`}>
             <Heading className={sectionTitleClass} id={wizard ? "wizard-title" : alone ? "manual-title" : undefined} tabIndex={pageHeading ? -1 : undefined}>{t(section.titleKey)}</Heading>
-            <div className="mt-4">
-                {annotate && HAND_SECTIONS.has(section.id) ? <p className="mb-3 text-foreground-muted">{SKIP_IF_SCRIPT}</p> : null}
-                {annotate && section.id === "service" ? (
-                    <details className={cx(glassCard, "my-2 px-4")}>
-                        <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold"><span>{t(section.titleKey)}</span><span className="font-normal text-foreground-muted">· {OPTIONAL_TIME}</span></summary>
-                        <div className="pb-3"><StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone || wizard} annotate={annotate} /></div>
-                    </details>
-                ) : (
-                    <StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone || wizard} annotate={annotate} />
-                )}
-            </div>
+            <div className="mt-4">{body}</div>
         </div>
     );
 }
