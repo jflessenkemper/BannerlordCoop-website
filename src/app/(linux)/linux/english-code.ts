@@ -10,6 +10,37 @@ export function withoutEnglishNotes(text: string): string {
     return kept.join("\n");
 }
 
+/** Steam listings that share a family panel. Only the selected distro's block stays. */
+const STEAM_DISTRO: Record<string, string> = {
+    "code-steam-ubuntu": "ubuntu",
+    "code-steam-debian": "debian",
+    "code-steam-fedora": "fedora",
+    "code-steam-arch": "arch",
+    "code-steam-manjaro": "manjaro",
+    "code-steam-suse": "suse",
+    "code-steam-immutable": "bazzite",
+    "code-steamos-inspection-55952700": "deck",
+    "code-steam-nix": "nix",
+    "code-steam-flatpak": "other",
+};
+
+/** Mint uses the Ubuntu Steam commands. Every other id is shown for every distro. */
+export function codeMatchesDistro(id: string, distroId: string): boolean {
+    const owner = STEAM_DISTRO[id];
+    if (!owner) return true;
+    if (owner === distroId) return true;
+    return distroId === "mint" && owner === "ubuntu";
+}
+
+export const HAND_SECTIONS = new Set(["deps", "steam", "download"]);
+export const SKIP_IF_SCRIPT = "Skip this if you ran the script.";
+export const HAND_SUMMARY = "Set it up by hand";
+export const OPTIONAL_TIME = "Optional, about 10 min";
+export const OPTIONAL_CODES = new Set([
+    "code-dockerfile-wine-11-0-validated-outline-71121604",
+    "code-compose-wine-11-0-rootless-podman-outlin-74440469",
+]);
+
 /** English pages explain long scripts in place. Other locales keep the original bytes. */
 export function englishCodeGroups(id: string): CodeGroup[] | null {
     if (id.startsWith("code-oneshot-")) return [{ title: "", body: annotateOneshot(scriptText(id)) }];

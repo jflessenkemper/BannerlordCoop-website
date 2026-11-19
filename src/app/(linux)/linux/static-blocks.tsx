@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Translator } from "@/app/lib/localization/types";
 import { FAQ_SECTION, sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
 import { COPY_RESET_MS, cx, glassCard, goldButton, PARAGRAPH_ROLE_CLASS, primaryButton, sectionTitleClass } from "./guide-styles";
-import { englishCodeGroups } from "./english-code";
+import { codeMatchesDistro, englishCodeGroups, HAND_SECTIONS, HAND_SUMMARY, OPTIONAL_CODES, OPTIONAL_TIME, SKIP_IF_SCRIPT } from "./english-code";
 import { highlight } from "./highlight";
 import { inlineVisible, isPunctuationJoin, needsBoundarySpace } from "./inline-flow";
 import { scriptText } from "./script-text";
@@ -64,7 +64,10 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                     case "details":
                         return (
                             <details key={index} id={block.id} className={cx(glassCard, "my-2 px-4")}>
-                                <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold"><StaticInline nodes={block.summary} t={t} /></summary>
+                                <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold">
+                                    <StaticInline nodes={block.summary} t={t} />
+                                    {annotate && block.id === "faq-ai-assistant" ? <span className="font-normal text-foreground-muted">{OPTIONAL_TIME}</span> : null}
+                                </summary>
                                 <div className="pb-3"><StaticBlocks blocks={block.blocks} t={t} distro={distro} alone={alone} annotate={annotate} /></div>
                             </details>
                         );
@@ -72,13 +75,14 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                         if (block.when === "alone" && !alone) return null;
                         return (
                             <details key={index} className={`${glassCard} my-2 px-4`}>
-                                <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold"><StaticInline nodes={block.summary} t={t} /></summary>
+                                <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold">{annotate ? HAND_SUMMARY : <StaticInline nodes={block.summary} t={t} />}</summary>
                                 {block.ids.map((id) => {
                                     const section = sectionsById.get(id);
                                     if (!section) throw new Error(`Missing folded section: ${id}`);
                                     return (
                                         <section key={id} className="mt-4 border-t border-white/10 pt-3">
                                             <h3 className="font-label text-sm font-semibold uppercase tracking-[0.08em] text-gold">{t(section.titleKey)}</h3>
+                                            {annotate && HAND_SECTIONS.has(id) ? <p className="mb-3 text-foreground-muted">{SKIP_IF_SCRIPT}</p> : null}
                                             <StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone} annotate={annotate} />
                                         </section>
                                     );
@@ -114,6 +118,15 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                             </div>
                         );
                     case "code":
+                        if (annotate && distro && !codeMatchesDistro(block.id, distro.id)) return null;
+                        if (annotate && OPTIONAL_CODES.has(block.id)) {
+                            return (
+                                <details key={index} className={cx(glassCard, "my-2 px-4")}>
+                                    <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold">{OPTIONAL_TIME}</summary>
+                                    <div className="pb-3"><StaticCode block={block} t={t} annotate={annotate} /></div>
+                                </details>
+                            );
+                        }
                         return <StaticCode key={index} block={block} t={t} annotate={annotate} />;
                     default: {
                         const unreachable: never = block;
@@ -323,7 +336,15 @@ export function StaticGuideSection({ section, t, distro = null, wizard = false, 
         <div className={wizard ? undefined : "border-b border-white/10 py-6"} id={wizard ? undefined : `sec-${section.id}`}>
             <Heading className={sectionTitleClass} id={wizard ? "wizard-title" : alone ? "manual-title" : undefined} tabIndex={pageHeading ? -1 : undefined}>{t(section.titleKey)}</Heading>
             <div className="mt-4">
-                <StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone || wizard} annotate={annotate} />
+                {annotate && HAND_SECTIONS.has(section.id) ? <p className="mb-3 text-foreground-muted">{SKIP_IF_SCRIPT}</p> : null}
+                {annotate && section.id === "service" ? (
+                    <details className={cx(glassCard, "my-2 px-4")}>
+                        <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold">{OPTIONAL_TIME}</summary>
+                        <div className="pb-3"><StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone || wizard} annotate={annotate} /></div>
+                    </details>
+                ) : (
+                    <StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone || wizard} annotate={annotate} />
+                )}
             </div>
         </div>
     );

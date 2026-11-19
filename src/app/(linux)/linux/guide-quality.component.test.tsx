@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { highlight, tokensToText } from "./highlight";
 import { scriptText } from "./script-text";
@@ -25,8 +26,9 @@ describe("code highlighting", () => {
 });
 
 describe("guide presentation", () => {
-    const css = readFileSync(new URL("./linux-guide.css", import.meta.url), "utf8");
-    const document = readFileSync(new URL("./static-document.ts", import.meta.url), "utf8");
+    const dir = join(process.cwd(), "src/app/(linux)/linux");
+    const css = readFileSync(join(dir, "linux-guide.css"), "utf8");
+    const document = readFileSync(join(dir, "static-document.ts"), "utf8");
 
     it("pins the step bar and keeps the tint on the viewport", () => {
         expect(css).toContain("position: fixed;");

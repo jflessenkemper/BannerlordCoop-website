@@ -15,7 +15,7 @@ import zhCN from "@/app/lib/localization/dictionaries/zh-CN/linux.json";
 import expected from "./content/expected-copies.json";
 import distros from "./content/distros.json";
 import { renderLinuxGuideMarkdown } from "./render-markdown";
-import { englishCodeGroups, withoutEnglishNotes } from "./english-code";
+import { codeMatchesDistro, englishCodeGroups, withoutEnglishNotes } from "./english-code";
 import { scriptText } from "./script-text";
 import { sections, type Block, type Inline } from "./guide-model";
 
@@ -119,6 +119,10 @@ it("adds English notes without changing the commands", () => {
         expect(withoutEnglishNotes(shown), id).toBe(scriptText(id));
     }
     expect(englishCodeGroups("code-apt-60837352")).toBeNull();
+    expect(codeMatchesDistro("code-steam-debian", "ubuntu")).toBe(false);
+    expect(codeMatchesDistro("code-steam-ubuntu", "ubuntu")).toBe(true);
+    expect(codeMatchesDistro("code-steam-ubuntu", "mint")).toBe(true);
+    expect(codeMatchesDistro("code-apt-60837352", "ubuntu")).toBe(true);
 });
 
 function walkInline(nodes: Inline[], visit: (node: Inline) => void) {
