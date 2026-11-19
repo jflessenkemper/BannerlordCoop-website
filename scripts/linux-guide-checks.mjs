@@ -37,6 +37,55 @@ for (const locale of locales) {
             await page.waitForSelector("h1");
             const label = `${path} @${width}`;
 
+            await page.evaluate(() => { document.documentElement.style.scrollBehavior = "auto"; });
+            const total = await page.evaluate(() => Math.max(0, document.documentElement.scrollHeight - innerHeight));
+            for (const y of [Math.round(total / 2), total]) {
+                await page.evaluate((yy) => scrollTo(0, yy), y);
+                const bars = await page.evaluate(() => {
+                    const header = document.querySelector("header");
+                    const sub = document.querySelector(".linux-subnav");
+                    const hr = header.getBoundingClientRect();
+                    const sr = sub ? sub.getBoundingClientRect() : null;
+                    const shown = (node, rect) => !!node && rect.height > 8 && getComputedStyle(node).visibility !== "hidden";
+                    return { headerTop: hr.top, headerShown: shown(header, hr), headerBottom: hr.bottom, subTop: sr && sr.top, subShown: sr ? shown(sub, sr) : null };
+                });
+                if (Math.abs(bars.headerTop) > 1 || !bars.headerShown) fail("9 navbar", `${label} y=${y} top ${bars.headerTop}`);
+                if (bars.subTop != null && (Math.abs(bars.subTop - bars.headerBottom) > 2 || !bars.subShown)) fail("9 subnav", `${label} y=${y} sub ${bars.subTop} header ${bars.headerBottom}`);
+            }
+            const clearance = await page.evaluate(() => {
+                scrollTo(0, 0);
+                const heading = document.querySelector("h1").getBoundingClientRect();
+                const sub = document.querySelector(".linux-subnav");
+                const bar = sub ? sub.getBoundingClientRect().bottom : document.querySelector("header").getBoundingClientRect().bottom;
+                let anchor = null;
+                const target = document.querySelector("#sec-agents h2");
+                if (target) {
+                    target.scrollIntoView({ block: "start" });
+                    anchor = { top: target.getBoundingClientRect().top, bar: document.querySelector(".linux-subnav").getBoundingClientRect().bottom };
+                    scrollTo(0, 0);
+                }
+                return { top: heading.top, bar, anchor };
+            });
+            if (clearance.top < clearance.bar - 2) fail("9 heading", `${label} h1 ${clearance.top} bar ${clearance.bar}`);
+            if (clearance.anchor && clearance.anchor.top < clearance.anchor.bar - 2) fail("9 anchor", `${label} heading ${clearance.anchor.top} bar ${clearance.anchor.bar}`);
+
+            const bareSummary = await page.evaluate(() => [...document.querySelectorAll("#linux-guide summary")].filter((node) => getComputedStyle(node).display !== "none" && node.getClientRects().length).map((node) => node.textContent.replace(/\s+/g, " ").trim()).filter((text) => {
+                const rest = text.replace(/optional, about \d+ min/ig, "").replace(/[·•|–—-]/g, "").trim();
+                return rest.length < 3;
+            }));
+            if (bareSummary.length) fail("9 summary", `${label} ${bareSummary.join(" | ")}`);
+
+            const codeGap = await page.evaluate(() => {
+                const bad = [];
+                for (const code of document.querySelectorAll("p code, li code, dd code, summary code")) {
+                    const next = code.nextSibling;
+                    const text = next && next.nodeType === 3 ? next.textContent : "";
+                    if (/^\s+[/\\.,:;!?…)\]}>"'«»]/.test(text)) bad.push(`${code.textContent}${text.slice(0, 8)}`);
+                }
+                return bad.slice(0, 3);
+            });
+            if (codeGap.length) fail("2 code space", `${label} ${codeGap.join(" ; ")}`);
+
             if (route === "") {
                 const glow = await page.evaluate(() => getComputedStyle(document.querySelector(".choice-recommended")).boxShadow);
                 if (glow.includes("0.72") || /28px/.test(glow.split("rgba(170, 151, 96")[1] || "")) fail("6 glow", `${label} ${glow.slice(0, 180)}`);
@@ -77,7 +126,7 @@ for (const locale of locales) {
 
             const glued = await page.evaluate(() => {
                 const problems = [];
-                for (const block of document.querySelectorAll("p, li, dd, summary, h1, h2, h3")) {
+                for (const block of document.querySelectorAll("#linux-guide p, #linux-guide li, #linux-guide dd, #linux-guide summary, #linux-guide h1, #linux-guide h2, #linux-guide h3")) {
                     const parts = [];
                     function walk(node) {
                         if (node.nodeType === 1) {
@@ -125,8 +174,8 @@ for (const locale of locales) {
             });
             if (code.length) fail("7 highlight", `${label} ${code.join(" ")}`);
 
-            const term = await page.$("[data-term]");
-            if (term) {
+            const term = page.locator("#linux-guide [data-term]").locator("visible=true").first();
+            if (await term.count()) {
                 await term.scrollIntoViewIfNeeded();
                 await page.evaluate(() => scrollBy(0, 80));
                 await term.click({ force: true });
@@ -159,8 +208,11 @@ for (const width of [1440, 390]) {
     const total = await page.evaluate(() => Math.max(0, document.documentElement.scrollHeight - innerHeight));
     const shots = [];
     for (const [name, y] of [["top", 0], ["middle", Math.round(total / 2)], ["bottom", total]]) {
-        await page.evaluate((yy) => scrollTo(0, yy), y);
-        await page.waitForTimeout(40);
+        await page.evaluate((yy) => {
+            document.documentElement.style.scrollBehavior = "auto";
+            for (const node of document.querySelectorAll("#linux-guide > :not(.linux-subnav), footer")) node.style.visibility = "hidden";
+            scrollTo(0, yy);
+        }, y);
         const file = `/tmp/bg-check-${width}-${name}.png`;
         await page.screenshot({ path: file });
         shots.push(file);
@@ -171,7 +223,7 @@ def avg(path):
     im = Image.open(path).convert("RGB")
     px = im.load()
     r=g=b=n=0
-    for y in range(80, im.size[1]-40, 4):
+    for y in range(140, im.size[1]-40, 4):
         for x in range(6, 22):
             R,G,B = px[x,y]
             r+=R; g+=G; b+=B; n+=1

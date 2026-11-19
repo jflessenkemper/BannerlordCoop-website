@@ -16,6 +16,7 @@ import expected from "./content/expected-copies.json";
 import distros from "./content/distros.json";
 import { renderLinuxGuideMarkdown } from "./render-markdown";
 import { codeMatchesDistro, englishCodeGroups, withoutEnglishNotes } from "./english-code";
+import { needsBoundarySpace } from "./inline-flow";
 import { scriptText } from "./script-text";
 import { sections, type Block, type Inline } from "./guide-model";
 
@@ -123,6 +124,9 @@ it("adds English notes without changing the commands", () => {
     expect(codeMatchesDistro("code-steam-ubuntu", "ubuntu")).toBe(true);
     expect(codeMatchesDistro("code-steam-ubuntu", "mint")).toBe(true);
     expect(codeMatchesDistro("code-apt-60837352", "ubuntu")).toBe(true);
+    expect(needsBoundarySpace("$HOME", "/distrobox")).toBe(false);
+    expect(needsBoundarySpace("$HOME", "/")).toBe(false);
+    expect(needsBoundarySpace("UDP", "4200")).toBe(true);
 });
 
 function walkInline(nodes: Inline[], visit: (node: Inline) => void) {

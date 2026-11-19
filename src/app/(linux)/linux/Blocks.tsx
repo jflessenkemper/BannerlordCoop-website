@@ -50,7 +50,7 @@ function InlineText({ nodes }: { nodes: Inline[] }) {
                     case "br":
                         return <br key={index} />;
                     case "code":
-                        return <code key={index} className="rounded bg-[#0d0e0b] px-1 py-0.5 font-mono text-[0.92em] text-foreground">{node.k ? t(node.k) : node.v}</code>;
+                        return <code key={index} className="rounded bg-[#0d0e0b] font-mono text-[0.92em] text-foreground">{node.k ? t(node.k) : node.v}</code>;
                     case "strong":
                         return <strong key={index}><InlineText nodes={node.c} /></strong>;
                     case "em":

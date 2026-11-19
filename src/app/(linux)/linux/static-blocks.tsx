@@ -66,7 +66,7 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                             <details key={index} id={block.id} className={cx(glassCard, "my-2 px-4")}>
                                 <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold">
                                     <StaticInline nodes={block.summary} t={t} />
-                                    {annotate && block.id === "faq-ai-assistant" ? <span className="font-normal text-foreground-muted">{OPTIONAL_TIME}</span> : null}
+                                    {annotate && block.id === "faq-ai-assistant" ? <span className="font-normal text-foreground-muted">· {OPTIONAL_TIME}</span> : null}
                                 </summary>
                                 <div className="pb-3"><StaticBlocks blocks={block.blocks} t={t} distro={distro} alone={alone} annotate={annotate} /></div>
                             </details>
@@ -122,7 +122,10 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                         if (annotate && OPTIONAL_CODES.has(block.id)) {
                             return (
                                 <details key={index} className={cx(glassCard, "my-2 px-4")}>
-                                    <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold">{OPTIONAL_TIME}</summary>
+                                    <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold">
+                                        <span><StaticInline nodes={block.title} t={t} /></span>
+                                        <span className="font-normal text-foreground-muted">· {OPTIONAL_TIME}</span>
+                                    </summary>
                                     <div className="pb-3"><StaticCode block={block} t={t} annotate={annotate} /></div>
                                 </details>
                             );
@@ -168,7 +171,7 @@ function renderInlineNode(node: Inline, t: Translate, key: string): ReactNode {
         case "br":
             return <br key={key} />;
         case "code":
-            return <code key={key} className="rounded bg-[#0d0e0b] px-1 py-0.5 font-mono text-[0.92em] text-foreground">{node.k ? t(node.k) : node.v}</code>;
+            return <code key={key} className="rounded bg-[#0d0e0b] font-mono text-[0.92em] text-foreground">{node.k ? t(node.k) : node.v}</code>;
         case "strong":
             return <strong key={key}>{renderInlineNodes(node.c, t)}</strong>;
         case "em":
@@ -339,7 +342,7 @@ export function StaticGuideSection({ section, t, distro = null, wizard = false, 
                 {annotate && HAND_SECTIONS.has(section.id) ? <p className="mb-3 text-foreground-muted">{SKIP_IF_SCRIPT}</p> : null}
                 {annotate && section.id === "service" ? (
                     <details className={cx(glassCard, "my-2 px-4")}>
-                        <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold">{OPTIONAL_TIME}</summary>
+                        <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold"><span>{t(section.titleKey)}</span><span className="font-normal text-foreground-muted">· {OPTIONAL_TIME}</span></summary>
                         <div className="pb-3"><StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone || wizard} annotate={annotate} /></div>
                     </details>
                 ) : (

@@ -22,8 +22,9 @@ export function inlineVisible(node: Inline, text: (key: string) => string): stri
     }
 }
 
-/** A letter or digit running into the next inline piece, as in "UDP" + "4200". */
+/** A letter or digit running into the next inline piece, as in "UDP" + "4200". Punctuation and slashes stay attached. */
 export function needsBoundarySpace(previous: string, next: string): boolean {
+    if (/^\s*[^\sA-Za-z0-9]/.test(next)) return false;
     return /[A-Za-z0-9]$/.test(previous) && /^[A-Za-z0-9]/.test(next);
 }
 

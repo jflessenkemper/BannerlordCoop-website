@@ -43,7 +43,21 @@
 }
 
 /* The picture sits above the page background and under the header, guide, and footer. */
+html:has(.linux-guide) {
+  scroll-padding-top: 4.5rem;
+}
+
+html:has(.linux-subnav) {
+  scroll-padding-top: 7.75rem;
+}
+
+.linux-guide [id^="sec-"] {
+  scroll-margin-top: 7.75rem;
+}
+
 body:has(.linux-backdrop-layer) > header {
+  position: sticky;
+  top: 0;
   z-index: 50;
 }
 
@@ -59,6 +73,11 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
 }
 
 .linux-subnav {
+  position: fixed;
+  top: 4rem;
+  right: 0;
+  left: 0;
+  z-index: 40;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.025)),
     rgba(11, 12, 9, 0.92);
@@ -85,13 +104,27 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
 }
 
 .linux-guide {
-  overflow-x: clip;
+  overflow-x: visible;
+  scroll-padding-top: 4.5rem;
   scroll-padding-bottom: 6rem;
+}
+
+.linux-guide:has(.linux-subnav) {
+  padding-top: 3.5rem;
+  scroll-padding-top: 7.75rem;
+}
+
+.linux-guide pre {
+  max-width: 100%;
 }
 
 .linux-guide :where(a, button, input, summary, pre, [tabindex]) {
   scroll-margin-top: 4.5rem;
   scroll-margin-bottom: 6rem;
+}
+
+.linux-guide:has(.linux-subnav) :where(a, button, input, summary, pre, [tabindex]) {
+  scroll-margin-top: 7.75rem;
 }
 
 .linux-guide :where(p, li, dd, dt, td, th, figcaption, summary, h1, h2, h3, a) {
@@ -109,8 +142,13 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
   right: 0;
   bottom: 0;
   z-index: 40;
+  overflow-x: auto;
   background: var(--background);
   padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+.linux-wizard-bar a {
+  white-space: nowrap;
 }
 
 body:has(.linux-wizard-bar) > main {
