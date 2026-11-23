@@ -1,7 +1,7 @@
 "use client";
 
 import { useLinuxText } from "../hooks/useLinuxText";
-import { showsDistroChip, WIZARD_STEPS, type Distro, type GuideRoute } from "../guide-model";
+import { showsDistroChip, WIZARD_STEPS, wizardCrumb, type Distro, type GuideRoute } from "../guide-model";
 import { pageFrame } from "../guide-styles";
 import { scopeSvg } from "./svg";
 
@@ -41,6 +41,19 @@ function withoutTrailingColon(label: string): string {
     return label.replace(/[:：]\s*$/, "");
 }
 
+/** Current place. A wizard step keeps its name when the path has to truncate. */
+function CrumbHere({ here, shortHere }: { here: string; shortHere: string }) {
+    const parts = wizardCrumb(here);
+    if (!parts) return <span className="subnav-here min-w-0 truncate font-semibold text-[#f4f1ea]" aria-current="page" data-short={shortHere || undefined}>{here}</span>;
+    return (
+        <span className="subnav-here flex min-w-0 items-baseline gap-1.5 font-semibold text-[#f4f1ea]" aria-current="page" data-short={shortHere || undefined}>
+            <span className="subnav-trail max-w-[42%] shrink truncate">{parts.trail}</span>
+            <span className="subnav-slash" aria-hidden="true">/</span>
+            <span className="min-w-0 truncate">{parts.step}</span>
+        </span>
+    );
+}
+
 /** Back control, current view, and the chosen distro. Hidden on the opening menu. */
 export function GuideSubnav({
     route,
@@ -70,7 +83,7 @@ export function GuideSubnav({
                         <span>{t("ui.menu")}</span>
                     </button>
                     <span className="subnav-sep" aria-hidden="true" />
-                    <span className="subnav-here min-w-0 truncate font-semibold text-[#f4f1ea]" aria-current="page" data-short={shortHere || undefined}>{here}</span>
+                    <CrumbHere here={here} shortHere={shortHere} />
                 </div>
                 {showDistro && distro ? (
                     <div className="flex min-w-0 max-w-full items-center gap-2 justify-self-end" role="group" aria-label={withoutTrailingColon(t("nav.dYour"))} style={{ ["--d" as string]: distro.color, ["--ig" as string]: distro.glyph }}>
@@ -83,7 +96,7 @@ export function GuideSubnav({
                 ) : null}
             </div>
             {route.view === "wizard" && (
-                <div className="h-0.5 bg-transparent" role="progressbar" aria-label={progress} aria-valuemin={1} aria-valuemax={WIZARD_STEPS.length} aria-valuenow={WIZARD_STEPS.indexOf(route.step) + 1} aria-valuetext={progress}>
+                <div className="h-1 bg-transparent" role="progressbar" aria-label={progress} aria-valuemin={1} aria-valuemax={WIZARD_STEPS.length} aria-valuenow={WIZARD_STEPS.indexOf(route.step) + 1} aria-valuetext={progress}>
                     <span className="block h-full bg-gold" style={{ width: `${((WIZARD_STEPS.indexOf(route.step) + 1) / WIZARD_STEPS.length) * 100}%` }} />
                 </div>
             )}

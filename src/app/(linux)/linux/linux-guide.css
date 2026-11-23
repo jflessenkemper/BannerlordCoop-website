@@ -48,6 +48,7 @@
 
 /* The picture sits above the page background and under the header, guide, and footer. */
 html:has(.linux-guide) {
+  color-scheme: dark;
   scroll-padding-top: 4.5rem;
 }
 
@@ -185,7 +186,9 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
   bottom: 0;
   z-index: 40;
   overflow-x: auto;
-  background: var(--background);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(7, 8, 6, 0.82);
+  backdrop-filter: blur(8px);
   padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
 
@@ -315,7 +318,15 @@ body:has(.linux-guide) header :is(button, summary, a.no-underline):focus-visible
 }
 
 .linux-guide .linux-term-btn {
-  display: inline;
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  margin-block: -0.2rem;
+  padding-block: 0.2rem;
+  line-height: 1.1rem;
+  text-align: center;
+  vertical-align: baseline;
   white-space: nowrap;
 }
 

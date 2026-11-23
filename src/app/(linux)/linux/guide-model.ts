@@ -161,6 +161,14 @@ export function parseRoute(hash: string, ids: ReadonlySet<string> = sectionIds):
 
 type Translate = (key: string, params?: TranslationParams) => string;
 
+/** Splits a wizard crumb into the path and the current step. Other pages stay one label. */
+export function wizardCrumb(here: string): { trail: string; step: string } | null {
+    const mark = " / ";
+    const index = here.indexOf(mark);
+    if (index < 0) return null;
+    return { trail: here.slice(0, index), step: here.slice(index + mark.length) };
+}
+
 /** Labels for the subnav and the wizard footer, one branch per view. */
 export function routeLabels(route: GuideRoute, t: Translate): { here: string; shortHere: string; progress: string; nextLabel: string } {
     switch (route.view) {
@@ -170,7 +178,8 @@ export function routeLabels(route: GuideRoute, t: Translate): { here: string; sh
             const progress = t("ui.stepOf", { n: index + 1, total: WIZARD_STEPS.length });
             const next = neighbors.next;
             const nextLabel = next.view === "wizard" ? t("ui.nextColon", { title: t(sectionsById.get(next.step)?.titleKey ?? "ui.finish") }) : t("ui.finish");
-            return { here: t("ui.stepByStep"), shortHere: "", progress, nextLabel };
+            const stepTitle = t(sectionsById.get(route.step)?.titleKey ?? "ui.stepByStep");
+            return { here: `${t("ui.stepByStep")} / ${stepTitle}`, shortHere: "", progress, nextLabel };
         }
         case "distro":
             return { here: t("ui.chooseDistro"), shortHere: "", progress: "", nextLabel: "" };

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Translator } from "@/app/lib/localization/types";
 import { FAQ_SECTION, sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
 import { COPY_RESET_MS, cx, glassCard, goldButton, PARAGRAPH_ROLE_CLASS, primaryButton, sectionTitleClass } from "./guide-styles";
-import { codeMatchesDistro, englishCodeGroups, HAND_SECTIONS, HAND_SUMMARY, IF_IT_STOPS, IF_IT_STOPS_BODY, OPTIONAL_CODES, OPTIONAL_TIME, SKIP_IF_SCRIPT } from "./english-code";
+import { codeMatchesDistro, englishCodeGroups, HAND_SECTIONS, HAND_SUMMARY, IF_COMMAND_STOPS, IF_IT_STOPS, IF_IT_STOPS_BODY, OPTIONAL_CODES, OPTIONAL_TIME, SKIP_IF_SCRIPT } from "./english-code";
 import manifest from "./content/scripts-manifest.json";
 import { highlight } from "./highlight";
 import { inlineVisible, isPunctuationJoin, needsBoundarySpace } from "./inline-flow";
@@ -100,7 +100,7 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                                     return (
                                         <section key={id} className="mt-4 border-t border-white/10 pt-3">
                                             <h3 className="font-label text-sm font-semibold uppercase tracking-[0.08em] text-gold">{t(section.titleKey)}</h3>
-                                            {annotate && HAND_SECTIONS.has(id) ? <p className="mb-3 text-foreground-muted">{SKIP_IF_SCRIPT}</p> : null}
+                                            {annotate && HAND_SECTIONS.has(id) ? <p className="mb-3 text-foreground">{SKIP_IF_SCRIPT} {IF_COMMAND_STOPS}</p> : null}
                                             <StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone} annotate={annotate} />
                                         </section>
                                     );
@@ -409,7 +409,7 @@ export function StaticGuideSection({ section, t, distro = null, wizard = false, 
     const Heading = pageHeading ? "h1" : "h2";
     const body = (
         <>
-            {annotate && HAND_SECTIONS.has(section.id) ? <p className="mb-3 text-foreground-muted">{SKIP_IF_SCRIPT}</p> : null}
+            {annotate && HAND_SECTIONS.has(section.id) ? <p className="mb-3 text-foreground">{SKIP_IF_SCRIPT} {IF_COMMAND_STOPS}</p> : null}
             {annotate && section.id === "service" ? (
                 <details className={cx(glassCard, "my-2 px-4")}>
                     <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold"><span>{t(section.titleKey)}</span><span className="font-normal text-foreground-muted">· {OPTIONAL_TIME}</span></summary>

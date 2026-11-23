@@ -10,7 +10,7 @@ import { Icon } from "./icons";
 
 type Translate = Translator["t"];
 
-const navigationLinkClassName = "inline-flex min-h-11 items-center px-2 font-label text-sm font-semibold uppercase leading-none tracking-[0.16em] text-foreground transition-colors duration-300 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+const navigationLinkClassName = "inline-flex min-h-11 items-center px-2 font-label text-sm font-semibold uppercase leading-none tracking-[0.16em] text-foreground-muted transition-colors duration-300 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 const summaryReset = "linux-menu-summary cursor-pointer list-none [&::-webkit-details-marker]:hidden";
 const downloadSources = [
     { name: "download.installer.name", description: "download.installer.description", href: "https://bannerlordcoop-nightly-gateway.garrett-luskey.workers.dev/", recommended: true, supporterOnly: true },

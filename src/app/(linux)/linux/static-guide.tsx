@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "@/app/lib/localization/server";
 import { cookies } from "next/headers";
 import distroData from "./content/distros.json";
 import { resolveLocale } from "@/app/lib/localization/registry";
-import { ONESHOT_SECTION, routeLabels, routePath, sections, sectionsById, showsDistroChip, WIZARD_STEPS, wizardNeighbors, type Distro, type GuideRoute, type WizardStep } from "./guide-model";
+import { ONESHOT_SECTION, routeLabels, routePath, sections, sectionsById, showsDistroChip, WIZARD_STEPS, wizardCrumb, wizardNeighbors, type Distro, type GuideRoute, type WizardStep } from "./guide-model";
 import { choiceCard, goldButton, pageFrame, primaryButton, titleClass } from "./guide-styles";
 import { LinuxFooter, LinuxHeader } from "./linux-chrome";
 import "./linux-guide.css";
@@ -106,7 +106,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                                     <span>{t("ui.menu")}</span>
                                 </a>
                                 <span className="subnav-sep" aria-hidden="true" />
-                                <span className="subnav-here min-w-0 truncate font-semibold text-[#f4f1ea]" aria-current="page">{labels.here}</span>
+                                <CrumbHere here={labels.here} />
                             </div>
                             {canDistro ? (
                                 <div className="flex min-w-0 max-w-full items-center justify-self-end" role="group" aria-label={t("nav.dYour").replace(/[:：]\s*$/, "")}>
@@ -157,6 +157,19 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
     );
 }
 
+/** Current place. A wizard step keeps its name when the path has to truncate. */
+function CrumbHere({ here }: { here: string }) {
+    const parts = wizardCrumb(here);
+    if (!parts) return <span className="subnav-here min-w-0 truncate font-semibold text-[#f4f1ea]" aria-current="page">{here}</span>;
+    return (
+        <span className="subnav-here flex min-w-0 items-baseline gap-1.5 font-semibold text-[#f4f1ea]" aria-current="page">
+            <span className="subnav-trail max-w-[42%] shrink truncate">{parts.trail}</span>
+            <span className="subnav-slash" aria-hidden="true">/</span>
+            <span className="min-w-0 truncate">{parts.step}</span>
+        </span>
+    );
+}
+
 /** Opening choices. Each one is a real address, so a missing distro is handled by that page. */
 function StaticStart({ t, locale }: { t: (key: string) => string; locale: string }) {
     return (
@@ -194,6 +207,7 @@ function StaticDistro({ t, locale, selectedId, resume }: { t: (key: string) => s
         <section className="guide-stage" aria-labelledby="distro-title">
             <div className={pageFrame}>
                 <h1 id="distro-title" tabIndex={-1} className={titleClass}>{t("nav.dTitle")}</h1>
+                {resume && locale === "en" ? <p className="mt-4 max-w-xl text-foreground">Choosing one brings you back to the step you left.</p> : null}
                 <div className="guide-choices guide-choices-2 mt-6 grid gap-3 sm:grid-cols-2" role="group" aria-label={t("nav.dGroup")}>
                     {distros.map((distro) => {
                         const selected = distro.id === selectedId;

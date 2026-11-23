@@ -108,7 +108,7 @@ function check17() {
             else if (name.endsWith(".html")) files.push(path);
         }
     }
-    walk(exportRoot);
+    walk(join(exportRoot, "linux"));
     const jar = join(process.cwd(), "node_modules/vnu-jar/build/dist/vnu.jar");
     const run = spawnSync("java", ["-jar", jar, "--errors-only", "--also-check-css", "--format", "gnu", ...files], { encoding: "utf8" });
     const text = `${run.stdout || ""}${run.stderr || ""}`.trim();
@@ -162,7 +162,7 @@ async function check20() {
             }
         }
     }
-    walk(exportRoot);
+    walk(join(exportRoot, "linux"));
     const fontDir = join(exportRoot, "_next/static/media");
     const fonts = readdirSync(fontDir).reduce((sum, name) => sum + statSync(join(fontDir, name)).size, 0);
     const image = statSync(join(exportRoot, "images/linux/backdrop.webp")).size;
@@ -185,7 +185,7 @@ async function check20() {
             }
         }
     }
-    collect(exportRoot);
+    collect(join(exportRoot, "linux"));
     writeFileSync("/tmp/guide-script.js", biggestJs);
     writeFileSync("/tmp/guide-style.css", biggestCss);
     writeFileSync("/tmp/linux-size-limit.json", JSON.stringify([
@@ -235,6 +235,13 @@ async function check21to24(browser) {
             return nodes;
         });
         if (small.length) fail("21 touch target", small.join(" | "));
+        await page.goto(url("/step/overview"), { waitUntil: "domcontentloaded" });
+        await page.waitForFunction(() => document.documentElement.classList.contains("linux-ready"));
+        const terms = await page.evaluate(() => [...document.querySelectorAll(".linux-term-btn")].filter((node) => node.getClientRects().length).map((node) => {
+            const box = node.getBoundingClientRect();
+            return { text: (node.textContent || "").slice(0, 24), width: box.width, height: box.height };
+        }).filter((box) => box.width < 24 || box.height < 24).slice(0, 5));
+        if (terms.length) fail("21 glossary", terms.map((box) => `${box.text} ${Math.round(box.width)}x${Math.round(box.height)}`).join(" | "));
         await page.keyboard.press("Tab");
         const first = await page.evaluate(() => document.activeElement?.className || "");
         if (!String(first).includes("linux-skip")) fail("21 keyboard", String(first));
