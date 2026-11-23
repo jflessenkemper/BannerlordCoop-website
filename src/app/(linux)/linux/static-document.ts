@@ -175,7 +175,7 @@ const BOOT = `(function(){var K="blc-distro-v1",F=${JSON.stringify(FAMILIES)};fu
 
 /** Hides the page on the site background until fonts, the backdrop, and layout are ready. */
 const REVEAL_STYLE = `<style>html,body{background:#070806}#linux-boot{position:fixed;inset:0;z-index:100;background:#070806}#linux-boot.linux-boot-out{animation:linux-reveal 180ms cubic-bezier(0.2,0,0,1) forwards}@keyframes linux-reveal{from{opacity:1}to{opacity:0}}@media (prefers-reduced-motion:reduce){#linux-boot.linux-boot-out{animation:none;opacity:0}}</style>`;
-const REVEAL = `(function(){var root=document.documentElement;var done=false;function reveal(){if(done)return;done=true;root.classList.add("linux-ready");var boot=document.getElementById("linux-boot");if(!boot)return;boot.classList.add("linux-boot-out");setTimeout(function(){if(boot.parentNode)boot.remove()},200)}function arm(){var fonts=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();var picture=new Promise(function(resolve){var img=new Image();var finish=function(){resolve()};img.onload=function(){if(img.decode)img.decode().then(finish,finish);else finish()};img.onerror=finish;img.src="/images/linux/backdrop.webp";if(img.complete){if(img.decode)img.decode().then(finish,finish);else finish()}});Promise.all([fonts,picture]).then(function(){requestAnimationFrame(function(){requestAnimationFrame(reveal)})}).catch(reveal)}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",arm);else arm();setTimeout(reveal,3000)})();`;
+const REVEAL = `(function(){var root=document.documentElement;var done=false;function reveal(){if(done)return;var boot=document.getElementById("linux-boot");if(!boot)return;done=true;root.classList.add("linux-ready");boot.classList.add("linux-boot-out");setTimeout(function(){if(boot.parentNode)boot.remove()},200)}function arm(){var fonts=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();var picture=new Promise(function(resolve){var img=new Image();var finish=function(){resolve()};img.onload=function(){if(img.decode)img.decode().then(finish,finish);else finish()};img.onerror=finish;img.src="/images/linux/backdrop.webp";if(img.complete){if(img.decode)img.decode().then(finish,finish);else finish()}});Promise.all([fonts,picture]).then(function(){requestAnimationFrame(function(){requestAnimationFrame(reveal)})}).catch(reveal)}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",arm);else arm();setTimeout(function(){if(document.getElementById("linux-boot"))reveal()},3000)})();`;
 const SPECULATION = `<script type="speculationrules">${JSON.stringify({
     prerender: [{ where: { selector_matches: "a[rel~=prefetch]" }, eagerness: "immediate" }],
     prefetch: [{ where: { href_matches: "/*linux*" }, eagerness: "moderate" }],
@@ -193,8 +193,8 @@ export async function linuxDocument(path: string, title: string, description: st
     const links = [
         `<link rel="canonical" href="${SITE}${path}"/>`,
         `<link rel="icon" href="/favicon.ico" sizes="any"/>`,
-        `<link rel="preload" as="image" href="/images/linux/backdrop.webp" fetchpriority="low"/>`,
-        ...preloads.map((href) => `<link rel="preload" as="font" type="font/woff2" href="${href}" crossorigin="anonymous"/>`),
+        ...preloads.map((href) => `<link rel="preload" as="font" type="font/woff2" href="${href}" crossorigin="anonymous" fetchpriority="high"/>`),
+        `<link rel="preload" as="image" href="/images/linux/backdrop.webp" fetchpriority="high"/>`,
     ];
     // Faces are preloaded with font-display:block, so the first paint already uses them.
     const fontScript = "";

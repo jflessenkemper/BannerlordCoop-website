@@ -54,7 +54,7 @@ export async function LinuxHeader({ t, locale, path }: { t: Translate; locale: L
     return (
         <header className="relative z-50 border-b border-white/10 bg-background">
             <div className="site-container relative flex h-16 items-center justify-between gap-4">
-                <a href="/" className="flex shrink-0 items-center gap-2 sm:gap-3" aria-label={t("nav.homeLabel")}>
+                <a href="/" className="flex shrink-0 items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:gap-3" aria-label={t("nav.homeLabel")}>
                     <Icon name="swords" className="size-6 text-gold" strokeWidth={3} />
                     <span className="font-display text-sm font-black uppercase tracking-[0.06em] text-foreground transition-colors duration-300 hover:text-gold min-[380px]:text-base min-[380px]:tracking-[0.08em] sm:text-lg sm:tracking-[0.14em]">
                         Bannerlord Co-op

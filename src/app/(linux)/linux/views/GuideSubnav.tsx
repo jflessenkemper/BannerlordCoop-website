@@ -62,7 +62,7 @@ export function GuideSubnav({
     const { t } = useLinuxText();
     const showDistro = showsDistroChip(route, distro?.id ?? null);
     return (
-        <nav className={`linux-subnav sticky top-0 z-30 border-b border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[18px]${showDistro ? " has-distro" : ""}`} aria-label={t("ui.guide")}>
+        <nav className={`linux-subnav sticky top-0 z-30 border-b border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[8px]${showDistro ? " has-distro" : ""}`} aria-label={t("ui.guide")}>
             <div className={`${pageFrame} grid min-h-12 items-center gap-2 ${showDistro && distro ? "grid-cols-[minmax(0,1fr)_auto]" : "grid-cols-1"}`}>
                 <div className="subnav-crumb flex min-w-0 items-center gap-2 overflow-hidden">
                     <button type="button" className="inline-flex min-h-12 shrink-0 cursor-pointer items-center gap-1 border-0 bg-transparent px-1 font-label text-base text-foreground hover:text-gold" onClick={onMenu}>

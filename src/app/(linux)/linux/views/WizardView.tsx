@@ -25,12 +25,12 @@ export function WizardView({
             <div className={`${pageFrame} wizard-copy py-8 pb-28 sm:py-10`}>
                 <GuideSection section={section} wizard alone />
             </div>
-            <div className="linux-wizard-bar sticky bottom-0 z-20 flex flex-nowrap items-stretch justify-center gap-2 px-3 py-3">
+            <div className="linux-wizard-bar sticky bottom-0 z-20 flex flex-wrap items-stretch justify-center gap-2 px-3 py-3">
                 {neighbors.previous && (
-                    <button type="button" className={`${goldButton} min-w-0 flex-1 px-2 text-xs sm:flex-none sm:px-4 sm:text-sm`} onClick={() => { const previous = wizardNeighbors(step).previous; if (previous) onGo(previous); }}>{t("ui.previous")}</button>
+                    <button type="button" className={`${goldButton} max-w-full shrink-0 px-2 text-xs sm:px-4 sm:text-sm`} onClick={() => { const previous = wizardNeighbors(step).previous; if (previous) onGo(previous); }}>{t("ui.previous")}</button>
                 )}
-                <button type="button" className={`${goldButton} min-w-0 flex-1 px-2 text-xs sm:flex-none sm:px-4 sm:text-sm`} onClick={() => onGo({ view: "manual", section: TROUBLESHOOTING_SECTION })}>{t("ui.help")}</button>
-                <button type="button" className={`${primaryButton} min-w-0 flex-1 px-2 text-xs sm:flex-none sm:px-4 sm:text-sm`} onClick={() => onGo(neighbors.next)}>{nextLabel}</button>
+                <button type="button" className={`${goldButton} max-w-full shrink-0 px-2 text-xs sm:px-4 sm:text-sm`} onClick={() => onGo({ view: "manual", section: TROUBLESHOOTING_SECTION })}>{t("ui.help")}</button>
+                <button type="button" className={`${primaryButton} max-w-full shrink-0 px-2 text-xs sm:px-4 sm:text-sm`} onClick={() => onGo(neighbors.next)}>{nextLabel}</button>
             </div>
         </section>
     );

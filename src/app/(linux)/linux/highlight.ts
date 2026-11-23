@@ -11,13 +11,24 @@ export function tokensToText(tokens: Token[]): string {
 /** Paints a script with static spans. Unknown languages still wrap the text so every block is tokenised. */
 export function highlight(source: string, language: string): Token[] {
     const name = language.toLowerCase();
-    if (name.includes("json")) return scanJson(source);
-    if (name.includes("yaml") || name.includes("yml")) return scanYaml(source);
-    if (name.includes("nix")) return scanCode(source, { hash: true, keywords: new Set("let in inherit with import rec if then else assert or".split(" ")) });
-    if (name.includes("docker")) return scanCode(source, { hash: true, keywords: new Set("from run cmd copy add env arg expose workdir user volume entrypoint healthcheck shell stop signal onbuild maintainer".split(" ")), wordsUpper: true });
-    if (name.includes("ini") || name.includes("toml") || name.includes("conf")) return scanIni(source);
+    if (name.includes("json")) return mergeTokens(scanJson(source));
+    if (name.includes("yaml") || name.includes("yml")) return mergeTokens(scanYaml(source));
+    if (name.includes("nix")) return mergeTokens(scanCode(source, { hash: true, keywords: new Set("let in inherit with import rec if then else assert or".split(" ")) }));
+    if (name.includes("docker")) return mergeTokens(scanCode(source, { hash: true, keywords: new Set("from run cmd copy add env arg expose workdir user volume entrypoint healthcheck shell stop signal onbuild maintainer".split(" ")), wordsUpper: true }));
+    if (name.includes("ini") || name.includes("toml") || name.includes("conf")) return mergeTokens(scanIni(source));
     if (name.includes("text") || name.trim() === "") return source ? [{ kind: "text", text: source }] : [];
-    return scanCode(source, { hash: true, keywords: BASH_KEYWORDS });
+    return mergeTokens(scanCode(source, { hash: true, keywords: BASH_KEYWORDS }));
+}
+
+/** One span per run of the same colour. Joining the text still yields the original source. */
+function mergeTokens(tokens: Token[]): Token[] {
+    const merged: Token[] = [];
+    for (const token of tokens) {
+        const last = merged[merged.length - 1];
+        if (last && last.kind === token.kind) last.text += token.text;
+        else merged.push({ kind: token.kind, text: token.text });
+    }
+    return merged;
 }
 
 function scanJson(source: string): Token[] {

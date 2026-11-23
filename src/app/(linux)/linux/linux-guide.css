@@ -87,7 +87,8 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
   z-index: 40;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.025)),
-    rgba(11, 12, 9, 0.92);
+    rgba(11, 12, 9, 0.72);
+  backdrop-filter: blur(8px);
 }
 
 .linux-guide::before {
@@ -154,8 +155,14 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
   padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
 
-.linux-wizard-bar a {
-  white-space: nowrap;
+.linux-guide .wizard-copy {
+  padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+}
+
+@media (max-width: 719px) {
+  .linux-guide .wizard-copy {
+    padding-bottom: calc(16rem + env(safe-area-inset-bottom));
+  }
 }
 
 body:has(.linux-wizard-bar) > main {
@@ -164,10 +171,6 @@ body:has(.linux-wizard-bar) > main {
 
 body:has(.linux-wizard-bar) > footer {
   padding-bottom: calc(5.75rem + env(safe-area-inset-bottom));
-}
-
-.linux-guide .wizard-copy {
-  padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
 }
 
 :is(.linux-guide, header) :is(a, button, summary, label):active {
@@ -343,6 +346,12 @@ body:has(.linux-guide) header :is(button, summary, a.no-underline):focus-visible
   }
 }
 
+.linux-guide .guide-choices > :is(a, button):not(.choice-recommended),
+.linux-guide .distro-choice > button {
+  background-color: rgba(13, 14, 11, 0.55);
+  backdrop-filter: blur(8px);
+}
+
 /* Lit glass: gold toward the top edge, a dark scrim under the words, and a halo outside. */
 .linux-guide .choice-recommended,
 .linux-guide .choice-recommended:hover,
@@ -359,7 +368,7 @@ body:has(.linux-guide) header :is(button, summary, a.no-underline):focus-visible
     0 0 6px rgba(214, 190, 120, 0.28),
     0 0 14px rgba(170, 151, 96, 0.36),
     0 8px 22px rgba(0, 0, 0, 0.28);
-  backdrop-filter: none;
+  backdrop-filter: blur(8px);
 }
 
 .linux-guide .choice-recommended,
@@ -381,7 +390,7 @@ body:has(.linux-guide) header :is(button, summary, a.no-underline):focus-visible
   pointer-events: none;
   opacity: 0;
   background: transparent;
-  box-shadow: 0 0 10px 2px rgba(214, 190, 120, 0.42);
+  box-shadow: 0 0 10px 2px rgba(214, 190, 120, 0.40);
   transition: opacity 160ms ease-out;
 }
 

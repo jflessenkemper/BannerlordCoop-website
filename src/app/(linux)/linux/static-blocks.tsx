@@ -224,7 +224,7 @@ function renderInlineNode(node: Inline, t: Translate, key: string): ReactNode {
                     >
                         {t(node.labelKey ?? node.termKey)}
                     </button>
-                    <div
+                    <span
                         id={popoverId}
                         popover="auto"
                         role="dialog"
@@ -232,9 +232,9 @@ function renderInlineNode(node: Inline, t: Translate, key: string): ReactNode {
                         aria-labelledby={`${popoverId}-title`}
                         className="linux-term fixed z-40 max-w-[min(22rem,calc(100vw-1rem))] rounded-lg border border-gold/45 bg-[#11120e] p-3 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_10px_28px_rgba(0,0,0,0.4)]"
                     >
-                        <p id={`${popoverId}-title`} className="mb-1 font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold">{t(node.termKey)}</p>
-                        <p className="m-0">{t(node.defKey)}</p>
-                    </div>
+                        <span id={`${popoverId}-title`} className="mb-1 block font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold">{t(node.termKey)}</span>
+                        <span className="block">{t(node.defKey)}</span>
+                    </span>
                 </span>
             );
         }
@@ -256,7 +256,7 @@ function StaticCode({ block, t, annotate = false }: { block: Extract<Block, { ty
     const shown = groups ?? [{ title: "", body: source }];
     const copyClass = block.oneshot ? primaryButton : goldButton;
     return shown.map((group, groupIndex) => (
-        <CodeFigure key={`${block.id}-${groupIndex}`} id={groupIndex === 0 ? block.id : `${block.id}-part-${groupIndex + 1}`} scriptId={block.id} title={group.title ? [{ t: "text" as const, k: "" }] : block.title} plainTitle={group.title} source={group.body} t={t} copyClass={copyClass} oneshot={block.oneshot} download={groupIndex === 0 ? block.download : undefined} langKey={block.langKey} showTrust={annotate} />
+        <CodeFigure key={`${block.id}-${groupIndex}`} id={groupIndex === 0 ? block.id : `${block.id}-part-${groupIndex + 1}`} scriptId={block.id} title={group.title ? [{ t: "text" as const, k: "" }] : block.title} plainTitle={group.title} source={group.body} t={t} copyClass={copyClass} oneshot={block.oneshot} download={groupIndex === 0 ? block.download : undefined} langKey={block.langKey} showTrust={annotate && groupIndex === 0} />
     ));
 }
 
@@ -265,7 +265,7 @@ function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, one
     const popoverId = `code-trust-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
     const marker = published ? (
         <>
-            <button type="button" className="code-trust-mark" aria-label="How this published script is signed" aria-controls={popoverId} aria-expanded="false" popoverTarget={popoverId} popoverTargetAction="toggle" data-script-id={scriptId} data-sha256={published.sha256}>
+            <button type="button" className="code-trust-mark" aria-label={manifest.attestationUrl ? "How this published script is signed" : "How to check this published script"} aria-controls={popoverId} aria-expanded="false" popoverTarget={popoverId} popoverTargetAction="toggle" data-script-id={scriptId} data-sha256={published.sha256}>
                 <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8.5 6.2 12 13 4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
             <div id={popoverId} popover="auto" role="dialog" className="code-trust-pop" aria-label="How to verify this script">
@@ -279,11 +279,17 @@ function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, one
             </div>
         </>
     ) : showTrust ? <span className="code-trust">Read before running</span> : null;
+    const caption = plainTitle || <StaticInline nodes={title} t={t} />;
+    const listing = (
+        <pre id={id} tabIndex={0} data-raw={source} className={cx("linux-code m-0 overflow-x-hidden bg-surface p-4 font-mono text-[0.92rem] leading-normal text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold", oneshot && "max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-auto")}>
+            <code>{highlight(source, t(langKey)).map((token, index) => <span key={index} className={`tok-${token.kind}`}>{token.text}</span>)}</code>
+        </pre>
+    );
     return (
         <figure className={cx(glassCard, "my-4 overflow-hidden", oneshot && "border-gold/45")}>
             <figcaption className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-white/5 px-3 py-2">
                 <span className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
-                    <span>{plainTitle || <StaticInline nodes={title} t={t} />}</span>
+                    {oneshot ? null : <span>{caption}</span>}
                     <span className="inline-flex shrink-0 items-center gap-2">
                         {marker}
                         <span className="code-lang font-label text-xs font-semibold uppercase tracking-[0.08em] text-foreground-muted">{t(langKey)}</span>
@@ -296,9 +302,12 @@ function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, one
                     )}
                 </span>
             </figcaption>
-            <pre id={id} tabIndex={0} data-raw={source} className={cx("linux-code m-0 overflow-x-hidden bg-surface p-4 font-mono text-[0.92rem] leading-normal text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold", oneshot && "max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-auto")}>
-                <code>{highlight(source, t(langKey)).map((token, index) => <span key={index} className={`tok-${token.kind}`}>{token.text}</span>)}</code>
-            </pre>
+            {oneshot ? (
+                <details className="linux-script-fold">
+                    <summary className="flex min-h-12 cursor-pointer items-center gap-2 px-3 py-2 font-semibold"><span>{caption}</span></summary>
+                    {listing}
+                </details>
+            ) : listing}
         </figure>
     );
 }
@@ -350,9 +359,10 @@ function StaticTabs({ block, t, distro, alone, annotate = false }: { block: Extr
     const id = `tabg-${tabGroupSerial += 1}`;
     const selective = block.tabs.some((tab) => tab.script || tab.families);
     if (selective) {
+        const tabs = distro ? block.tabs.filter((tab) => tabMatches(tab, distro, true)) : block.tabs;
         return (
             <div>
-                {block.tabs.map((tab) => {
+                {tabs.map((tab) => {
                     const token = [tab.script ? `script-${tab.script}` : "", ...(tab.families ?? []).map((family) => `family-${family}`)].filter(Boolean).join(" ");
                     return (
                         <div key={tab.labelKey} className="distro-panel" data-for={token || "all"} role="group" aria-label={t(tab.labelKey)}>

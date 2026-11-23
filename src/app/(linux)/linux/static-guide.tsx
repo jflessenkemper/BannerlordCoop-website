@@ -97,7 +97,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
             {await LinuxHeader({ t: common.t, locale, path })}
             <main id="linux-guide" className="linux-guide relative isolate w-full min-w-0 flex-1 text-foreground" aria-label={t("ui.guideContent")}>
                 {view !== "start" && (
-                    <nav className={`linux-subnav sticky top-0 z-30 border-b border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[18px]${canDistro ? " can-distro has-distro" : ""}`} aria-label={t("ui.guide")}>
+                    <nav className={`linux-subnav sticky top-0 z-30 border-b border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[8px]${canDistro ? " can-distro has-distro" : ""}`} aria-label={t("ui.guide")}>
                         <div className={`${pageFrame} grid min-h-12 items-center gap-2 ${canDistro ? "grid-cols-[minmax(0,1fr)_auto]" : "grid-cols-1"}`}>
                             <div className="subnav-crumb flex min-w-0 items-center gap-2 overflow-hidden">
                                 <a href={guideHref(locale, "/linux")} rel="prefetch" className="inline-flex min-h-12 shrink-0 items-center gap-1 border-0 bg-transparent px-1 font-label text-base text-foreground no-underline hover:text-gold">
@@ -246,10 +246,10 @@ function StaticStep({ t, locale, step, distro, nextLabel }: { t: (key: string) =
             <div className={`${pageFrame} wizard-copy py-8 pb-28 sm:py-10`}>
                 <StaticGuideSection section={section} t={t} distro={distro} wizard alone annotate={locale === "en"} />
             </div>
-            <div className="linux-wizard-bar sticky bottom-0 z-20 flex flex-nowrap items-stretch justify-center gap-2 px-3 py-3">
-                {neighbors.previous && <a rel="prefetch" className={`${goldButton} min-w-0 flex-1 px-2 text-xs no-underline sm:flex-none sm:px-4 sm:text-sm`} href={guideHref(locale, routePath(neighbors.previous))}>{t("ui.previous")}</a>}
-                <a rel="prefetch" className={`${goldButton} min-w-0 flex-1 px-2 text-xs no-underline sm:flex-none sm:px-4 sm:text-sm`} href={`${guideHref(locale, "/linux/checklist")}#sec-troubleshooting`}>{t("ui.help")}</a>
-                <a rel="prefetch" className={`${primaryButton} min-w-0 flex-1 px-2 text-xs no-underline sm:flex-none sm:px-4 sm:text-sm`} href={guideHref(locale, routePath(neighbors.next))}>{nextLabel}</a>
+            <div className="linux-wizard-bar sticky bottom-0 z-20 flex flex-wrap items-stretch justify-center gap-2 px-3 py-3">
+                {neighbors.previous && <a rel="prefetch" className={`${goldButton} max-w-full shrink-0 px-2 text-xs no-underline sm:px-4 sm:text-sm`} href={guideHref(locale, routePath(neighbors.previous))}>{t("ui.previous")}</a>}
+                <a rel="prefetch" className={`${goldButton} max-w-full shrink-0 px-2 text-xs no-underline sm:px-4 sm:text-sm`} href={`${guideHref(locale, "/linux/checklist")}#sec-troubleshooting`}>{t("ui.help")}</a>
+                <a rel="prefetch" className={`${primaryButton} max-w-full shrink-0 px-2 text-xs no-underline sm:px-4 sm:text-sm`} href={guideHref(locale, routePath(neighbors.next))}>{nextLabel}</a>
             </div>
         </section>
     );

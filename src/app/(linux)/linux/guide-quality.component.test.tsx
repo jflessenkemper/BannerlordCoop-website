@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { highlight, tokensToText } from "./highlight";
@@ -23,6 +23,19 @@ describe("code highlighting", () => {
         expect(tokens.some((token) => token.kind === "comment")).toBe(true);
         expect(tokensToText(tokens)).toBe("echo \"hi\" # note\n");
     });
+
+    it("merges adjacent tokens and keeps all 37 published scripts byte-identical", () => {
+        const files = readdirSync(join(process.cwd(), "public/linux/scripts")).filter((name) => name.endsWith(".sh"));
+        expect(files).toHaveLength(37);
+        for (const file of files) {
+            const source = scriptText(file.replace(/\.sh$/, ""));
+            const tokens = highlight(source, "Bash");
+            expect(tokensToText(tokens), file).toBe(source);
+            for (let index = 1; index < tokens.length; index += 1) {
+                expect(tokens[index].kind, file).not.toBe(tokens[index - 1].kind);
+            }
+        }
+    });
 });
 
 describe("guide presentation", () => {
@@ -43,5 +56,8 @@ describe("guide presentation", () => {
         expect(document).toContain('rel="preload" as="font"');
         expect(document).toContain('crossorigin="anonymous"');
         expect(document).toContain('const fontScript = "";');
+        expect(document).toContain('fetchpriority="high"');
+        expect(document).not.toContain('fetchpriority="low"');
+        expect(document).toContain("if(!boot)return");
     });
 });
