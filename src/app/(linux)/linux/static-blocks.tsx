@@ -29,6 +29,49 @@ function hoistWarnings(blocks: Block[]): Block[] {
     return [...warnings, ...rest];
 }
 
+const flowLabel = "mt-6 mb-2 font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold";
+
+/** One section in task order: lead, prerequisites, steps, check, recovery, then optional extras. */
+function StaticFlow({ block, t, distro, alone, annotate }: { block: Extract<Block, { type: "flow" }>; t: Translate; distro: Distro | null; alone: boolean; annotate: boolean }) {
+    return (
+        <div className="linux-flow-steps">
+            {block.lead && <p className="leading-relaxed"><StaticInline nodes={block.lead} t={t} /></p>}
+            {block.before && block.before.length > 0 && (
+                <div>
+                    <p className={flowLabel}>Before you start</p>
+                    <StaticBlocks blocks={block.before} t={t} distro={distro} alone={alone} annotate={annotate} />
+                </div>
+            )}
+            <ol className="step-cards my-4 grid gap-2 p-0">
+                {block.steps.map((step, stepIndex) => (
+                    <li key={stepIndex} className={`${glassCard} relative min-h-12 py-3 pl-14 pr-3`}>
+                        {step.action.length > 0 && <StaticInline nodes={step.action} t={t} />}
+                        {step.blocks && step.blocks.length > 0 && <StaticBlocks blocks={step.blocks} t={t} distro={distro} alone={alone} annotate={annotate} />}
+                        {step.note && step.note.length > 0 && <p className="mt-2 leading-relaxed"><StaticInline nodes={step.note} t={t} /></p>}
+                    </li>
+                ))}
+            </ol>
+            {block.check && block.check.length > 0 && (
+                <div>
+                    <p className={flowLabel}>Check it worked</p>
+                    <StaticBlocks blocks={block.check} t={t} distro={distro} alone={alone} annotate={annotate} />
+                </div>
+            )}
+            {block.recover && (
+                <div className="linux-note">
+                    <p className="linux-note-label">{IF_IT_STOPS}</p>
+                    <p>{block.recover === "script" ? IF_IT_STOPS_BODY : IF_COMMAND_STOPS}</p>
+                </div>
+            )}
+            {block.extra && block.extra.length > 0 && (
+                <div>
+                    <StaticBlocks blocks={block.extra} t={t} distro={distro} alone={alone} annotate={annotate} />
+                </div>
+            )}
+        </div>
+    );
+}
+
 /** Ordered instructions. English pages use the same numbered glass card for every list. */
 function StepCards({ items, t }: { items: Inline[][]; t: Translate }) {
     return (
@@ -57,7 +100,7 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                     case "ul":
                     case "ol":
                         if (flat) return <div key={index} className="grid gap-2">{block.items.map((item, itemIndex) => <p key={itemIndex} className="m-0 leading-relaxed"><StaticInline nodes={item} t={t} /></p>)}</div>;
-                        if (annotate || block.className === "step-cards") return <StepCards key={index} items={block.items} t={t} />;
+                        if (block.className === "step-cards" || (annotate && block.type === "ol")) return <StepCards key={index} items={block.items} t={t} />;
                         return block.type === "ul"
                             ? <ul key={index} className="list-disc space-y-1 pl-5">{block.items.map((item, itemIndex) => <li key={itemIndex}><StaticInline nodes={item} t={t} /></li>)}</ul>
                             : <ol key={index} className="list-decimal space-y-1 pl-5">{block.items.map((item, itemIndex) => <li key={itemIndex}><StaticInline nodes={item} t={t} /></li>)}</ol>;
@@ -127,6 +170,8 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                                 <input className="min-h-11 w-full max-w-md rounded border border-white/15 bg-surface px-3 text-foreground" type="text" placeholder={block.placeholder} autoComplete="off" />
                             </label>
                         );
+                    case "flow":
+                        return <StaticFlow key={index} block={block} t={t} distro={distro} alone={alone} annotate={annotate} />;
                     case "columns":
                         if (annotate) {
                             return (
@@ -309,12 +354,6 @@ function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, one
                 </details>
             ) : listing}
         </figure>
-        {oneshot && showTrust ? (
-            <div className="linux-note">
-                <p className="linux-note-label">{IF_IT_STOPS}</p>
-                <p>{IF_IT_STOPS_BODY}</p>
-            </div>
-        ) : null}
         {trustPopover}
         </>
     );
@@ -410,14 +449,7 @@ export function StaticGuideSection({ section, t, distro = null, wizard = false, 
     const body = (
         <>
             {annotate && HAND_SECTIONS.has(section.id) ? <p className="mb-3 text-foreground">{SKIP_IF_SCRIPT} {IF_COMMAND_STOPS}</p> : null}
-            {annotate && section.id === "service" ? (
-                <details className={cx(glassCard, "my-2 px-4")}>
-                    <summary className="flex min-h-12 cursor-pointer items-center gap-2 py-2 font-semibold"><span>{t(section.titleKey)}</span><span className="font-normal text-foreground-muted">· {OPTIONAL_TIME}</span></summary>
-                    <div className="pb-3"><StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone || wizard} annotate={annotate} /></div>
-                </details>
-            ) : (
-                <StaticBlocks blocks={hoistWarnings(section.blocks)} t={t} distro={distro} alone={alone || wizard} annotate={annotate} />
-            )}
+            <StaticBlocks blocks={section.blocks} t={t} distro={distro} alone={alone || wizard} annotate={annotate} />
         </>
     );
     if (stageIndex != null) {

@@ -31,7 +31,8 @@ export type Block =
     | { type: "table"; id?: string; headerKeys: string[]; rows: { id?: string; cells: Inline[][] }[] }
     | { type: "dl"; items: { dt: Inline[]; dd: Inline[] }[] }
     | { type: "field"; label: Inline[]; placeholder?: string }
-    | { type: "columns"; columns: { blocks: Block[] }[] };
+    | { type: "columns"; columns: { blocks: Block[] }[] }
+    | { type: "flow"; lead?: Inline[]; before?: Block[]; steps: { action: Inline[]; blocks?: Block[]; note?: Inline[] }[]; check?: Block[]; recover?: boolean | "script"; extra?: Block[] };
 
 export type GuideTab = { labelKey: string; script?: string; families?: string[]; blocks: Block[] };
 
@@ -57,6 +58,14 @@ export type GuideRoute =
 
 export const sections = (sectionData as { sections: Section[] }).sections;
 export const sectionsById = new Map(sections.map((section) => [section.id, section]));
+
+/** Checklist stages follow the wizard, then the reference pages. Hand sections stay inside the script step. */
+export const CHECKLIST_IDS = [...WIZARD_STEPS, "troubleshooting", "faq", "linux-notes", "agents"] as const;
+export const checklistSections = CHECKLIST_IDS.map((id) => {
+    const section = sectionsById.get(id);
+    if (!section) throw new Error(`Missing checklist section: ${id}`);
+    return section;
+});
 export const sectionIds = new Set(sections.map((section) => section.id));
 
 /** Narrows a hash fragment to a step the wizard actually renders. */

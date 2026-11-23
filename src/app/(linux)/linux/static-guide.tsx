@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "@/app/lib/localization/server";
 import { cookies } from "next/headers";
 import distroData from "./content/distros.json";
 import { resolveLocale } from "@/app/lib/localization/registry";
-import { ONESHOT_SECTION, routeLabels, routePath, sections, sectionsById, showsDistroChip, WIZARD_STEPS, wizardCrumb, wizardNeighbors, type Distro, type GuideRoute, type WizardStep } from "./guide-model";
+import { checklistSections, ONESHOT_SECTION, routeLabels, routePath, sectionsById, showsDistroChip, WIZARD_STEPS, wizardCrumb, wizardNeighbors, type Distro, type GuideRoute, type WizardStep } from "./guide-model";
 import { choiceCard, goldButton, pageFrame, primaryButton, titleClass } from "./guide-styles";
 import { LinuxFooter, LinuxHeader } from "./linux-chrome";
 import "./linux-guide.css";
@@ -246,7 +246,7 @@ function StaticChecklist({ t, locale, distro }: { t: (key: string) => string; lo
                     {locale === "en" ? <button type="button" className="linux-fold inline-flex min-h-12 items-center border-0 bg-transparent px-1 font-label text-sm font-semibold uppercase tracking-[0.12em] text-gold" data-expand="Expand all" data-collapse="Collapse all">Expand all</button> : null}
                 </div>
                 <div className="linux-stages mt-4">
-                    {sections.map((section, index) => <StaticGuideSection key={section.id} section={section} t={t} distro={distro} annotate={locale === "en"} stageIndex={index} />)}
+                    {checklistSections.map((section, index) => <StaticGuideSection key={section.id} section={section} t={t} distro={distro} annotate={locale === "en"} stageIndex={index} />)}
                 </div>
             </div>
         </section>

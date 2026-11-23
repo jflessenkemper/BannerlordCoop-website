@@ -204,11 +204,10 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
   max-width: 100%;
 }
 
-/* Skip layout for code and later stages until they near the screen, so the title can paint first. */
-.linux-guide .linux-code,
+/* Closed checklist stages stay out of the first layout. Code stays in normal flow so it does not jump. */
 .linux-guide details.linux-stage {
   content-visibility: auto;
-  contain-intrinsic-size: auto 8rem;
+  contain-intrinsic-size: auto 3.5rem;
 }
 
 .linux-guide :where(a, button, input, summary, pre, [tabindex]) {

@@ -63,6 +63,14 @@ function collectCodeIds(blocks: Block[], ids: Set<string>) {
             case "columns":
                 block.columns.forEach((column) => collectCodeIds(column.blocks, ids));
                 break;
+            case "flow":
+                if (block.before) collectCodeIds(block.before, ids);
+                block.steps.forEach((step) => {
+                    if (step.blocks) collectCodeIds(step.blocks, ids);
+                });
+                if (block.check) collectCodeIds(block.check, ids);
+                if (block.extra) collectCodeIds(block.extra, ids);
+                break;
             case "sectionRefs":
                 block.ids.forEach((id) => {
                     const section = sections.find((item) => item.id === id);
@@ -155,6 +163,17 @@ it("does not leave raw markup in linux messages", () => {
                 if (block.type === "tabs") block.tabs.forEach((tab) => scan(tab.blocks));
                 if (block.type === "columns") block.columns.forEach((column) => scan(column.blocks));
                 if (block.type === "ul" || block.type === "ol") block.items.forEach((item) => item.forEach((node) => walkInline([node], visit)));
+                if (block.type === "flow") {
+                    block.lead?.forEach(visit);
+                    if (block.before) scan(block.before);
+                    block.steps.forEach((step) => {
+                        step.action.forEach((node) => walkInline([node], visit));
+                        step.note?.forEach((node) => walkInline([node], visit));
+                        if (step.blocks) scan(step.blocks);
+                    });
+                    if (block.check) scan(block.check);
+                    if (block.extra) scan(block.extra);
+                }
             }
         };
         scan(section.blocks);

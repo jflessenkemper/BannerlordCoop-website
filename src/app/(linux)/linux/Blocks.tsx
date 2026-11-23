@@ -6,6 +6,7 @@ import { useLinuxText } from "./hooks/useLinuxText";
 import { sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
 import { COPY_RESET_MS, cx, glassCard, goldButton, PARAGRAPH_ROLE_CLASS, primaryButton, sectionTitleClass } from "./guide-styles";
 import { highlight } from "./highlight";
+import { IF_COMMAND_STOPS, IF_IT_STOPS, IF_IT_STOPS_BODY } from "./english-code";
 import { scriptText } from "./script-text";
 
 const COPY_STATES = {
@@ -251,6 +252,45 @@ function SectionRefs({ block }: { block: Extract<Block, { type: "sectionRefs" }>
     );
 }
 
+const flowLabel = "mt-6 mb-2 font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold";
+
+/** One section in task order: lead, prerequisites, steps, check, recovery, then optional extras. */
+function GuideFlow({ block }: { block: Extract<Block, { type: "flow" }> }) {
+    return (
+        <div className="linux-flow-steps">
+            {block.lead && <p className="leading-relaxed"><InlineText nodes={block.lead} /></p>}
+            {block.before && block.before.length > 0 && (
+                <div>
+                    <p className={flowLabel}>Before you start</p>
+                    <Blocks blocks={block.before} />
+                </div>
+            )}
+            <ol className="step-cards my-4 grid gap-2 p-0">
+                {block.steps.map((step, stepIndex) => (
+                    <li key={stepIndex} className={`${glassCard} relative min-h-12 py-3 pl-14 pr-3`}>
+                        {step.action.length > 0 && <InlineText nodes={step.action} />}
+                        {step.blocks && step.blocks.length > 0 && <Blocks blocks={step.blocks} />}
+                        {step.note && step.note.length > 0 && <p className="mt-2 leading-relaxed"><InlineText nodes={step.note} /></p>}
+                    </li>
+                ))}
+            </ol>
+            {block.check && block.check.length > 0 && (
+                <div>
+                    <p className={flowLabel}>Check it worked</p>
+                    <Blocks blocks={block.check} />
+                </div>
+            )}
+            {block.recover && (
+                <div className="linux-note">
+                    <p className="linux-note-label">{IF_IT_STOPS}</p>
+                    <p>{block.recover === "script" ? IF_IT_STOPS_BODY : IF_COMMAND_STOPS}</p>
+                </div>
+            )}
+            {block.extra && block.extra.length > 0 && <Blocks blocks={block.extra} />}
+        </div>
+    );
+}
+
 /** Puts warning callouts ahead of the other blocks in a step. */
 function hoistWarnings(blocks: Block[]): Block[] {
     const warnings = blocks.filter((block) => block.type === "callout" && block.kind === "warn");
@@ -324,6 +364,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                                 <input className="min-h-11 w-full max-w-md rounded border border-white/15 bg-surface px-3 text-foreground" type="text" placeholder={block.placeholder} autoComplete="off" />
                             </label>
                         );
+                    case "flow":
+                        return <GuideFlow key={index} block={block} />;
                     case "columns":
                         return (
                             <div key={index} className="grid gap-3 sm:grid-cols-2">

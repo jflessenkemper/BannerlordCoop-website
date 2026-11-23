@@ -1,368 +1,56 @@
 {
   "sections": [
     {
-      "id": "terminal",
-      "kickerKey": "section.terminal.kicker",
-      "titleKey": "section.terminal.title",
-      "subKey": "section.terminal.sub",
-      "blocks": [
-        {
-          "type": "p",
-          "c": [
-            {
-              "t": "text",
-              "k": "section.terminal.b0.0"
-            }
-          ],
-          "role": "lead"
-        },
-        {
-          "type": "tabs",
-          "name": "oneshot",
-          "labelKey": "section.terminal.b1.label",
-          "tabs": [
-            {
-              "labelKey": "section.terminal.b1.tab0",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-ubuntu",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab0.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "ubuntu"
-            },
-            {
-              "labelKey": "section.terminal.b1.tab1",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-debian",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab1.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "debian"
-            },
-            {
-              "labelKey": "section.terminal.b1.tab2",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-mint",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab2.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "mint"
-            },
-            {
-              "labelKey": "section.terminal.b1.tab3",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-fedora",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab3.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "fedora"
-            },
-            {
-              "labelKey": "section.terminal.b1.tab4",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-arch",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab4.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "arch"
-            },
-            {
-              "labelKey": "section.terminal.b1.tab5",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-manjaro",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab5.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "manjaro"
-            },
-            {
-              "labelKey": "section.terminal.b1.tab6",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-suse",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab6.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "suse"
-            },
-            {
-              "labelKey": "section.terminal.b1.tab7",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-bazzite",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab7.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "bazzite"
-            },
-            {
-              "labelKey": "section.terminal.b1.tab8",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-deck",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab8.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "deck"
-            },
-            {
-              "labelKey": "section.terminal.b1.tab9",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-nix",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab9.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "nix"
-            },
-            {
-              "labelKey": "section.terminal.b1.tab10",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-oneshot-other",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab10.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash",
-                  "oneshot": true
-                }
-              ],
-              "script": "other"
-            }
-          ]
-        },
-        {
-          "type": "p",
-          "c": [
-            {
-              "t": "text",
-              "k": "section.terminal.b2.0"
-            }
-          ],
-          "role": "safe"
-        },
-        {
-          "type": "columns",
-          "columns": [
-            {
-              "blocks": [
-                {
-                  "type": "h3",
-                  "c": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b3.c0.b0.0"
-                    }
-                  ]
-                },
-                {
-                  "type": "ul",
-                  "items": [
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c0.b1.i0.0"
-                      }
-                    ],
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c0.b1.i1.0"
-                      }
-                    ],
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c0.b1.i2.0"
-                      }
-                    ],
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c0.b1.i3.0"
-                      }
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "blocks": [
-                {
-                  "type": "h3",
-                  "c": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b3.c1.b0.0"
-                    }
-                  ]
-                },
-                {
-                  "type": "ul",
-                  "items": [
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c1.b1.i0.0"
-                      }
-                    ],
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c1.b1.i1.0"
-                      }
-                    ],
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c1.b1.i2.0"
-                      }
-                    ],
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c1.b1.i3.0"
-                      }
-                    ]
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "sectionRefs",
-          "when": "alone",
-          "ids": [
-            "variables",
-            "deps",
-            "steam",
-            "download"
-          ],
-          "summary": [
-            {
-              "t": "text",
-              "k": "section.terminal.b4.summary.0"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "overview",
       "kickerKey": "section.overview.kicker",
       "titleKey": "section.overview.title",
       "subKey": "section.overview.sub",
       "blocks": [
         {
-          "type": "callout",
-          "kind": "info",
-          "titleKey": "section.overview.b0.title",
-          "blocks": [
+          "type": "flow",
+          "steps": [
             {
-              "type": "p",
-              "c": [
+              "action": [
                 {
                   "t": "text",
-                  "k": "section.overview.b0.b0.0"
+                  "k": "section.overview.b2.i0.0"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.overview.b2.i1.0"
+                },
+                {
+                  "t": "code",
+                  "v": ".7z"
+                },
+                {
+                  "t": "text",
+                  "k": "section.overview.b2.i1.2"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.overview.b2.i2.0"
+                },
+                {
+                  "t": "code",
+                  "v": "server-config.json"
+                },
+                {
+                  "t": "text",
+                  "k": "section.overview.b2.i2.2"
                 }
               ]
             }
-          ]
-        },
-        {
-          "type": "p",
-          "c": [
+          ],
+          "lead": [
             {
               "t": "text",
               "k": "section.overview.b1.0"
@@ -430,864 +118,337 @@
               "k": "section.overview.b1.11"
             }
           ]
-        },
-        {
-          "type": "ol",
-          "items": [
-            [
-              {
-                "t": "text",
-                "k": "section.overview.b2.i0.0"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.overview.b2.i1.0"
-              },
-              {
-                "t": "code",
-                "v": ".7z"
-              },
-              {
-                "t": "text",
-                "k": "section.overview.b2.i1.2"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.overview.b2.i2.0"
-              },
-              {
-                "t": "code",
-                "v": "server-config.json"
-              },
-              {
-                "t": "text",
-                "k": "section.overview.b2.i2.2"
-              }
-            ]
-          ],
-          "className": "step-cards"
         }
       ]
     },
     {
-      "id": "variables",
-      "kickerKey": "section.variables.kicker",
-      "titleKey": "section.variables.title",
-      "subKey": "section.variables.sub",
+      "id": "terminal",
+      "kickerKey": "section.terminal.kicker",
+      "titleKey": "section.terminal.title",
+      "subKey": "section.terminal.sub",
       "blocks": [
         {
-          "type": "dl",
-          "items": [
+          "type": "flow",
+          "steps": [
             {
-              "dt": [
+              "action": [
                 {
-                  "t": "code",
-                  "v": "<STEAMROOT>"
+                  "t": "text",
+                  "k": "section.terminal.b0.0"
                 }
               ],
-              "dd": [
-                {
-                  "t": "text",
-                  "k": "section.variables.b0.dd0.0"
-                }
-              ]
-            },
-            {
-              "dt": [
-                {
-                  "t": "code",
-                  "v": "<SERVER_DIR>"
-                }
-              ],
-              "dd": [
-                {
-                  "t": "text",
-                  "k": "section.variables.b0.dd1.0"
-                }
-              ]
-            },
-            {
-              "dt": [
-                {
-                  "t": "code",
-                  "v": "<COOP_DATA>"
-                }
-              ],
-              "dd": [
-                {
-                  "t": "text",
-                  "k": "section.variables.b0.dd2.0"
-                }
-              ]
-            },
-            {
-              "dt": [
-                {
-                  "t": "code",
-                  "v": "<SAVE_NAME>"
-                }
-              ],
-              "dd": [
-                {
-                  "t": "text",
-                  "k": "section.variables.b0.dd3.0"
-                },
-                {
-                  "t": "code",
-                  "v": ".sav"
-                }
-              ]
-            },
-            {
-              "dt": [
-                {
-                  "t": "code",
-                  "v": "<SERVER_PASSWORD>"
-                }
-              ],
-              "dd": [
-                {
-                  "t": "text",
-                  "k": "section.variables.b0.dd4.0"
-                }
-              ]
-            },
-            {
-              "dt": [
-                {
-                  "t": "code",
-                  "v": "COOP_VERSION"
-                }
-              ],
-              "dd": [
-                {
-                  "t": "text",
-                  "k": "section.variables.b0.dd5.0"
-                },
-                {
-                  "t": "code",
-                  "v": "v0.1.7"
-                },
-                {
-                  "t": "text",
-                  "k": "section.variables.b0.dd5.2"
-                }
-              ]
-            },
-            {
-              "dt": [
-                {
-                  "t": "code",
-                  "v": "<UDP_PORT>"
-                }
-              ],
-              "dd": [
-                {
-                  "t": "text",
-                  "k": "section.variables.b0.dd6.0"
-                },
-                {
-                  "t": "code",
-                  "v": "4200"
-                },
-                {
-                  "t": "text",
-                  "k": "section.variables.b0.dd6.2"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "field",
-          "label": [
-            {
-              "t": "text",
-              "k": "section.variables.b1.label.0"
-            },
-            {
-              "t": "code",
-              "v": "SERVER_DIR"
-            },
-            {
-              "t": "text",
-              "k": "section.variables.b1.label.2"
-            }
-          ],
-          "placeholder": "$HOME/Games/BannerlordCoop-DedicatedServer"
-        },
-        {
-          "type": "code",
-          "id": "code-environment-8227218",
-          "title": [
-            {
-              "t": "text",
-              "k": "section.variables.b2.title.0"
-            }
-          ],
-          "langKey": "code.lang.Bash"
-        }
-      ]
-    },
-    {
-      "id": "deps",
-      "kickerKey": "section.deps.kicker",
-      "titleKey": "section.deps.title",
-      "subKey": "section.deps.sub",
-      "blocks": [
-        {
-          "type": "tabs",
-          "name": "deps",
-          "labelKey": "section.deps.b0.label",
-          "tabs": [
-            {
-              "labelKey": "section.deps.b0.tab0",
               "blocks": [
                 {
-                  "type": "code",
-                  "id": "code-apt-60837352",
-                  "title": [
+                  "type": "tabs",
+                  "name": "oneshot",
+                  "labelKey": "section.terminal.b1.label",
+                  "tabs": [
                     {
-                      "t": "text",
-                      "k": "section.deps.b0.tab0.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "debian",
-                "other"
-              ]
-            },
-            {
-              "labelKey": "section.deps.b0.tab1",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-dnf-85923249",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.deps.b0.tab1.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "fedora",
-                "other"
-              ]
-            },
-            {
-              "labelKey": "section.deps.b0.tab2",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-pacman-79745825",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.deps.b0.tab2.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "arch",
-                "other"
-              ]
-            },
-            {
-              "labelKey": "section.terminal.b1.tab6",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-zypper-95307813",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.deps.b0.tab3.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "suse",
-                "other"
-              ]
-            },
-            {
-              "labelKey": "section.deps.b0.tab4",
-              "blocks": [
-                {
-                  "type": "callout",
-                  "kind": "info",
-                  "titleKey": "section.deps.b0.tab4.b0.title",
-                  "blocks": [
-                    {
-                      "type": "p",
-                      "c": [
+                      "labelKey": "section.terminal.b1.tab0",
+                      "blocks": [
                         {
-                          "t": "text",
-                          "k": "section.deps.b0.tab4.b0.b0.0"
-                        },
-                        {
-                          "t": "code",
-                          "v": "distrobox"
-                        },
-                        {
-                          "t": "text",
-                          "k": "section.deps.b0.tab4.b0.b0.2"
-                        },
-                        {
-                          "t": "code",
-                          "v": "rpm-ostree"
-                        },
-                        {
-                          "t": "text",
-                          "k": "section.deps.b0.tab4.b0.b0.4"
+                          "type": "code",
+                          "id": "code-oneshot-ubuntu",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab0.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
                         }
-                      ]
+                      ],
+                      "script": "ubuntu"
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab1",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-oneshot-debian",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab1.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
+                        }
+                      ],
+                      "script": "debian"
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab2",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-oneshot-mint",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab2.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
+                        }
+                      ],
+                      "script": "mint"
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab3",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-oneshot-fedora",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab3.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
+                        }
+                      ],
+                      "script": "fedora"
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab4",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-oneshot-arch",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab4.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
+                        }
+                      ],
+                      "script": "arch"
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab5",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-oneshot-manjaro",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab5.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
+                        }
+                      ],
+                      "script": "manjaro"
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab6",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-oneshot-suse",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab6.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
+                        }
+                      ],
+                      "script": "suse"
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab7",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-oneshot-bazzite",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab7.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
+                        }
+                      ],
+                      "script": "bazzite"
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab8",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-oneshot-deck",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab8.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
+                        }
+                      ],
+                      "script": "deck"
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab9",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-oneshot-nix",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab9.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
+                        }
+                      ],
+                      "script": "nix"
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab10",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-oneshot-other",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab10.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash",
+                          "oneshot": true
+                        }
+                      ],
+                      "script": "other"
                     }
                   ]
                 },
                 {
-                  "type": "code",
-                  "id": "code-distrobox-26746609",
-                  "title": [
-                    {
-                      "t": "term",
-                      "termKey": "section.deps.b0.tab4.b1.title.0.term",
-                      "defKey": "section.deps.b0.tab4.b1.title.0.def",
-                      "labelKey": "section.deps.b0.tab4.b1.title.0.label"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "immutable",
-                "deck",
-                "other"
-              ]
-            },
-            {
-              "labelKey": "section.terminal.b1.tab9",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-nix-28769868",
-                  "title": [
+                  "type": "h3",
+                  "c": [
                     {
                       "t": "text",
-                      "k": "section.deps.b0.tab5.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "nix",
-                "other"
-              ]
-            },
-            {
-              "labelKey": "section.terminal.b1.tab8",
-              "blocks": [
-                {
-                  "type": "callout",
-                  "kind": "info",
-                  "titleKey": "section.terminal.b1.tab8",
-                  "blocks": [
-                    {
-                      "type": "p",
-                      "c": [
-                        {
-                          "t": "text",
-                          "k": "section.deps.b0.tab6.b0.b0.0"
-                        }
-                      ]
+                      "k": "section.terminal.b3.c0.b0.0"
                     }
                   ]
                 },
                 {
-                  "type": "code",
-                  "id": "code-verify-75258262",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.deps.b0.tab6.b1.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "deck",
-                "other"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "callout",
-          "kind": "ok",
-          "titleKey": "section.deps.b1.title",
-          "blocks": [
-            {
-              "type": "p",
-              "c": [
-                {
-                  "t": "code",
-                  "v": "command -v curl python3 ss"
-                },
-                {
-                  "t": "text",
-                  "k": "section.deps.b1.b0.1"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "steam",
-      "kickerKey": "section.steam.kicker",
-      "titleKey": "section.steam.title",
-      "subKey": "section.steam.sub",
-      "blocks": [
-        {
-          "type": "callout",
-          "kind": "warn",
-          "titleKey": "section.steam.b0.title",
-          "blocks": [
-            {
-              "type": "p",
-              "c": [
-                {
-                  "t": "text",
-                  "k": "section.steam.b0.b0.0"
-                },
-                {
-                  "t": "code",
-                  "v": "~/.var/app/com.valvesoftware.Steam/..."
-                },
-                {
-                  "t": "text",
-                  "k": "section.steam.b0.b0.2"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "tabs",
-          "name": "steam",
-          "labelKey": "section.steam.b1.label",
-          "tabs": [
-            {
-              "labelKey": "section.deps.b0.tab0",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-steam-ubuntu",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.steam.b1.tab0.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                },
-                {
-                  "type": "code",
-                  "id": "code-steam-debian",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab1"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "debian"
-              ]
-            },
-            {
-              "labelKey": "section.deps.b0.tab1",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-steam-fedora",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.steam.b1.tab1.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "fedora"
-              ]
-            },
-            {
-              "labelKey": "section.deps.b0.tab2",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-steam-arch",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab4"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                },
-                {
-                  "type": "code",
-                  "id": "code-steam-manjaro",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab5"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "arch"
-              ]
-            },
-            {
-              "labelKey": "section.terminal.b1.tab6",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-steam-suse",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b1.tab6"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "suse"
-              ]
-            },
-            {
-              "labelKey": "section.deps.b0.tab4",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-steam-immutable",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.steam.b1.tab4.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ],
-              "families": [
-                "immutable"
-              ]
-            },
-            {
-              "labelKey": "section.steam.b1.tab5",
-              "blocks": [
-                {
-                  "type": "callout",
-                  "kind": "warn",
-                  "titleKey": "section.steam.b1.tab5.b0.title",
-                  "blocks": [
-                    {
-                      "type": "p",
-                      "c": [
-                        {
-                          "t": "text",
-                          "k": "section.steam.b1.tab5.b0.b0.0"
-                        }
-                      ]
-                    }
+                  "type": "ul",
+                  "items": [
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c0.b1.i0.0"
+                      }
+                    ],
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c0.b1.i1.0"
+                      }
+                    ],
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c0.b1.i2.0"
+                      }
+                    ],
+                    [
+                      {
+                        "t": "text",
+                        "k": "section.terminal.b3.c0.b1.i3.0"
+                      }
+                    ]
                   ]
-                },
-                {
-                  "type": "code",
-                  "id": "code-steamos-inspection-55952700",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.steam.b1.tab5.b1.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
                 }
-              ],
-              "families": [
-                "deck"
               ]
             },
             {
-              "labelKey": "section.terminal.b1.tab9",
-              "blocks": [
+              "action": [
                 {
-                  "type": "code",
-                  "id": "code-steam-nix",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.steam.b1.tab6.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Nix"
+                  "t": "text",
+                  "k": "section.terminal.b3.c1.b1.i0.0"
                 }
-              ],
-              "families": [
-                "nix"
               ]
             },
             {
-              "labelKey": "section.terminal.b1.tab10",
-              "blocks": [
+              "action": [
                 {
-                  "type": "code",
-                  "id": "code-steam-flatpak",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.steam.b1.tab7.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
+                  "t": "text",
+                  "k": "section.terminal.b3.c1.b1.i1.0"
                 }
-              ],
-              "families": [
-                "other"
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.terminal.b3.c1.b1.i2.0"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.terminal.b3.c1.b1.i3.0"
+                }
               ]
             }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "download",
-      "kickerKey": "section.download.kicker",
-      "titleKey": "section.download.title",
-      "subKey": "section.download.sub",
-      "blocks": [
-        {
-          "type": "callout",
-          "kind": "warn",
-          "titleKey": "section.download.b0.title",
-          "blocks": [
+          ],
+          "lead": [
+            {
+              "t": "text",
+              "k": "section.terminal.sub"
+            }
+          ],
+          "before": [
             {
               "type": "p",
               "c": [
                 {
                   "t": "text",
-                  "k": "section.download.b0.b0.0"
-                },
-                {
-                  "t": "code",
-                  "v": "manifest.json"
-                },
-                {
-                  "t": "text",
-                  "k": "section.download.b0.b0.2"
+                  "k": "section.terminal.b2.0"
                 }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "callout",
-          "kind": "warn",
-          "titleKey": "section.download.b1.title",
-          "blocks": [
-            {
-              "type": "p",
-              "c": [
-                {
-                  "t": "text",
-                  "k": "section.download.b1.b0.0"
-                },
-                {
-                  "t": "code",
-                  "v": "Modules/Coop"
-                },
-                {
-                  "t": "text",
-                  "k": "section.download.b1.b0.2"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "p",
-          "c": [
-            {
-              "t": "text",
-              "k": "section.download.b2.0"
-            },
-            {
-              "t": "strong",
-              "c": [
-                {
-                  "t": "text",
-                  "k": "section.download.b2.1.0"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "k": "section.download.b2.2"
-            },
-            {
-              "t": "em",
-              "c": [
-                {
-                  "t": "text",
-                  "k": "section.download.b2.3.0"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "k": "section.download.b2.4"
-            },
-            {
-              "t": "a",
-              "href": "https://github.com/Bannerlord-Coop-Team/BannerlordCoop/releases",
-              "c": [
-                {
-                  "t": "text",
-                  "k": "section.download.b2.5.0"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "k": "section.download.b2.6"
-            },
-            {
-              "t": "code",
-              "v": "COOP_VERSION"
-            },
-            {
-              "t": "text",
-              "k": "section.download.b2.8"
-            }
-          ]
-        },
-        {
-          "type": "ol",
-          "items": [
-            [
-              {
-                "t": "text",
-                "k": "section.download.b3.i0.0"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.download.b3.i1.0"
-              },
-              {
-                "t": "code",
-                "v": "client-module/Coop"
-              },
-              {
-                "t": "text",
-                "k": "section.download.b3.i1.2"
-              },
-              {
-                "t": "code",
-                "v": "Modules/"
-              },
-              {
-                "t": "text",
-                "k": "section.download.b3.i1.4"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.download.b3.i2.0"
-              }
-            ]
-          ],
-          "className": "step-cards"
-        },
-        {
-          "type": "code",
-          "id": "code-resolve-latest-client-server-preferred-87734510",
-          "title": [
-            {
-              "t": "text",
-              "k": "section.download.b4.title.0"
+              ],
+              "role": "safe"
             }
           ],
-          "langKey": "code.lang.Bash"
-        },
-        {
-          "type": "code",
-          "id": "code-version-pin-installed-client-check-14939572",
-          "title": [
+          "recover": "script",
+          "extra": [
             {
-              "t": "text",
-              "k": "section.download.b5.title.0"
-            }
-          ],
-          "langKey": "code.lang.Bash"
-        },
-        {
-          "type": "callout",
-          "kind": "ok",
-          "titleKey": "section.download.b6.title",
-          "blocks": [
-            {
-              "type": "p",
-              "c": [
+              "type": "sectionRefs",
+              "when": "alone",
+              "ids": [
+                "variables",
+                "deps",
+                "steam",
+                "download"
+              ],
+              "summary": [
                 {
                   "t": "text",
-                  "k": "section.download.b6.b0.0"
-                },
-                {
-                  "t": "code",
-                  "v": "server/BannerlordCoopServer.exe"
-                },
-                {
-                  "t": "text",
-                  "k": "section.download.b6.b0.2"
-                },
-                {
-                  "t": "code",
-                  "v": "client-module/Coop/SubModule.xml"
-                },
-                {
-                  "t": "text",
-                  "k": "section.download.b6.b0.4"
+                  "k": "section.terminal.b4.summary.0"
                 }
               ]
             }
@@ -1302,115 +463,198 @@
       "subKey": "section.configure.sub",
       "blocks": [
         {
-          "type": "callout",
-          "kind": "warn",
-          "id": "callout-eula",
-          "titleKey": "section.configure.b0.title",
-          "blocks": [
+          "type": "flow",
+          "steps": [
             {
-              "type": "p",
-              "c": [
+              "action": [
                 {
                   "t": "text",
-                  "k": "section.configure.b0.b0.0"
-                },
-                {
-                  "t": "code",
-                  "v": "Accept the EULA? [y/N]"
-                },
-                {
-                  "t": "text",
-                  "k": "section.configure.b0.b0.2"
+                  "k": "section.configure.b2.0"
                 },
                 {
                   "t": "term",
-                  "termKey": "faq.faq-epic-steam.label0",
-                  "defKey": "faq.faq-epic-steam.def0"
+                  "termKey": "faq.faq-proton.label0",
+                  "defKey": "faq.faq-proton.def0"
                 },
                 {
                   "t": "text",
-                  "k": "section.configure.b0.b0.4"
+                  "k": "section.configure.b2.2"
+                }
+              ],
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "bare-32",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.configure.b3.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Text",
+                  "bare": true
                 }
               ]
-            }
-          ]
-        },
-        {
-          "type": "callout",
-          "kind": "warn",
-          "titleKey": "section.configure.b1.title",
-          "blocks": [
+            },
             {
-              "type": "p",
-              "c": [
+              "action": [
                 {
                   "t": "text",
-                  "k": "section.configure.b1.b0.0"
+                  "k": "section.configure.b4.summary.0"
                 },
                 {
                   "t": "code",
                   "v": "server-config.json"
-                },
+                }
+              ],
+              "blocks": [
                 {
-                  "t": "text",
-                  "k": "section.configure.b1.b0.2"
-                },
-                {
-                  "t": "code",
-                  "v": "port"
-                },
-                {
-                  "t": "text",
-                  "k": "faq.faq-ports.gap11"
-                },
-                {
-                  "t": "code",
-                  "v": "steam"
-                },
-                {
-                  "t": "text",
-                  "k": "faq.faq-ports.gap11"
-                },
-                {
-                  "t": "code",
-                  "v": "password"
-                },
-                {
-                  "t": "text",
-                  "k": "faq.faq-ports.gap11"
-                },
-                {
-                  "t": "code",
-                  "v": "saveName"
-                },
-                {
-                  "t": "text",
-                  "k": "section.configure.b1.b0.10"
-                },
-                {
-                  "t": "code",
-                  "v": "<your-password>"
-                },
-                {
-                  "t": "text",
-                  "k": "section.download.b2.3.0"
-                },
-                {
-                  "t": "code",
-                  "v": "<server-name>"
-                },
-                {
-                  "t": "text",
-                  "k": "section.configure.b1.b0.14"
-                },
-                {
-                  "t": "strong",
-                  "c": [
+                  "type": "code",
+                  "id": "code-server-config-json-2242099",
+                  "title": [
                     {
                       "t": "text",
-                      "k": "section.overview.b1.10.0"
+                      "k": "section.configure.b4.d0.b0.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.JSON"
+                },
+                {
+                  "type": "table",
+                  "headerKeys": [
+                    "section.configure.b5.h0",
+                    "section.configure.b5.h1"
+                  ],
+                  "rows": [
+                    {
+                      "cells": [
+                        [
+                          {
+                            "t": "code",
+                            "v": "saveName"
+                          }
+                        ],
+                        [
+                          {
+                            "t": "text",
+                            "k": "section.configure.b5.r0.c1.0"
+                          },
+                          {
+                            "t": "code",
+                            "v": ".sav"
+                          },
+                          {
+                            "t": "text",
+                            "k": "section.variables.b0.dd6.2"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "cells": [
+                        [
+                          {
+                            "t": "code",
+                            "v": "password"
+                          }
+                        ],
+                        [
+                          {
+                            "t": "text",
+                            "k": "section.configure.b5.r1.c1.0"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "cells": [
+                        [
+                          {
+                            "t": "code",
+                            "v": "port"
+                          }
+                        ],
+                        [
+                          {
+                            "t": "text",
+                            "k": "section.configure.b5.r2.c1.0"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "cells": [
+                        [
+                          {
+                            "t": "code",
+                            "v": "steam"
+                          }
+                        ],
+                        [
+                          {
+                            "t": "code",
+                            "v": "true"
+                          },
+                          {
+                            "t": "text",
+                            "k": "section.configure.b5.r3.c1.1"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "cells": [
+                        [
+                          {
+                            "t": "code",
+                            "v": "logFile"
+                          }
+                        ],
+                        [
+                          {
+                            "t": "text",
+                            "k": "section.configure.b5.r4.c1.0"
+                          },
+                          {
+                            "t": "code",
+                            "v": "logs/"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "cells": [
+                        [
+                          {
+                            "t": "code",
+                            "v": "autosaveMinutes"
+                          }
+                        ],
+                        [
+                          {
+                            "t": "code",
+                            "v": "0"
+                          },
+                          {
+                            "t": "text",
+                            "k": "section.configure.b5.r5.c1.1"
+                          }
+                        ]
+                      ]
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.configure.b6.0"
+                },
+                {
+                  "t": "code",
+                  "v": "--data-dir '/absolute/path'"
                 },
                 {
                   "t": "text",
@@ -1418,205 +662,135 @@
                 }
               ]
             }
-          ]
-        },
-        {
-          "type": "p",
-          "c": [
+          ],
+          "lead": [
             {
               "t": "text",
-              "k": "section.configure.b2.0"
-            },
-            {
-              "t": "term",
-              "termKey": "faq.faq-proton.label0",
-              "defKey": "faq.faq-proton.def0"
-            },
-            {
-              "t": "text",
-              "k": "section.configure.b2.2"
-            }
-          ]
-        },
-        {
-          "type": "code",
-          "id": "bare-32",
-          "title": [
-            {
-              "t": "text",
-              "k": "section.configure.b3.title.0"
+              "k": "section.configure.sub"
             }
           ],
-          "langKey": "code.lang.Text",
-          "bare": true
-        },
-        {
-          "type": "details",
-          "summary": [
+          "before": [
             {
-              "t": "text",
-              "k": "section.configure.b4.summary.0"
-            },
-            {
-              "t": "code",
-              "v": "server-config.json"
-            }
-          ],
-          "blocks": [
-            {
-              "type": "code",
-              "id": "code-server-config-json-2242099",
-              "title": [
+              "type": "callout",
+              "kind": "warn",
+              "id": "callout-eula",
+              "titleKey": "section.configure.b0.title",
+              "blocks": [
                 {
-                  "t": "text",
-                  "k": "section.configure.b4.d0.b0.title.0"
+                  "type": "p",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.configure.b0.b0.0"
+                    },
+                    {
+                      "t": "code",
+                      "v": "Accept the EULA? [y/N]"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.configure.b0.b0.2"
+                    },
+                    {
+                      "t": "term",
+                      "termKey": "faq.faq-epic-steam.label0",
+                      "defKey": "faq.faq-epic-steam.def0"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.configure.b0.b0.4"
+                    }
+                  ]
                 }
-              ],
-              "langKey": "code.lang.JSON"
+              ]
+            },
+            {
+              "type": "callout",
+              "kind": "warn",
+              "titleKey": "section.configure.b1.title",
+              "blocks": [
+                {
+                  "type": "p",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.configure.b1.b0.0"
+                    },
+                    {
+                      "t": "code",
+                      "v": "server-config.json"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.configure.b1.b0.2"
+                    },
+                    {
+                      "t": "code",
+                      "v": "port"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap11"
+                    },
+                    {
+                      "t": "code",
+                      "v": "steam"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap11"
+                    },
+                    {
+                      "t": "code",
+                      "v": "password"
+                    },
+                    {
+                      "t": "text",
+                      "k": "faq.faq-ports.gap11"
+                    },
+                    {
+                      "t": "code",
+                      "v": "saveName"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.configure.b1.b0.10"
+                    },
+                    {
+                      "t": "code",
+                      "v": "<your-password>"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.download.b2.3.0"
+                    },
+                    {
+                      "t": "code",
+                      "v": "<server-name>"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.configure.b1.b0.14"
+                    },
+                    {
+                      "t": "strong",
+                      "c": [
+                        {
+                          "t": "text",
+                          "k": "section.overview.b1.10.0"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.overview.b2.i1.2"
+                    }
+                  ]
+                }
+              ]
             }
-          ]
-        },
-        {
-          "type": "table",
-          "headerKeys": [
-            "section.configure.b5.h0",
-            "section.configure.b5.h1"
           ],
-          "rows": [
-            {
-              "cells": [
-                [
-                  {
-                    "t": "code",
-                    "v": "saveName"
-                  }
-                ],
-                [
-                  {
-                    "t": "text",
-                    "k": "section.configure.b5.r0.c1.0"
-                  },
-                  {
-                    "t": "code",
-                    "v": ".sav"
-                  },
-                  {
-                    "t": "text",
-                    "k": "section.variables.b0.dd6.2"
-                  }
-                ]
-              ]
-            },
-            {
-              "cells": [
-                [
-                  {
-                    "t": "code",
-                    "v": "password"
-                  }
-                ],
-                [
-                  {
-                    "t": "text",
-                    "k": "section.configure.b5.r1.c1.0"
-                  }
-                ]
-              ]
-            },
-            {
-              "cells": [
-                [
-                  {
-                    "t": "code",
-                    "v": "port"
-                  }
-                ],
-                [
-                  {
-                    "t": "text",
-                    "k": "section.configure.b5.r2.c1.0"
-                  }
-                ]
-              ]
-            },
-            {
-              "cells": [
-                [
-                  {
-                    "t": "code",
-                    "v": "steam"
-                  }
-                ],
-                [
-                  {
-                    "t": "code",
-                    "v": "true"
-                  },
-                  {
-                    "t": "text",
-                    "k": "section.configure.b5.r3.c1.1"
-                  }
-                ]
-              ]
-            },
-            {
-              "cells": [
-                [
-                  {
-                    "t": "code",
-                    "v": "logFile"
-                  }
-                ],
-                [
-                  {
-                    "t": "text",
-                    "k": "section.configure.b5.r4.c1.0"
-                  },
-                  {
-                    "t": "code",
-                    "v": "logs/"
-                  }
-                ]
-              ]
-            },
-            {
-              "cells": [
-                [
-                  {
-                    "t": "code",
-                    "v": "autosaveMinutes"
-                  }
-                ],
-                [
-                  {
-                    "t": "code",
-                    "v": "0"
-                  },
-                  {
-                    "t": "text",
-                    "k": "section.configure.b5.r5.c1.1"
-                  }
-                ]
-              ]
-            }
-          ]
-        },
-        {
-          "type": "p",
-          "c": [
-            {
-              "t": "text",
-              "k": "section.configure.b6.0"
-            },
-            {
-              "t": "code",
-              "v": "--data-dir '/absolute/path'"
-            },
-            {
-              "t": "text",
-              "k": "section.overview.b2.i1.2"
-            }
-          ]
+          "recover": true
         }
       ]
     },
@@ -1627,13 +801,10 @@
       "subKey": "section.launch.sub",
       "blocks": [
         {
-          "type": "callout",
-          "kind": "info",
-          "titleKey": "section.launch.b0.title",
-          "blocks": [
+          "type": "flow",
+          "steps": [
             {
-              "type": "p",
-              "c": [
+              "action": [
                 {
                   "t": "text",
                   "k": "section.launch.b0.b0.0"
@@ -1646,11 +817,156 @@
                   "t": "text",
                   "k": "section.launch.b0.b0.2"
                 }
-              ]
-            },
-            {
-              "type": "p",
-              "c": [
+              ],
+              "blocks": [
+                {
+                  "type": "tabs",
+                  "name": "runtime",
+                  "labelKey": "section.launch.b1.label",
+                  "tabs": [
+                    {
+                      "labelKey": "section.launch.b1.tab0",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-proton-82795168",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "faq.faq-proton.gap5"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ]
+                    },
+                    {
+                      "labelKey": "faq.faq-proton.label1",
+                      "blocks": [
+                        {
+                          "type": "callout",
+                          "kind": "warn",
+                          "titleKey": "section.launch.b1.tab1.b0.title",
+                          "blocks": [
+                            {
+                              "type": "p",
+                              "c": [
+                                {
+                                  "t": "text",
+                                  "k": "section.launch.b1.tab1.b0.b0.0"
+                                },
+                                {
+                                  "t": "code",
+                                  "v": "steam:false"
+                                },
+                                {
+                                  "t": "text",
+                                  "k": "faq.faq-ports.gap11"
+                                },
+                                {
+                                  "t": "term",
+                                  "termKey": "section.launch.b0.b1.4.term",
+                                  "defKey": "section.launch.b0.b1.4.def"
+                                },
+                                {
+                                  "t": "text",
+                                  "k": "section.launch.b1.tab1.b0.b0.4"
+                                },
+                                {
+                                  "t": "strong",
+                                  "c": [
+                                    {
+                                      "t": "text",
+                                      "k": "section.launch.b1.tab1.b0.b0.5.0"
+                                    },
+                                    {
+                                      "t": "term",
+                                      "termKey": "faq.faq-proton.label1",
+                                      "defKey": "faq.faq-proton.def1"
+                                    },
+                                    {
+                                      "t": "text",
+                                      "k": "section.launch.b0.b1.7.0"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "t": "text",
+                                  "k": "section.launch.b0.b1.8"
+                                },
+                                {
+                                  "t": "term",
+                                  "termKey": "faq.faq-proton.label2",
+                                  "defKey": "faq.faq-proton.def2"
+                                },
+                                {
+                                  "t": "text",
+                                  "k": "section.launch.b1.tab1.b0.b0.8"
+                                },
+                                {
+                                  "t": "strong",
+                                  "c": [
+                                    {
+                                      "t": "text",
+                                      "k": "section.launch.b1.tab1.b0.b0.9.0"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "t": "text",
+                                  "k": "section.launch.b1.tab1.b0.b0.10"
+                                },
+                                {
+                                  "t": "term",
+                                  "termKey": "faq.faq-proton.label0",
+                                  "defKey": "faq.faq-proton.def0"
+                                },
+                                {
+                                  "t": "text",
+                                  "k": "section.launch.b1.tab1.b0.b0.12"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "labelKey": "section.launch.b1.tab2",
+                      "blocks": [
+                        {
+                          "type": "callout",
+                          "kind": "warn",
+                          "titleKey": "section.launch.b1.tab2.b0.title",
+                          "blocks": [
+                            {
+                              "type": "p",
+                              "c": [
+                                {
+                                  "t": "text",
+                                  "k": "section.launch.b1.tab2.b0.b0.0"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "code",
+                          "id": "code-umu-2800646",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "faq.faq-proton.label3"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "note": [
                 {
                   "t": "code",
                   "v": "\"steam\": false"
@@ -1707,164 +1023,27 @@
                 }
               ]
             }
-          ]
-        },
-        {
-          "type": "tabs",
-          "name": "runtime",
-          "labelKey": "section.launch.b1.label",
-          "tabs": [
-            {
-              "labelKey": "section.launch.b1.tab0",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-proton-82795168",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "faq.faq-proton.gap5"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ]
-            },
-            {
-              "labelKey": "faq.faq-proton.label1",
-              "blocks": [
-                {
-                  "type": "callout",
-                  "kind": "warn",
-                  "titleKey": "section.launch.b1.tab1.b0.title",
-                  "blocks": [
-                    {
-                      "type": "p",
-                      "c": [
-                        {
-                          "t": "text",
-                          "k": "section.launch.b1.tab1.b0.b0.0"
-                        },
-                        {
-                          "t": "code",
-                          "v": "steam:false"
-                        },
-                        {
-                          "t": "text",
-                          "k": "faq.faq-ports.gap11"
-                        },
-                        {
-                          "t": "term",
-                          "termKey": "section.launch.b0.b1.4.term",
-                          "defKey": "section.launch.b0.b1.4.def"
-                        },
-                        {
-                          "t": "text",
-                          "k": "section.launch.b1.tab1.b0.b0.4"
-                        },
-                        {
-                          "t": "strong",
-                          "c": [
-                            {
-                              "t": "text",
-                              "k": "section.launch.b1.tab1.b0.b0.5.0"
-                            },
-                            {
-                              "t": "term",
-                              "termKey": "faq.faq-proton.label1",
-                              "defKey": "faq.faq-proton.def1"
-                            },
-                            {
-                              "t": "text",
-                              "k": "section.launch.b0.b1.7.0"
-                            }
-                          ]
-                        },
-                        {
-                          "t": "text",
-                          "k": "section.launch.b0.b1.8"
-                        },
-                        {
-                          "t": "term",
-                          "termKey": "faq.faq-proton.label2",
-                          "defKey": "faq.faq-proton.def2"
-                        },
-                        {
-                          "t": "text",
-                          "k": "section.launch.b1.tab1.b0.b0.8"
-                        },
-                        {
-                          "t": "strong",
-                          "c": [
-                            {
-                              "t": "text",
-                              "k": "section.launch.b1.tab1.b0.b0.9.0"
-                            }
-                          ]
-                        },
-                        {
-                          "t": "text",
-                          "k": "section.launch.b1.tab1.b0.b0.10"
-                        },
-                        {
-                          "t": "term",
-                          "termKey": "faq.faq-proton.label0",
-                          "defKey": "faq.faq-proton.def0"
-                        },
-                        {
-                          "t": "text",
-                          "k": "section.launch.b1.tab1.b0.b0.12"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "labelKey": "section.launch.b1.tab2",
-              "blocks": [
-                {
-                  "type": "callout",
-                  "kind": "warn",
-                  "titleKey": "section.launch.b1.tab2.b0.title",
-                  "blocks": [
-                    {
-                      "type": "p",
-                      "c": [
-                        {
-                          "t": "text",
-                          "k": "section.launch.b1.tab2.b0.b0.0"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "code",
-                  "id": "code-umu-2800646",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "faq.faq-proton.label3"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "code",
-          "id": "code-ready-check-65772305",
-          "title": [
+          ],
+          "lead": [
             {
               "t": "text",
-              "k": "section.launch.b2.title.0"
+              "k": "section.launch.sub"
             }
           ],
-          "langKey": "code.lang.Bash"
+          "check": [
+            {
+              "type": "code",
+              "id": "code-ready-check-65772305",
+              "title": [
+                {
+                  "t": "text",
+                  "k": "section.launch.b2.title.0"
+                }
+              ],
+              "langKey": "code.lang.Bash"
+            }
+          ],
+          "recover": true
         }
       ]
     },
@@ -1875,59 +1054,81 @@
       "subKey": "section.firewall.sub",
       "blocks": [
         {
-          "type": "tabs",
-          "name": "fw",
-          "labelKey": "section.firewall.b0.label",
-          "tabs": [
+          "type": "flow",
+          "steps": [
             {
-              "labelKey": "section.firewall.b0.tab0",
-              "blocks": [
+              "action": [
                 {
-                  "type": "code",
-                  "id": "code-ufw-51623524",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.firewall.b0.tab0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
+                  "t": "text",
+                  "k": "section.firewall.b0.label"
                 }
-              ]
-            },
-            {
-              "labelKey": "section.firewall.b0.tab1",
+              ],
               "blocks": [
                 {
-                  "type": "code",
-                  "id": "code-firewalld-25960623",
-                  "title": [
+                  "type": "tabs",
+                  "name": "fw",
+                  "labelKey": "section.firewall.b0.label",
+                  "tabs": [
                     {
-                      "t": "text",
-                      "k": "section.firewall.b0.tab1"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
-                }
-              ]
-            },
-            {
-              "labelKey": "section.firewall.b0.tab2",
-              "blocks": [
-                {
-                  "type": "code",
-                  "id": "code-iptables-16551329",
-                  "title": [
+                      "labelKey": "section.firewall.b0.tab0",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-ufw-51623524",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.firewall.b0.tab0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ]
+                    },
                     {
-                      "t": "text",
-                      "k": "section.firewall.b0.tab2"
+                      "labelKey": "section.firewall.b0.tab1",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-firewalld-25960623",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.firewall.b0.tab1"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ]
+                    },
+                    {
+                      "labelKey": "section.firewall.b0.tab2",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-iptables-16551329",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.firewall.b0.tab2"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ]
                     }
-                  ],
-                  "langKey": "code.lang.Bash"
+                  ]
                 }
               ]
             }
-          ]
+          ],
+          "lead": [
+            {
+              "t": "text",
+              "k": "section.firewall.sub"
+            }
+          ],
+          "recover": true
         }
       ]
     },
@@ -1938,48 +1139,63 @@
       "subKey": "section.service.sub",
       "blocks": [
         {
-          "type": "tabs",
-          "name": "svc",
-          "labelKey": "section.service.b0.label",
-          "tabs": [
+          "type": "flow",
+          "steps": [
             {
-              "labelKey": "faq.faq-keep-running.label0",
-              "blocks": [
+              "action": [
                 {
-                  "type": "code",
-                  "id": "code-install-a-new-isolated-user-service-43365780",
-                  "title": [
-                    {
-                      "t": "text",
-                      "k": "section.service.b0.tab0.b0.title.0"
-                    }
-                  ],
-                  "langKey": "code.lang.Bash"
+                  "t": "text",
+                  "k": "section.service.b0.label"
                 }
-              ]
-            },
-            {
-              "labelKey": "section.service.b0.tab1",
+              ],
               "blocks": [
                 {
-                  "type": "callout",
-                  "kind": "info",
-                  "titleKey": "section.service.b0.tab1.b0.title",
-                  "blocks": [
+                  "type": "tabs",
+                  "name": "svc",
+                  "labelKey": "section.service.b0.label",
+                  "tabs": [
                     {
-                      "type": "p",
-                      "c": [
+                      "labelKey": "faq.faq-keep-running.label0",
+                      "blocks": [
                         {
-                          "t": "text",
-                          "k": "section.service.b0.tab1.b0.b0.0"
-                        },
+                          "type": "code",
+                          "id": "code-install-a-new-isolated-user-service-43365780",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.service.b0.tab0.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ]
+                    },
+                    {
+                      "labelKey": "section.service.b0.tab1",
+                      "blocks": [
                         {
-                          "t": "code",
-                          "v": "run"
-                        },
-                        {
-                          "t": "text",
-                          "k": "section.service.b0.tab1.b0.b0.2"
+                          "type": "callout",
+                          "kind": "info",
+                          "titleKey": "section.service.b0.tab1.b0.title",
+                          "blocks": [
+                            {
+                              "type": "p",
+                              "c": [
+                                {
+                                  "t": "text",
+                                  "k": "section.service.b0.tab1.b0.b0.0"
+                                },
+                                {
+                                  "t": "code",
+                                  "v": "run"
+                                },
+                                {
+                                  "t": "text",
+                                  "k": "section.service.b0.tab1.b0.b0.2"
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     }
@@ -1987,7 +1203,14 @@
                 }
               ]
             }
-          ]
+          ],
+          "lead": [
+            {
+              "t": "text",
+              "k": "section.service.sub"
+            }
+          ],
+          "recover": true
         }
       ]
     },
@@ -1998,74 +1221,89 @@
       "subKey": "section.client.sub",
       "blocks": [
         {
-          "type": "callout",
-          "kind": "warn",
-          "titleKey": "section.client.b0.title",
-          "blocks": [
+          "type": "flow",
+          "steps": [
             {
-              "type": "p",
-              "c": [
+              "action": [
                 {
                   "t": "text",
-                  "k": "section.client.b0.b0.0"
+                  "k": "section.client.b1.i0.0"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.client.b1.i1.0"
+                },
+                {
+                  "t": "code",
+                  "v": "Modules/"
+                },
+                {
+                  "t": "text",
+                  "k": "section.client.b1.i1.2"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.client.b1.i2.0"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.client.b1.i3.0"
+                },
+                {
+                  "t": "code",
+                  "v": "steam:true"
+                },
+                {
+                  "t": "text",
+                  "k": "section.client.b1.i3.2"
+                },
+                {
+                  "t": "code",
+                  "v": "host:4200"
+                },
+                {
+                  "t": "text",
+                  "k": "section.client.b1.i3.4"
+                }
+              ]
+            }
+          ],
+          "lead": [
+            {
+              "t": "text",
+              "k": "section.client.sub"
+            }
+          ],
+          "before": [
+            {
+              "type": "callout",
+              "kind": "warn",
+              "titleKey": "section.client.b0.title",
+              "blocks": [
+                {
+                  "type": "p",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.client.b0.b0.0"
+                    }
+                  ]
                 }
               ]
             }
           ]
-        },
-        {
-          "type": "ol",
-          "items": [
-            [
-              {
-                "t": "text",
-                "k": "section.client.b1.i0.0"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.client.b1.i1.0"
-              },
-              {
-                "t": "code",
-                "v": "Modules/"
-              },
-              {
-                "t": "text",
-                "k": "section.client.b1.i1.2"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.client.b1.i2.0"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.client.b1.i3.0"
-              },
-              {
-                "t": "code",
-                "v": "steam:true"
-              },
-              {
-                "t": "text",
-                "k": "section.client.b1.i3.2"
-              },
-              {
-                "t": "code",
-                "v": "host:4200"
-              },
-              {
-                "t": "text",
-                "k": "section.client.b1.i3.4"
-              }
-            ]
-          ],
-          "className": "step-cards"
         }
       ]
     },
@@ -2076,58 +1314,72 @@
       "subKey": "section.backups.sub",
       "blocks": [
         {
-          "type": "callout",
-          "kind": "warn",
-          "titleKey": "section.backups.b0.title",
-          "blocks": [
+          "type": "flow",
+          "steps": [
             {
-              "type": "p",
-              "c": [
+              "action": [
                 {
                   "t": "text",
-                  "k": "section.backups.b0.b0.0"
+                  "k": "section.backups.b1.i0.0"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.backups.b1.i1.0"
+                },
+                {
+                  "t": "code",
+                  "v": "<saveName>.backup1"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap11"
+                },
+                {
+                  "t": "code",
+                  "v": ".backup2"
+                },
+                {
+                  "t": "text",
+                  "k": "section.overview.b2.i1.2"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.backups.b1.i2.0"
                 }
               ]
             }
-          ]
-        },
-        {
-          "type": "ul",
-          "items": [
-            [
-              {
-                "t": "text",
-                "k": "section.backups.b1.i0.0"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.backups.b1.i1.0"
-              },
-              {
-                "t": "code",
-                "v": "<saveName>.backup1"
-              },
-              {
-                "t": "text",
-                "k": "faq.faq-ports.gap11"
-              },
-              {
-                "t": "code",
-                "v": ".backup2"
-              },
-              {
-                "t": "text",
-                "k": "section.overview.b2.i1.2"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.backups.b1.i2.0"
-              }
-            ]
+          ],
+          "lead": [
+            {
+              "t": "text",
+              "k": "section.backups.sub"
+            }
+          ],
+          "before": [
+            {
+              "type": "callout",
+              "kind": "warn",
+              "titleKey": "section.backups.b0.title",
+              "blocks": [
+                {
+                  "type": "p",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.backups.b0.b0.0"
+                    }
+                  ]
+                }
+              ]
+            }
           ]
         }
       ]
@@ -2658,17 +1910,15 @@
                   {
                     "t": "text",
                     "k": "faq.faq-proton.gap16"
+                  },
+                  {
+                    "t": "br"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-proton.gap19"
                   }
                 ]
-              ]
-            },
-            {
-              "type": "p",
-              "c": [
-                {
-                  "t": "text",
-                  "k": "faq.faq-proton.gap19"
-                }
               ]
             }
           ],
@@ -2741,24 +1991,22 @@
                   {
                     "t": "text",
                     "k": "faq.faq-server-crash.gap15"
+                  },
+                  {
+                    "t": "br"
+                  },
+                  {
+                    "t": "em",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-server-crash.gap19"
+                      }
+                    ]
                   }
                 ]
               ],
               "className": "step-cards"
-            },
-            {
-              "type": "p",
-              "c": [
-                {
-                  "t": "em",
-                  "c": [
-                    {
-                      "t": "text",
-                      "k": "faq.faq-server-crash.gap19"
-                    }
-                  ]
-                }
-              ]
             }
           ],
           "id": "faq-server-crash"
@@ -3102,25 +2350,23 @@
                   {
                     "t": "text",
                     "k": "faq.faq-logs-saves.gap13"
+                  },
+                  {
+                    "t": "br"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-logs-saves.gap20"
+                  },
+                  {
+                    "t": "code",
+                    "k": "faq.faq-logs-saves.gap21"
+                  },
+                  {
+                    "t": "text",
+                    "k": "faq.faq-logs-saves.gap22"
                   }
                 ]
-              ]
-            },
-            {
-              "type": "p",
-              "c": [
-                {
-                  "t": "text",
-                  "k": "faq.faq-logs-saves.gap20"
-                },
-                {
-                  "t": "code",
-                  "k": "faq.faq-logs-saves.gap21"
-                },
-                {
-                  "t": "text",
-                  "k": "faq.faq-logs-saves.gap22"
-                }
               ]
             }
           ],
@@ -3497,24 +2743,22 @@
                   {
                     "t": "text",
                     "k": "faq.faq-no-udp-eula.gap17"
+                  },
+                  {
+                    "t": "br"
+                  },
+                  {
+                    "t": "em",
+                    "c": [
+                      {
+                        "t": "text",
+                        "k": "faq.faq-no-udp-eula.gap21"
+                      }
+                    ]
                   }
                 ]
               ],
               "className": "step-cards"
-            },
-            {
-              "type": "p",
-              "c": [
-                {
-                  "t": "em",
-                  "c": [
-                    {
-                      "t": "text",
-                      "k": "faq.faq-no-udp-eula.gap21"
-                    }
-                  ]
-                }
-              ]
             }
           ],
           "id": "faq-no-udp-eula"
@@ -4229,84 +3473,1033 @@
       "subKey": "section.agents.sub",
       "blocks": [
         {
-          "type": "ol",
-          "items": [
-            [
-              {
-                "t": "text",
-                "k": "section.agents.b0.i0.0"
-              },
-              {
-                "t": "code",
-                "v": "sudo"
-              },
-              {
-                "t": "text",
-                "k": "section.agents.b0.i0.2"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.agents.b0.i1.0"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.agents.b0.i2.0"
-              },
-              {
-                "t": "term",
-                "termKey": "faq.faq-epic-steam.label0",
-                "defKey": "faq.faq-epic-steam.def0"
-              },
-              {
-                "t": "text",
-                "k": "section.overview.b2.i1.2"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.agents.b0.i3.0"
-              }
-            ],
-            [
-              {
-                "t": "text",
-                "k": "section.agents.b0.i4.0"
-              },
-              {
-                "t": "code",
-                "v": "$HOME"
-              },
-              {
-                "t": "text",
-                "k": "faq.faq-ports.gap11"
-              },
-              {
-                "t": "term",
-                "termKey": "section.deps.b0.tab4.b1.title.0.term",
-                "defKey": "section.deps.b0.tab4.b1.title.0.def",
-                "labelKey": "section.deps.b0.tab4.b1.title.0.label"
-              },
-              {
-                "t": "text",
-                "k": "faq.faq-ports.gap11"
-              },
-              {
-                "t": "term",
-                "termKey": "faq.faq-platforms.label0",
-                "defKey": "faq.faq-platforms.def0"
-              },
-              {
-                "t": "text",
-                "k": "section.overview.b2.i1.2"
-              }
-            ]
+          "type": "flow",
+          "steps": [
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.agents.b0.i0.0"
+                },
+                {
+                  "t": "code",
+                  "v": "sudo"
+                },
+                {
+                  "t": "text",
+                  "k": "section.agents.b0.i0.2"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.agents.b0.i1.0"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.agents.b0.i2.0"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-epic-steam.label0",
+                  "defKey": "faq.faq-epic-steam.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "section.overview.b2.i1.2"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.agents.b0.i3.0"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.agents.b0.i4.0"
+                },
+                {
+                  "t": "code",
+                  "v": "$HOME"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap11"
+                },
+                {
+                  "t": "term",
+                  "termKey": "section.deps.b0.tab4.b1.title.0.term",
+                  "defKey": "section.deps.b0.tab4.b1.title.0.def",
+                  "labelKey": "section.deps.b0.tab4.b1.title.0.label"
+                },
+                {
+                  "t": "text",
+                  "k": "faq.faq-ports.gap11"
+                },
+                {
+                  "t": "term",
+                  "termKey": "faq.faq-platforms.label0",
+                  "defKey": "faq.faq-platforms.def0"
+                },
+                {
+                  "t": "text",
+                  "k": "section.overview.b2.i1.2"
+                }
+              ]
+            }
           ],
-          "className": "step-cards"
+          "lead": [
+            {
+              "t": "text",
+              "k": "section.agents.sub"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "variables",
+      "kickerKey": "section.variables.kicker",
+      "titleKey": "section.variables.title",
+      "subKey": "section.variables.sub",
+      "blocks": [
+        {
+          "type": "flow",
+          "steps": [
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.variables.b2.title.0"
+                }
+              ],
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-environment-8227218",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.variables.b2.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ]
+            }
+          ],
+          "lead": [
+            {
+              "t": "text",
+              "k": "section.variables.sub"
+            }
+          ],
+          "before": [
+            {
+              "type": "dl",
+              "items": [
+                {
+                  "dt": [
+                    {
+                      "t": "code",
+                      "v": "<STEAMROOT>"
+                    }
+                  ],
+                  "dd": [
+                    {
+                      "t": "text",
+                      "k": "section.variables.b0.dd0.0"
+                    }
+                  ]
+                },
+                {
+                  "dt": [
+                    {
+                      "t": "code",
+                      "v": "<SERVER_DIR>"
+                    }
+                  ],
+                  "dd": [
+                    {
+                      "t": "text",
+                      "k": "section.variables.b0.dd1.0"
+                    }
+                  ]
+                },
+                {
+                  "dt": [
+                    {
+                      "t": "code",
+                      "v": "<COOP_DATA>"
+                    }
+                  ],
+                  "dd": [
+                    {
+                      "t": "text",
+                      "k": "section.variables.b0.dd2.0"
+                    }
+                  ]
+                },
+                {
+                  "dt": [
+                    {
+                      "t": "code",
+                      "v": "<SAVE_NAME>"
+                    }
+                  ],
+                  "dd": [
+                    {
+                      "t": "text",
+                      "k": "section.variables.b0.dd3.0"
+                    },
+                    {
+                      "t": "code",
+                      "v": ".sav"
+                    }
+                  ]
+                },
+                {
+                  "dt": [
+                    {
+                      "t": "code",
+                      "v": "<SERVER_PASSWORD>"
+                    }
+                  ],
+                  "dd": [
+                    {
+                      "t": "text",
+                      "k": "section.variables.b0.dd4.0"
+                    }
+                  ]
+                },
+                {
+                  "dt": [
+                    {
+                      "t": "code",
+                      "v": "COOP_VERSION"
+                    }
+                  ],
+                  "dd": [
+                    {
+                      "t": "text",
+                      "k": "section.variables.b0.dd5.0"
+                    },
+                    {
+                      "t": "code",
+                      "v": "v0.1.7"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.variables.b0.dd5.2"
+                    }
+                  ]
+                },
+                {
+                  "dt": [
+                    {
+                      "t": "code",
+                      "v": "<UDP_PORT>"
+                    }
+                  ],
+                  "dd": [
+                    {
+                      "t": "text",
+                      "k": "section.variables.b0.dd6.0"
+                    },
+                    {
+                      "t": "code",
+                      "v": "4200"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.variables.b0.dd6.2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "extra": [
+            {
+              "type": "details",
+              "summary": [
+                {
+                  "t": "text",
+                  "k": "section.variables.b1.label.0"
+                },
+                {
+                  "t": "code",
+                  "v": "SERVER_DIR"
+                },
+                {
+                  "t": "text",
+                  "k": "section.variables.b1.label.2"
+                }
+              ],
+              "blocks": [
+                {
+                  "type": "field",
+                  "label": [
+                    {
+                      "t": "text",
+                      "k": "section.variables.b1.label.0"
+                    },
+                    {
+                      "t": "code",
+                      "v": "SERVER_DIR"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.variables.b1.label.2"
+                    }
+                  ],
+                  "placeholder": "$HOME/Games/BannerlordCoop-DedicatedServer"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deps",
+      "kickerKey": "section.deps.kicker",
+      "titleKey": "section.deps.title",
+      "subKey": "section.deps.sub",
+      "blocks": [
+        {
+          "type": "flow",
+          "steps": [
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.deps.b0.label"
+                }
+              ],
+              "blocks": [
+                {
+                  "type": "tabs",
+                  "name": "deps",
+                  "labelKey": "section.deps.b0.label",
+                  "tabs": [
+                    {
+                      "labelKey": "section.deps.b0.tab0",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-apt-60837352",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.deps.b0.tab0.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "debian",
+                        "other"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.deps.b0.tab1",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-dnf-85923249",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.deps.b0.tab1.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "fedora",
+                        "other"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.deps.b0.tab2",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-pacman-79745825",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.deps.b0.tab2.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "arch",
+                        "other"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab6",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-zypper-95307813",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.deps.b0.tab3.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "suse",
+                        "other"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.deps.b0.tab4",
+                      "blocks": [
+                        {
+                          "type": "callout",
+                          "kind": "info",
+                          "titleKey": "section.deps.b0.tab4.b0.title",
+                          "blocks": [
+                            {
+                              "type": "p",
+                              "c": [
+                                {
+                                  "t": "text",
+                                  "k": "section.deps.b0.tab4.b0.b0.0"
+                                },
+                                {
+                                  "t": "code",
+                                  "v": "distrobox"
+                                },
+                                {
+                                  "t": "text",
+                                  "k": "section.deps.b0.tab4.b0.b0.2"
+                                },
+                                {
+                                  "t": "code",
+                                  "v": "rpm-ostree"
+                                },
+                                {
+                                  "t": "text",
+                                  "k": "section.deps.b0.tab4.b0.b0.4"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "code",
+                          "id": "code-distrobox-26746609",
+                          "title": [
+                            {
+                              "t": "term",
+                              "termKey": "section.deps.b0.tab4.b1.title.0.term",
+                              "defKey": "section.deps.b0.tab4.b1.title.0.def",
+                              "labelKey": "section.deps.b0.tab4.b1.title.0.label"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "immutable",
+                        "deck",
+                        "other"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab9",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-nix-28769868",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.deps.b0.tab5.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "nix",
+                        "other"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab8",
+                      "blocks": [
+                        {
+                          "type": "callout",
+                          "kind": "info",
+                          "titleKey": "section.terminal.b1.tab8",
+                          "blocks": [
+                            {
+                              "type": "p",
+                              "c": [
+                                {
+                                  "t": "text",
+                                  "k": "section.deps.b0.tab6.b0.b0.0"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "code",
+                          "id": "code-verify-75258262",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.deps.b0.tab6.b1.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "deck",
+                        "other"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "lead": [
+            {
+              "t": "text",
+              "k": "section.deps.sub"
+            }
+          ],
+          "check": [
+            {
+              "type": "callout",
+              "kind": "ok",
+              "titleKey": "section.deps.b1.title",
+              "blocks": [
+                {
+                  "type": "p",
+                  "c": [
+                    {
+                      "t": "code",
+                      "v": "command -v curl python3 ss"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.deps.b1.b0.1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "recover": true
+        }
+      ]
+    },
+    {
+      "id": "steam",
+      "kickerKey": "section.steam.kicker",
+      "titleKey": "section.steam.title",
+      "subKey": "section.steam.sub",
+      "blocks": [
+        {
+          "type": "flow",
+          "steps": [
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.steam.b1.label"
+                }
+              ],
+              "blocks": [
+                {
+                  "type": "tabs",
+                  "name": "steam",
+                  "labelKey": "section.steam.b1.label",
+                  "tabs": [
+                    {
+                      "labelKey": "section.deps.b0.tab0",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-steam-ubuntu",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.steam.b1.tab0.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        },
+                        {
+                          "type": "code",
+                          "id": "code-steam-debian",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab1"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "debian"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.deps.b0.tab1",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-steam-fedora",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.steam.b1.tab1.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "fedora"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.deps.b0.tab2",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-steam-arch",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab4"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        },
+                        {
+                          "type": "code",
+                          "id": "code-steam-manjaro",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab5"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "arch"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab6",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-steam-suse",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab6"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "suse"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.deps.b0.tab4",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-steam-immutable",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.steam.b1.tab4.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "immutable"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.steam.b1.tab5",
+                      "blocks": [
+                        {
+                          "type": "callout",
+                          "kind": "warn",
+                          "titleKey": "section.steam.b1.tab5.b0.title",
+                          "blocks": [
+                            {
+                              "type": "p",
+                              "c": [
+                                {
+                                  "t": "text",
+                                  "k": "section.steam.b1.tab5.b0.b0.0"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "code",
+                          "id": "code-steamos-inspection-55952700",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.steam.b1.tab5.b1.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "deck"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab9",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-steam-nix",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.steam.b1.tab6.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Nix"
+                        }
+                      ],
+                      "families": [
+                        "nix"
+                      ]
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab10",
+                      "blocks": [
+                        {
+                          "type": "callout",
+                          "kind": "warn",
+                          "titleKey": "section.steam.b0.title",
+                          "blocks": [
+                            {
+                              "type": "p",
+                              "c": [
+                                {
+                                  "t": "text",
+                                  "k": "section.steam.b0.b0.0"
+                                },
+                                {
+                                  "t": "code",
+                                  "v": "~/.var/app/com.valvesoftware.Steam/..."
+                                },
+                                {
+                                  "t": "text",
+                                  "k": "section.steam.b0.b0.2"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "code",
+                          "id": "code-steam-flatpak",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.steam.b1.tab7.b0.title.0"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": [
+                        "other"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "lead": [
+            {
+              "t": "text",
+              "k": "section.steam.sub"
+            }
+          ],
+          "recover": true
+        }
+      ]
+    },
+    {
+      "id": "download",
+      "kickerKey": "section.download.kicker",
+      "titleKey": "section.download.title",
+      "subKey": "section.download.sub",
+      "blocks": [
+        {
+          "type": "flow",
+          "steps": [
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.download.b3.i0.0"
+                }
+              ],
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-resolve-latest-client-server-preferred-87734510",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.download.b4.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.download.b3.i1.0"
+                },
+                {
+                  "t": "code",
+                  "v": "client-module/Coop"
+                },
+                {
+                  "t": "text",
+                  "k": "section.download.b3.i1.2"
+                },
+                {
+                  "t": "code",
+                  "v": "Modules/"
+                },
+                {
+                  "t": "text",
+                  "k": "section.download.b3.i1.4"
+                }
+              ]
+            },
+            {
+              "action": [
+                {
+                  "t": "text",
+                  "k": "section.download.b3.i2.0"
+                }
+              ]
+            }
+          ],
+          "lead": [
+            {
+              "t": "text",
+              "k": "section.download.b2.0"
+            },
+            {
+              "t": "strong",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.download.b2.1.0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "k": "section.download.b2.2"
+            },
+            {
+              "t": "em",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.download.b2.3.0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "k": "section.download.b2.4"
+            },
+            {
+              "t": "a",
+              "href": "https://github.com/Bannerlord-Coop-Team/BannerlordCoop/releases",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.download.b2.5.0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "k": "section.download.b2.6"
+            },
+            {
+              "t": "code",
+              "v": "COOP_VERSION"
+            },
+            {
+              "t": "text",
+              "k": "section.download.b2.8"
+            }
+          ],
+          "before": [
+            {
+              "type": "callout",
+              "kind": "warn",
+              "titleKey": "section.download.b0.title",
+              "blocks": [
+                {
+                  "type": "p",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.download.b0.b0.0"
+                    },
+                    {
+                      "t": "code",
+                      "v": "manifest.json"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.download.b0.b0.2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "callout",
+              "kind": "warn",
+              "titleKey": "section.download.b1.title",
+              "blocks": [
+                {
+                  "type": "p",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.download.b1.b0.0"
+                    },
+                    {
+                      "t": "code",
+                      "v": "Modules/Coop"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.download.b1.b0.2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "check": [
+            {
+              "type": "callout",
+              "kind": "ok",
+              "titleKey": "section.download.b6.title",
+              "blocks": [
+                {
+                  "type": "p",
+                  "c": [
+                    {
+                      "t": "text",
+                      "k": "section.download.b6.b0.0"
+                    },
+                    {
+                      "t": "code",
+                      "v": "server/BannerlordCoopServer.exe"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.download.b6.b0.2"
+                    },
+                    {
+                      "t": "code",
+                      "v": "client-module/Coop/SubModule.xml"
+                    },
+                    {
+                      "t": "text",
+                      "k": "section.download.b6.b0.4"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "recover": true,
+          "extra": [
+            {
+              "type": "details",
+              "summary": [
+                {
+                  "t": "text",
+                  "k": "section.download.b5.title.0"
+                }
+              ],
+              "blocks": [
+                {
+                  "type": "code",
+                  "id": "code-version-pin-installed-client-check-14939572",
+                  "title": [
+                    {
+                      "t": "text",
+                      "k": "section.download.b5.title.0"
+                    }
+                  ],
+                  "langKey": "code.lang.Bash"
+                }
+              ]
+            }
+          ]
         }
       ]
     }

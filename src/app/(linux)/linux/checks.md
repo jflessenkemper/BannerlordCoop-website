@@ -26,3 +26,4 @@ These run against the static guide. A violation fails the check.
 22. Contrast. Text, including text drawn over the backdrop, meets WCAG AA.
 23. linkinator. No link in the English export is broken. Links to other languages are outside this export.
 24. axe flows. Tab order reaches the check mark, the popover opens, Escape closes it, and focus returns to the mark. `@axe-core/playwright` reports no WCAG 2.2 violations on that path.
+25. Task order. Inside one section, numbered steps do not restart and a paragraph does not sit between two numbered lists. A list inside its own disclosure is a separate section.

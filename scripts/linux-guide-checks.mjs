@@ -91,6 +91,30 @@ for (const locale of locales) {
             });
             if (codeGap.length) fail("2 code space", `${label} ${codeGap.join(" ; ")}`);
 
+            const order = await page.evaluate(() => {
+                const problems = [];
+                const regions = [...document.querySelectorAll("#linux-guide .linux-stage-body, #linux-guide .linux-flow-steps, #linux-guide details")];
+                for (const region of regions) {
+                    const lists = [...region.querySelectorAll("ol.step-cards")].filter((list) => {
+                        const closer = list.parentElement?.closest(".linux-stage-body, .linux-flow-steps, details");
+                        return closer === region;
+                    });
+                    if (lists.length > 1) problems.push(`restart ${region.id || region.className}`);
+                    for (const list of lists) {
+                        if ([...list.children].some((child) => child.tagName !== "LI")) problems.push(`between ${region.id || region.className}`);
+                    }
+                    const kids = [...region.children];
+                    for (let index = 0; index < kids.length; index += 1) {
+                        if (kids[index].tagName !== "OL") continue;
+                        const later = kids.slice(index + 1);
+                        const gap = later.findIndex((child) => child.tagName === "OL");
+                        if (gap > 0 && later.slice(0, gap).some((child) => child.matches("p, .linux-note"))) problems.push(`subtext ${region.id || region.className}`);
+                    }
+                }
+                return problems.slice(0, 4);
+            });
+            if (order.length) fail("25 order", `${label} ${order.join(" | ")}`);
+
             const divider = await page.evaluate(() => {
                 const sep = document.querySelector(".subnav-sep");
                 if (!sep || !sep.getClientRects().length) return null;
@@ -210,8 +234,12 @@ for (const locale of locales) {
                     const parts = [];
                     function walk(node) {
                         if (node.nodeType === 1) {
-                            if (node.matches("[popover], pre, .linux-code, .linux-stage-num")) return;
+                            if (node.matches("[popover], pre, .linux-code, .linux-stage-num, button, figcaption, .linux-tablist, label")) return;
+                            const display = getComputedStyle(node).display;
+                            const separated = node.tagName !== "LI" && !["inline", "inline-block", "contents"].includes(display);
+                            if (separated) parts.push(" ");
                             node.childNodes.forEach(walk);
+                            if (separated) parts.push(" ");
                             return;
                         }
                         if (node.nodeType === 3 && node.textContent) parts.push(node.textContent);
