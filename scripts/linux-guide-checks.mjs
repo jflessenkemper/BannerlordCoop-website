@@ -4,6 +4,7 @@
  */
 import { createRequire } from "node:module";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -355,6 +356,7 @@ const speedProbes = [
     [".subnav-crumb a", true],
     [".linux-tablist label", false],
     ["[data-copy]", false],
+    [".code-trust-mark", false],
     [".linux-fold", false],
     ["details.linux-stage > summary", false],
     ["details:not(.linux-stage):not(.linux-menu) > summary", false],
@@ -508,20 +510,35 @@ const signingPage = await context.newPage();
 await signingPage.setViewportSize({ width: 1024, height: 900 });
 await signingPage.goto(`${base}/linux/step/terminal`, { waitUntil: "domcontentloaded" });
 await signingPage.waitForFunction(() => document.documentElement.classList.contains("linux-ready")).catch(() => {});
-const marks = await signingPage.evaluate(() => [...document.querySelectorAll(".code-trust-mark")].map((node) => ({
-    id: node.getAttribute("data-script-id"),
-    sha: node.getAttribute("data-sha256"),
-    attestation: node.parentElement?.querySelector("[data-attestation]")?.getAttribute("href") || document.getElementById(node.getAttribute("aria-controls") || "")?.querySelector("[data-attestation]")?.getAttribute("href") || "",
-    virusTotal: document.getElementById(node.getAttribute("aria-controls") || "")?.querySelector("[data-virustotal]")?.getAttribute("href") || "",
-})));
+const marks = await signingPage.evaluate(() => [...document.querySelectorAll(".code-trust-mark")].map((node) => {
+    const pop = document.getElementById(node.getAttribute("aria-controls") || "");
+    return {
+        id: node.getAttribute("data-script-id"),
+        sha: node.getAttribute("data-sha256"),
+        attestation: pop?.querySelector("[data-attestation]")?.getAttribute("href") || "",
+        virusTotal: pop?.querySelector("[data-virustotal]")?.getAttribute("href") || "",
+        command: pop?.querySelector(".code-trust-cmd")?.textContent || "",
+    };
+}));
 const byId = new Map(signingManifest.scripts.map((entry) => [entry.id, entry]));
-if (!signingManifest.attestationUrl && marks.length) fail("14 hidden", `${marks.length} check marks without an attestation`);
+const reported = signingManifest.scripts.filter((entry) => entry.detections && entry.analysed);
+if (!reported.length) fail("14 reports", "no VirusTotal reports in the manifest");
+for (const entry of reported) {
+    const file = readFileSync(join(process.cwd(), "public/linux/scripts", entry.file));
+    const digest = createHash("sha256").update(file).digest("hex");
+    if (digest !== entry.sha256) fail("14 file", `${entry.id} ${digest} != ${entry.sha256}`);
+    if (!entry.virusTotalUrl.endsWith(entry.sha256)) fail("14 url", entry.id);
+}
+if (!marks.length) fail("14 marks", "English terminal page has no check mark");
 for (const mark of marks) {
     const entry = byId.get(mark.id);
     if (!entry) fail("14 missing", mark.id || "no id");
     else if (mark.sha !== entry.sha256) fail("14 sha", `${mark.id} ${mark.sha} != ${entry.sha256}`);
     else if (!mark.virusTotal.includes(entry.sha256)) fail("14 virustotal", mark.id);
-    else if (mark.attestation !== signingManifest.attestationUrl) fail("14 attestation", mark.id);
+    else if (signingManifest.attestationUrl) {
+        if (mark.attestation !== signingManifest.attestationUrl) fail("14 attestation", mark.id);
+        if (!mark.command.includes("gh attestation verify")) fail("14 command", mark.id);
+    } else if (mark.attestation || mark.command.includes("gh attestation")) fail("14 unsigned", mark.id);
 }
 await signingPage.close();
 

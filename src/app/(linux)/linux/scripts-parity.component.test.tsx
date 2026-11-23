@@ -54,6 +54,8 @@ it("publishes each runnable script unchanged and keeps the manifest on those has
                 bytes: script.bytes,
                 attestationUrl: same ? (previous?.attestationUrl ?? null) : null,
                 virusTotalUrl: `https://www.virustotal.com/gui/file/${script.sha256}`,
+                detections: same ? (previous?.detections ?? null) : null,
+                analysed: same ? (previous?.analysed ?? null) : null,
             };
         });
         const hashesChanged = next.some((entry) => entry.attestationUrl === null && prior.has(entry.id));
@@ -87,6 +89,8 @@ it("publishes each runnable script unchanged and keeps the manifest on those has
         expect(entry?.sha256, script.id).toBe(script.sha256);
         expect(entry?.bytes, script.id).toBe(script.bytes);
         expect(entry?.virusTotalUrl, script.id).toBe(`https://www.virustotal.com/gui/file/${script.sha256}`);
+        expect(entry?.detections, script.id).toBe("0/74");
+        expect(entry?.analysed, script.id).toMatch(/^\d{4}-\d{2}-\d{2}$/);
         expect(sums).toContain(`${script.sha256}  ${script.file}`);
     }
 });

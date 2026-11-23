@@ -15,4 +15,4 @@ These run against the static guide. A violation fails the check.
 11. Response. On the desktop, every guide control's next paint is under 100ms, and a route change shows the next page's heading in under 1s. Mobile 4x timings are reported and are not a failure by themselves.
 12. Reveal. The filmstrip of a guide load is the site background only, then the finished page. Nothing is drawn before the fade.
 13. Button underlines. At 320, 390, 1024 and 1440, no button or button-styled link has a computed text underline in the resting, hover, focus, active, or visited state. Glossary terms keep their dotted underline. Prose links keep a solid underline.
-14. Script signing. A check mark is shown only when the manifest has an attestation URL. Every check mark names a manifest entry whose sha256 matches the published file and the VirusTotal link.
+14. Script checks. A check mark is shown when the manifest records a VirusTotal report for that file's sha256. Every check mark's sha256 matches the published file and the VirusTotal link. The signing line is present only when an attestation URL is recorded.

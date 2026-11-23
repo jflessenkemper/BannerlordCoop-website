@@ -9,7 +9,9 @@
       "sha256": "086dae32f3deee76af8575efe944e30dd174f4b6b1e6fc324b4cd98d716a6a75",
       "bytes": 84,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/086dae32f3deee76af8575efe944e30dd174f4b6b1e6fc324b4cd98d716a6a75"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/086dae32f3deee76af8575efe944e30dd174f4b6b1e6fc324b4cd98d716a6a75",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-distrobox-26746609",
@@ -17,7 +19,9 @@
       "sha256": "dff2263a1a834c3444c9b52fb000e9f0c3321f7388541557b7ea33723aed0fa2",
       "bytes": 216,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/dff2263a1a834c3444c9b52fb000e9f0c3321f7388541557b7ea33723aed0fa2"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/dff2263a1a834c3444c9b52fb000e9f0c3321f7388541557b7ea33723aed0fa2",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-dnf-85923249",
@@ -25,7 +29,9 @@
       "sha256": "6e7112798a81b36869bb6f64caad79fd209dac4dfee5cd0fae3179369bd9a167",
       "bytes": 192,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/6e7112798a81b36869bb6f64caad79fd209dac4dfee5cd0fae3179369bd9a167"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/6e7112798a81b36869bb6f64caad79fd209dac4dfee5cd0fae3179369bd9a167",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-environment-8227218",
@@ -33,7 +39,9 @@
       "sha256": "fe6fd5dc333b79460299e3c331c9ba4c029a03963c03b7d7e3af419254c5e70a",
       "bytes": 696,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/fe6fd5dc333b79460299e3c331c9ba4c029a03963c03b7d7e3af419254c5e70a"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/fe6fd5dc333b79460299e3c331c9ba4c029a03963c03b7d7e3af419254c5e70a",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-firewalld-25960623",
@@ -41,7 +49,9 @@
       "sha256": "00e825a25b59c23abdf2c9ef627cdeb9e5968a37548fa80b38aa3b5cc24bf754",
       "bytes": 112,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/00e825a25b59c23abdf2c9ef627cdeb9e5968a37548fa80b38aa3b5cc24bf754"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/00e825a25b59c23abdf2c9ef627cdeb9e5968a37548fa80b38aa3b5cc24bf754",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-install-a-new-isolated-user-service-43365780",
@@ -49,7 +59,9 @@
       "sha256": "e4fdbc04cd6ef98a9c675539a6b6a18a50e9c1a5f5d006e4ea96859cc4e308ab",
       "bytes": 4029,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/e4fdbc04cd6ef98a9c675539a6b6a18a50e9c1a5f5d006e4ea96859cc4e308ab"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/e4fdbc04cd6ef98a9c675539a6b6a18a50e9c1a5f5d006e4ea96859cc4e308ab",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-iptables-16551329",
@@ -57,7 +69,9 @@
       "sha256": "137ebbe3cbe8c7b2f45c7efc4787dedda9d2d730540e68b861bfc157a032861e",
       "bytes": 192,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/137ebbe3cbe8c7b2f45c7efc4787dedda9d2d730540e68b861bfc157a032861e"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/137ebbe3cbe8c7b2f45c7efc4787dedda9d2d730540e68b861bfc157a032861e",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-nix-28769868",
@@ -65,7 +79,9 @@
       "sha256": "e202a00aad7d5ab500020b24dfc0b78d3a2db7dd5726f382a5083565a8716763",
       "bytes": 103,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/e202a00aad7d5ab500020b24dfc0b78d3a2db7dd5726f382a5083565a8716763"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/e202a00aad7d5ab500020b24dfc0b78d3a2db7dd5726f382a5083565a8716763",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-arch",
@@ -73,7 +89,9 @@
       "sha256": "0c385e51768ab7995aa8848c0a88c2b542c0ed56bfc59bb68d3d649afb5d4142",
       "bytes": 11964,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/0c385e51768ab7995aa8848c0a88c2b542c0ed56bfc59bb68d3d649afb5d4142"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/0c385e51768ab7995aa8848c0a88c2b542c0ed56bfc59bb68d3d649afb5d4142",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-bazzite",
@@ -81,7 +99,9 @@
       "sha256": "0b41e38e129d958a61ccc87602391acc57cef902cc3e6e48be80f5ad965f2174",
       "bytes": 12992,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/0b41e38e129d958a61ccc87602391acc57cef902cc3e6e48be80f5ad965f2174"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/0b41e38e129d958a61ccc87602391acc57cef902cc3e6e48be80f5ad965f2174",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-debian",
@@ -89,7 +109,9 @@
       "sha256": "7ddc98821a003daf92b429bd136c57a1b27ad32bc9fa78cebe95b3ff7a1a628f",
       "bytes": 12109,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/7ddc98821a003daf92b429bd136c57a1b27ad32bc9fa78cebe95b3ff7a1a628f"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/7ddc98821a003daf92b429bd136c57a1b27ad32bc9fa78cebe95b3ff7a1a628f",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-deck",
@@ -97,7 +119,9 @@
       "sha256": "f96bb19e9e2f14771bd82ee79cb8f99901833b30bfa86e07a5a0b10c569386ea",
       "bytes": 12654,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/f96bb19e9e2f14771bd82ee79cb8f99901833b30bfa86e07a5a0b10c569386ea"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/f96bb19e9e2f14771bd82ee79cb8f99901833b30bfa86e07a5a0b10c569386ea",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-fedora",
@@ -105,7 +129,9 @@
       "sha256": "64f2a695a394d2f88388b1955653cd6c493d3512ea6a12448a3aced1055c6ea1",
       "bytes": 11837,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/64f2a695a394d2f88388b1955653cd6c493d3512ea6a12448a3aced1055c6ea1"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/64f2a695a394d2f88388b1955653cd6c493d3512ea6a12448a3aced1055c6ea1",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-manjaro",
@@ -113,7 +139,9 @@
       "sha256": "df7c7bc6643d6d3d3207aab1daa54682b89820bdfa2f25370322d80334f2e47a",
       "bytes": 11958,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/df7c7bc6643d6d3d3207aab1daa54682b89820bdfa2f25370322d80334f2e47a"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/df7c7bc6643d6d3d3207aab1daa54682b89820bdfa2f25370322d80334f2e47a",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-mint",
@@ -121,7 +149,9 @@
       "sha256": "740200507ff1554ac74584c5b49d2e6843044891043cd78618c9986db9d5f1bc",
       "bytes": 11965,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/740200507ff1554ac74584c5b49d2e6843044891043cd78618c9986db9d5f1bc"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/740200507ff1554ac74584c5b49d2e6843044891043cd78618c9986db9d5f1bc",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-nix",
@@ -129,7 +159,9 @@
       "sha256": "b66edc7cd9ae0e3daa7c1a7ba8fbd462db87589ca4f74ca374637a753dbd1976",
       "bytes": 11660,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/b66edc7cd9ae0e3daa7c1a7ba8fbd462db87589ca4f74ca374637a753dbd1976"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/b66edc7cd9ae0e3daa7c1a7ba8fbd462db87589ca4f74ca374637a753dbd1976",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-other",
@@ -137,7 +169,9 @@
       "sha256": "cb8d04e119fdd8d1bd9c7b2ba7b605d856e7e545227adc3b6cf9be1b458bdd09",
       "bytes": 12652,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/cb8d04e119fdd8d1bd9c7b2ba7b605d856e7e545227adc3b6cf9be1b458bdd09"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/cb8d04e119fdd8d1bd9c7b2ba7b605d856e7e545227adc3b6cf9be1b458bdd09",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-suse",
@@ -145,7 +179,9 @@
       "sha256": "77b13a5f11fd467bd204d48f29ad38b4afac96640e80c26fe41dd96c3b6e415b",
       "bytes": 12163,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/77b13a5f11fd467bd204d48f29ad38b4afac96640e80c26fe41dd96c3b6e415b"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/77b13a5f11fd467bd204d48f29ad38b4afac96640e80c26fe41dd96c3b6e415b",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-oneshot-ubuntu",
@@ -153,7 +189,9 @@
       "sha256": "22b9c41c19a8cd3ce6857ff74a8a8d858e081d6f356a3ede3437deb145db235f",
       "bytes": 11942,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/22b9c41c19a8cd3ce6857ff74a8a8d858e081d6f356a3ede3437deb145db235f"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/22b9c41c19a8cd3ce6857ff74a8a8d858e081d6f356a3ede3437deb145db235f",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-pacman-79745825",
@@ -161,7 +199,9 @@
       "sha256": "fb45c792189dbb15f971cf9582e5fea8b673b59689df083bd607d5e4a06a271a",
       "bytes": 51,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/fb45c792189dbb15f971cf9582e5fea8b673b59689df083bd607d5e4a06a271a"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/fb45c792189dbb15f971cf9582e5fea8b673b59689df083bd607d5e4a06a271a",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-proton-82795168",
@@ -169,7 +209,9 @@
       "sha256": "97b9e44b6cbd82a76885dda41e6f84a27a6c75571ae7229361566126a7100d9c",
       "bytes": 396,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/97b9e44b6cbd82a76885dda41e6f84a27a6c75571ae7229361566126a7100d9c"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/97b9e44b6cbd82a76885dda41e6f84a27a6c75571ae7229361566126a7100d9c",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-ready-check-65772305",
@@ -177,7 +219,9 @@
       "sha256": "98927feab591521ec9dfedf5624ef2067db06801b2770e5d7203b75fdfa4d9a1",
       "bytes": 28,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/98927feab591521ec9dfedf5624ef2067db06801b2770e5d7203b75fdfa4d9a1"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/98927feab591521ec9dfedf5624ef2067db06801b2770e5d7203b75fdfa4d9a1",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-resolve-latest-client-server-preferred-87734510",
@@ -185,7 +229,9 @@
       "sha256": "10756297a3039a1d812a96909e2c0fa627e67479f0deb1886bda39f868b279c6",
       "bytes": 11743,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/10756297a3039a1d812a96909e2c0fa627e67479f0deb1886bda39f868b279c6"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/10756297a3039a1d812a96909e2c0fa627e67479f0deb1886bda39f868b279c6",
+      "detections": "0/74",
+      "analysed": "2026-11-19"
     },
     {
       "id": "code-steam-arch",
@@ -193,7 +239,9 @@
       "sha256": "d6ae6dc88562288dd2520f462641048a179fe49476b4e622b1d7638c79251d77",
       "bytes": 167,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/d6ae6dc88562288dd2520f462641048a179fe49476b4e622b1d7638c79251d77"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/d6ae6dc88562288dd2520f462641048a179fe49476b4e622b1d7638c79251d77",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-steam-debian",
@@ -201,7 +249,9 @@
       "sha256": "80291b58801cae980af8f952e3323276ed20bdea943ff50f5857bf7900936a16",
       "bytes": 288,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/80291b58801cae980af8f952e3323276ed20bdea943ff50f5857bf7900936a16"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/80291b58801cae980af8f952e3323276ed20bdea943ff50f5857bf7900936a16",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-steam-fedora",
@@ -209,7 +259,9 @@
       "sha256": "ac5770c609dc2459e5e563322ac80f2f482a071e4e69dbdd030a68bb8c6c4cb1",
       "bytes": 303,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/ac5770c609dc2459e5e563322ac80f2f482a071e4e69dbdd030a68bb8c6c4cb1"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/ac5770c609dc2459e5e563322ac80f2f482a071e4e69dbdd030a68bb8c6c4cb1",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-steam-flatpak",
@@ -217,7 +269,9 @@
       "sha256": "4363901c1db4a5ae311b84a6de44d9c80ec8f4337ec2ce6bd3039f24151825a4",
       "bytes": 627,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/4363901c1db4a5ae311b84a6de44d9c80ec8f4337ec2ce6bd3039f24151825a4"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/4363901c1db4a5ae311b84a6de44d9c80ec8f4337ec2ce6bd3039f24151825a4",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-steam-immutable",
@@ -225,7 +279,9 @@
       "sha256": "3912438ab53a3abdd43722d2f1c9e8deb7db918c95da969504caebb35646f690",
       "bytes": 328,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/3912438ab53a3abdd43722d2f1c9e8deb7db918c95da969504caebb35646f690"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/3912438ab53a3abdd43722d2f1c9e8deb7db918c95da969504caebb35646f690",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-steam-manjaro",
@@ -233,7 +289,9 @@
       "sha256": "a888ef04700ec002daef1be154e9b1cc00965b955d2a81acf991f32bbe008a74",
       "bytes": 65,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/a888ef04700ec002daef1be154e9b1cc00965b955d2a81acf991f32bbe008a74"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/a888ef04700ec002daef1be154e9b1cc00965b955d2a81acf991f32bbe008a74",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-steam-suse",
@@ -241,7 +299,9 @@
       "sha256": "4e39575ea44f3acb601d55ebdf967b83821e1e0d764f3f65d0eedd5246f34ca2",
       "bytes": 224,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/4e39575ea44f3acb601d55ebdf967b83821e1e0d764f3f65d0eedd5246f34ca2"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/4e39575ea44f3acb601d55ebdf967b83821e1e0d764f3f65d0eedd5246f34ca2",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-steam-ubuntu",
@@ -249,7 +309,9 @@
       "sha256": "5a94e64eb5e06f5c4ceb5b7027f0d474d6b1081b56d9c3049703d0187862c2bc",
       "bytes": 255,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/5a94e64eb5e06f5c4ceb5b7027f0d474d6b1081b56d9c3049703d0187862c2bc"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/5a94e64eb5e06f5c4ceb5b7027f0d474d6b1081b56d9c3049703d0187862c2bc",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-steamos-inspection-55952700",
@@ -257,7 +319,9 @@
       "sha256": "c605210282bbebbef23621ea67817c39550c3701101c949880b5b04ae0930229",
       "bytes": 50,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/c605210282bbebbef23621ea67817c39550c3701101c949880b5b04ae0930229"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/c605210282bbebbef23621ea67817c39550c3701101c949880b5b04ae0930229",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-ufw-51623524",
@@ -265,7 +329,9 @@
       "sha256": "2a8ad7f988de52c195103926d4ea23c9908536f5e5f0d2ab90a7016b13f63a73",
       "bytes": 71,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/2a8ad7f988de52c195103926d4ea23c9908536f5e5f0d2ab90a7016b13f63a73"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/2a8ad7f988de52c195103926d4ea23c9908536f5e5f0d2ab90a7016b13f63a73",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-umu-2800646",
@@ -273,7 +339,9 @@
       "sha256": "1af27e10b55e97a08ec471e4e51f0cc3fdae61ae5d031ae483e2e3c1ffc45585",
       "bytes": 46,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/1af27e10b55e97a08ec471e4e51f0cc3fdae61ae5d031ae483e2e3c1ffc45585"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/1af27e10b55e97a08ec471e4e51f0cc3fdae61ae5d031ae483e2e3c1ffc45585",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-verify-75258262",
@@ -281,7 +349,9 @@
       "sha256": "ef6068b63e700b50ca52e8f7510c63e2b24acf86678c9509f7b42174269222e8",
       "bytes": 167,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/ef6068b63e700b50ca52e8f7510c63e2b24acf86678c9509f7b42174269222e8"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/ef6068b63e700b50ca52e8f7510c63e2b24acf86678c9509f7b42174269222e8",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-version-pin-installed-client-check-14939572",
@@ -289,7 +359,9 @@
       "sha256": "540a89933265c8a55251eca4c3e0240d1ae136e6f322d78055ff1d90a55bfdf1",
       "bytes": 348,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/540a89933265c8a55251eca4c3e0240d1ae136e6f322d78055ff1d90a55bfdf1"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/540a89933265c8a55251eca4c3e0240d1ae136e6f322d78055ff1d90a55bfdf1",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     },
     {
       "id": "code-zypper-95307813",
@@ -297,7 +369,9 @@
       "sha256": "ccd2665cfbb3e244a46b030031a0a2b8881c1cfd27f806c3408b8d0257327bd2",
       "bytes": 106,
       "attestationUrl": null,
-      "virusTotalUrl": "https://www.virustotal.com/gui/file/ccd2665cfbb3e244a46b030031a0a2b8881c1cfd27f806c3408b8d0257327bd2"
+      "virusTotalUrl": "https://www.virustotal.com/gui/file/ccd2665cfbb3e244a46b030031a0a2b8881c1cfd27f806c3408b8d0257327bd2",
+      "detections": "0/74",
+      "analysed": "2026-11-23"
     }
   ]
 }

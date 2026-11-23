@@ -243,10 +243,10 @@ function renderInlineNode(node: Inline, t: Translate, key: string): ReactNode {
     }
 }
 
-/** The published file for a bash block, once the repo attestation exists. */
+/** A bash block with a VirusTotal report for the exact published file. */
 function publishedScript(id: string) {
-    if (!manifest.attestationUrl) return null;
-    return manifest.scripts.find((entry) => entry.id === id && entry.sha256 && entry.virusTotalUrl) ?? null;
+    const entry = manifest.scripts.find((item) => item.id === id && item.sha256 && item.virusTotalUrl?.endsWith(item.sha256) && item.detections && item.analysed);
+    return entry ?? null;
 }
 
 /** A script listing with a copy button the page script wires up. */
@@ -270,11 +270,11 @@ function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, one
             </button>
             <div id={popoverId} popover="auto" role="dialog" className="code-trust-pop" aria-label="How to verify this script">
                 <p className="code-trust">Read before running</p>
-                <p><a className="text-gold underline underline-offset-4" href={manifest.attestationUrl ?? undefined} data-attestation>Signed by the Coop website repo</a></p>
+                {manifest.attestationUrl ? <p><a className="text-gold underline underline-offset-4" href={manifest.attestationUrl} data-attestation>Signed by the Coop website repo</a></p> : null}
                 <p><a className="text-gold underline underline-offset-4" href={published.virusTotalUrl} data-virustotal>Scanned on VirusTotal</a></p>
                 <p className="code-trust">How to verify</p>
-                <p className="code-trust-cmd">gh attestation verify {published.file} --repo {manifest.repository}{"\n"}sha256sum -c SHA256SUMS</p>
-                <p>Attestation proves the published file is exactly what that repository published. It does not say the script is safe.</p>
+                <p className="code-trust-cmd">{manifest.attestationUrl ? `gh attestation verify ${published.file} --repo ${manifest.repository}\n` : ""}sha256sum -c SHA256SUMS</p>
+                <p>{manifest.attestationUrl ? "Attestation proves the published file is exactly what that repository published. " : ""}A VirusTotal report counts engines for this exact file. It does not say the script is safe.</p>
                 <p><a className="text-gold underline underline-offset-4" href={`/linux/scripts/${published.file}`}>Published file</a></p>
             </div>
         </>
