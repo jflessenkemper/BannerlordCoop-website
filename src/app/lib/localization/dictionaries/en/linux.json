@@ -255,7 +255,7 @@
   "section.overview.b1.10.0": "4200",
   "section.overview.b1.11": ". A background service can wait until the server has started once.",
   "section.overview.b2.i0.0": "Install the tools and Steam.",
-  "section.overview.b2.i1.0": "Download a matching client zip and the dedicated-server ",
+  "section.overview.b2.i1.0": "Download a matching client zip and the dedicated-server",
   "section.overview.b2.i1.2": ".",
   "section.overview.b2.i2.0": "Edit ",
   "section.overview.b2.i2.2": ", start the server, open the firewall, then join.",

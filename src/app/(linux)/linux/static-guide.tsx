@@ -132,7 +132,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                 {view === "checklist" && <StaticChecklist t={t} locale={locale} distro={selected} />}
                 {view === "script" && sectionsById.get(ONESHOT_SECTION) && (
                     <section aria-labelledby="manual-title">
-                        <div className={`${pageFrame} py-8 sm:py-10`}>
+                        <div className={`${pageFrame} py-12 sm:py-16`}>
                             <StaticGuideSection section={sectionsById.get(ONESHOT_SECTION)!} t={t} distro={selected} alone annotate={locale === "en"} />
                         </div>
                     </section>
@@ -141,7 +141,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                 {view === "done" && <StaticDone t={t} locale={locale} />}
                 {view === "faq" && (
                     <section aria-labelledby="manual-title">
-                        <div className={`${pageFrame} py-8 sm:py-10`}>
+                        <div className={`${pageFrame} py-12 sm:py-16`}>
                             <StaticSection section={faqSection()} t={t} annotate={locale === "en"} />
                         </div>
                     </section>
@@ -163,9 +163,9 @@ function CrumbHere({ here }: { here: string }) {
     if (!parts) return <span className="subnav-here min-w-0 truncate font-semibold text-[#f4f1ea]" aria-current="page">{here}</span>;
     return (
         <span className="subnav-here flex min-w-0 items-baseline gap-1.5 font-semibold text-[#f4f1ea]" aria-current="page">
-            <span className="subnav-trail max-w-[42%] shrink truncate">{parts.trail}</span>
-            <span className="subnav-slash" aria-hidden="true">/</span>
-            <span className="min-w-0 truncate">{parts.step}</span>
+            <span className="subnav-trail min-w-0 shrink truncate">{parts.trail}</span>
+            <span className="subnav-slash shrink-0" aria-hidden="true">/</span>
+            <span className="subnav-step min-w-0">{parts.step}</span>
         </span>
     );
 }
@@ -179,7 +179,7 @@ function StaticStart({ t, locale }: { t: (key: string) => string; locale: string
                 <p className="mt-4 max-w-xl text-foreground">{t("ui.startSub")}</p>
                 <div className="guide-choices guide-choices-4 mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                     <a rel="prefetch" className={`${choiceCard} choice-recommended border-gold/60 no-underline`} href={guideHref(locale, "/linux/step/overview")}>
-                        <span className="font-label text-xs font-bold uppercase tracking-[0.08em] text-gold">{t("ui.recommended")}</span>
+                        <span className="font-label text-xs font-semibold uppercase tracking-[0.2em] text-gold">{t("ui.recommended")}</span>
                         <strong className="mt-1 block font-display text-2xl font-semibold">{t("ui.stepByStep")}</strong>
                         <span className="mt-2 text-foreground">{t("ui.walk")}</span>
                     </a>
@@ -240,7 +240,7 @@ function StaticDistro({ t, locale, selectedId, resume }: { t: (key: string) => s
 function StaticChecklist({ t, locale, distro }: { t: (key: string) => string; locale: string; distro: Distro | null }) {
     return (
         <section aria-labelledby="manual-title">
-            <div className={`${pageFrame} py-8 sm:py-10`}>
+            <div className={`${pageFrame} py-12 sm:py-16`}>
                 <div className="flex flex-wrap items-end justify-between gap-3">
                     <h1 id="manual-title" tabIndex={-1} className={titleClass}>{t("ui.fullChecklist")}</h1>
                     {locale === "en" ? <button type="button" className="linux-fold inline-flex min-h-12 items-center border-0 bg-transparent px-1 font-label text-sm font-semibold uppercase tracking-[0.12em] text-gold" data-expand="Expand all" data-collapse="Collapse all">Expand all</button> : null}
@@ -259,7 +259,7 @@ function StaticStep({ t, locale, step, distro, nextLabel }: { t: (key: string) =
     const neighbors = wizardNeighbors(step);
     return (
         <section aria-labelledby="wizard-title">
-            <div className={`${pageFrame} wizard-copy py-8 pb-28 sm:py-10`}>
+            <div className={`${pageFrame} wizard-copy py-12 pb-28 sm:py-16`}>
                 <StaticGuideSection section={section} t={t} distro={distro} wizard alone annotate={locale === "en"} />
             </div>
             <div className="linux-wizard-bar sticky bottom-0 z-20 flex flex-wrap items-stretch justify-center gap-2 px-3 py-3">

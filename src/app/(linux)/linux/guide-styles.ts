@@ -5,9 +5,9 @@ export const choiceCard = `${glassCard} relative flex min-h-44 w-full cursor-poi
 
 export const pageFrame = "site-container";
 
-export const titleClass = "font-display text-[clamp(2.4rem,5vw,4.25rem)] font-semibold leading-none tracking-[-0.03em] text-foreground";
+export const titleClass = "max-w-4xl font-display text-5xl font-semibold leading-[0.95] text-foreground sm:text-6xl lg:text-7xl";
 
-export const sectionTitleClass = "font-display text-[clamp(1.8rem,3vw,2.6rem)] font-semibold leading-tight text-foreground";
+export const sectionTitleClass = "font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl";
 
 export const goldButton = "inline-flex min-h-12 cursor-pointer items-center justify-center rounded border border-gold/55 bg-gold/10 px-4 font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold no-underline transition-colors hover:bg-gold/20 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 

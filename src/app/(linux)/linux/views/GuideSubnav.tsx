@@ -47,9 +47,9 @@ function CrumbHere({ here, shortHere }: { here: string; shortHere: string }) {
     if (!parts) return <span className="subnav-here min-w-0 truncate font-semibold text-[#f4f1ea]" aria-current="page" data-short={shortHere || undefined}>{here}</span>;
     return (
         <span className="subnav-here flex min-w-0 items-baseline gap-1.5 font-semibold text-[#f4f1ea]" aria-current="page" data-short={shortHere || undefined}>
-            <span className="subnav-trail max-w-[42%] shrink truncate">{parts.trail}</span>
-            <span className="subnav-slash" aria-hidden="true">/</span>
-            <span className="min-w-0 truncate">{parts.step}</span>
+            <span className="subnav-trail min-w-0 shrink truncate">{parts.trail}</span>
+            <span className="subnav-slash shrink-0" aria-hidden="true">/</span>
+            <span className="subnav-step min-w-0">{parts.step}</span>
         </span>
     );
 }

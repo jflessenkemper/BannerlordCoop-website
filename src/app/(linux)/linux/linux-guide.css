@@ -53,7 +53,8 @@ html:has(.linux-guide) {
 }
 
 html:has(.linux-subnav) {
-  scroll-padding-top: 7.75rem;
+  --linux-subnav-h: 3.5rem;
+  scroll-padding-top: calc(4rem + var(--linux-subnav-h));
 }
 
 html:has(.linux-wizard-bar) {
@@ -76,18 +77,41 @@ html:has(.linux-wizard-bar) {
 }
 
 html:has(.linux-subnav) .linux-skip:focus {
-  top: 7.75rem;
+  top: calc(4rem + var(--linux-subnav-h, 3.5rem));
 }
 
 @media (pointer: coarse) {
-  body:has(.linux-guide) header :is(a, button, summary),
-  .linux-guide :is(button, summary, .guide-choices a, .linux-wizard-bar a, .subnav-change, .linux-fold, .code-trust-mark, .linux-skip) {
+  .linux-guide :is(button, summary, .guide-choices a, .linux-wizard-bar a, .subnav-change, .linux-fold, .code-trust-mark, .linux-skip):not(.linux-term-btn) {
     min-height: 2.75rem;
   }
 }
 
+/* 44px hit area on a coarse pointer. The slop is invisible, so the glyph stays put. */
+@media (pointer: coarse), (max-width: 480px) {
+  body:has(.linux-guide) :is(header, footer) :is(a, button, summary),
+  .linux-guide :is(p, li, dd, figcaption) a,
+  .linux-guide .linux-term-btn {
+    position: relative;
+  }
+
+  body:has(.linux-guide) :is(header, footer) :is(a, button, summary)::before,
+  .linux-guide :is(p, li, dd, figcaption) a::before,
+  .linux-guide .linux-term-btn::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 .linux-guide [id^="sec-"] {
-  scroll-margin-top: 7.75rem;
+  scroll-margin-top: calc(4rem + var(--linux-subnav-h, 3.5rem));
 }
 
 body:has(.linux-backdrop-layer) > header {
@@ -107,10 +131,29 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
     rgba(13, 14, 11, 0.94);
 }
 
+.linux-guide .subnav-trail {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.linux-guide .subnav-step {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  .linux-guide .subnav-trail,
+  .linux-guide .subnav-slash {
+    display: none;
+  }
+}
+
 .linux-subnav .subnav-sep {
-  align-self: stretch;
+  align-self: center;
   width: 1px;
-  min-height: 3rem;
+  height: 3rem;
   background: rgba(255, 255, 255, 0.15);
 }
 
@@ -153,12 +196,19 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
 }
 
 .linux-guide:has(.linux-subnav) {
-  padding-top: 3.5rem;
-  scroll-padding-top: 7.75rem;
+  padding-top: var(--linux-subnav-h, 3.5rem);
+  scroll-padding-top: calc(4rem + var(--linux-subnav-h, 3.5rem));
 }
 
 .linux-guide pre {
   max-width: 100%;
+}
+
+/* Skip layout for code and later stages until they near the screen, so the title can paint first. */
+.linux-guide .linux-code,
+.linux-guide details.linux-stage {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 8rem;
 }
 
 .linux-guide :where(a, button, input, summary, pre, [tabindex]) {
@@ -167,7 +217,7 @@ body:has(.linux-backdrop-layer) > :not(.linux-backdrop-layer):not(.linux-backdro
 }
 
 .linux-guide:has(.linux-subnav) :where(a, button, input, summary, pre, [tabindex]) {
-  scroll-margin-top: 7.75rem;
+  scroll-margin-top: calc(4rem + var(--linux-subnav-h, 3.5rem));
 }
 
 .linux-guide :where(p, li, dd, dt, td, th, figcaption, summary, h1, h2, h3, a) {

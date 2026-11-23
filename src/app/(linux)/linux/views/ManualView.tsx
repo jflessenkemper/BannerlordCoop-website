@@ -18,7 +18,7 @@ export function ManualView({
     const focused = Boolean(sectionId);
     return (
         <section hidden={active ? undefined : true} aria-labelledby={active ? "manual-title" : undefined}>
-            <div className={`${pageFrame} py-8 sm:py-10`}>
+            <div className={`${pageFrame} py-12 sm:py-16`}>
                 {active && !focused && (
                     <>
                         <h1 id="manual-title" tabIndex={-1} className={titleClass}>{t("ui.fullChecklist")}</h1>

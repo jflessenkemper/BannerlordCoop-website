@@ -23,7 +23,7 @@ export function StartMenu({
                 <p className="mt-4 max-w-xl text-foreground">{t("ui.startSub")}</p>
                 <div className="guide-choices guide-choices-4 mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <button type="button" className={`${choiceCard} choice-recommended border-gold/60`} onClick={onWizard}>
-                    <span className="font-label text-xs font-bold uppercase tracking-[0.08em] text-gold">{t("ui.recommended")}</span>
+                    <span className="font-label text-xs font-semibold uppercase tracking-[0.2em] text-gold">{t("ui.recommended")}</span>
                     <strong className="mt-1 block font-display text-2xl font-semibold">{t("ui.stepByStep")}</strong>
                     <span className="mt-2 text-foreground">{t("ui.walk")}</span>
                 </button>
