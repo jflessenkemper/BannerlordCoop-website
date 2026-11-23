@@ -342,44 +342,6 @@
                       "script": "other"
                     }
                   ]
-                },
-                {
-                  "type": "h3",
-                  "c": [
-                    {
-                      "t": "text",
-                      "k": "section.terminal.b3.c0.b0.0"
-                    }
-                  ]
-                },
-                {
-                  "type": "ul",
-                  "items": [
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c0.b1.i0.0"
-                      }
-                    ],
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c0.b1.i1.0"
-                      }
-                    ],
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c0.b1.i2.0"
-                      }
-                    ],
-                    [
-                      {
-                        "t": "text",
-                        "k": "section.terminal.b3.c0.b1.i3.0"
-                      }
-                    ]
-                  ]
                 }
               ]
             },
@@ -432,6 +394,44 @@
                 }
               ],
               "role": "safe"
+            },
+            {
+              "type": "h3",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.terminal.b3.c0.b0.0"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "items": [
+                [
+                  {
+                    "t": "text",
+                    "k": "section.terminal.b3.c0.b1.i0.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.terminal.b3.c0.b1.i1.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.terminal.b3.c0.b1.i2.0"
+                  }
+                ],
+                [
+                  {
+                    "t": "text",
+                    "k": "section.terminal.b3.c0.b1.i3.0"
+                  }
+                ]
+              ]
             }
           ],
           "recover": "script",

@@ -102,6 +102,14 @@ for (const locale of locales) {
                     if (lists.length > 1) problems.push(`restart ${region.id || region.className}`);
                     for (const list of lists) {
                         if ([...list.children].some((child) => child.tagName !== "LI")) problems.push(`between ${region.id || region.className}`);
+                        for (const item of list.querySelectorAll(":scope > li")) {
+                            const heading = item.querySelector("h1, h2, h3, h4, h5, h6");
+                            const nested = item.querySelector("ul, ol");
+                            const notes = [...item.children].filter((child) => child.matches("p"));
+                            if (heading) problems.push(`heading ${heading.textContent.replace(/\s+/g, " ").trim().slice(0, 40)}`);
+                            if (nested) problems.push(`nested ${nested.tagName.toLowerCase()}`);
+                            if (notes.length > 1) problems.push(`notes ${notes.length}`);
+                        }
                     }
                     const kids = [...region.children];
                     for (let index = 0; index < kids.length; index += 1) {
