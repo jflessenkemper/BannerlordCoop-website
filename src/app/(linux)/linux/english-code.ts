@@ -34,6 +34,8 @@ export function codeMatchesDistro(id: string, distroId: string): boolean {
 
 export const HAND_SECTIONS = new Set(["deps", "steam", "download"]);
 export const SKIP_IF_SCRIPT = "Skip this if you ran the script.";
+export const IF_IT_STOPS = "If it stops";
+export const IF_IT_STOPS_BODY = "Read the last lines in the terminal. Fix that step, then run the script again. Finished steps are skipped.";
 export const HAND_SUMMARY = "Set it up by hand";
 export const OPTIONAL_TIME = "Optional, about 10 min";
 export const OPTIONAL_CODES = new Set([

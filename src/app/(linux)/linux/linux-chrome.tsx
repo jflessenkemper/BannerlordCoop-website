@@ -10,7 +10,7 @@ import { Icon } from "./icons";
 
 type Translate = Translator["t"];
 
-const navigationLinkClassName = "inline-flex min-h-10 items-center px-2 font-label text-sm font-semibold uppercase leading-none tracking-[0.16em] text-foreground-muted transition-colors duration-300 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+const navigationLinkClassName = "inline-flex min-h-11 items-center px-2 font-label text-sm font-semibold uppercase leading-none tracking-[0.16em] text-foreground transition-colors duration-300 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 const summaryReset = "linux-menu-summary cursor-pointer list-none [&::-webkit-details-marker]:hidden";
 const downloadSources = [
     { name: "download.installer.name", description: "download.installer.description", href: "https://bannerlordcoop-nightly-gateway.garrett-luskey.workers.dev/", recommended: true, supporterOnly: true },
@@ -54,7 +54,7 @@ export async function LinuxHeader({ t, locale, path }: { t: Translate; locale: L
     return (
         <header className="relative z-50 border-b border-white/10 bg-background">
             <div className="site-container relative flex h-16 items-center justify-between gap-4">
-                <a href="/" className="flex shrink-0 items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:gap-3" aria-label={t("nav.homeLabel")}>
+                <a href="/" className="flex min-h-11 shrink-0 items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:gap-3" aria-label={t("nav.homeLabel")}>
                     <Icon name="swords" className="size-6 text-gold" strokeWidth={3} />
                     <span className="font-display text-sm font-black uppercase tracking-[0.06em] text-foreground transition-colors duration-300 hover:text-gold min-[380px]:text-base min-[380px]:tracking-[0.08em] sm:text-lg sm:tracking-[0.14em]">
                         Bannerlord Co-op
@@ -107,7 +107,7 @@ export function LinuxFooter({ t, year, locale = "en" }: { t: Translator; year: s
             <div className="site-container">
                 <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-12 sm:gap-x-12 sm:py-14 lg:grid-cols-12 lg:items-start lg:py-16">
                     <div className="col-span-2 lg:col-span-6">
-                        <a href="/" aria-label={t.t("nav.homeLabel")} className="inline-flex max-w-full items-center gap-1 text-foreground transition-colors duration-300 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background">
+                        <a href="/" aria-label={t.t("nav.homeLabel")} className="inline-flex min-h-11 max-w-full items-center gap-1 text-foreground transition-colors duration-300 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background">
                             <span className="flex size-10 items-center justify-center text-gold">
                                 <Icon name="swords" className="size-6" strokeWidth={1.5} />
                             </span>
@@ -141,8 +141,8 @@ export function LinuxFooter({ t, year, locale = "en" }: { t: Translator; year: s
                     </nav>
                 </div>
                 <div className="flex flex-col gap-4 border-t border-white/10 py-6 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="font-sans text-xs leading-5 text-foreground-dim">{t.t("footer.copyright", { year })}</p>
-                    <p className="max-w-xl font-sans text-xs leading-5 text-foreground-dim sm:text-right">{t.t("footer.disclaimer")}</p>
+                    <p className="font-sans text-xs leading-5 text-foreground-muted">{t.t("footer.copyright", { year })}</p>
+                    <p className="max-w-xl font-sans text-xs leading-5 text-foreground-muted sm:text-right">{t.t("footer.disclaimer")}</p>
                 </div>
             </div>
         </footer>
@@ -205,7 +205,7 @@ function CommunityMenu({ t }: { t: Translate }) {
 function DownloadMenu({ t }: { t: Translate }) {
     return (
         <>
-            <button type="button" className="inline-flex min-h-9 items-center gap-1.5 rounded-sm border border-crimson/30 bg-crimson/30 px-2.5 py-1.5 font-label text-sm uppercase leading-none tracking-[0.16em] text-white transition-colors hover:border-crimson-hover hover:bg-crimson-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson focus-visible:ring-offset-2 focus-visible:ring-offset-background xl:px-3" popoverTarget="linux-download" aria-haspopup="dialog">
+            <button type="button" className="inline-flex min-h-11 items-center gap-1.5 rounded-sm border border-crimson/30 bg-crimson/30 px-2.5 py-1.5 font-label text-sm uppercase leading-none tracking-[0.16em] text-white transition-colors hover:border-crimson-hover hover:bg-crimson-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson focus-visible:ring-offset-2 focus-visible:ring-offset-background xl:px-3" popoverTarget="linux-download" aria-haspopup="dialog">
                 <Icon name="download" className="size-3.5 shrink-0" strokeWidth={1.75} />
                 {t("download.trigger")}
             </button>
@@ -271,7 +271,7 @@ function ProfileMenu({ t, accountName, isAdmin }: { t: Translate; accountName: s
 function MobileMenu({ t, locale, path, isAdmin, isAuthenticated }: { t: Translate; locale: Locale; path: string; isAdmin: boolean; isAuthenticated: boolean }) {
     return (
         <details className="linux-menu">
-            <summary className={`${summaryReset} relative z-60 flex size-10 items-center justify-center rounded-full border border-white/20 text-foreground`} aria-label={t("nav.open")}>
+            <summary className={`${summaryReset} relative z-60 flex size-11 items-center justify-center rounded-full border border-white/20 text-foreground`} aria-label={t("nav.open")}>
                 <span aria-hidden="true" className="relative block size-5">
                     <span className="absolute top-1 left-0 h-px w-5 bg-current" />
                     <span className="absolute top-2.5 left-0 h-px w-5 bg-current" />

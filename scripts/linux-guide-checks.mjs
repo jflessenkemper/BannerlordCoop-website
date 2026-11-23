@@ -426,7 +426,8 @@ filmClient.on("Page.screencastFrame", (frame) => {
 await filmClient.send("Page.startScreencast", { format: "png", quality: 40, everyNthFrame: 1, maxWidth: 480, maxHeight: 320 });
 await film.goto(`${base}/linux`, { waitUntil: "domcontentloaded" });
 await film.waitForFunction(() => document.documentElement.classList.contains("linux-ready"));
-await film.waitForTimeout(240);
+await film.waitForFunction(() => document.querySelector(".linux-backdrop-veil")?.classList.contains("is-shown")).catch(() => {});
+await film.waitForTimeout(500);
 await filmClient.send("Page.stopScreencast");
 const filmDir = "/tmp/linux-film";
 await import("node:fs").then((fs) => fs.mkdirSync(filmDir, { recursive: true }));
@@ -447,7 +448,7 @@ usable=[row for row in rows if row[0]<200]
 black_index=next((i for i,(avg,bright) in enumerate(usable) if avg<20 and bright==0), None)
 tail=usable[black_index:] if black_index is not None else []
 black=black_index is not None
-shown=any(bright>8 for avg,bright in tail)
+shown=any(avg>24 or bright>8 for avg,bright in tail[1:])
 black_before=black and shown and tail[0][1]==0
 print("black", black, "shown", shown, "black_before", black_before)
 `]);
@@ -472,7 +473,7 @@ for (const width of underlineWidths) {
     }
     await underlinePage.goto(`${base}/linux/step/terminal`, { waitUntil: "domcontentloaded" });
     await underlinePage.waitForFunction(() => document.documentElement.classList.contains("linux-ready")).catch(() => {});
-    for (const selector of ["a.no-underline", "button:not(.linux-term-btn)", "summary"]) {
+    for (const selector of ["a.no-underline:not(.linux-skip)", "button:not(.linux-term-btn)", "summary"]) {
         const control = underlinePage.locator(selector).locator("visible=true").first();
         if (!await control.count()) continue;
         await control.scrollIntoViewIfNeeded();

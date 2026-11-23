@@ -16,3 +16,13 @@ These run against the static guide. A violation fails the check.
 12. Reveal. The filmstrip of a guide load is the site background only, then the finished page. Nothing is drawn before the fade.
 13. Button underlines. At 320, 390, 1024 and 1440, no button or button-styled link has a computed text underline in the resting, hover, focus, active, or visited state. Glossary terms keep their dotted underline. Prose links keep a solid underline.
 14. Script checks. A check mark is shown when the manifest records a VirusTotal report for that file's sha256. Every check mark's sha256 matches the published file and the VirusTotal link. The signing line is present only when an attestation URL is recorded.
+15. Lighthouse CI. On the English export, every route's 3-run median is 100 for performance, accessibility, best practices, and SEO, on mobile and desktop. HTML, script, and stylesheet transfers stay inside their byte budgets. Fonts and images have separate budgets and are not rewritten.
+16. Unlighthouse. Every English route is scanned, and none scores below the Lighthouse CI bars.
+17. Nu HTML Checker. `vnu.jar` reports zero errors on the exported pages.
+18. pa11y-ci. HTML_CodeSniffer and axe report zero issues on every English route. Color contrast is measured by check 22, because the guide's scrim is a fixed layer that axe does not composite.
+19. jsx-a11y. `eslint-plugin-jsx-a11y` reports zero errors on the guide source.
+20. size-limit. The guide's script and stylesheet stay inside their budgets. Font files and images are budgeted apart and are not modified.
+21. Web interface guidelines. Keyboard use, 24px targets (44px on touch), reduced motion, and focus clearing the pinned bars all pass in Playwright.
+22. Contrast. Text, including text drawn over the backdrop, meets WCAG AA.
+23. linkinator. No link in the English export is broken. Links to other languages are outside this export.
+24. axe flows. Tab order reaches the check mark, the popover opens, Escape closes it, and focus returns to the mark. `@axe-core/playwright` reports no WCAG 2.2 violations on that path.

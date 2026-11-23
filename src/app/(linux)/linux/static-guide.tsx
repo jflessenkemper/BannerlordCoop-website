@@ -75,6 +75,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
         <>
             {/* The original artwork, not a resized derivative. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
+            <a className="linux-skip no-underline" href="#linux-guide">Skip to content</a>
             <div className="linux-backdrop-layer" aria-hidden="true"></div>
             <div className="linux-backdrop-veil" aria-hidden="true"></div>
             <JsonLd
@@ -120,7 +121,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                             ) : null}
                         </div>
                         {route.view === "wizard" && (
-                            <div className="h-0.5 bg-transparent" role="progressbar" aria-label={labels.progress} aria-valuemin={1} aria-valuemax={WIZARD_STEPS.length} aria-valuenow={WIZARD_STEPS.indexOf(route.step) + 1} aria-valuetext={labels.progress}>
+                            <div className="h-1 bg-transparent" role="progressbar" aria-label={labels.progress} aria-valuemin={1} aria-valuemax={WIZARD_STEPS.length} aria-valuenow={WIZARD_STEPS.indexOf(route.step) + 1} aria-valuetext={labels.progress}>
                                 <span className="block h-full bg-gold" style={{ width: `${((WIZARD_STEPS.indexOf(route.step) + 1) / WIZARD_STEPS.length) * 100}%` }} />
                             </div>
                         )}
@@ -162,23 +163,24 @@ function StaticStart({ t, locale }: { t: (key: string) => string; locale: string
         <section className="guide-stage" aria-labelledby="start-title">
             <div className={pageFrame}>
                 <h1 id="start-title" tabIndex={-1} className={titleClass}>{t("ui.startTitle")}</h1>
+                <p className="mt-4 max-w-xl text-foreground">{t("ui.startSub")}</p>
                 <div className="guide-choices guide-choices-4 mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                     <a rel="prefetch" className={`${choiceCard} choice-recommended border-gold/60 no-underline`} href={guideHref(locale, "/linux/step/overview")}>
                         <span className="font-label text-xs font-bold uppercase tracking-[0.08em] text-gold">{t("ui.recommended")}</span>
                         <strong className="mt-1 block font-display text-2xl font-semibold">{t("ui.stepByStep")}</strong>
-                        <span className="mt-2 text-foreground-muted">{t("ui.walk")}</span>
+                        <span className="mt-2 text-foreground">{t("ui.walk")}</span>
                     </a>
                     <a rel="prefetch" className={`${choiceCard} no-underline`} href={guideHref(locale, "/linux/script")}>
                         <strong className="block font-display text-2xl font-semibold">{t("ui.oneScript")}</strong>
-                        <span className="mt-2 text-foreground-muted">{t("ui.oneScriptSub")}</span>
+                        <span className="mt-2 text-foreground">{t("ui.oneScriptSub")}</span>
                     </a>
                     <a rel="prefetch" className={`${choiceCard} no-underline`} href={guideHref(locale, "/linux/checklist")}>
                         <strong className="block font-display text-2xl font-semibold">{t("ui.fullChecklist")}</strong>
-                        <span className="mt-2 text-foreground-muted">{t("ui.checklistSub")}</span>
+                        <span className="mt-2 text-foreground">{t("ui.checklistSub")}</span>
                     </a>
                     <a rel="prefetch" className={`${choiceCard} no-underline`} href={guideHref(locale, "/linux/faq")}>
                         <strong className="block font-display text-2xl font-semibold">{t("ui.faq")}</strong>
-                        <span className="mt-2 text-foreground-muted">{t("ui.faqSub")}</span>
+                        <span className="mt-2 text-foreground">{t("ui.faqSub")}</span>
                     </a>
                 </div>
             </div>

@@ -56,8 +56,10 @@ describe("guide presentation", () => {
         expect(document).toContain('rel="preload" as="font"');
         expect(document).toContain('crossorigin="anonymous"');
         expect(document).toContain('const fontScript = "";');
+        expect(document).toContain('rel="preload" as="font"');
         expect(document).toContain('fetchpriority="high"');
-        expect(document).not.toContain('fetchpriority="low"');
+        expect(document).toContain("watchPicture");
+        expect(document).not.toContain("backdrop.webp\" fetchpriority");
         expect(document).toContain("if(!boot)return");
     });
 });

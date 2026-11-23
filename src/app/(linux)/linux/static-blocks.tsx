@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Translator } from "@/app/lib/localization/types";
 import { FAQ_SECTION, sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
 import { COPY_RESET_MS, cx, glassCard, goldButton, PARAGRAPH_ROLE_CLASS, primaryButton, sectionTitleClass } from "./guide-styles";
-import { codeMatchesDistro, englishCodeGroups, HAND_SECTIONS, HAND_SUMMARY, OPTIONAL_CODES, OPTIONAL_TIME, SKIP_IF_SCRIPT } from "./english-code";
+import { codeMatchesDistro, englishCodeGroups, HAND_SECTIONS, HAND_SUMMARY, IF_IT_STOPS, IF_IT_STOPS_BODY, OPTIONAL_CODES, OPTIONAL_TIME, SKIP_IF_SCRIPT } from "./english-code";
 import manifest from "./content/scripts-manifest.json";
 import { highlight } from "./highlight";
 import { inlineVisible, isPunctuationJoin, needsBoundarySpace } from "./inline-flow";
@@ -214,10 +214,9 @@ function renderInlineNode(node: Inline, t: Translate, key: string): ReactNode {
                 <span key={key}>
                     <button
                         type="button"
-                        id={`linux-term-btn-${id}`}
+                        id={`linux-term-btn-${popoverId}`}
                         className="linux-term-btn cursor-help border-0 bg-transparent p-0 font-inherit text-inherit underline decoration-dotted decoration-gold underline-offset-[3px]"
                         aria-controls={popoverId}
-                        aria-expanded="false"
                         popoverTarget={popoverId}
                         popoverTargetAction="toggle"
                         data-term=""
@@ -264,21 +263,21 @@ function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, one
     const published = showTrust ? publishedScript(scriptId) : null;
     const popoverId = `code-trust-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
     const marker = published ? (
-        <>
-            <button type="button" className="code-trust-mark" aria-label={manifest.attestationUrl ? "How this published script is signed" : "How to check this published script"} aria-controls={popoverId} aria-expanded="false" popoverTarget={popoverId} popoverTargetAction="toggle" data-script-id={scriptId} data-sha256={published.sha256}>
-                <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8.5 6.2 12 13 4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </button>
-            <div id={popoverId} popover="auto" role="dialog" className="code-trust-pop" aria-label="How to verify this script">
-                <p className="code-trust">Read before running</p>
-                {manifest.attestationUrl ? <p><a className="text-gold underline underline-offset-4" href={manifest.attestationUrl} data-attestation>Signed by the Coop website repo</a></p> : null}
-                <p><a className="text-gold underline underline-offset-4" href={published.virusTotalUrl} data-virustotal>Scanned on VirusTotal</a></p>
-                <p className="code-trust">How to verify</p>
-                <p className="code-trust-cmd">{manifest.attestationUrl ? `gh attestation verify ${published.file} --repo ${manifest.repository}\n` : ""}sha256sum -c SHA256SUMS</p>
-                <p>{manifest.attestationUrl ? "Attestation proves the published file is exactly what that repository published. " : ""}A VirusTotal report counts engines for this exact file. It does not say the script is safe.</p>
-                <p><a className="text-gold underline underline-offset-4" href={`/linux/scripts/${published.file}`}>Published file</a></p>
-            </div>
-        </>
+        <button type="button" className="code-trust-mark" aria-label={manifest.attestationUrl ? "How this published script is signed" : "How to check this published script"} aria-controls={popoverId} popoverTarget={popoverId} popoverTargetAction="toggle" data-script-id={scriptId} data-sha256={published.sha256}>
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8.5 6.2 12 13 4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </button>
     ) : showTrust ? <span className="code-trust">Read before running</span> : null;
+    const trustPopover = published ? (
+        <div id={popoverId} popover="auto" role="dialog" className="code-trust-pop" aria-label="How to verify this script">
+            <p className="code-trust">Read before running</p>
+            {manifest.attestationUrl ? <p><a className="text-gold underline underline-offset-4" href={manifest.attestationUrl} data-attestation>Signed by the Coop website repo</a></p> : null}
+            <p><a className="text-gold underline underline-offset-4" href={published.virusTotalUrl} data-virustotal>Scanned on VirusTotal</a></p>
+            <p className="code-trust">How to verify</p>
+            <p className="code-trust-cmd">{manifest.attestationUrl ? `gh attestation verify ${published.file} --repo ${manifest.repository}\n` : ""}sha256sum -c SHA256SUMS</p>
+            <p>{manifest.attestationUrl ? "Attestation proves the published file is exactly what that repository published. " : ""}A VirusTotal report counts engines for this exact file. It does not say the script is safe.</p>
+            <p><a className="text-gold underline underline-offset-4" href={`/linux/scripts/${published.file}`}>Published file</a></p>
+        </div>
+    ) : null;
     const caption = plainTitle || <StaticInline nodes={title} t={t} />;
     const listing = (
         <pre id={id} tabIndex={0} data-raw={source} className={cx("linux-code m-0 overflow-x-hidden bg-surface p-4 font-mono text-[0.92rem] leading-normal text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold", oneshot && "max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-auto")}>
@@ -286,6 +285,7 @@ function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, one
         </pre>
     );
     return (
+        <>
         <figure className={cx(glassCard, "my-4 overflow-hidden", oneshot && "border-gold/45")}>
             <figcaption className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-white/5 px-3 py-2">
                 <span className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
@@ -296,7 +296,7 @@ function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, one
                     </span>
                 </span>
                 <span className="ml-auto flex flex-wrap gap-2">
-                    <button type="button" className={copyClass} data-copy={id} data-label={t("ui.copy")} data-copied={t("ui.copied")} data-failed={t("ui.copyFailed")} data-reset-ok={COPY_RESET_MS.copied} data-reset-fail={COPY_RESET_MS.failed}>{t("ui.copy")}</button>
+                    <button type="button" className={copyClass} data-copy={id} data-label={t("ui.copy")} data-copied={t("ui.copied")} data-failed={t("ui.copyFailed")} data-reset-ok={COPY_RESET_MS.copied} data-reset-fail={COPY_RESET_MS.failed} aria-live="polite">{t("ui.copy")}</button>
                     {download && (
                         <a className={goldButton} href={download.href} download={download.filename} title={t(download.titleKey)}>{t(download.labelKey)}</a>
                     )}
@@ -309,6 +309,14 @@ function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, one
                 </details>
             ) : listing}
         </figure>
+        {oneshot && showTrust ? (
+            <div className="linux-note">
+                <p className="linux-note-label">{IF_IT_STOPS}</p>
+                <p>{IF_IT_STOPS_BODY}</p>
+            </div>
+        ) : null}
+        {trustPopover}
+        </>
     );
 }
 
@@ -379,7 +387,7 @@ function StaticTabs({ block, t, distro, alone, annotate = false }: { block: Extr
             {visible.map((tab, position) => (
                 <input key={tab.labelKey} className="linux-tab-input" type="radio" name={id} id={`${id}-${position}`} defaultChecked={position === 0} />
             ))}
-            <div aria-label={t(block.labelKey)} className="linux-tablist mb-3 flex flex-wrap gap-1 border-b border-white/10">
+            <div role="group" aria-label={t(block.labelKey)} className="linux-tablist mb-3 flex flex-wrap gap-1 border-b border-white/10">
                 {visible.map((tab, position) => (
                     <label key={tab.labelKey} htmlFor={`${id}-${position}`} className="min-h-12 cursor-pointer border-0 border-b-2 border-transparent px-3 text-foreground">{t(tab.labelKey)}</label>
                 ))}
