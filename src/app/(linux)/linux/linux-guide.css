@@ -338,13 +338,28 @@ body:has(.linux-guide) header :is(button, summary, a.no-underline):focus-visible
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: #d6be78;
+  gap: 0.35rem;
+  min-height: 1.75rem;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid rgba(214, 190, 120, 0.7);
+  border-radius: 999px;
+  background: rgba(214, 190, 120, 0.12);
+  color: #f4e7bf;
   cursor: pointer;
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@media (pointer: coarse) {
+  .linux-guide .code-trust-mark {
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+  }
 }
 
 .linux-guide .code-trust-pop {
@@ -757,19 +772,8 @@ html[data-distro="other"] .distro-chip[data-for="other"] { display: flex; }
 .linux-tabs > .linux-tab-input:nth-of-type(12):checked ~ .linux-tab-panels > div:nth-child(12) { display: block; }
 
 @media (max-width: 560px) {
-  .linux-guide .subnav-distro-name {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-  }
-
-  .linux-guide .subnav-change {
+  .linux-guide .subnav-distro {
     padding-inline: 0.35rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
   }
 
   .linux-guide .subnav-here[data-short] {

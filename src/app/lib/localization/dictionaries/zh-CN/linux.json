@@ -346,6 +346,8 @@
   "section.configure.kicker": "第 7 步",
   "section.configure.title": "配置服务器",
   "section.configure.sub": "最简 server-config.json。",
+  "section.configure.steamChoice": "In ~/Games/BannerlordCoop/server-data/server-config.json, \"steam\": true uses a Steam lobby and avoids port forwarding while you are signed into Steam. \"steam\": false is a direct IP and needs UDP 4200. If you launch by hand without --data-dir, the file can instead appear under the Proton prefix at compatdata/261550/pfx/drive_c/users/steamuser/Documents/Mount and Blade II Bannerlord/CoopData/DedicatedServer/server-config.json.",
+  "section.launch.dataFallback": "The normal config path is ~/Games/BannerlordCoop/server-data/server-config.json because start-server.sh passes --data-dir. The Proton compatdata/261550 Documents path is only a fallback when you launch without --data-dir.",
   "section.configure.b0.title": "请你自己接受许可",
   "section.configure.b0.b0.0": "第一次启动会打印 EULA.md 和 LICENSE.txt，然后询问 ",
   "section.configure.b0.b0.2": "。请自己阅读并自己回答。不要自动接受，也不要复制另一台服务器的接受文件。在你回答之前，进程看起来正常，但仍然没有打开 ",
@@ -395,6 +397,7 @@
   "section.launch.b1.tab1.b0.b0.9.0": "Debian 自带的 Wine 8 失败了",
   "section.launch.b1.tab1.b0.b0.10": " ，发生在 SERVING 之前（栈溢出）。Wine 9 和 10 没有测试，所以不要把 11.0 理解成之后的每个版本都可以。优先使用 ",
   "section.launch.b1.tab1.b0.b0.12": " 以及 Steam 已经安装时的 Bannerlord compatdata 文件夹。",
+  "section.launch.wineScript": "Start the dedicated server with Wine",
   "section.launch.b1.tab2": "umu-launcher",
   "section.launch.b1.tab2.b0.title": "这里没有验证",
   "section.launch.b1.tab2.b0.b0.0": "这只是命令的形状。请核对你的 umu 版本的标志：",
@@ -589,5 +592,7 @@
   "ui.faq": "常见问题",
   "ui.doneTitle": "服务器已就绪",
   "ui.doneBody": "在这台机器上开服，再用匹配的客户端加入。",
+  "ui.doneRecap": "Start the server with ~/Games/BannerlordCoop/start-server.sh. The config file is ~/Games/BannerlordCoop/server-data/server-config.json. With \"steam\": true, a Steam lobby avoids port forwarding while you are signed into Steam. With \"steam\": false, players use a direct IP and you must open UDP 4200. Every player needs the same game build, the same Coop release, and the same DLC.",
+  "ui.recommendedSub": "Paste one script, then finish by hand: Steam and one game launch, start-server.sh, accept the EULA, edit the config, restart, open UDP 4200 unless you use a Steam lobby, then join.",
   "ui.contents": "本页内容"
 }

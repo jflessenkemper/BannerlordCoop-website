@@ -5,9 +5,9 @@ cat > "$HOME/coop-setup.sh" <<'COOP_SETUP_EOF'
 # Read it first, then run it. Safe to re-run: finished steps are skipped.
 #
 # It will:
-#   1. Install curl, 7-Zip, python, iproute2 and Steam (pacman; needs sudo).
+#   1. Install curl, 7-Zip, python, iproute2 and Steam only if they are missing (pacman --needed; needs sudo). Refuses SteamOS.
 #   2. Download the latest Co-op client + Windows dedicated server from the
-#      official GitHub release and verify their SHA-256 checksums (~4.5 GB).
+#      official GitHub release and verify their SHA-256 checksums (~2.65 GB).
 #   3. Unpack them under ~/Games/BannerlordCoop and write start-server.sh.
 #   4. Open UDP 4200-4201 if ufw or firewalld is active.
 # It will NOT: log in to Steam, buy/install Bannerlord, accept the EULA for you,
@@ -26,6 +26,16 @@ say()  { printf '\n==> %s\n' "$*"; }
 note() { printf '    %s\n' "$*"; }
 die()  { printf '\nERROR: %s\n' "$*" >&2; exit 1; }
 have() { command -v "$1" >/dev/null 2>&1; }
+steam_present() {
+  have steam && return 0
+  have flatpak && flatpak info com.valvesoftware.Steam >/dev/null 2>&1 && return 0
+  [ -d "$HOME/.local/share/Steam/steamapps" ] && return 0
+  [ -d "$HOME/.steam/steam/steamapps" ] && return 0
+  [ -d "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps" ] && return 0
+  [ -d "$HOME/snap/steam/common/.local/share/Steam/steamapps" ] && return 0
+  [ -d "$HOME/snap/steam/common/.steam/steam/steamapps" ] && return 0
+  return 1
+}
 confirm() {
   [ "${COOP_YES:-0}" = 1 ] && return 0
   [ -r /dev/tty ] || die "No terminal to ask on. Re-run with COOP_YES=1 to continue without asking."
@@ -39,12 +49,15 @@ if [ "$(id -u)" -eq 0 ] && [ "${COOP_ALLOW_ROOT:-0}" != 1 ]; then
   die "Run this as your normal user (it uses sudo only where needed). Steam and Proton must not run as root."
 fi
 [ -r /etc/os-release ] && . /etc/os-release
-case " ${ID:-} ${ID_LIKE:-} " in *" arch "*|*" manjaro "*) ;; *)
+if [ "${ID:-}" = steamos ] || [ -x /usr/bin/steamos-readonly ]; then
+  die "SteamOS is read-only. Do not run pacman. Choose Steam Deck in the guide: it installs 7-Zip for your user and leaves SteamOS alone."
+fi
+case " ${ID:-} ${ID_LIKE:-} " in *" arch "*|*" manjaro "*|*" endeavouros "*|*" cachyos "*) ;; *)
   note "This script is written for Manjaro but this looks like: ${PRETTY_NAME:-unknown}."
   confirm "Run it anyway?" || die "Cancelled. Nothing was changed."
   ;; esac
 if command -v curl >/dev/null 2>&1; then
-  curl -fsSI --max-time 15 https://api.github.com >/dev/null 2>&1 || die "Cannot reach api.github.com. Check your network and try again."
+  curl -fsSI -A "coop-linux-guide" --max-time 15 https://api.github.com >/dev/null 2>&1 || die "Cannot reach api.github.com. Check your network and try again."
 fi
 mkdir -p "$COOP_DIR"
 read -r _ _ _ FREE_KB _ < <(df -Pk "$COOP_DIR" | tail -n 1)
@@ -54,25 +67,51 @@ if [ "${FREE_KB:-0}" -lt 15000000 ]; then
 fi
 echo "Detected: ${PRETTY_NAME:-unknown Linux}."
 echo "Install folder: $COOP_DIR"
-note "Will run with sudo: pacman -Syu (curl 7zip python iproute2 steam); enables [multilib] if needed. pacman will ask you to confirm."
+note "Uses sudo only for packages that are not already installed."
 confirm "Continue?" || die "Cancelled. Nothing was changed."
 
 # ---- tools + Steam -----------------------------------------------------------
-say "Installing tools (sudo) - pacman will ask you to confirm"
-as_root pacman -Syu --needed curl 7zip python iproute2
-if have steam; then note "Steam is already installed."; else
+need_tools=0
+have curl || need_tools=1
+have python3 || need_tools=1
+have ss || need_tools=1
+{ have 7z || have 7zz || have 7za; } || need_tools=1
+if [ "$need_tools" = 1 ]; then
+  say "Installing missing tools (sudo). This does not upgrade the rest of the system."
+  as_root pacman -S --needed curl 7zip python iproute2
+else
+  note "curl, 7-Zip, python3 and ss are already installed."
+fi
+if steam_present; then note "Steam is already installed."; else
   say "Installing Steam (multilib, sudo)"
   if ! grep -q '^\[multilib\]' /etc/pacman.conf; then
     as_root sed -i '/^#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
     grep -q '^\[multilib\]' /etc/pacman.conf || printf '\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n' | as_root tee -a /etc/pacman.conf >/dev/null
   fi
-  as_root pacman -Syu --needed steam
+  as_root pacman -S --needed steam
 fi
 
 # ---- 2. 7-Zip (needed for the server archive) -------------------------------
 SEVENZ=""
 find_7z() { SEVENZ=""; for c in 7zz 7z 7za; do if have "$c"; then SEVENZ="$c"; return 0; fi; done; return 1; }
 find_7z || die "7-Zip is missing after install."
+# ---- 3. resolve + download + verify ----------------------------------------
+say "Finding the Co-op release"
+mkdir -p "$COOP_DIR/downloads"
+CACHED="$COOP_DIR/downloads/RESOLVED.txt"
+TAG=""
+if [ -z "${COOP_VERSION:-}" ] && [ -f "$CACHED" ]; then
+  IFS=$'\t' read -r TAG CLIENT_NAME CLIENT_URL CLIENT_SHA SERVER_NAME SERVER_URL SERVER_SHA <"$CACHED"
+  c_ok=0; s_ok=0
+  [ -n "$CLIENT_NAME" ] && [ -f "$COOP_DIR/downloads/$CLIENT_NAME" ] && printf '%s  %s\n' "$CLIENT_SHA" "$COOP_DIR/downloads/$CLIENT_NAME" | sha256sum --check --status && c_ok=1
+  [ -n "$SERVER_NAME" ] && [ -f "$COOP_DIR/downloads/$SERVER_NAME" ] && printf '%s  %s\n' "$SERVER_SHA" "$COOP_DIR/downloads/$SERVER_NAME" | sha256sum --check --status && s_ok=1
+  if [ "$c_ok" = 1 ] && { [ "$s_ok" = 1 ] || [ "${COOP_SKIP_SERVER:-0}" = 1 ]; }; then
+    note "Using the cached release $TAG (archives already verified)."
+  else
+    TAG=""
+  fi
+fi
+if [ -z "$TAG" ]; then
 # ---- 3. resolve + download + verify ----------------------------------------
 say "Finding the Co-op release"
 RESOLVED="$(python3 - "${COOP_VERSION:-}" <<'PY'
@@ -115,6 +154,9 @@ print("\t".join([tag, *found["client"], *found["server"]]))
 PY
 )" || die "Could not resolve the Co-op release."
 IFS=$'\t' read -r TAG CLIENT_NAME CLIENT_URL CLIENT_SHA SERVER_NAME SERVER_URL SERVER_SHA <<<"$RESOLVED"
+  printf '%s\n' "$RESOLVED" > "$CACHED"
+fi
+
 say "Co-op release $TAG"
 mkdir -p "$COOP_DIR/downloads"
 fetch() {  # fetch NAME URL SHA  (resumes, verifies, skips when already good)
@@ -167,7 +209,7 @@ set -euo pipefail
 COOP_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SERVER_DIR="$COOP_HOME/server"
 DATA_DIR="$COOP_HOME/server-data"   # config, saves and logs live here (not inside the Proton prefix)
-for d in "$HOME/.local/share/Steam" "$HOME/.steam/steam" "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam"; do
+for d in "$HOME/.local/share/Steam" "$HOME/.steam/steam" "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam" "$HOME/snap/steam/common/.local/share/Steam" "$HOME/snap/steam/common/.steam/steam"; do
   [ -d "$d/steamapps" ] && STEAMROOT="$d" && break
 done
 : "${STEAMROOT:?Steam library not found. Start Steam once and install Bannerlord, then try again.}"
@@ -196,7 +238,7 @@ fi
 
 # ---- 7. summary -----------------------------------------------------------------
 GAME_MODULES=""
-for d in "$HOME/.local/share/Steam" "$HOME/.steam/steam" "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam"; do
+for d in "$HOME/.local/share/Steam" "$HOME/.steam/steam" "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam" "$HOME/snap/steam/common/.local/share/Steam" "$HOME/snap/steam/common/.steam/steam"; do
   [ -d "$d/steamapps/common/Mount & Blade II Bannerlord/Modules" ] && GAME_MODULES="$d/steamapps/common/Mount & Blade II Bannerlord/Modules" && break
 done
 say "Done. Co-op $TAG is ready in $COOP_DIR"
@@ -205,7 +247,8 @@ cat <<SUMMARY
 Still to do by hand (the script cannot do these for you):
   1. Steam: log in, own Bannerlord, install it, and run it once so Proton creates its prefix.
   2. Mod: enable Co-op in the Bannerlord launcher - subscribe on the Steam Workshop (official), or copy
-     $COOP_DIR/client-module/Coop into ${GAME_MODULES:-"<Bannerlord folder>/Modules"}/ (same release $TAG for every player).
+     $COOP_DIR/client-module/Coop into ${GAME_MODULES:-"<Bannerlord folder>/Modules"}/. Keep Birth and Aging and Fast Mode off.
+     Coop v0.1.8 added War Sails support on 22 Nov 2026. Every player must match the game build, Coop release $TAG, and the DLC.
   3. First server start: run  $COOP_DIR/start-server.sh  in a terminal, read the EULA and answer yourself.
      Then stop it, edit $COOP_DIR/server-data/server-config.json (port, password, saveName) and start it again.
   4. Router: forward UDP 4200-4201 to this PC if players join over the internet (CGNAT can block this).

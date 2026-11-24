@@ -39,7 +39,7 @@ const mobileLinks = [
 ] as const;
 
 /** Closed navigation that matches the site header, without loading its client bundle. */
-export async function LinuxHeader({ t, locale, path }: { t: Translate; locale: Locale; path: string }) {
+export async function LinuxHeader({ t, locale, path, englishPreview = false }: { t: Translate; locale: Locale; path: string; englishPreview?: boolean }) {
     let isAuthenticated = false;
     let isAdmin = false;
     let accountName = t("account.defaultName");
@@ -82,7 +82,7 @@ export async function LinuxHeader({ t, locale, path }: { t: Translate; locale: L
                     </ul>
                 </nav>
                 <div className="hidden shrink-0 items-center gap-3 xl:flex">
-                    <LocaleMenu t={t} locale={locale} path={path} variant="desktop" />
+                    {englishPreview ? null : <LocaleMenu t={t} locale={locale} path={path} variant="desktop" />}
                     <DownloadMenu t={t} />
                     <span aria-hidden="true" className="h-9 w-0.5 shrink-0 bg-foreground-muted/20" />
                     {isAuthenticated ? <ProfileMenu t={t} accountName={accountName} isAdmin={isAdmin} /> : (
@@ -93,7 +93,7 @@ export async function LinuxHeader({ t, locale, path }: { t: Translate; locale: L
                 </div>
                 <div className="flex items-center gap-2 xl:hidden">
                     {isAuthenticated && <ProfileMenu t={t} accountName={accountName} isAdmin={isAdmin} />}
-                    <MobileMenu t={t} locale={locale} path={path} isAdmin={isAdmin} isAuthenticated={isAuthenticated} />
+                    <MobileMenu t={t} locale={locale} path={path} isAdmin={isAdmin} isAuthenticated={isAuthenticated} englishPreview={englishPreview} />
                 </div>
             </div>
         </header>
@@ -268,7 +268,7 @@ function ProfileMenu({ t, accountName, isAdmin }: { t: Translate; accountName: s
 }
 
 /** Phone drawer. Closed, only the round button is on screen. */
-function MobileMenu({ t, locale, path, isAdmin, isAuthenticated }: { t: Translate; locale: Locale; path: string; isAdmin: boolean; isAuthenticated: boolean }) {
+function MobileMenu({ t, locale, path, isAdmin, isAuthenticated, englishPreview }: { t: Translate; locale: Locale; path: string; isAdmin: boolean; isAuthenticated: boolean; englishPreview: boolean }) {
     return (
         <details className="linux-menu">
             <summary className={`${summaryReset} relative z-60 flex size-10 items-center justify-center rounded-full border border-white/20 text-foreground transition-colors duration-300 hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background`} aria-label={t("nav.open")}>
@@ -292,7 +292,7 @@ function MobileMenu({ t, locale, path, isAdmin, isAuthenticated }: { t: Translat
                         </ul>
                     </nav>
                     <div className="mt-auto grid gap-3 pt-8">
-                        <LocaleMenu t={t} locale={locale} path={path} variant="mobile" />
+                        {englishPreview ? null : <LocaleMenu t={t} locale={locale} path={path} variant="mobile" />}
                         <a href="https://discord.gg/bannerlordcoop" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center rounded-sm border border-white/20 font-label text-sm font-semibold uppercase tracking-[0.14em] text-foreground">Discord</a>
                         {!isAuthenticated && <a href="/login" className="inline-flex min-h-12 items-center justify-center rounded-sm border border-crimson bg-transparent font-label text-sm font-semibold uppercase tracking-[0.14em] text-foreground">{t("nav.signIn")}</a>}
                     </div>

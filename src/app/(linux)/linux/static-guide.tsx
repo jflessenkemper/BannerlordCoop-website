@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- anchors keep the client link runtime off these pages */
 import { JsonLd, SITE_URL, organizationNode } from "@/app/lib/structured-data";
 import { getLocale, getTranslations } from "@/app/lib/localization/server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import distroData from "./content/distros.json";
 import { resolveLocale } from "@/app/lib/localization/registry";
-import { checklistSections, ONESHOT_SECTION, routeLabels, routePath, sectionsById, showsDistroChip, WIZARD_STEPS, wizardCrumb, wizardNeighbors, type Distro, type GuideRoute, type WizardStep } from "./guide-model";
+import { checklistSections, ONESHOT_SECTION, routeLabels, routePath, sectionsById, showsDistroChip, wizardFlowFor, wizardNeighbors, wizardSteps, type Distro, type GuideRoute, type WizardFlow, type WizardStep } from "./guide-model";
 import { choiceCard, goldButton, pageFrame, primaryButton, titleClass } from "./guide-styles";
 import { LinuxFooter, LinuxHeader } from "./linux-chrome";
 import "./linux-guide.css";
@@ -52,7 +52,7 @@ function known(id: string | null): string | null {
 }
 
 /** Server render of the three pages that must paint before the client runtime loads. */
-export async function renderStaticLinux(view: "start" | "faq" | "distro" | "checklist" | "script" | "done" | "step", path: string, title: string, description: string, options?: { step?: WizardStep; resume?: string | null; locale?: string }) {
+export async function renderStaticLinux(view: "start" | "faq" | "distro" | "checklist" | "script" | "done" | "step", path: string, title: string, description: string, options?: { step?: WizardStep; resume?: string | null; locale?: string; flow?: WizardFlow }) {
     const locale = resolveLocale(options?.locale ?? await getLocale());
     const common = await getTranslations("common", locale);
     const linux = await getTranslations("linux", locale);
@@ -60,6 +60,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
     const selectedId = known((await cookies()).get("blc-distro-v1")?.value ?? null);
     const selected = distros.find((distro) => distro.id === selectedId) ?? null;
     const step = options?.step;
+    const flow: WizardFlow = step ? wizardFlowFor(step, options?.flow) : "manual";
     const route: GuideRoute = view === "faq" ? { view: "manual", section: "faq" }
         : view === "script" ? { view: "manual", section: ONESHOT_SECTION }
         : view === "checklist" ? { view: "manual" }
@@ -67,7 +68,8 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
         : view === "step" && step ? { view: "wizard", step }
         : view === "distro" ? { view: "distro" }
         : { view: "start" };
-    const labels = routeLabels(route, t);
+    const labels = routeLabels(route, t, flow);
+    const activeSteps = route.view === "wizard" ? wizardSteps(flow) : [];
     const canDistro = showsDistroChip(route, selectedId ?? "pending");
     const herePath = guideHref(locale, path);
     resetGuideIds();
@@ -95,7 +97,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                     ],
                 }}
             />
-            {await LinuxHeader({ t: common.t, locale, path })}
+            {await LinuxHeader({ t: common.t, locale, path, englishPreview: (await headers()).get("x-blc-preview") === "en" })}
             <main id="linux-guide" className="linux-guide relative isolate w-full min-w-0 flex-1 text-foreground" aria-label={t("ui.guideContent")}>
                 {view !== "start" && (
                     <nav className={`linux-subnav sticky top-0 z-30 border-b border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[8px]${canDistro ? " can-distro has-distro" : ""}`} aria-label={t("ui.guide")}>
@@ -106,23 +108,21 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                                     <span>{t("ui.menu")}</span>
                                 </a>
                                 <span className="subnav-sep" aria-hidden="true" />
-                                <CrumbHere here={labels.here} />
                             </div>
                             {canDistro ? (
                                 <div className="flex min-w-0 max-w-full items-center justify-self-end" role="group" aria-label={t("nav.dYour").replace(/[:：]\s*$/, "")}>
                                     {distros.map((distro) => (
-                                        <span key={distro.id} className="distro-chip items-center gap-2" data-for={distro.id} style={{ ["--d" as string]: distro.color, ["--ig" as string]: distro.glyph }}>
+                                        <a key={distro.id} rel="prefetch" className="distro-chip subnav-distro inline-flex min-h-12 items-center gap-2 border-l border-white/15 px-2 no-underline" data-for={distro.id} style={{ ["--d" as string]: distro.color, ["--ig" as string]: distro.glyph }} href={`${guideHref(locale, "/linux/distro")}?resume=${encodeURIComponent(herePath)}`} aria-label={`${t(distro.nameKey)} — change distro`}>
                                             <span className={`subnav-mark inline-grid h-6 w-6 place-items-center ${distro.art ? "is-art overflow-hidden" : ""}`} style={distro.art ? undefined : { backgroundColor: `rgb(${distro.color})` }} aria-hidden="true" dangerouslySetInnerHTML={{ __html: scopeSvg(distro.svg, "subnav") }} />
                                             <strong className="subnav-distro-name max-w-44 truncate font-label text-base font-semibold" style={{ color: readableNameTint(distro.color) }}>{t(distro.nameKey)}</strong>
-                                            <a rel="prefetch" className="subnav-change inline-flex min-h-12 items-center border-0 border-l border-white/15 bg-transparent px-2 font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold no-underline" href={`${guideHref(locale, "/linux/distro")}?resume=${encodeURIComponent(herePath)}`}>{t("nav.dChange")}</a>
-                                        </span>
+                                        </a>
                                     ))}
                                 </div>
                             ) : null}
                         </div>
                         {route.view === "wizard" && (
-                            <div className="h-1 bg-transparent" role="progressbar" aria-label={labels.progress} aria-valuemin={1} aria-valuemax={WIZARD_STEPS.length} aria-valuenow={WIZARD_STEPS.indexOf(route.step) + 1} aria-valuetext={labels.progress}>
-                                <span className="block h-full bg-gold" style={{ width: `${((WIZARD_STEPS.indexOf(route.step) + 1) / WIZARD_STEPS.length) * 100}%` }} />
+                            <div className="h-1 bg-transparent" role="progressbar" aria-label={labels.progress} aria-valuemin={1} aria-valuemax={activeSteps.length} aria-valuenow={activeSteps.indexOf(route.step) + 1} aria-valuetext={labels.progress}>
+                                <span className="block h-full bg-gold" style={{ width: `${((activeSteps.indexOf(route.step) + 1) / activeSteps.length) * 100}%` }} />
                             </div>
                         )}
                     </nav>
@@ -137,7 +137,7 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
                         </div>
                     </section>
                 )}
-                {view === "step" && step && <StaticStep t={t} locale={locale} step={step} distro={selected} nextLabel={labels.nextLabel} />}
+                {view === "step" && step && <StaticStep t={t} locale={locale} step={step} distro={selected} nextLabel={labels.nextLabel} flow={flow} />}
                 {view === "done" && <StaticDone t={t} locale={locale} />}
                 {view === "faq" && (
                     <section aria-labelledby="manual-title">
@@ -150,23 +150,10 @@ export async function renderStaticLinux(view: "start" | "faq" | "distro" | "chec
             <LinuxFooter t={common} locale={locale} year={common.number(new Date().getUTCFullYear(), { useGrouping: false })} />
             <script
                 dangerouslySetInnerHTML={{
-                    __html: `document.addEventListener("submit",function(e){var form=e.target;if(!form||!form.classList||!form.classList.contains("distro-choice"))return;var pick=form.querySelector("input[name=pick]");if(!pick)return;e.preventDefault();var id=pick.value;try{document.cookie="blc-distro-v1="+encodeURIComponent(id)+"; Path=/; Max-Age=31536000; SameSite=Lax"}catch(err){}try{localStorage.setItem("blc-distro-v1",id)}catch(err){}var resume=form.querySelector("input[name=resume]");var next=resume&&resume.value&&resume.value.charAt(0)==="/"?resume.value:location.pathname;location.assign(next)},true);var picked=document.documentElement.getAttribute("data-distro");if(picked){document.querySelectorAll("[data-pick]").forEach(function(form){var button=form.querySelector("button");if(button)button.setAttribute("aria-pressed",form.getAttribute("data-pick")===picked?"true":"false")})}var resumeNow=new URLSearchParams(location.search).get("resume")||"";if(resumeNow.charAt(0)==="/"&&resumeNow.indexOf("//")<0){document.querySelectorAll("form.distro-choice").forEach(function(form){if(form.querySelector("input[name=resume]"))return;var input=document.createElement("input");input.type="hidden";input.name="resume";input.value=resumeNow;form.appendChild(input)})}document.addEventListener("click",function(e){var b=e.target&&e.target.closest?e.target.closest("[data-copy]"):null;if(!b)return;var pre=document.getElementById(b.getAttribute("data-copy"));var text=pre?(pre.getAttribute("data-raw")||pre.textContent||""):"";var ok=b.getAttribute("data-copied");var fail=b.getAttribute("data-failed");function done(label,reset){b.textContent=label;setTimeout(function(){b.textContent=b.getAttribute("data-label")},reset)}if(!text||!navigator.clipboard){done(fail,Number(b.getAttribute("data-reset-fail"))||4000);return}navigator.clipboard.writeText(text).then(function(){done(ok,Number(b.getAttribute("data-reset-ok"))||2200)},function(){done(fail,Number(b.getAttribute("data-reset-fail"))||4000)})});function termButton(node){return node&&node.closest?node.closest("[data-term]"):null}function termPop(button){return document.getElementById(button.getAttribute("aria-controls")||"")}function placeTerm(button){var pop=termPop(button);if(!pop)return;var margin=8;pop.style.position="fixed";pop.style.maxWidth="min(22rem, calc(100vw - 16px))";pop.style.left="0px";pop.style.top="0px";var width=pop.offsetWidth;var height=pop.offsetHeight;var rect=button.getBoundingClientRect();var left=Math.min(Math.max(margin, rect.left), window.innerWidth-width-margin);var top=rect.bottom+margin;if(top+height>window.innerHeight-margin)top=Math.max(margin, rect.top-height-margin);if(top<margin)top=margin;pop.style.left=left+"px";pop.style.top=top+"px"}function openTerm(button){var pop=termPop(button);if(pop&&pop.showPopover&&!pop.matches(":popover-open"))pop.showPopover();button.setAttribute("aria-expanded","true");placeTerm(button)}var termHover=false;document.addEventListener("pointerover",function(e){if(e.pointerType&&e.pointerType!=="mouse")return;var b=termButton(e.target);if(!b)return;openTerm(b);termHover=true});document.addEventListener("focusin",function(e){var b=termButton(e.target);if(b)openTerm(b)});document.addEventListener("click",function(e){var b=termButton(e.target);if(!b||!termHover)return;termHover=false;if(e.pointerType==="touch"||e.pointerType==="pen")return;e.preventDefault()},true);document.addEventListener("toggle",function(e){var pop=e.target;if(!pop||!pop.matches||!pop.matches("[popover]")||!pop.id)return;var open=pop.matches(":popover-open");var btn=document.querySelector('[aria-controls="'+pop.id+'"]');if(btn){btn.setAttribute("aria-expanded",open?"true":"false");if(open)placeTerm(btn)}},true);addEventListener("scroll",function(){var open=document.querySelector("[popover]:popover-open");if(!open||!open.id)return;var btn=document.querySelector('[aria-controls="'+open.id+'"]');if(btn)placeTerm(btn)},true);addEventListener("resize",function(){var open=document.querySelector("[popover]:popover-open");if(!open||!open.id)return;var btn=document.querySelector('[aria-controls="'+open.id+'"]');if(btn)placeTerm(btn)});document.addEventListener("keydown",function(e){if(e.key!=="Escape")return;var open=document.querySelector("[popover]:popover-open");if(!open||!open.id)return;var id=open.id;if(open.hidePopover)open.hidePopover();var btn=document.querySelector('[aria-controls="'+id+'"]');if(btn&&btn.focus)btn.focus()});function openLinkedStage(){var raw=(location.hash||"").slice(1);if(!raw)return;var el=document.getElementById(decodeURIComponent(raw));if(!el)return;var node=el;while(node){if(node.tagName==="DETAILS")node.open=true;node=node.parentElement}document.documentElement.style.scrollBehavior="auto";requestAnimationFrame(function(){el.scrollIntoView()})}openLinkedStage();addEventListener("hashchange",openLinkedStage);var fold=document.querySelector(".linux-fold");if(fold){function stageList(){return [].slice.call(document.querySelectorAll("details.linux-stage"))}function syncFold(){var anyClosed=stageList().some(function(stage){return !stage.open});fold.textContent=anyClosed?fold.getAttribute("data-expand"):fold.getAttribute("data-collapse")}fold.addEventListener("click",function(){fold.setAttribute("aria-pressed","true");var stages=stageList();var open=stages.some(function(stage){return !stage.open});setTimeout(function(){stages.forEach(function(stage){stage.open=open});syncFold()},0)});document.addEventListener("toggle",function(e){if(e.target&&e.target.classList&&e.target.classList.contains("linux-stage"))syncFold()});syncFold()}`,
+                    __html: `function fillDistroScripts(){var id=document.documentElement.getAttribute("data-distro")||"";var family=document.documentElement.getAttribute("data-family")||"";document.querySelectorAll("pre[data-src]").forEach(function(pre){var panel=pre.closest(".distro-panel");if(panel){var token=panel.getAttribute("data-for")||"";var ok=token.split(/\\s+/).indexOf("script-"+id)>=0||(family&&token.split(/\\s+/).indexOf("family-"+family)>=0);if(!ok)return}if(pre.getAttribute("data-filled")==="1")return;fetch(pre.getAttribute("data-src")).then(function(response){return response.text()}).then(function(text){pre.setAttribute("data-raw",text);var code=pre.querySelector("code");if(code)code.textContent=text;pre.setAttribute("data-filled","1")})})}fillDistroScripts();new MutationObserver(fillDistroScripts).observe(document.documentElement,{attributes:true,attributeFilter:["data-distro","data-family"]});document.addEventListener("submit",function(e){var form=e.target;if(!form||!form.classList||!form.classList.contains("distro-choice"))return;var pick=form.querySelector("input[name=pick]");if(!pick)return;e.preventDefault();var id=pick.value;try{document.cookie="blc-distro-v1="+encodeURIComponent(id)+"; Path=/; Max-Age=31536000; SameSite=Lax"}catch(err){}try{localStorage.setItem("blc-distro-v1",id)}catch(err){}var resume=form.querySelector("input[name=resume]");var next=resume&&resume.value&&resume.value.charAt(0)==="/"?resume.value:location.pathname;location.assign(next)},true);var picked=document.documentElement.getAttribute("data-distro");if(picked){document.querySelectorAll("[data-pick]").forEach(function(form){var button=form.querySelector("button");if(button)button.setAttribute("aria-pressed",form.getAttribute("data-pick")===picked?"true":"false")})}var resumeNow=new URLSearchParams(location.search).get("resume")||"";if(resumeNow.charAt(0)==="/"&&resumeNow.indexOf("//")<0){document.querySelectorAll("form.distro-choice").forEach(function(form){if(form.querySelector("input[name=resume]"))return;var input=document.createElement("input");input.type="hidden";input.name="resume";input.value=resumeNow;form.appendChild(input)})}document.addEventListener("click",function(e){var b=e.target&&e.target.closest?e.target.closest("[data-copy]"):null;if(!b)return;var pre=document.getElementById(b.getAttribute("data-copy"));var text=pre?(pre.getAttribute("data-raw")||pre.textContent||""):"";var ok=b.getAttribute("data-copied");var fail=b.getAttribute("data-failed");function done(label,reset){b.textContent=label;setTimeout(function(){b.textContent=b.getAttribute("data-label")},reset)}if(!text||!navigator.clipboard){done(fail,Number(b.getAttribute("data-reset-fail"))||4000);return}navigator.clipboard.writeText(text).then(function(){done(ok,Number(b.getAttribute("data-reset-ok"))||2200)},function(){done(fail,Number(b.getAttribute("data-reset-fail"))||4000)})});function termButton(node){return node&&node.closest?node.closest("[data-term]"):null}function termPop(button){return document.getElementById(button.getAttribute("aria-controls")||"")}function placeTerm(button){var pop=termPop(button);if(!pop)return;var margin=8;pop.style.position="fixed";pop.style.maxWidth="min(22rem, calc(100vw - 16px))";pop.style.left="0px";pop.style.top="0px";var width=pop.offsetWidth;var height=pop.offsetHeight;var rect=button.getBoundingClientRect();var left=Math.min(Math.max(margin, rect.left), window.innerWidth-width-margin);var top=rect.bottom+margin;if(top+height>window.innerHeight-margin)top=Math.max(margin, rect.top-height-margin);if(top<margin)top=margin;pop.style.left=left+"px";pop.style.top=top+"px"}function openTerm(button){var pop=termPop(button);if(pop&&pop.showPopover&&!pop.matches(":popover-open"))pop.showPopover();button.setAttribute("aria-expanded","true");placeTerm(button)}var termHover=false;document.addEventListener("pointerover",function(e){if(e.pointerType&&e.pointerType!=="mouse")return;var b=termButton(e.target);if(!b)return;openTerm(b);termHover=true});document.addEventListener("focusin",function(e){var b=termButton(e.target);if(b)openTerm(b)});document.addEventListener("click",function(e){var b=termButton(e.target);if(!b||!termHover)return;termHover=false;if(e.pointerType==="touch"||e.pointerType==="pen")return;e.preventDefault()},true);document.addEventListener("toggle",function(e){var pop=e.target;if(!pop||!pop.matches||!pop.matches("[popover]")||!pop.id)return;var open=pop.matches(":popover-open");var btn=document.querySelector('[aria-controls="'+pop.id+'"]');if(btn){btn.setAttribute("aria-expanded",open?"true":"false");if(open)placeTerm(btn)}},true);addEventListener("scroll",function(){var open=document.querySelector("[popover]:popover-open");if(!open||!open.id)return;var btn=document.querySelector('[aria-controls="'+open.id+'"]');if(btn)placeTerm(btn)},true);addEventListener("resize",function(){var open=document.querySelector("[popover]:popover-open");if(!open||!open.id)return;var btn=document.querySelector('[aria-controls="'+open.id+'"]');if(btn)placeTerm(btn)});document.addEventListener("keydown",function(e){if(e.key!=="Escape")return;var open=document.querySelector("[popover]:popover-open");if(!open||!open.id)return;var id=open.id;if(open.hidePopover)open.hidePopover();var btn=document.querySelector('[aria-controls="'+id+'"]');if(btn&&btn.focus)btn.focus()});function openLinkedStage(){var raw=(location.hash||"").slice(1);if(!raw)return;var el=document.getElementById(decodeURIComponent(raw));if(!el)return;var node=el;while(node){if(node.tagName==="DETAILS")node.open=true;node=node.parentElement}document.documentElement.style.scrollBehavior="auto";requestAnimationFrame(function(){el.scrollIntoView()})}openLinkedStage();addEventListener("hashchange",openLinkedStage);var fold=document.querySelector(".linux-fold");if(fold){function stageList(){return [].slice.call(document.querySelectorAll("details.linux-stage"))}function syncFold(){var anyClosed=stageList().some(function(stage){return !stage.open});fold.textContent=anyClosed?fold.getAttribute("data-expand"):fold.getAttribute("data-collapse")}fold.addEventListener("click",function(){fold.setAttribute("aria-pressed","true");var stages=stageList();var open=stages.some(function(stage){return !stage.open});setTimeout(function(){stages.forEach(function(stage){stage.open=open});syncFold()},0)});document.addEventListener("toggle",function(e){if(e.target&&e.target.classList&&e.target.classList.contains("linux-stage"))syncFold()});syncFold()}`,
                 }}
             />
         </>
-    );
-}
-
-/** Current place. A wizard step keeps its name when the path has to truncate. */
-function CrumbHere({ here }: { here: string }) {
-    const parts = wizardCrumb(here);
-    if (!parts) return <span className="subnav-here min-w-0 truncate font-semibold text-[#f4f1ea]" aria-current="page">{here}</span>;
-    return (
-        <span className="subnav-here flex min-w-0 items-baseline gap-1.5 font-semibold text-[#f4f1ea]" aria-current="page">
-            <span className="subnav-trail min-w-0 shrink truncate">{parts.trail}</span>
-            <span className="subnav-slash shrink-0" aria-hidden="true">/</span>
-            <span className="subnav-step min-w-0">{parts.step}</span>
-        </span>
     );
 }
 
@@ -178,14 +165,14 @@ function StaticStart({ t, locale }: { t: (key: string) => string; locale: string
                 <h1 id="start-title" tabIndex={-1} className={titleClass}>{t("ui.startTitle")}</h1>
                 <p className="mt-4 max-w-xl text-foreground">{t("ui.startSub")}</p>
                 <div className="guide-choices guide-choices-4 mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                    <a rel="prefetch" className={`${choiceCard} choice-recommended border-gold/60 no-underline`} href={guideHref(locale, "/linux/step/overview")}>
+                    <a rel="prefetch" className={`${choiceCard} choice-recommended border-gold/60 no-underline`} href={`${guideHref(locale, "/linux/step/terminal")}?flow=script`}>
                         <span className="font-label text-xs font-semibold uppercase tracking-[0.2em] text-gold">{t("ui.recommended")}</span>
-                        <strong className="mt-1 block font-display text-2xl font-semibold">{t("ui.stepByStep")}</strong>
-                        <span className="mt-2 text-foreground">{t("ui.walk")}</span>
+                        <strong className="mt-1 block font-display text-2xl font-semibold">{t("ui.oneScript")}</strong>
+                        <span className="mt-2 text-foreground">{t("ui.recommendedSub")}</span>
                     </a>
-                    <a rel="prefetch" className={`${choiceCard} no-underline`} href={guideHref(locale, "/linux/script")}>
-                        <strong className="block font-display text-2xl font-semibold">{t("ui.oneScript")}</strong>
-                        <span className="mt-2 text-foreground">{t("ui.oneScriptSub")}</span>
+                    <a rel="prefetch" className={`${choiceCard} no-underline`} href={guideHref(locale, "/linux/step/overview")}>
+                        <strong className="block font-display text-2xl font-semibold">{t("ui.stepByStep")}</strong>
+                        <span className="mt-2 text-foreground">{t("ui.walk")}</span>
                     </a>
                     <a rel="prefetch" className={`${choiceCard} no-underline`} href={guideHref(locale, "/linux/checklist")}>
                         <strong className="block font-display text-2xl font-semibold">{t("ui.fullChecklist")}</strong>
@@ -253,19 +240,24 @@ function StaticChecklist({ t, locale, distro }: { t: (key: string) => string; lo
     );
 }
 
-function StaticStep({ t, locale, step, distro, nextLabel }: { t: (key: string) => string; locale: string; step: WizardStep; distro: Distro | null; nextLabel: string }) {
+function stepHref(locale: string, step: WizardStep, flow: WizardFlow) {
+    const href = guideHref(locale, `/linux/step/${step}`);
+    return flow === "script" ? `${href}?flow=script` : href;
+}
+
+function StaticStep({ t, locale, step, distro, nextLabel, flow }: { t: (key: string) => string; locale: string; step: WizardStep; distro: Distro | null; nextLabel: string; flow: WizardFlow }) {
     const section = sectionsById.get(step);
     if (!section) return null;
-    const neighbors = wizardNeighbors(step);
+    const neighbors = wizardNeighbors(step, flow);
     return (
         <section aria-labelledby="wizard-title">
             <div className={`${pageFrame} wizard-copy py-12 pb-28 sm:py-16`}>
                 <StaticGuideSection section={section} t={t} distro={distro} wizard alone annotate={locale === "en"} />
             </div>
             <div className="linux-wizard-bar sticky bottom-0 z-20 flex flex-wrap items-stretch justify-center gap-2 px-3 py-3">
-                {neighbors.previous && <a rel="prefetch" className={`${goldButton} max-w-full shrink-0 px-2 text-xs no-underline sm:px-4 sm:text-sm`} href={guideHref(locale, routePath(neighbors.previous))}>{t("ui.previous")}</a>}
+                {neighbors.previous && <a rel="prefetch" className={`${goldButton} max-w-full shrink-0 px-2 text-xs no-underline sm:px-4 sm:text-sm`} href={neighbors.previous.view === "wizard" ? stepHref(locale, neighbors.previous.step, flow) : guideHref(locale, routePath(neighbors.previous))}>{t("ui.previous")}</a>}
                 <a rel="prefetch" className={`${goldButton} max-w-full shrink-0 px-2 text-xs no-underline sm:px-4 sm:text-sm`} href={`${guideHref(locale, "/linux/checklist")}#sec-troubleshooting`}>{t("ui.help")}</a>
-                <a rel="prefetch" className={`${primaryButton} max-w-full shrink-0 px-2 text-xs no-underline sm:px-4 sm:text-sm`} href={guideHref(locale, routePath(neighbors.next))}>{nextLabel}</a>
+                <a rel="prefetch" className={`${primaryButton} max-w-full shrink-0 px-2 text-xs no-underline sm:px-4 sm:text-sm`} href={neighbors.next.view === "wizard" ? stepHref(locale, neighbors.next.step, flow) : guideHref(locale, routePath(neighbors.next))}>{nextLabel}</a>
             </div>
         </section>
     );
@@ -277,6 +269,7 @@ function StaticDone({ t, locale }: { t: (key: string) => string; locale: string 
             <div className={pageFrame}>
                 <h1 id="done-title" tabIndex={-1} className={titleClass}>{t("ui.doneTitle")}</h1>
                 <p className="mt-4 max-w-xl text-foreground">{t("ui.doneBody")}</p>
+                <p className="mt-4 max-w-xl text-foreground">{t("ui.doneRecap")}</p>
                 <div className="mt-6 flex flex-wrap gap-3">
                     <a rel="prefetch" className={`${goldButton} no-underline`} href={`${guideHref(locale, "/linux/checklist")}#sec-troubleshooting`}>{t("section.troubleshooting.title")}</a>
                     <a rel="prefetch" className={`${primaryButton} no-underline`} href={guideHref(locale, "/linux/faq")}>{t("section.faq.title")}</a>

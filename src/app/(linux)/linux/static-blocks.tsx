@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Translator } from "@/app/lib/localization/types";
 import { FAQ_SECTION, sectionsById, type Block, type Distro, type GuideTab, type Inline, type Section } from "./guide-model";
 import { COPY_RESET_MS, cx, glassCard, goldButton, PARAGRAPH_ROLE_CLASS, primaryButton, sectionTitleClass } from "./guide-styles";
-import { codeMatchesDistro, englishCodeGroups, HAND_SECTIONS, HAND_SUMMARY, IF_COMMAND_STOPS, IF_IT_STOPS, IF_IT_STOPS_BODY, OPTIONAL_CODES, OPTIONAL_TIME, SKIP_IF_SCRIPT } from "./english-code";
+import { codeMatchesDistro, HAND_SECTIONS, HAND_SUMMARY, IF_COMMAND_STOPS, IF_IT_STOPS, IF_IT_STOPS_BODY, OPTIONAL_CODES, OPTIONAL_TIME, SKIP_IF_SCRIPT } from "./english-code";
 import manifest from "./content/scripts-manifest.json";
 import { highlight } from "./highlight";
 import { inlineVisible, isPunctuationJoin, needsBoundarySpace } from "./inline-flow";
@@ -86,7 +86,7 @@ function StepCards({ items, t }: { items: Inline[][]; t: Translate }) {
 }
 
 /** Renders guide blocks without a client component. */
-function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = false, flat = false }: { blocks: Block[]; t: Translate; distro?: Distro | null; alone?: boolean; annotate?: boolean; flat?: boolean }) {
+function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = false, flat = false, deferCode = false }: { blocks: Block[]; t: Translate; distro?: Distro | null; alone?: boolean; annotate?: boolean; flat?: boolean; deferCode?: boolean }) {
     return (
         <>
             {blocks.map((block, index) => {
@@ -190,7 +190,8 @@ function StaticBlocks({ blocks, t, distro = null, alone = false, annotate = fals
                             </div>
                         );
                     case "code":
-                        if (annotate && distro && !codeMatchesDistro(block.id, distro.id)) return null;
+                        if (annotate && distro && !codeMatchesDistro(block.id, distro.id) && !deferCode) return null;
+                        if (deferCode) return <StaticCode key={index} block={block} t={t} defer />;
                         if (annotate && OPTIONAL_CODES.has(block.id)) {
                             return (
                                 <details key={index} className={cx(glassCard, "my-2 px-4")}>
@@ -293,28 +294,25 @@ function publishedScript(id: string) {
     return entry ?? null;
 }
 
-/** A script listing with a copy button the page script wires up. */
-function StaticCode({ block, t, annotate = false }: { block: Extract<Block, { type: "code" }>; t: Translate; annotate?: boolean }) {
-    const source = scriptText(block.id);
-    const groups = annotate ? englishCodeGroups(block.id) : null;
-    const shown = groups ?? [{ title: "", body: source }];
+/** A script listing with a copy button the page script wires up. The copied text is the published file, with nothing added. */
+function StaticCode({ block, t, defer = false }: { block: Extract<Block, { type: "code" }>; t: Translate; annotate?: boolean; defer?: boolean }) {
+    const source = defer ? "" : scriptText(block.id);
     const copyClass = block.oneshot ? primaryButton : goldButton;
-    return shown.map((group, groupIndex) => (
-        <CodeFigure key={`${block.id}-${groupIndex}`} id={groupIndex === 0 ? block.id : `${block.id}-part-${groupIndex + 1}`} scriptId={block.id} title={group.title ? [{ t: "text" as const, k: "" }] : block.title} plainTitle={group.title} source={group.body} t={t} copyClass={copyClass} oneshot={block.oneshot} download={groupIndex === 0 ? block.download : undefined} langKey={block.langKey} showTrust={annotate && groupIndex === 0} />
-    ));
+    return <CodeFigure id={block.id} scriptId={block.id} title={block.title} plainTitle="" source={source} t={t} copyClass={copyClass} oneshot={block.oneshot} download={block.download} langKey={block.langKey} src={defer ? `/linux/scripts/${block.id}.sh` : undefined} />;
 }
 
-function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, oneshot, download, langKey, showTrust = false }: { id: string; scriptId: string; title: Inline[]; plainTitle: string; source: string; t: Translate; copyClass: string; oneshot?: boolean; download?: Extract<Block, { type: "code" }>["download"]; langKey: string; showTrust?: boolean }) {
-    const published = showTrust ? publishedScript(scriptId) : null;
+function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, oneshot, download, langKey, src }: { id: string; scriptId: string; title: Inline[]; plainTitle: string; source: string; t: Translate; copyClass: string; oneshot?: boolean; download?: Extract<Block, { type: "code" }>["download"]; langKey: string; src?: string }) {
+    const published = publishedScript(scriptId);
     const popoverId = `code-trust-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
     const marker = published ? (
-        <button type="button" className="code-trust-mark" aria-label={manifest.attestationUrl ? "How this published script is signed" : "How to check this published script"} aria-controls={popoverId} popoverTarget={popoverId} popoverTargetAction="toggle" data-script-id={scriptId} data-sha256={published.sha256}>
+        <button type="button" className="code-trust-mark no-underline" aria-label="Verified by VirusTotal" aria-controls={popoverId} popoverTarget={popoverId} popoverTargetAction="toggle" data-script-id={scriptId} data-sha256={published.sha256}>
             <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8.5 6.2 12 13 4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            <span>Verified by VirusTotal</span>
         </button>
-    ) : showTrust ? <span className="code-trust">Read before running</span> : null;
+    ) : null;
     const trustPopover = published ? (
-        <div id={popoverId} popover="auto" role="dialog" className="code-trust-pop" aria-label="How to verify this script">
-            <p className="code-trust">Read before running</p>
+        <div id={popoverId} popover="auto" role="dialog" className="code-trust-pop" aria-label="Verified by VirusTotal">
+            <p className="code-trust">Verified by VirusTotal</p>
             {manifest.attestationUrl ? <p><a className="text-gold underline underline-offset-4" href={manifest.attestationUrl} data-attestation>Signed by the Coop website repo</a></p> : null}
             <p><a className="text-gold underline underline-offset-4" href={published.virusTotalUrl} data-virustotal>Scanned on VirusTotal</a></p>
             <p className="code-trust">How to verify</p>
@@ -325,7 +323,7 @@ function CodeFigure({ id, scriptId, title, plainTitle, source, t, copyClass, one
     ) : null;
     const caption = plainTitle || <StaticInline nodes={title} t={t} />;
     const listing = (
-        <pre id={id} tabIndex={0} data-raw={source} className={cx("linux-code m-0 overflow-x-hidden bg-surface p-4 font-mono text-[0.92rem] leading-normal text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold", oneshot && "max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-auto")}>
+        <pre id={id} tabIndex={0} data-raw={source} data-src={src} className={cx("linux-code m-0 overflow-x-hidden bg-surface p-4 font-mono text-[0.92rem] leading-normal text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold", oneshot && "max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-auto")}>
             <code>{highlight(source, t(langKey)).map((token, index) => <span key={index} className={`tok-${token.kind}`}>{token.text}</span>)}</code>
         </pre>
     );
@@ -406,19 +404,20 @@ function StaticTabs({ block, t, distro, alone, annotate = false }: { block: Extr
     const id = `tabg-${tabGroupSerial += 1}`;
     const selective = block.tabs.some((tab) => tab.script || tab.families);
     if (selective) {
-        const tabs = distro ? block.tabs.filter((tab) => tabMatches(tab, distro, true)) : block.tabs;
-        return (
-            <div>
-                {tabs.map((tab) => {
-                    const token = [tab.script ? `script-${tab.script}` : "", ...(tab.families ?? []).map((family) => `family-${family}`)].filter(Boolean).join(" ");
-                    return (
-                        <div key={tab.labelKey} className="distro-panel" data-for={token || "all"} role="group" aria-label={t(tab.labelKey)}>
-                            <StaticBlocks blocks={tab.blocks} t={t} distro={distro} alone={alone} annotate={annotate} />
-                        </div>
-                    );
-                })}
-            </div>
-        );
+    const tabs = block.tabs;
+    return (
+        <div>
+            {tabs.map((tab) => {
+                const token = [tab.script ? `script-${tab.script}` : "", ...(tab.families ?? []).map((family) => `family-${family}`)].filter(Boolean).join(" ");
+                const active = !distro || tabMatches(tab, distro, true);
+                return (
+                    <div key={tab.labelKey} className="distro-panel" data-for={token || "all"} role="group" aria-label={t(tab.labelKey)}>
+                        <StaticBlocks blocks={tab.blocks} t={t} distro={distro} alone={alone} annotate={annotate} deferCode={!active} />
+                    </div>
+                );
+            })}
+        </div>
+    );
     }
     const visible = block.tabs.filter((tab) => tabMatches(tab, distro, false));
     return (

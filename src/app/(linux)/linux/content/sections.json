@@ -434,25 +434,7 @@
               ]
             }
           ],
-          "recover": "script",
-          "extra": [
-            {
-              "type": "sectionRefs",
-              "when": "alone",
-              "ids": [
-                "variables",
-                "deps",
-                "steam",
-                "download"
-              ],
-              "summary": [
-                {
-                  "t": "text",
-                  "k": "section.terminal.b4.summary.0"
-                }
-              ]
-            }
-          ]
+          "recover": "script"
         }
       ]
     },
@@ -788,6 +770,15 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.configure.steamChoice"
+                }
+              ]
             }
           ],
           "recover": true
@@ -928,6 +919,17 @@
                               ]
                             }
                           ]
+                        },
+                        {
+                          "type": "code",
+                          "id": "code-wine-launch-1100646",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.launch.wineScript"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
                         }
                       ]
                     },
@@ -1043,7 +1045,18 @@
               "langKey": "code.lang.Bash"
             }
           ],
-          "recover": true
+          "recover": true,
+          "before": [
+            {
+              "type": "p",
+              "c": [
+                {
+                  "t": "text",
+                  "k": "section.launch.dataFallback"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1083,7 +1096,8 @@
                           ],
                           "langKey": "code.lang.Bash"
                         }
-                      ]
+                      ],
+                      "families": ["debian", "arch", "other"]
                     },
                     {
                       "labelKey": "section.firewall.b0.tab1",
@@ -1099,7 +1113,8 @@
                           ],
                           "langKey": "code.lang.Bash"
                         }
-                      ]
+                      ],
+                      "families": ["fedora", "suse", "immutable", "arch", "other"]
                     },
                     {
                       "labelKey": "section.firewall.b0.tab2",
@@ -1115,7 +1130,42 @@
                           ],
                           "langKey": "code.lang.Bash"
                         }
-                      ]
+                      ],
+                      "families": ["other"]
+                    },
+                    {
+                      "labelKey": "section.steam.b1.tab5",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-firewall-deck-4200",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.steam.b1.tab5"
+                            }
+                          ],
+                          "langKey": "code.lang.Bash"
+                        }
+                      ],
+                      "families": ["deck"]
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab9",
+                      "blocks": [
+                        {
+                          "type": "code",
+                          "id": "code-firewall-nix-4200",
+                          "title": [
+                            {
+                              "t": "text",
+                              "k": "section.terminal.b1.tab9"
+                            }
+                          ],
+                          "langKey": "code.lang.Nix"
+                        }
+                      ],
+                      "families": ["nix"]
                     }
                   ]
                 }
@@ -3765,7 +3815,7 @@
                       "k": "section.variables.b1.label.2"
                     }
                   ],
-                  "placeholder": "$HOME/Games/BannerlordCoop-DedicatedServer"
+                  "placeholder": "$HOME/Games/BannerlordCoop/server"
                 }
               ]
             }

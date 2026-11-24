@@ -18,7 +18,7 @@ const base = (process.argv[2] || "http://127.0.0.1:8791").replace(/\/$/, "");
 const only = process.argv[3] || "";
 const root = join(process.cwd(), "tmp-linux-export");
 const exportRoot = process.env.LINUX_EXPORT || "/tmp/linux-preview-site";
-const routes = ["", "/faq", "/distro", "/checklist", "/script", "/done", "/step/overview", "/step/terminal", "/step/configure", "/step/launch", "/step/firewall", "/step/service", "/step/client", "/step/backups"];
+const routes = ["", "/faq", "/distro", "/checklist", "/script", "/done", "/step/overview", "/step/terminal", "/step/deps", "/step/steam", "/step/download", "/step/configure", "/step/launch", "/step/firewall", "/step/service", "/step/client", "/step/backups"];
 const failures = [];
 
 function fail(check, detail) {
@@ -331,7 +331,7 @@ async function check21to24(browser) {
     if (!skip(24)) {
         const page = await context.newPage();
         await page.setViewportSize({ width: 1280, height: 800 });
-        await page.goto(url("/step/terminal"), { waitUntil: "domcontentloaded" });
+        await page.goto(url("/step/download"), { waitUntil: "domcontentloaded" });
         await page.waitForFunction(() => document.documentElement.classList.contains("linux-ready"));
         await page.waitForTimeout(300);
         const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();

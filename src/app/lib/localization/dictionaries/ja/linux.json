@@ -346,6 +346,8 @@
   "section.configure.kicker": "ステップ 7",
   "section.configure.title": "サーバーを設定",
   "section.configure.sub": "最小限の server-config.json。",
+  "section.configure.steamChoice": "In ~/Games/BannerlordCoop/server-data/server-config.json, \"steam\": true uses a Steam lobby and avoids port forwarding while you are signed into Steam. \"steam\": false is a direct IP and needs UDP 4200. If you launch by hand without --data-dir, the file can instead appear under the Proton prefix at compatdata/261550/pfx/drive_c/users/steamuser/Documents/Mount and Blade II Bannerlord/CoopData/DedicatedServer/server-config.json.",
+  "section.launch.dataFallback": "The normal config path is ~/Games/BannerlordCoop/server-data/server-config.json because start-server.sh passes --data-dir. The Proton compatdata/261550 Documents path is only a fallback when you launch without --data-dir.",
   "section.configure.b0.title": "ライセンスは自分で同意する",
   "section.configure.b0.b0.0": "最初の起動で EULA.md と LICENSE.txt が表示され、次を尋ねます: ",
   "section.configure.b0.b0.2": "。自分で読み、自分で答えてください。自動で同意せず、他のサーバーの同意ファイルもコピーしないでください。答えるまで、動いているように見えても開いていないのは ",
@@ -395,6 +397,7 @@
   "section.launch.b1.tab1.b0.b0.9.0": "Debian 標準の Wine 8 は失敗しました",
   "section.launch.b1.tab1.b0.b0.10": " （SERVING の前、スタックオーバーフロー）。Wine 9 と 10 は未検証です。11.0 を、それより後のすべてが動く証拠とは読まないでください。優先するのは ",
   "section.launch.b1.tab1.b0.b0.12": " と、Steam が入っているときの Bannerlord の compatdata フォルダーです。",
+  "section.launch.wineScript": "Start the dedicated server with Wine",
   "section.launch.b1.tab2": "umu-launcher",
   "section.launch.b1.tab2.b0.title": "ここでは未検証",
   "section.launch.b1.tab2.b0.b0.0": "これはコマンドの形だけです。あなたの umu のバージョンのフラグを確認してください:",
@@ -589,5 +592,7 @@
   "ui.faq": "FAQ",
   "ui.doneTitle": "サーバーの準備ができました",
   "ui.doneBody": "このマシンでホストし、同じバージョンのクライアントから参加します。",
+  "ui.doneRecap": "Start the server with ~/Games/BannerlordCoop/start-server.sh. The config file is ~/Games/BannerlordCoop/server-data/server-config.json. With \"steam\": true, a Steam lobby avoids port forwarding while you are signed into Steam. With \"steam\": false, players use a direct IP and you must open UDP 4200. Every player needs the same game build, the same Coop release, and the same DLC.",
+  "ui.recommendedSub": "Paste one script, then finish by hand: Steam and one game launch, start-server.sh, accept the EULA, edit the config, restart, open UDP 4200 unless you use a Steam lobby, then join.",
   "ui.contents": "このページ"
 }

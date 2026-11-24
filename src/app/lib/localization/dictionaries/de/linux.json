@@ -346,6 +346,8 @@
   "section.configure.kicker": "Schritt 7",
   "section.configure.title": "Server konfigurieren",
   "section.configure.sub": "Minimale server-config.json.",
+  "section.configure.steamChoice": "In ~/Games/BannerlordCoop/server-data/server-config.json, \"steam\": true uses a Steam lobby and avoids port forwarding while you are signed into Steam. \"steam\": false is a direct IP and needs UDP 4200. If you launch by hand without --data-dir, the file can instead appear under the Proton prefix at compatdata/261550/pfx/drive_c/users/steamuser/Documents/Mount and Blade II Bannerlord/CoopData/DedicatedServer/server-config.json.",
+  "section.launch.dataFallback": "The normal config path is ~/Games/BannerlordCoop/server-data/server-config.json because start-server.sh passes --data-dir. The Proton compatdata/261550 Documents path is only a fallback when you launch without --data-dir.",
   "section.configure.b0.title": "Die Lizenz selbst annehmen",
   "section.configure.b0.b0.0": "Der erste Start gibt EULA.md und LICENSE.txt aus und fragt dann ",
   "section.configure.b0.b0.2": ". Lies sie und antworte selbst. Nicht automatisch annehmen und nicht die Annahmedatei eines anderen Servers kopieren. Bis du antwortest, kann der Prozess gesund aussehen und trotzdem keinen ",
@@ -395,6 +397,7 @@
   "section.launch.b1.tab1.b0.b0.9.0": "Debians Standard-Wine 8 ist gescheitert",
   "section.launch.b1.tab1.b0.b0.10": " vor SERVING (Stack Overflow). Wine 9 und 10 wurden nicht getestet, also lies 11.0 nicht als jede spätere Version. Nimm lieber ",
   "section.launch.b1.tab1.b0.b0.12": " und den Bannerlord-compatdata-Ordner, wenn Steam schon installiert ist.",
+  "section.launch.wineScript": "Start the dedicated server with Wine",
   "section.launch.b1.tab2": "umu-launcher",
   "section.launch.b1.tab2.b0.title": "Hier nicht geprüft",
   "section.launch.b1.tab2.b0.b0.0": "Das ist nur die Form des Befehls. Prüfe die Flags für deine umu-Version:",
@@ -589,5 +592,7 @@
   "ui.faq": "FAQ",
   "ui.doneTitle": "Der Server ist bereit",
   "ui.doneBody": "Starte den Server auf diesem Rechner und tritt mit einem passenden Client bei.",
+  "ui.doneRecap": "Start the server with ~/Games/BannerlordCoop/start-server.sh. The config file is ~/Games/BannerlordCoop/server-data/server-config.json. With \"steam\": true, a Steam lobby avoids port forwarding while you are signed into Steam. With \"steam\": false, players use a direct IP and you must open UDP 4200. Every player needs the same game build, the same Coop release, and the same DLC.",
+  "ui.recommendedSub": "Paste one script, then finish by hand: Steam and one game launch, start-server.sh, accept the EULA, edit the config, restart, open UDP 4200 unless you use a Steam lobby, then join.",
   "ui.contents": "Auf dieser Seite"
 }

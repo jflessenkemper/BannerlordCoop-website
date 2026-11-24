@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { isWizardStep, sectionsById } from "../../guide-model";
+import { isWizardStep, wizardFlowFor, sectionsById } from "../../guide-model";
 import { resolveLocale } from "@/app/lib/localization/registry";
 import { getTranslations } from "@/app/lib/localization/server";
 import { linuxDocument, pageLocale } from "../../static-document";
@@ -15,6 +15,7 @@ export async function GET(request: Request, context: { params: Promise<{ step: s
     const { t } = await getTranslations("linux", resolveLocale(locale));
     const title = t(sectionsById.get(step)?.titleKey ?? "metadata.title");
     const description = t("metadata.description");
-    const body = await renderStaticLinux("step", path, title, description, { step, locale });
+    const flow = wizardFlowFor(step, new URL(request.url).searchParams.get("flow"));
+    const body = await renderStaticLinux("step", path, title, description, { step, locale, flow });
     return linuxDocument(path, title, description, body, { locale, distroId: distro, needsDistro: true });
 }

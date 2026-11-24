@@ -1,28 +1,58 @@
 #!/usr/bin/env bash
-# Bash: export these four absolute paths from your verified manual launch first:
-# SERVER_DIR, PROTON, COOP_PREFIX (dedicated prefix), COOP_DATA_DIR.
-# COOP_SERVICE_UNIT and COOP_SERVICE_CONFIG can select isolated test names.
+# Installs a user systemd service. Paths default to ~/Games/BannerlordCoop.
 (
   set -euo pipefail
-  : "${SERVER_DIR:?Set the verified server folder}"
-  : "${PROTON:?Set the verified proton executable}"
-  : "${COOP_PREFIX:?Set a dedicated Proton prefix}"
-  : "${COOP_DATA_DIR:?Set the intended server data folder}"
+  SERVER_DIR="${SERVER_DIR:-$HOME/Games/BannerlordCoop/server}"
+  COOP_DATA_DIR="${COOP_DATA_DIR:-$HOME/Games/BannerlordCoop/server-data}"
+  if [ -z "${STEAMROOT:-}" ]; then
+    for d in "$HOME/.local/share/Steam" "$HOME/.steam/steam" "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam" "$HOME/snap/steam/common/.local/share/Steam" "$HOME/snap/steam/common/.steam/steam"; do
+      [ -d "$d/steamapps" ] && STEAMROOT="$d" && break
+    done
+  fi
+  if [ -z "${STEAMROOT:-}" ]; then
+    printf '%s\n' 'Steam library not found. Start Steam once, install Bannerlord, then run this again.' >&2
+    exit 1
+  fi
+  if [ -z "${PROTON:-}" ]; then
+    PROTON="$(ls -d "$STEAMROOT"/compatibilitytools.d/*/proton "$STEAMROOT"/steamapps/common/Proton*/proton 2>/dev/null | sort -V | tail -n 1 || true)"
+  fi
+  COOP_PREFIX="${COOP_PREFIX:-$STEAMROOT/steamapps/compatdata/261550}"
+  if [ ! -x "$PROTON" ]; then
+    printf '%s\n' "Proton is not executable: ${PROTON:-not found}" >&2
+    exit 1
+  fi
+  if [ ! -d "$SERVER_DIR" ]; then
+    printf '%s\n' "Server folder not found: $SERVER_DIR" >&2
+    exit 1
+  fi
+  if [ ! -f "$SERVER_DIR/BannerlordCoopServer.exe" ]; then
+    printf '%s\n' "BannerlordCoopServer.exe is missing in $SERVER_DIR" >&2
+    exit 1
+  fi
+  WINE_SERVER="${COOP_WINESERVER:-${PROTON%/*}/files/bin/wineserver}"
+  if [ ! -x "$WINE_SERVER" ]; then
+    printf '%s\n' "wineserver is not executable: $WINE_SERVER" >&2
+    exit 1
+  fi
+  if ! command -v script >/dev/null 2>&1; then
+    printf '%s\n' 'The script command is not installed (bsdutils or util-linux).' >&2
+    exit 1
+  fi
   UNIT_NAME="${COOP_SERVICE_UNIT:-coop-server.service}"
   CONFIG_DIR="${COOP_SERVICE_CONFIG:-$HOME/.config/coop-server}"
   case "$UNIT_NAME" in
     coop-server.service|coop-server-*.service) ;;
-    *) printf '%s\n' 'Use coop-server.service or a new coop-server-*.service unit name.'; exit 1 ;;
+    *) printf '%s\n' 'Use coop-server.service or a new coop-server-*.service unit name.' >&2; exit 1 ;;
   esac
-  case "$UNIT_NAME" in *[!a-zA-Z0-9_.-]*) exit 1 ;; esac
+  case "$UNIT_NAME" in
+    *[!a-zA-Z0-9_.-]*) printf '%s\n' "Unit name has unsupported characters: $UNIT_NAME" >&2; exit 1 ;;
+  esac
   for path in "$SERVER_DIR" "$PROTON" "$COOP_PREFIX" "$COOP_DATA_DIR" "$CONFIG_DIR"; do
-    case "$path" in /*) ;; *) printf '%s\n' 'All paths must be absolute.'; exit 1 ;; esac
+    case "$path" in
+      /*) ;;
+      *) printf '%s\n' "Path must be absolute: $path" >&2; exit 1 ;;
+    esac
   done
-  WINE_SERVER="${COOP_WINESERVER:-${PROTON%/*}/files/bin/wineserver}"
-  test -x "$WINE_SERVER"
-  command -v script >/dev/null
-  test -x "$PROTON"
-  test -f "$SERVER_DIR/BannerlordCoopServer.exe"
   if [ ! -f "$COOP_DATA_DIR/eula.txt" ] || ! awk '
     tolower($0) ~ /^[[:space:]]*eula[[:space:]]*=[[:space:]]*true([[:space:]]|$)/ {ok=1}
     END {exit !ok}

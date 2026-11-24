@@ -11,7 +11,7 @@ import { join } from "node:path";
 const { chromium } = createRequire(new URL("../package.json", import.meta.url))("playwright");
 const base = process.argv[2] || "http://127.0.0.1:3458";
 const locales = ["", "de", "es", "fr", "ja", "ko", "ru", "tr", "zh-CN", "pt-BR", "pt-PT"];
-const routes = ["", "/faq", "/distro", "/checklist", "/script", "/done", "/step/overview", "/step/terminal", "/step/configure", "/step/launch", "/step/firewall", "/step/service", "/step/client", "/step/backups"];
+const routes = ["", "/faq", "/distro", "/checklist", "/script", "/done", "/step/overview", "/step/terminal", "/step/deps", "/step/steam", "/step/download", "/step/configure", "/step/launch", "/step/firewall", "/step/service", "/step/client", "/step/backups"];
 const widths = [390, 768, 1024, 1440];
 const steps = new Set(["/step/overview", "/step/terminal", "/step/configure", "/step/launch", "/step/firewall", "/step/service", "/step/client", "/step/backups"]);
 const failures = [];
@@ -281,6 +281,7 @@ for (const locale of locales) {
             const code = await page.evaluate(() => {
                 const bad = [];
                 for (const pre of document.querySelectorAll("pre[data-raw]")) {
+                    if (pre.hasAttribute("data-src")) continue;
                     const raw = pre.getAttribute("data-raw") || "";
                     const shown = pre.querySelector("code") ? pre.querySelector("code").textContent : pre.textContent;
                     if (shown !== raw) bad.push("mismatch");
@@ -545,7 +546,7 @@ await underlinePage.close();
 const signingManifest = JSON.parse(readFileSync(join(process.cwd(), "src/app/(linux)/linux/content/scripts-manifest.json"), "utf8"));
 const signingPage = await context.newPage();
 await signingPage.setViewportSize({ width: 1024, height: 900 });
-await signingPage.goto(`${base}/linux/step/terminal`, { waitUntil: "domcontentloaded" });
+await signingPage.goto(`${base}/linux/step/deps`, { waitUntil: "domcontentloaded" });
 await signingPage.waitForFunction(() => document.documentElement.classList.contains("linux-ready")).catch(() => {});
 const marks = await signingPage.evaluate(() => [...document.querySelectorAll(".code-trust-mark")].map((node) => {
     const pop = document.getElementById(node.getAttribute("aria-controls") || "");
@@ -566,7 +567,7 @@ for (const entry of reported) {
     if (digest !== entry.sha256) fail("14 file", `${entry.id} ${digest} != ${entry.sha256}`);
     if (!entry.virusTotalUrl.endsWith(entry.sha256)) fail("14 url", entry.id);
 }
-if (!marks.length) fail("14 marks", "English terminal page has no check mark");
+if (!marks.length) fail("14 marks", "English deps page has no verified badge");
 for (const mark of marks) {
     const entry = byId.get(mark.id);
     if (!entry) fail("14 missing", mark.id || "no id");

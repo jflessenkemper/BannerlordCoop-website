@@ -1,7 +1,7 @@
 "use client";
 
 import { useLinuxText } from "../hooks/useLinuxText";
-import { showsDistroChip, WIZARD_STEPS, wizardCrumb, type Distro, type GuideRoute } from "../guide-model";
+import { showsDistroChip, wizardFlowFor, wizardSteps, type Distro, type GuideRoute } from "../guide-model";
 import { pageFrame } from "../guide-styles";
 import { scopeSvg } from "./svg";
 
@@ -41,25 +41,12 @@ function withoutTrailingColon(label: string): string {
     return label.replace(/[:：]\s*$/, "");
 }
 
-/** Current place. A wizard step keeps its name when the path has to truncate. */
-function CrumbHere({ here, shortHere }: { here: string; shortHere: string }) {
-    const parts = wizardCrumb(here);
-    if (!parts) return <span className="subnav-here min-w-0 truncate font-semibold text-[#f4f1ea]" aria-current="page" data-short={shortHere || undefined}>{here}</span>;
-    return (
-        <span className="subnav-here flex min-w-0 items-baseline gap-1.5 font-semibold text-[#f4f1ea]" aria-current="page" data-short={shortHere || undefined}>
-            <span className="subnav-trail min-w-0 shrink truncate">{parts.trail}</span>
-            <span className="subnav-slash shrink-0" aria-hidden="true">/</span>
-            <span className="subnav-step min-w-0">{parts.step}</span>
-        </span>
-    );
-}
-
 /** Back control, current view, and the chosen distro. Hidden on the opening menu. */
 export function GuideSubnav({
     route,
     distro,
-    here,
-    shortHere,
+    here: _here,
+    shortHere: _shortHere,
     progress,
     onMenu,
     onChangeDistro,
@@ -83,21 +70,19 @@ export function GuideSubnav({
                         <span>{t("ui.menu")}</span>
                     </button>
                     <span className="subnav-sep" aria-hidden="true" />
-                    <CrumbHere here={here} shortHere={shortHere} />
                 </div>
                 {showDistro && distro ? (
-                    <div className="flex min-w-0 max-w-full items-center gap-2 justify-self-end" role="group" aria-label={withoutTrailingColon(t("nav.dYour"))} style={{ ["--d" as string]: distro.color, ["--ig" as string]: distro.glyph }}>
-                        <span className={`subnav-mark inline-grid h-6 w-6 place-items-center ${distro.art ? "is-art overflow-hidden" : ""}`} style={distro.art ? undefined : { backgroundColor: `rgb(${distro.color})` }} aria-hidden="true" dangerouslySetInnerHTML={{ __html: scopeSvg(distro.svg, "subnav") }} />
-                        <strong className="subnav-distro-name max-w-44 truncate font-label text-base font-semibold" style={{ color: readableNameTint(distro.color) }}>{t(distro.nameKey)}</strong>
-                        <button type="button" className="subnav-change inline-flex min-h-12 cursor-pointer items-center border-0 border-l border-white/15 bg-transparent px-2 font-label text-sm font-semibold uppercase tracking-[0.22em] text-gold" onClick={onChangeDistro}>
-                            {t("nav.dChange")}
+                    <div className="flex min-w-0 max-w-full items-center justify-self-end" role="group" aria-label={withoutTrailingColon(t("nav.dYour"))} style={{ ["--d" as string]: distro.color, ["--ig" as string]: distro.glyph }}>
+                        <button type="button" className="subnav-distro inline-flex min-h-12 cursor-pointer items-center gap-2 border-0 border-l border-white/15 bg-transparent px-2 no-underline" onClick={onChangeDistro} aria-label={`${t(distro.nameKey)} — change distro`}>
+                            <span className={`subnav-mark inline-grid h-6 w-6 place-items-center ${distro.art ? "is-art overflow-hidden" : ""}`} style={distro.art ? undefined : { backgroundColor: `rgb(${distro.color})` }} aria-hidden="true" dangerouslySetInnerHTML={{ __html: scopeSvg(distro.svg, "subnav") }} />
+                            <strong className="subnav-distro-name max-w-44 truncate font-label text-base font-semibold" style={{ color: readableNameTint(distro.color) }}>{t(distro.nameKey)}</strong>
                         </button>
                     </div>
                 ) : null}
             </div>
             {route.view === "wizard" && (
-                <div className="h-1 bg-transparent" role="progressbar" aria-label={progress} aria-valuemin={1} aria-valuemax={WIZARD_STEPS.length} aria-valuenow={WIZARD_STEPS.indexOf(route.step) + 1} aria-valuetext={progress}>
-                    <span className="block h-full bg-gold" style={{ width: `${((WIZARD_STEPS.indexOf(route.step) + 1) / WIZARD_STEPS.length) * 100}%` }} />
+                <div className="h-1 bg-transparent" role="progressbar" aria-label={progress} aria-valuemin={1} aria-valuemax={wizardSteps(wizardFlowFor(route.step)).length} aria-valuenow={wizardSteps(wizardFlowFor(route.step)).indexOf(route.step) + 1} aria-valuetext={progress}>
+                    <span className="block h-full bg-gold" style={{ width: `${((wizardSteps(wizardFlowFor(route.step)).indexOf(route.step) + 1) / wizardSteps(wizardFlowFor(route.step)).length) * 100}%` }} />
                 </div>
             )}
         </nav>

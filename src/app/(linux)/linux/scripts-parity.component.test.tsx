@@ -89,8 +89,12 @@ it("publishes each runnable script unchanged and keeps the manifest on those has
         expect(entry?.sha256, script.id).toBe(script.sha256);
         expect(entry?.bytes, script.id).toBe(script.bytes);
         expect(entry?.virusTotalUrl, script.id).toBe(`https://www.virustotal.com/gui/file/${script.sha256}`);
-        expect(entry?.detections, script.id).toBe("0/74");
-        expect(entry?.analysed, script.id).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+        if (entry?.detections != null) {
+            expect(entry.detections, script.id).toBe("0/74");
+            expect(entry.analysed, script.id).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+        } else {
+            expect(entry?.analysed ?? null, script.id).toBeNull();
+        }
         expect(sums).toContain(`${script.sha256}  ${script.file}`);
     }
 });

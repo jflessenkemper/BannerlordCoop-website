@@ -7,9 +7,24 @@ export const ONESHOT_SECTION = "terminal";
 export const AI_FAQ_ID = "faq-ai-assistant";
 export const TROUBLESHOOTING_SECTION = "troubleshooting";
 
-/** Setup steps. Reference sections stay on the checklist and the completion screen. */
-export const WIZARD_STEPS = ["overview", "terminal", "configure", "launch", "firewall", "service", "client", "backups"] as const;
-export type WizardStep = (typeof WIZARD_STEPS)[number];
+/** Manual setup, one task per screen. The one-script path is a shorter list. */
+export const MANUAL_STEPS = ["overview", "deps", "steam", "download", "launch", "configure", "firewall", "service", "client", "backups"] as const;
+export const SCRIPT_STEPS = ["terminal", "launch", "configure", "client"] as const;
+export const WIZARD_STEPS = MANUAL_STEPS;
+export type WizardFlow = "manual" | "script";
+export type WizardStep = (typeof MANUAL_STEPS)[number] | (typeof SCRIPT_STEPS)[number];
+
+/** The step list for a path. Terminal belongs only to the one-script path. */
+export function wizardSteps(flow: WizardFlow = "manual"): readonly WizardStep[] {
+    return flow === "script" ? SCRIPT_STEPS : MANUAL_STEPS;
+}
+
+/** One-script pages stay on that path. A shared step follows the requested path. */
+export function wizardFlowFor(step: string, requested?: string | null): WizardFlow {
+    if (requested === "script") return "script";
+    if ((SCRIPT_STEPS as readonly string[]).includes(step) && !(MANUAL_STEPS as readonly string[]).includes(step)) return "script";
+    return "manual";
+}
 
 export type Inline =
     | { t: "text"; k: string }
@@ -59,8 +74,8 @@ export type GuideRoute =
 export const sections = (sectionData as { sections: Section[] }).sections;
 export const sectionsById = new Map(sections.map((section) => [section.id, section]));
 
-/** Checklist stages follow the wizard, then the reference pages. Hand sections stay inside the script step. */
-export const CHECKLIST_IDS = [...WIZARD_STEPS, "troubleshooting", "faq", "linux-notes", "agents"] as const;
+/** Checklist stages follow the manual task order, with the one-script page after the overview. */
+export const CHECKLIST_IDS = ["overview", "terminal", "deps", "steam", "download", "launch", "configure", "firewall", "service", "client", "backups", "troubleshooting", "faq", "linux-notes", "agents"] as const;
 export const checklistSections = CHECKLIST_IDS.map((id) => {
     const section = sectionsById.get(id);
     if (!section) throw new Error(`Missing checklist section: ${id}`);
@@ -70,14 +85,16 @@ export const sectionIds = new Set(sections.map((section) => section.id));
 
 /** Narrows a hash fragment to a step the wizard actually renders. */
 export function isWizardStep(step: string): step is WizardStep {
-    return (WIZARD_STEPS as readonly string[]).includes(step);
+    return (MANUAL_STEPS as readonly string[]).includes(step) || (SCRIPT_STEPS as readonly string[]).includes(step);
 }
 
 /** Previous step, or the completion screen after the last setup step. */
-export function wizardNeighbors(step: string): { previous: GuideRoute | null; next: GuideRoute } {
-    const index = isWizardStep(step) ? WIZARD_STEPS.indexOf(step) : 0;
-    const previous = index > 0 ? { view: "wizard" as const, step: WIZARD_STEPS[index - 1] } : null;
-    const next = index >= WIZARD_STEPS.length - 1 ? { view: "done" as const } : { view: "wizard" as const, step: WIZARD_STEPS[index + 1] };
+export function wizardNeighbors(step: string, flow: WizardFlow = "manual"): { previous: GuideRoute | null; next: GuideRoute } {
+    const steps = wizardSteps(flow);
+    const index = steps.indexOf(step as WizardStep);
+    const at = index < 0 ? 0 : index;
+    const previous = at > 0 ? { view: "wizard" as const, step: steps[at - 1] } : null;
+    const next = at >= steps.length - 1 ? { view: "done" as const } : { view: "wizard" as const, step: steps[at + 1] };
     return { previous, next };
 }
 
@@ -179,12 +196,14 @@ export function wizardCrumb(here: string): { trail: string; step: string } | nul
 }
 
 /** Labels for the subnav and the wizard footer, one branch per view. */
-export function routeLabels(route: GuideRoute, t: Translate): { here: string; shortHere: string; progress: string; nextLabel: string } {
+export function routeLabels(route: GuideRoute, t: Translate, flow: WizardFlow = "manual"): { here: string; shortHere: string; progress: string; nextLabel: string } {
     switch (route.view) {
         case "wizard": {
-            const neighbors = wizardNeighbors(route.step);
-            const index = WIZARD_STEPS.indexOf(route.step);
-            const progress = t("ui.stepOf", { n: index + 1, total: WIZARD_STEPS.length });
+            const active = wizardFlowFor(route.step, flow);
+            const steps = wizardSteps(active);
+            const neighbors = wizardNeighbors(route.step, active);
+            const index = Math.max(0, steps.indexOf(route.step));
+            const progress = t("ui.stepOf", { n: index + 1, total: steps.length });
             const next = neighbors.next;
             const nextLabel = next.view === "wizard" ? t("ui.nextColon", { title: t(sectionsById.get(next.step)?.titleKey ?? "ui.finish") }) : t("ui.finish");
             const stepTitle = t(sectionsById.get(route.step)?.titleKey ?? "ui.stepByStep");
