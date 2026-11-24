@@ -60,8 +60,8 @@
       "bytes": 318,
       "attestationUrl": null,
       "virusTotalUrl": "https://www.virustotal.com/gui/file/bf0d88c1ce28cc71c5a128b3f2913d02d30176891da6e8b1e3da51ddc385b130",
-      "detections": null,
-      "analysed": null
+      "detections": "0/61",
+      "analysed": "2026-11-24"
     },
     {
       "id": "code-firewalld-25960623",
@@ -320,8 +320,8 @@
       "bytes": 276,
       "attestationUrl": null,
       "virusTotalUrl": "https://www.virustotal.com/gui/file/eeb9cb29de1b8d66ef8cdfbdc6a58b4cfc6e1c71cb7c0018b5c0b61789bf2937",
-      "detections": null,
-      "analysed": null
+      "detections": "0/60",
+      "analysed": "2026-11-24"
     },
     {
       "id": "code-steam-suse",
