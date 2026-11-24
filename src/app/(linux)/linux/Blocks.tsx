@@ -168,7 +168,7 @@ function Tabs({ block }: { block: Extract<Block, { type: "tabs" }> }) {
     const baseId = useId();
     const [active, setActive] = useState(0);
     const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
-    const scoped = Boolean(distro) && block.tabs.some((tab) => tab.script || tab.families);
+    const scoped = Boolean(distro) && block.tabs.some((tab) => tab.script || tab.scripts || tab.families);
     const visible = block.tabs.filter((tab) => tabMatches(tab, distro, scoped));
     if (scoped) {
         return (
@@ -225,6 +225,7 @@ function Tabs({ block }: { block: Extract<Block, { type: "tabs" }> }) {
 /** A distro-scoped tab is visible when its script or family list matches. */
 function tabMatches(tab: GuideTab, distro: Distro | null, scoped: boolean): boolean {
     if (!scoped || !distro) return true;
+    if (tab.scripts) return tab.scripts.includes(distro.id);
     if (tab.script) return tab.script === distro.id;
     if (tab.families) return tab.families.includes(distro.family);
     return true;

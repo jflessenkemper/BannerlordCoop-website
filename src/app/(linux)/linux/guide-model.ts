@@ -49,7 +49,7 @@ export type Block =
     | { type: "columns"; columns: { blocks: Block[] }[] }
     | { type: "flow"; lead?: Inline[]; before?: Block[]; steps: { action: Inline[]; blocks?: Block[]; note?: Inline[] }[]; check?: Block[]; recover?: boolean | "script"; extra?: Block[] };
 
-export type GuideTab = { labelKey: string; script?: string; families?: string[]; blocks: Block[] };
+export type GuideTab = { labelKey: string; script?: string; scripts?: string[]; families?: string[]; blocks: Block[] };
 
 export type Section = { id: string; kickerKey: string; titleKey: string; subKey: string; blocks: Block[] };
 

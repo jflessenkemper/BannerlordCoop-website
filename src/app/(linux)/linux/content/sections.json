@@ -1162,7 +1162,7 @@
                               "k": "section.terminal.b1.tab9"
                             }
                           ],
-                          "langKey": "code.lang.Nix"
+                          "langKey": "code.lang.Bash"
                         }
                       ],
                       "families": ["nix"]
@@ -4096,7 +4096,7 @@
                   "labelKey": "section.steam.b1.label",
                   "tabs": [
                     {
-                      "labelKey": "section.deps.b0.tab0",
+                      "labelKey": "section.terminal.b1.tab0",
                       "blocks": [
                         {
                           "type": "code",
@@ -4108,7 +4108,13 @@
                             }
                           ],
                           "langKey": "code.lang.Bash"
-                        },
+                        }
+                      ],
+                      "scripts": ["ubuntu", "mint"]
+                    },
+                    {
+                      "labelKey": "section.terminal.b1.tab1",
+                      "blocks": [
                         {
                           "type": "code",
                           "id": "code-steam-debian",
@@ -4121,9 +4127,7 @@
                           "langKey": "code.lang.Bash"
                         }
                       ],
-                      "families": [
-                        "debian"
-                      ]
+                      "script": "debian"
                     },
                     {
                       "labelKey": "section.deps.b0.tab1",
@@ -4259,7 +4263,7 @@
                               "k": "section.steam.b1.tab6.b0.title.0"
                             }
                           ],
-                          "langKey": "code.lang.Nix"
+                          "langKey": "code.lang.Bash"
                         }
                       ],
                       "families": [

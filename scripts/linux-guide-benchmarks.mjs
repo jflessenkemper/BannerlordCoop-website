@@ -5,7 +5,7 @@
  */
 import { createRequire } from "node:module";
 import { spawnSync } from "node:child_process";
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const require = createRequire(new URL("../package.json", import.meta.url));
@@ -371,6 +371,31 @@ function check23() {
     console.log(text.slice(-1500));
     if (run.status !== 0) fail("23 links", text.split("\n").filter((line) => /\[404\]|BROKEN|error/i.test(line)).slice(0, 12).join(" | ") || `exit ${run.status}`);
 }
+
+function walkHtml(dir, found = []) {
+    for (const name of readdirSync(dir)) {
+        const path = join(dir, name);
+        if (statSync(path).isDirectory()) walkHtml(path, found);
+        else if (name.endsWith(".html")) found.push(path);
+    }
+    return found;
+}
+
+/** Every deferred script URL in the built pages must exist under linux/scripts. */
+function checkScriptSources() {
+    const missing = new Set();
+    for (const file of walkHtml(exportRoot)) {
+        const text = readFileSync(file, "utf8");
+        for (const match of text.matchAll(/data-src="(\/linux\/scripts\/[^"]+)"/g)) {
+            const relative = match[1].replace(/^\//, "");
+            if (!existsSync(join(exportRoot, relative))) missing.add(match[1]);
+        }
+    }
+    if (missing.size) fail("scripts", [...missing].sort().join(" "));
+    else console.log("script sources ok");
+}
+
+checkScriptSources();
 
 const wanted = only ? [Number(only)] : [15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 if (wanted.includes(17)) check17();

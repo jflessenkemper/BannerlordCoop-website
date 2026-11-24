@@ -365,6 +365,7 @@ function calloutTone(kind: "warn" | "info" | "ok"): string {
 
 function tabMatches(tab: GuideTab, distro: Distro | null, scoped: boolean): boolean {
     if (!scoped || !distro) return true;
+    if (tab.scripts) return tab.scripts.includes(distro.id);
     if (tab.script) return tab.script === distro.id;
     if (tab.families) return tab.families.includes(distro.family);
     return true;
@@ -402,13 +403,13 @@ export function resetGuideIds() {
 /** Distro-scoped tabs show only the matching panel. Other sets use radio buttons, so no script is required. */
 function StaticTabs({ block, t, distro, alone, annotate = false }: { block: Extract<Block, { type: "tabs" }>; t: Translate; distro: Distro | null; alone: boolean; annotate?: boolean; id?: string }) {
     const id = `tabg-${tabGroupSerial += 1}`;
-    const selective = block.tabs.some((tab) => tab.script || tab.families);
+    const selective = block.tabs.some((tab) => tab.script || tab.scripts || tab.families);
     if (selective) {
     const tabs = block.tabs;
     return (
         <div>
             {tabs.map((tab) => {
-                const token = [tab.script ? `script-${tab.script}` : "", ...(tab.families ?? []).map((family) => `family-${family}`)].filter(Boolean).join(" ");
+                const token = [...(tab.scripts ?? []), ...(tab.script ? [tab.script] : [])].map((id) => `script-${id}`).concat((tab.families ?? []).map((family) => `family-${family}`)).join(" ");
                 const active = !distro || tabMatches(tab, distro, true);
                 return (
                     <div key={tab.labelKey} className="distro-panel" data-for={token || "all"} role="group" aria-label={t(tab.labelKey)}>
