@@ -1,7 +1,7 @@
 "use client";
 
-import { updateMemberRole } from "@/app/admin/actions";
-import type { MemberListState } from "@/app/admin/member-list";
+import { updateMemberRole } from "@/app/(site)/admin/actions";
+import type { MemberListState } from "@/app/(site)/admin/member-list";
 import { MEMBER_ROLES, type MemberRole } from "@/app/lib/auth/roles";
 import { LoaderCircle } from "lucide-react";
 import { useFormStatus } from "react-dom";

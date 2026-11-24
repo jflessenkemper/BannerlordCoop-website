@@ -9,7 +9,7 @@ vi.mock("./LocaleSelector", () => ({ LocaleSelector: () => null }));
 vi.mock("./ProfileDropdown", () => ({ ProfileDropdown: ({ accountName, isAdmin }: { accountName: string; isAdmin: boolean }) => <span>{accountName}{isAdmin ? " Admin controls" : ""}</span> }));
 vi.mock("./MobileNavigation", () => ({ MobileNavigation: ({ accountName }: { accountName: string }) => <span>{accountName}</span> }));
 vi.mock("./CommunityDropdown", () => ({ CommunityDropdown: () => null }));
-vi.mock("@/app/components/home/modulesection/DownloadModal.tsx", () => ({ DownloadModal: () => null }));
+vi.mock("@/app/components/home/modulesection/DownloadTrigger", () => ({ DownloadTrigger: () => null }));
 import { Navbar } from "./Navbar";
 import { localeDefinitions } from "@/app/lib/localization/registry";
 import common from "@/app/lib/localization/dictionaries/en/common.json";

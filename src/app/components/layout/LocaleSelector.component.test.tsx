@@ -9,7 +9,7 @@ import type { Locale, LocaleOption } from "@/app/lib/localization/types";
 const mocks = vi.hoisted(() => ({ replace: vi.fn(), refresh: vi.fn(), setLocale: vi.fn() }));
 vi.mock("next/navigation", () => ({ useRouter: () => ({ replace: mocks.replace, refresh: mocks.refresh }) }));
 vi.mock("@/app/lib/localization/actions", () => ({ setLocale: mocks.setLocale }));
-vi.mock("@/app/auth/actions", () => ({ signOut: vi.fn() }));
+vi.mock("@/app/(site)/auth/actions", () => ({ signOut: vi.fn() }));
 import { LocaleSelector } from "./LocaleSelector";
 import { MobileNavigation } from "./MobileNavigation";
 

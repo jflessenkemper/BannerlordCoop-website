@@ -28,6 +28,10 @@ const navigationLinks = [
         href: "/cheats",
     },
     {
+        label: "nav.linux",
+        href: "/linux",
+    },
+    {
         label: "nav.changelog",
         href: "/changelog",
     }
@@ -90,7 +94,7 @@ export async function Footer() {
                                 <li key={link.label}>
                                     <Link
                                         href={link.href}
-                                        className="font-sans text-sm text-foreground-muted transition-colors duration-300 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+                                        className="inline-flex min-h-6 items-center font-sans text-sm text-foreground-muted transition-colors duration-300 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
                                     >
                                         {t(link.label)}
                                     </Link>
@@ -114,7 +118,7 @@ export async function Footer() {
                                         href={link.href}
                                         target={link.external ? "_blank" : undefined}
                                         rel={link.external ? "noopener noreferrer" : undefined}
-                                        className="inline-flex items-center gap-2 font-sans text-sm text-foreground-muted transition-colors duration-300 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+                                        className="inline-flex min-h-6 items-center gap-2 font-sans text-sm text-foreground-muted transition-colors duration-300 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
                                     >
                                         {link.label}
 

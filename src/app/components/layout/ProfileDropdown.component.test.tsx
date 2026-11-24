@@ -3,7 +3,7 @@ import common from "@/app/lib/localization/dictionaries/en/common.json";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { expect, it, vi } from "vitest";
-vi.mock("@/app/auth/actions", () => ({ signOut: vi.fn() }));
+vi.mock("@/app/(site)/auth/actions", () => ({ signOut: vi.fn() }));
 import { ProfileDropdown } from "./ProfileDropdown";
 
 it("shows the account name and server link, and closes with Escape restoring focus", async () => {

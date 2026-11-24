@@ -5,7 +5,7 @@ import { TestLocalization } from "./ManagedServerLocalization.test-utils";
 import { ManagedServerDelete } from "./ManagedServerDelete";
 import { ManagedServerPollingProvider } from "./ManagedServerPollingProvider";
 const mocks = vi.hoisted(() => ({ remove: vi.fn(), refresh: vi.fn() }));
-vi.mock("@/app/servers/server-deletion-actions", () => ({ deleteManagedServer: mocks.remove }));
+vi.mock("@/app/(site)/servers/server-deletion-actions", () => ({ deleteManagedServer: mocks.remove }));
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: mocks.refresh }) }));
 const props = { serverId: "aaaaaaaa-1111-4111-8111-111111111111", displayName: "The Northern March", accessRole: "owner", operationState: "running", expectedUpdatedAt: "2026-10-07T12:00:00.000Z" };
 let container: HTMLDivElement, root: Root;

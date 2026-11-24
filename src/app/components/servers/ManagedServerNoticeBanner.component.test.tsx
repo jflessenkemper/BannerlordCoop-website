@@ -8,8 +8,8 @@ import { ManagedServerMoveProvider } from "./ManagedServerMoveStatus";
 import { ManagedServerNoticeBanner, noticeText } from "./ManagedServerNoticeBanner";
 
 const dismiss = vi.hoisted(() => vi.fn());
-vi.mock("@/app/servers/server-notice-actions", () => ({ dismissManagedServerNotice: dismiss }));
-vi.mock("@/app/servers/managed-server-move-actions", () => ({ readManagedServerMoveStatus: async () => ({ ok: false }) }));
+vi.mock("@/app/(site)/servers/server-notice-actions", () => ({ dismissManagedServerNotice: dismiss }));
+vi.mock("@/app/(site)/servers/managed-server-move-actions", () => ({ readManagedServerMoveStatus: async () => ({ ok: false }) }));
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
 
 const messages = serverTestMessages["managed-server"];

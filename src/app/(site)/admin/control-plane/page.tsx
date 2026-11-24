@@ -1,0 +1,746 @@
+import { RefreshReleaseCatalog } from "@/app/components/admin/RefreshReleaseCatalog";
+import {
+    ControlPlaneActionCard,
+    type AdminActionField,
+    type AdminActionOption,
+} from "@/app/components/admin/ControlPlaneActionCard";
+import { LocalDateTime } from "@/app/components/admin/LocalDateTime";
+import { JobsReadTable } from "@/app/components/admin/ControlPlaneReadTables";
+import { JobFailuresAcknowledgeButton } from "@/app/components/admin/JobFailuresAcknowledgeButton";
+import { VpsView } from "@/app/components/admin/VpsView";
+import { ControlPlaneServerView } from "@/app/components/admin/ControlPlaneServerView";
+import { ControlPlaneJobsProgress } from "@/app/components/admin/ControlPlaneJobsProgress";
+import { RelocateView } from "@/app/components/admin/RelocateView";
+import { PlacementView } from "@/app/components/admin/PlacementView";
+import { FleetCapacityView } from "@/app/components/admin/FleetCapacityView";
+import { NoticesView } from "@/app/components/admin/NoticesView";
+import { ManualVpsOnboardingCard } from "@/app/components/admin/ManualVpsOnboardingCard";
+import { AuditTable, Panel, Definition, SectionHeading, State, Empty, ReleaseMetadata, shortId } from "@/app/components/admin/ControlPlanePresentation";
+import { ClickableTableRow } from "@/app/components/admin/ClickableTableRow";
+import { hasAdminAccess } from "@/app/lib/auth/access";
+import { getLoginRedirect } from "@/app/lib/auth/redirect";
+import { ControlPlaneAdminError } from "@/app/lib/control-plane/client";
+import { serverProgressView } from "@/app/lib/control-plane/server-progress";
+import { readControlPlaneAdmin } from "@/app/lib/control-plane/server-read";
+import { readOperationsVpsInventory } from "@/app/lib/control-plane/operations-inventory";
+import { readHostingRegionCatalog } from "@/app/lib/control-plane/hosting-region-catalog";
+import { recordReleaseFirstObservations } from "@/app/lib/control-plane/release-observations";
+import { vpsHostSelectionValue, vpsProviderLabel } from "@/app/lib/control-plane/vps-providers";
+import { MANUAL_VPS_OPERATION, manualEntryProviders } from "@/app/lib/control-plane/manual-vps";
+import {
+    destructiveExplanation,
+    operationExplanation,
+    stateExplanation,
+} from "@/app/lib/control-plane/explanations";
+import {
+    adminActionOptionValue,
+    createServerProviderOptions,
+    createServerRegionOptions,
+    formatAccountOwner,
+    installableBuilds,
+    MAINTENANCE_TIME_ZONE,
+    maintenanceSlotOptions,
+    operationCardRowClass,
+    operationCardRows,
+    overviewStatRowClass,
+    releaseChannelLabel,
+    releaseVersion,
+    serverLifecycleOperationHref,
+} from "@/app/lib/control-plane/presentation";
+import type {
+    AuditEvent,
+    GlobalControls,
+    HostingAdminVpsInventory,
+    VpsViewData,
+    HostingJob,
+    HostingPage,
+    ManagedServer,
+    OperationsData,
+    NoticesViewData,
+    OverviewSummary,
+    PlacementViewData,
+    RelocateViewData,
+    ReleaseBuild,
+    ServerDashboardResult,
+} from "@/app/lib/control-plane/types";
+import { getSupabaseServerReadSession, getSupabaseServerViewer } from "@/app/lib/supabase/server";
+import { getWebsiteAccount, listWebsiteAccounts } from "@/app/lib/supabase/users";
+import type { WebsiteAccountSummary } from "@/app/lib/supabase/users";
+import {
+    Activity,
+    ArrowLeft,
+    ArrowLeftRight,
+    BriefcaseBusiness,
+    ChartNetwork,
+    Cloud,
+    CloudCog,
+    Gauge,
+    History,
+    ListChecks,
+    Megaphone,
+    PackageCheck,
+    ServerCog,
+    ShieldCheck,
+} from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { Suspense, type ReactNode } from "react";
+import {
+    ControlPlaneViewSkeleton,
+    type ControlPlaneView,
+} from "@/app/(site)/admin/control-plane/skeleton";
+
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+    title: "Control Plane",
+    description: "Operate the Bannerlord Co-op managed-hosting control plane.",
+};
+
+type View = ControlPlaneView;
+// Exactly the control plane's job actions; retired ones remain because historical jobs still carry them.
+const JOB_ACTION_FILTERS = [
+    "backup", "console-command", "delete", "delete-save", "export-data", "export-save",
+    "force-stop", "import-save", "migrate-region", "provision", "reactivate", "rebuild",
+    "reboot-vm", "reconcile", "reset-campaign", "reset-password", "resize", "restart-game",
+    "restore", "role-removal-delete", "rollback", "start", "stop", "suspend", "transfer", "update",
+] as const;
+type PageProps = {
+    searchParams: Promise<{
+        view?: string | string[];
+        q?: string | string[];
+        serverId?: string | string[];
+        state?: string | string[];
+        action?: string | string[];
+        alert?: string | string[];
+        cursor?: string | string[];
+    }>;
+};
+
+export default async function ControlPlaneAdminPage({ searchParams }: PageProps) {
+    const params = await searchParams;
+    const loginRedirect = getLoginRedirect("/admin/control-plane", params);
+    const view = parseView(first(params.view));
+    const query = (first(params.q) ?? "").trim().slice(0, 100);
+    const serverId = (first(params.serverId) ?? "").trim();
+    const jobState = parseJobState(first(params.state));
+    const jobAction = parseJobAction(first(params.action));
+    const unacknowledgedOnly = first(params.alert) === "unacknowledged";
+    const jobCursor = parseCursor(first(params.cursor));
+    const controller = new AbortController();
+    const { read } = await loadAuthenticatedView();
+    async function loadAuthenticatedView() {
+        try {
+            const { session, impersonating } = await getSupabaseServerReadSession();
+            if (!session) redirect(loginRedirect);
+            const authority = Promise.withResolvers<void>();
+            let authenticated = false, fallbackStarted = false;
+            const identity = { expectedUserId: session.user.id, requireOrdinarySession: !impersonating, onAuthenticated: () => {
+                if (fallbackStarted) return;
+                authenticated = true;
+                authority.resolve();
+            } };
+            const read = Promise.allSettled([
+                loadView(session.access_token, view, query, serverId, jobState, jobAction, unacknowledgedOnly, jobCursor, controller.signal, identity),
+            ]).then(([result]) => result);
+            await Promise.race([
+                authority.promise,
+                read.then(async () => {
+                    if (authenticated) return;
+                    // A denied/unavailable/old adapter cannot authorize the page. Fresh
+                    // website verification may only permit the existing read-error UI.
+                    fallbackStarted = true;
+                    const { user, accessToken } = await getSupabaseServerViewer();
+                    if (!user || !accessToken || user.id !== session.user.id) redirect(loginRedirect);
+                    if (!hasAdminAccess(user)) redirect("/");
+                }),
+            ]);
+            return { read };
+        } catch (error) {
+            controller.abort();
+            throw error;
+        }
+    }
+
+    return (
+        <main className="min-h-svh bg-background">
+            <header className="border-b border-white/10 bg-surface">
+                <div className="site-container flex min-h-18 flex-wrap items-center justify-between gap-4 py-3">
+                    <Link href="/" className="inline-flex items-center gap-2 font-label text-xs font-semibold uppercase tracking-[0.14em] text-foreground-muted transition-colors hover:text-gold">
+                        <ArrowLeft aria-hidden="true" className="size-4" /> Back to site
+                    </Link>
+                    <nav aria-label="Administration" className="flex items-center gap-2">
+                        <Link href="/admin" className="border border-white/15 px-3 py-2 font-label text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-foreground-muted hover:border-gold/40 hover:text-gold">
+                            Members
+                        </Link>
+                        <span className="inline-flex items-center gap-2 border border-gold/30 bg-gold/8 px-3 py-2 font-label text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-gold">
+                            <CloudCog aria-hidden="true" className="size-4" /> Control Plane
+                        </span>
+                    </nav>
+                </div>
+            </header>
+
+            <div className="site-container py-10 sm:py-14">
+                <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+                    <div>
+                        <p className="font-label text-xs font-semibold uppercase tracking-[0.22em] text-gold">Managed hosting command</p>
+                        <h1 className="mt-3 font-display text-4xl font-semibold text-foreground sm:text-5xl">Control Plane</h1>
+                        <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground-muted">
+                            Fleet state and every supported administrator operation come from the durable control plane. Requests are reauthorized, generation-checked, idempotent, and audited at execution time.
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-2 text-gold">
+                        <ShieldCheck aria-hidden="true" className="size-5" />
+                        <span className="font-label text-xs font-semibold uppercase tracking-[0.16em]">Admin only</span>
+                    </div>
+                </div>
+
+                <ViewTabs active={view} />
+                <Suspense
+                    key={`${view}:${query}:${serverId}:${jobState ?? "all"}:${jobAction ?? "all"}:${unacknowledgedOnly ? "unacknowledged" : "any"}:${jobCursor ?? "newest"}`}
+                    fallback={<ControlPlaneViewSkeleton view={view} />}
+                >
+                    <ControlPlaneViewContent
+                        read={read}
+                        view={view}
+                        query={query}
+                        serverId={serverId}
+                        jobState={jobState}
+                        jobAction={jobAction}
+                        unacknowledgedOnly={unacknowledgedOnly}
+                        jobCursor={jobCursor}
+                    />
+                </Suspense>
+            </div>
+        </main>
+    );
+}
+
+async function ControlPlaneViewContent({
+    read,
+    view,
+    query,
+    serverId,
+    jobState,
+    jobAction,
+    unacknowledgedOnly,
+    jobCursor,
+}: {
+    read: Promise<PromiseSettledResult<unknown>>;
+    view: View;
+    query: string;
+    serverId: string;
+    jobState: "failed" | "active" | null;
+    jobAction: string | null;
+    unacknowledgedOnly: boolean;
+    jobCursor: string | null;
+}) {
+    let data: unknown = null;
+    let accounts: WebsiteAccountSummary[] = [];
+    let error = "";
+    try {
+        const needsAccounts = view === "vps" || view === "servers" || view === "operations" || view === "relocate";
+        const [viewResult, usersResult] = await Promise.allSettled([
+            read.then(result => {
+                if (result.status === "rejected") throw result.reason;
+                return result.value;
+            }),
+            needsAccounts ? listWebsiteAccounts() : Promise.resolve({ users: [], truncated: false }),
+        ]);
+        if (viewResult.status === "rejected") throw viewResult.reason;
+        data = viewResult.value;
+        if (view === "server") {
+            const server = (data as ServerDashboardResult).dashboard.server;
+            const owner = await getWebsiteAccount(server.ownerAccountId ?? server.ownerDiscordUserId).catch(() => null);
+            if (owner) accounts = [owner];
+        }
+        if (needsAccounts && usersResult.status === "fulfilled") {
+            accounts = usersResult.value.users;
+        } else if (usersResult.status === "rejected") {
+            console.error("Account directory failed to load", usersResult.reason);
+        }
+    } catch (cause) {
+        console.error("Control plane admin view failed to load", cause);
+        error = cause instanceof ControlPlaneAdminError
+            ? cause.message
+            : "The control plane view could not be loaded.";
+    }
+
+    return (
+        <>
+            {error && (
+                <div role="alert" className="mt-7 border-l-2 border-crimson bg-crimson/10 px-4 py-3 text-sm text-red-200">
+                    <p>{error}</p>
+                    <p className="mt-1 text-xs text-red-200/70">No direct database or provider fallback was attempted.</p>
+                </div>
+            )}
+            {!error && view === "overview" && <OverviewView overview={data as OverviewSummary} />}
+            {!error && view === "vps" && <VpsView {...data as VpsViewData} accounts={accounts} />}
+            {!error && view === "servers" && <ServersView page={data as HostingPage<ManagedServer>} query={query} accounts={accounts} />}
+            {!error && view === "server" && <ControlPlaneServerView key={serverId} initial={serverProgressView(data as ServerDashboardResult)} accounts={accounts} />}
+            {!error && view === "jobs" && <JobsView page={data as HostingPage<HostingJob>} state={jobState} action={jobAction} unacknowledgedOnly={unacknowledgedOnly} cursor={jobCursor} serverId={serverId} />}
+            {!error && view === "releases" && <ReleasesView data={data as { stable: HostingPage<ReleaseBuild>; nightly: HostingPage<ReleaseBuild> }} />}
+            {!error && view === "audit" && <AuditView page={data as HostingPage<AuditEvent>} />}
+            {!error && view === "operations" && <OperationsView data={data as OperationsData} accounts={accounts} />}
+            {!error && view === "relocate" && <RelocateView data={data as RelocateViewData} query={query} accounts={accounts} />}
+            {!error && view === "placement" && <PlacementView data={data as PlacementViewData} />}
+            {!error && view === "capacity" && <FleetCapacityView />}
+            {!error && view === "notices" && <NoticesView data={data as NoticesViewData} />}
+        </>
+    );
+}
+
+type ReadIdentity = { expectedUserId: string; requireOrdinarySession: boolean; onAuthenticated: () => void };
+
+/** Loads the authenticated data needed by the selected administration view. */
+async function loadView(token: string, view: View, query: string, serverId: string, jobState: "failed" | "active" | null, jobAction: string | null, unacknowledgedOnly: boolean, jobCursor: string | null, signal: AbortSignal, identity: ReadIdentity) {
+    switch (view) {
+        case "overview":
+            return readControlPlaneAdmin<OverviewSummary>({ accessToken: token, signal, ...identity, operation: "overview", input: { compact: true } });
+        case "operations": {
+            const [overview, inventory, selectedDashboard, releases, hostingRegions] = await Promise.all([
+                readControlPlaneAdmin<Omit<OperationsData["overview"], "stableBuilds" | "nightlyBuilds">>({
+                    accessToken: token, signal, ...identity, operation: "overview", input: { operations: true },
+                }),
+                readOperationsVpsInventory((input) => readControlPlaneAdmin<HostingAdminVpsInventory>({ accessToken: token, signal, ...identity, operation: "vps-hosts", input })),
+                serverId
+                    ? readControlPlaneAdmin<ServerDashboardResult>({
+                        accessToken: token, signal, ...identity,
+                        operation: "server-dashboard",
+                        input: { serverId },
+                    })
+                    : Promise.resolve(null),
+                loadReleaseCatalog(token, signal, identity),
+                loadHostingRegionCatalog(token, signal, identity),
+            ]);
+            return {
+                overview: { ...overview, stableBuilds: releases.stable, nightlyBuilds: releases.nightly },
+                inventory: inventory.inventory,
+                vpsProviderError: inventory.providerError,
+                selectedServer: selectedDashboard?.dashboard.server ?? null,
+                hostingRegions,
+            } satisfies OperationsData;
+        }
+        case "vps": {
+            const [inventory, hostingRegions] = await Promise.all([
+                readControlPlaneAdmin<HostingAdminVpsInventory>({ accessToken: token, signal, ...identity, operation: "vps-hosts", input: { includeLiveData: false } }),
+                loadHostingRegionCatalog(token, signal, identity),
+            ]);
+            // Host labels match the stored placements; an unreadable catalog leaves the hosts listed without regions.
+            return { inventory, regionCatalog: hostingRegions.regions } satisfies VpsViewData;
+        }
+        case "servers":
+            return readControlPlaneAdmin<HostingPage<ManagedServer>>({
+                accessToken: token, signal, ...identity,
+                operation: "servers",
+                input: { filter: query ? { query } : {}, cursor: null, limit: 100 },
+            });
+        case "server":
+            if (!serverId) throw new ControlPlaneAdminError("server_required", "Select a server first.");
+            return readControlPlaneAdmin<ServerDashboardResult>({
+                accessToken: token, signal, ...identity,
+                operation: "server-dashboard",
+                input: { serverId },
+            });
+        case "jobs":
+            return readControlPlaneAdmin<HostingPage<HostingJob>>({
+                accessToken: token, signal, ...identity,
+                operation: "jobs",
+                input: {
+                    filter: jobState === "failed"
+                        ? { state: "failed", ...(jobAction ? { action: jobAction } : {}), ...(serverId ? { serverId } : {}), ...(unacknowledgedOnly ? { failureAcknowledged: false } : {}) }
+                        : jobState === "active" ? { activeOnly: true } : {},
+                    cursor: jobCursor,
+                    limit: 100,
+                },
+            });
+        case "releases": {
+            const catalog = await loadReleaseCatalog(token, signal, identity);
+            const builds = await recordReleaseFirstObservations([...catalog.stable.items, ...catalog.nightly.items], signal);
+            return {
+                stable: { ...catalog.stable, items: builds.slice(0, catalog.stable.items.length) },
+                nightly: { ...catalog.nightly, items: builds.slice(catalog.stable.items.length) },
+            };
+        }
+        case "audit":
+            return readControlPlaneAdmin<HostingPage<AuditEvent>>({ accessToken: token, signal, ...identity, operation: "audit", input: { cursor: null, limit: 100 } });
+        case "relocate": {
+            const [servers, inventory, hostingRegions, activeJobs] = await Promise.all([
+                readControlPlaneAdmin<HostingPage<ManagedServer>>({
+                    accessToken: token, signal, ...identity,
+                    operation: "servers",
+                    input: { filter: query ? { query } : {}, cursor: null, limit: 100 },
+                }),
+                readControlPlaneAdmin<HostingAdminVpsInventory>({ accessToken: token, signal, ...identity, operation: "vps-hosts", input: { includeLiveData: false } }),
+                loadHostingRegionCatalog(token, signal, identity),
+                readControlPlaneAdmin<HostingPage<HostingJob>>({ accessToken: token, signal, ...identity, operation: "jobs", input: { filter: { activeOnly: true }, cursor: null, limit: 100 } }),
+            ]);
+            // Without the catalog, hosts are placed by their legacy region only.
+            return { servers, inventory, regionCatalog: hostingRegions.regions, activeJobs: activeJobs.items } satisfies RelocateViewData;
+        }
+        case "placement": {
+            // The dry run itself is slow and rate limited, so the browser requests it on demand.
+            // These reads let each planned step open a relocation against current slots and jobs.
+            const [inventory, hostingRegions, activeJobs] = await Promise.all([
+                readControlPlaneAdmin<HostingAdminVpsInventory>({ accessToken: token, signal, ...identity, operation: "vps-hosts", input: { includeLiveData: false } }),
+                loadHostingRegionCatalog(token, signal, identity),
+                readControlPlaneAdmin<HostingPage<HostingJob>>({ accessToken: token, signal, ...identity, operation: "jobs", input: { filter: { activeOnly: true }, cursor: null, limit: 100 } }),
+            ]);
+            return { inventory, regionCatalog: hostingRegions.regions, activeJobs: activeJobs.items } satisfies PlacementViewData;
+        }
+        case "capacity":
+            // The capacity read is rate limited, so the browser requests it when the tab opens. This small read
+            // lets the control plane authorize the page, as every other view's read does.
+            await readControlPlaneAdmin<unknown>({ accessToken: token, signal, ...identity, operation: "hosting-regions", input: {} });
+            return null;
+        case "notices": {
+            // The first page of servers a notice can target; searching and the notice list load in the browser.
+            const servers = await readControlPlaneAdmin<HostingPage<ManagedServer>>({
+                accessToken: token, signal, ...identity,
+                operation: "servers",
+                input: { filter: {}, cursor: null, limit: 100 },
+            });
+            return { servers } satisfies NoticesViewData;
+        }
+    }
+}
+
+/** Reads the stored hosting-region catalog; a failed read becomes a message so the rest of the view still loads. */
+function loadHostingRegionCatalog(token: string, signal: AbortSignal, identity: ReadIdentity) {
+    return readHostingRegionCatalog(() => readControlPlaneAdmin<unknown>({ accessToken: token, signal, ...identity, operation: "hosting-regions", input: {} }));
+}
+
+/** Reads both complete channel pages from one fresh authorized catalog observation. */
+async function loadReleaseCatalog(token: string, signal: AbortSignal, identity: ReadIdentity) {
+    // Discovery considers at most 100 versions globally; aliases only mark matching versions.
+    return readControlPlaneAdmin<{ stable: HostingPage<ReleaseBuild>; nightly: HostingPage<ReleaseBuild> }>({
+        accessToken: token, signal, ...identity, operation: "release-catalog", input: { stableCursor: null, nightlyCursor: null, limit: 100 },
+    });
+}
+
+function ViewTabs({ active }: { active: View }) {
+    const tabs: Array<{ view: View; label: string; icon: typeof Activity }> = [
+        { view: "overview", label: "Overview", icon: Activity },
+        { view: "vps", label: "VPS", icon: Cloud },
+        { view: "servers", label: "Servers", icon: ServerCog },
+        { view: "jobs", label: "Jobs", icon: BriefcaseBusiness },
+        { view: "releases", label: "Releases", icon: PackageCheck },
+        { view: "audit", label: "Audit", icon: History },
+        { view: "operations", label: "Operations", icon: ListChecks },
+        { view: "relocate", label: "Relocate", icon: ArrowLeftRight },
+        { view: "placement", label: "Placement", icon: ChartNetwork },
+        { view: "capacity", label: "Capacity", icon: Gauge },
+        { view: "notices", label: "Notices", icon: Megaphone },
+    ];
+    return (
+        <nav aria-label="Control plane" className="mt-9 flex gap-2 overflow-x-auto border-b border-white/10 pb-3">
+            {tabs.map(({ view, label, icon: Icon }) => (
+                <Link
+                    key={view}
+                    href={`/admin/control-plane?view=${view}`}
+                    aria-current={active === view || (active === "server" && view === "servers") ? "page" : undefined}
+                    className={`inline-flex min-h-10 shrink-0 items-center gap-2 border px-4 font-label text-[0.68rem] font-semibold uppercase tracking-[0.12em] ${active === view || (active === "server" && view === "servers") ? "border-gold/40 bg-gold/10 text-gold" : "border-white/10 text-foreground-muted hover:border-white/25 hover:text-foreground"}`}
+                >
+                    <Icon aria-hidden="true" className="size-3.5" /> {label}
+                </Link>
+            ))}
+        </nav>
+    );
+}
+
+
+function OverviewView({ overview }: { overview: OverviewSummary }) {
+    const { fleet, controls } = overview;
+    const baseStats = [
+        { label: "Running", value: fleet.running, href: "/admin/control-plane?view=servers", destination: "servers", help: stateExplanation("running") },
+        { label: "Stopped", value: fleet.stopped, href: "/admin/control-plane?view=servers", destination: "servers", help: stateExplanation("stopped") },
+        ...(fleet.sleeping === undefined ? [] : [{ label: "Sleeping", value: fleet.sleeping, href: "/admin/control-plane?view=servers", destination: "servers", help: "Sleeping servers wake when a player connects; retry joining in about 2 minutes." }]),
+        { label: fleet.sleeping === undefined ? "Suspended (sleeping or hold)" : "On hold", value: fleet.suspended, href: "/admin/control-plane?view=servers", destination: "servers", help: fleet.sleeping === undefined ? "This control plane combines sleeping servers and holds." : stateExplanation("suspended") },
+        { label: "Provisioning", value: fleet.provisioning, href: "/admin/control-plane?view=servers", destination: "servers", help: stateExplanation("provisioning") },
+        { label: "Failed / degraded", value: fleet.failedOrDegraded, href: "/admin/control-plane?view=servers", destination: "servers", help: `${stateExplanation("failed")} ${stateExplanation("degraded")}` },
+        { label: "Active jobs", value: fleet.activeJobs, href: "/admin/control-plane?view=jobs&state=active", destination: "jobs", help: "Durable jobs that are queued, running, or waiting to retry." },
+        { label: "Unhealthy agents", value: fleet.agentUnhealthyOrUnknown, href: "/admin/control-plane?view=servers", destination: "servers", help: "Servers whose runner agent is unhealthy or lacks current trustworthy evidence." },
+        { label: "Pending deletion", value: fleet.pendingDeletion, href: "/admin/control-plane?view=servers", destination: "servers", help: stateExplanation("deletion-pending") },
+        { label: "Backup failures", value: fleet.backupFailures, href: "/admin/control-plane?view=jobs&state=failed&action=backup&alert=unacknowledged", destination: "failed backup jobs", help: "Unacknowledged failed backup jobs that need administrator review." },
+        { label: "Failed jobs", value: fleet.observability.recentJobFailures, href: "/admin/control-plane?view=jobs&state=failed&alert=unacknowledged", destination: "failed jobs", help: "Failed jobs in the current observability window that have not been acknowledged by an administrator." },
+    ] as const;
+    // Older control planes report no onboarding counts, so the tile appears only once they do.
+    const vpsOnboarding = fleet.observability.vpsOnboarding;
+    const stats = vpsOnboarding == null ? baseStats : [...baseStats, {
+        label: "VPS out of admission", value: vpsOnboarding.active + vpsOnboarding.failed, href: "/admin/control-plane?view=vps", destination: "VPS hosts",
+        help: `VPS hosts whose runner onboarding has not succeeded take no new or moved servers: ${String(vpsOnboarding.failed)} failed, ${String(vpsOnboarding.stuck)} stuck waiting to retry.`,
+    }];
+    const statRows = chunk(stats, 4);
+    return (
+        <div className="mt-8 space-y-8">
+            <section className="space-y-px border border-white/10 bg-white/10">
+                {statRows.map((row, rowIndex) => (
+                    <div key={rowIndex} className={`grid gap-px ${overviewStatRowClass(row.length)}`}>
+                        {row.map((stat) => <Stat key={stat.label} {...stat} />)}
+                    </div>
+                ))}
+            </section>
+            <section className="grid gap-6 lg:grid-cols-2">
+                <Panel title="Fleet capacity and reconciliation" help="Physical VPS capacity, assigned game-server slots, and the latest comparison between desired state and provider/runner evidence.">
+                    <Definition label="Managed VPS" value={String(fleet.managedVpsCount)} help="Runner-onboarded VPS hosts plus legacy registered hosts that still own a managed slot." />
+                    <Definition label="Managed Bannerlord server instances" value={String(fleet.usedQuota)} help="Slots currently assigned to website accounts as managed Bannerlord servers." />
+                    <Definition label="Total slots" value={String(fleet.totalSlots)} help="Declared game-server capacity across managed VPS inventory. Capacity is one slot per two vCPUs." />
+                    <Definition label="Available slots" value={String(fleet.availableSlots)} help="Prepared, healthy runner slots that are ready to be assigned to a managed server." />
+                    <Definition label="Last reconciled" value={<LocalDateTime value={fleet.lastReconciledAt} />} help="When the latest complete desired-versus-observed fleet comparison finished." />
+                </Panel>
+                <Panel title="Global controls" help="Fleet-wide safety switches. Pausing one workflow does not stop unrelated running servers.">
+                    {controlRows(controls).map(({ label, paused, help }) => <Definition key={label} label={label} help={help} value={paused ? "Paused" : "Enabled"} tone={paused ? "warning" : "ok"} />)}
+                    <Definition label="Last reason" value={controls.reason ?? "No override recorded"} help="The administrator reason stored with the latest global-control change." />
+                </Panel>
+            </section>
+            <section>
+                <SectionHeading eyebrow="Durable queue" title="Recent jobs" count={overview.jobs.items.length} />
+                <JobsTable jobs={overview.jobs.items.slice(0, 12)} />
+            </section>
+        </div>
+    );
+}
+
+function ServersView({ page, query, accounts }: { page: HostingPage<ManagedServer>; query: string; accounts: WebsiteAccountSummary[] }) {
+    const ownerLabels = accountLabelMap(accounts);
+    return (
+        <section className="mt-8">
+            <form method="get" className="flex max-w-xl gap-2">
+                <input type="hidden" name="view" value="servers" />
+                <input name="q" defaultValue={query} placeholder="Name, owner, server, provider resource…" className="min-h-11 flex-1 border border-white/15 bg-surface px-3 text-sm text-foreground outline-none placeholder:text-foreground-dim focus:border-gold" />
+                <button className="border border-crimson bg-crimson px-5 font-label text-xs font-semibold uppercase tracking-[0.12em] text-white">Search</button>
+            </form>
+            <div className="mt-6 overflow-x-auto border border-white/10 bg-surface">
+                <table className="w-full min-w-260 text-left text-sm">
+                    <thead className="border-b border-white/10 font-label text-[0.65rem] uppercase tracking-[0.12em] text-foreground-muted"><tr><th className="p-4">Server</th><th className="p-4">Owner</th><th className="p-4">State</th><th className="p-4">Runtime</th><th className="p-4">Release</th><th className="p-4">Provider</th><th className="p-4">Updated</th></tr></thead>
+                    <tbody className="divide-y divide-white/10">{page.items.map((server) => (
+                        <ClickableTableRow
+                            key={server.serverId}
+                            href={serverLifecycleOperationHref(server.serverId)}
+                            label={`Open Lifecycle operation for ${server.displayName}`}
+                        >
+                            <td className="p-4"><p className="font-semibold text-gold group-hover:underline">{server.displayName}</p><p className="mt-1 font-mono text-[0.65rem] text-foreground-dim">{server.serverId}</p></td>
+                            <td className="p-4 text-xs text-foreground-muted"><p className="font-semibold text-foreground">{formatAccountOwner(server, ownerLabels)}</p><p className="mt-1 font-mono text-[0.65rem] text-foreground-dim">{server.ownerAccountId ?? server.ownerDiscordUserId}</p></td>
+                            <td className="p-4"><State value={server.operationState} desiredState={server.desiredState} /></td>
+                            <td className="p-4"><RuntimeObservation server={server} /></td>
+                            <td className="p-4 text-xs text-foreground-muted">{releaseChannelLabel(server.releaseChannel)}<br />{shortId(server.installedBuildId)}</td>
+                            <td className="p-4 text-xs text-foreground-muted">{vpsProviderLabel(server.provider)}<br />{shortId(server.providerResourceId)}</td>
+                            <td className="p-4 text-xs text-foreground-muted"><LocalDateTime value={server.updatedAt} /></td>
+                        </ClickableTableRow>
+                    ))}</tbody>
+                </table>
+                {page.items.length === 0 && <Empty>No managed servers match this filter.</Empty>}
+            </div>
+        </section>
+    );
+}
+
+function JobsView({
+    page,
+    state,
+    action,
+    unacknowledgedOnly,
+    cursor,
+    serverId,
+}: {
+    page: HostingPage<HostingJob>;
+    state: "failed" | "active" | null;
+    action: string | null;
+    unacknowledgedOnly: boolean;
+    cursor: string | null;
+    serverId: string;
+}) {
+    const filters = [
+        { label: "All", href: "/admin/control-plane?view=jobs", active: state === null },
+        { label: "Active", href: "/admin/control-plane?view=jobs&state=active", active: state === "active" },
+        { label: "Failed", href: "/admin/control-plane?view=jobs&state=failed", active: state === "failed" },
+    ];
+    const currentFilter = {
+        state: "failed",
+        ...(action ? { action } : {}),
+        ...(serverId ? { serverId } : {}),
+        ...(unacknowledgedOnly ? { failureAcknowledged: false } : {}),
+    };
+    const base = new URLSearchParams({ view: "jobs", ...(state ? { state } : {}), ...(action ? { action } : {}), ...(serverId ? { serverId } : {}), ...(unacknowledgedOnly ? { alert: "unacknowledged" } : {}) });
+    const older = page.nextCursor ? new URLSearchParams(base) : null;
+    if (older && page.nextCursor) older.set("cursor", page.nextCursor);
+    return (
+        <section className="mt-8">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+                <SectionHeading eyebrow="Durable queue" title={state === "failed" ? "Failed jobs" : state === "active" ? "Active jobs" : "Jobs"} count={page.items.length} />
+                <nav aria-label="Job filters" className="flex gap-2">{filters.map((filter) => <Link key={filter.label} href={filter.href} aria-current={filter.active ? "page" : undefined} className={`border px-3 py-2 font-label text-[0.62rem] font-semibold uppercase tracking-[0.1em] ${filter.active ? "border-gold/40 bg-gold/10 text-gold" : "border-white/10 text-foreground-muted hover:border-white/25 hover:text-foreground"}`}>{filter.label}</Link>)}</nav>
+            </div>
+            {state === "failed" && (
+                <div className="mt-4 flex flex-col gap-4 border border-white/10 bg-surface p-4 lg:flex-row lg:items-end lg:justify-between">
+                    <form method="get" className="grid flex-1 gap-3 sm:grid-cols-2 lg:max-w-2xl">
+                        <input type="hidden" name="view" value="jobs" />
+                        <input type="hidden" name="state" value="failed" />
+                        {serverId && <input type="hidden" name="serverId" value={serverId} />}
+                        <label className="text-xs text-foreground-muted">Action
+                            <select name="action" defaultValue={action ?? ""} className="mt-1.5 min-h-10 w-full border border-white/15 bg-background px-3 text-xs text-foreground outline-none focus:border-gold">
+                                <option value="">All actions</option>
+                                {JOB_ACTION_FILTERS.map((value) => <option key={value} value={value}>{value}</option>)}
+                            </select>
+                        </label>
+                        <label className="text-xs text-foreground-muted">Alert status
+                            <select name="alert" defaultValue={unacknowledgedOnly ? "unacknowledged" : ""} className="mt-1.5 min-h-10 w-full border border-white/15 bg-background px-3 text-xs text-foreground outline-none focus:border-gold">
+                                <option value="">All failures</option>
+                                <option value="unacknowledged">Needs review</option>
+                            </select>
+                        </label>
+                        <button className="min-h-10 border border-crimson bg-crimson px-4 font-label text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-white sm:col-span-2">Apply filters</button>
+                    </form>
+                    <JobFailuresAcknowledgeButton filter={currentFilter} disabled={!page.items.some((job) => !job.failureAcknowledgedAt)} />
+                </div>
+            )}
+            {state === "failed" && <p className="mt-3 max-w-3xl text-xs leading-5 text-foreground-muted">Silencing acknowledges matching failed attempts. Jobs and audit evidence remain durable, while acknowledged attempts stop contributing to Overview failure alerts. A later failed retry creates a new alert.</p>}
+            <JobsTable key={`${state}:${cursor}:${serverId}:${action}:${unacknowledgedOnly}`} live jobs={page.items} allowFailureAcknowledgement={state === "failed"} />
+            <nav aria-label="Job pages" className="mt-4 flex justify-end gap-2">
+                {cursor && <Link href={`/admin/control-plane?${base.toString()}`} className="border border-white/15 px-4 py-2 font-label text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-foreground-muted hover:border-gold/40 hover:text-gold">Newest jobs</Link>}
+                {older && <Link href={`/admin/control-plane?${older.toString()}`} className="border border-white/15 px-4 py-2 font-label text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-foreground-muted hover:border-gold/40 hover:text-gold">Older jobs</Link>}
+            </nav>
+        </section>
+    );
+}
+function AuditView({ page }: { page: HostingPage<AuditEvent> }) { return <section className="mt-8"><SectionHeading eyebrow="Hash-chained history" title="Audit events" count={page.items.length} /><AuditTable events={page.items} /></section>; }
+
+/** Lists only registry-verified releases, with explicit channel alias markers. */
+function ReleasesView({ data }: { data: { stable: HostingPage<ReleaseBuild>; nightly: HostingPage<ReleaseBuild> } }) {
+    return <div className="mt-8 space-y-8">
+        <section className="flex flex-wrap items-center justify-between gap-4">
+            <p className="max-w-3xl text-sm leading-6 text-foreground-muted">Available versions come from GHCR images with verified release labels. Reload verifies the current catalog. It does not install a version or move a channel alias. Historical installed versions remain visible on the server detail page.</p>
+            <RefreshReleaseCatalog />
+        </section>
+        <div className="grid gap-8 xl:grid-cols-2">{(["stable", "nightly"] as const).map(channel => <section key={channel}>
+            <SectionHeading eyebrow="GHCR release channel" title={releaseChannelLabel(channel)} count={installableBuilds(data[channel].items).length} />
+            <BuildTable builds={installableBuilds(data[channel].items)} />
+        </section>)}</div>
+    </div>;
+}
+
+/** Lays out every administrator operation card, grouped, with choices built from the loaded fleet, server and catalog state. */
+function OperationsView({ data, accounts }: { data: OperationsData; accounts: WebsiteAccountSummary[] }) {
+    const { overview, inventory, selectedServer, vpsProviderError, hostingRegions } = data;
+    const listedServers = selectedServer !== null
+        && !overview.servers.items.some((server) => server.serverId === selectedServer.serverId)
+        ? [selectedServer, ...overview.servers.items]
+        : overview.servers.items;
+    const serverOptions: AdminActionOption[] = listedServers.map((server) => ({ label: `${server.displayName} · ${server.operationState}`, value: server.serverId, updatedAt: server.updatedAt, releaseChannel: server.releaseChannel }));
+    const serverPlainOptions = serverOptions.map(({ label, value }) => ({ label, value }));
+    const selectedServerOption = selectedServer === null
+        ? undefined
+        : serverOptions.find((option) => option.value === selectedServer.serverId);
+    const jobOptions: AdminActionOption[] = overview.jobs.items.map((job) => ({ label: `${job.action} · ${job.state} · ${shortId(job.jobId)}`, value: job.jobId, updatedAt: job.updatedAt }));
+    const buildOptions = installableBuilds([...overview.stableBuilds.items, ...overview.nightlyBuilds.items]).map((build) => ({ label: `Pinned version: ${releaseVersion(build)} · ${releaseChannelLabel(build.channel)}${build.currentChannel ? " (current)" : ""}`, value: build.buildId, releaseChannel: build.channel }));
+    const accountOptions: AdminActionOption[] = accounts.map(user => ({ label: user.label, value: user.accountId }));
+    // Each option carries the provider the control plane listed with the host, so onboarding never guesses it.
+    const availableVpsOptions: AdminActionOption[] = (Array.isArray(inventory.availableHosts) ? inventory.availableHosts : []).map((host) => ({ label: host.label, value: vpsHostSelectionValue(host) }));
+    // Region choices come from the stored catalog, so without it Create server is offered as unavailable with the read error.
+    const createRegionOptions: AdminActionOption[] = hostingRegions.regions === null ? [] : createServerRegionOptions(hostingRegions.regions);
+    const createProviderOptions: AdminActionOption[] = createServerProviderOptions(inventory.hosts);
+    const createUnavailable = hostingRegions.regions === null ? { unavailableReason: `Regions are unavailable: ${hostingRegions.error}` } : {};
+    const maintenanceOptions: AdminActionOption[] = maintenanceSlotOptions();
+    const accountField = (name: string, label: string): AdminActionField => ({ name, label, kind: "account", required: true, options: accountOptions, help: "Choose a website account by its email or account ID." });
+    const reasonField: AdminActionField = { name: "reason", label: "Reason", kind: "textarea", placeholder: "Optional context for this action", help: "Optional context stored in the immutable administrative audit event. When blank, the control plane records a fixed portal-action reason." };
+    const serverField: AdminActionField = { name: "serverId", label: "Server", kind: "server", required: true, options: serverOptions, defaultValue: selectedServerOption === undefined ? "" : adminActionOptionValue("server", selectedServerOption), help: "The selected row carries its current update generation so a stale action fails safely." };
+    const plainServerField: AdminActionField = { name: "serverId", label: "Server", kind: "select", required: true, options: serverPlainOptions, defaultValue: selectedServerOption?.value ?? "" };
+    // Providers without an account API whose hosts are typed in by hand; an older backend omits the list.
+    const manualProviders = manualEntryProviders(inventory);
+    // `custom` replaces the generic card for forms whose fields depend on each other; its `fields` only size the layout.
+    const cards: Array<{ group: string; operation: string; title: string; description: string; fields: AdminActionField[]; destructive?: boolean; layoutPriority?: number; unavailableReason?: string; custom?: ReactNode }> = [
+        { group: "Fleet", operation: "onboard-vps-host", title: "Onboard provider-account VPS", description: "For OVHcloud and Contabo, whose account APIs list purchased VPSes. Choose one already-purchased VPS, then click Onboard VPS. The control plane revalidates it against its provider account (identity, location, vCPU capacity, and primary IPv4); acquires and pins its Ed25519 host identity; uses the preinstalled fleet-operator key; installs and hardens every managed runner slot; establishes private mTLS routes; and publishes capacity only after health checks. It never buys, renews, or cancels a VPS.", fields: [
+            { name: "host", label: "Available VPS", kind: "select", required: true, options: availableVpsOptions, defaultValue: availableVpsOptions.length === 1 ? availableVpsOptions[0]!.value : "", help: "Only unregistered VPS products discovered in the authenticated provider accounts are shown, each with its provider. Select the saved bannerlord-fleet-operator key when installing the VPS; no SSH key, IP address, vCPU count, region, or audit reason is entered here. For a provider without an account API, use Add manual VPS." },
+        ] },
+        { group: "Fleet", operation: MANUAL_VPS_OPERATION, title: "Add manual VPS", description: "", fields: [],
+            custom: <ManualVpsOnboardingCard key={MANUAL_VPS_OPERATION} providers={manualProviders} regions={hostingRegions.regions} regionsError={hostingRegions.error} help={operationExplanation(MANUAL_VPS_OPERATION)} /> },
+        { group: "Fleet", operation: "create-server", title: "Create server", description: "Assign one prepared slot from existing registered VPS capacity in stopped state. New servers use Public by default; choose Nightly later with Change release settings if needed. Copy the generated password, then use Lifecycle operation → Start; that durable job reports live progress. The owner's current entitlement comes from an explicit administrator grant. This never orders or bills a new VPS; unavailable regional capacity makes the request fail without creating anything.",
+            ...createUnavailable,
+            fields: [
+            accountField("ownerDiscordUserId", "Owner account"),
+            { name: "displayName", label: "Display name", required: true }, { name: "friendlyRegion", label: "Region", kind: "select", required: true, options: createRegionOptions, help: "Only stored-catalog regions the control plane reports as having a free admissible slot are shown. Only the region key is sent: the control plane revalidates capacity when you submit; no VPS is purchased automatically." },
+            { name: "provider", label: "Provider", kind: "select", required: false, emptyLabel: "Any provider", options: createProviderOptions, help: "Optional. Pins the server to one provider's VPSs, for example to verify a newly onboarded provider end to end; the region must have a free slot on that provider. Any provider tries the enabled providers in their configured order." },
+            { name: "maintenanceSlot", label: "Maintenance slot", kind: "select", required: true, options: maintenanceOptions, help: `All maintenance windows use ${MAINTENANCE_TIME_ZONE} (Central Time and its daylight-saving changes).` },
+        ] },
+        { group: "Fleet", operation: "set-global-controls", title: "Global controls", description: `Replace all four live pause switches as one audited update.${overview.controls.reason ? ` Last recorded reason: ${overview.controls.reason}` : " No override reason is recorded."}`, fields: [
+            { name: "provisioningPaused", label: "Pause provisioning", kind: "checkbox", defaultValue: overview.controls.provisioningPaused, help: "Checked means new server provisioning is currently paused." },
+            { name: "maintenancePaused", label: "Pause maintenance", kind: "checkbox", defaultValue: overview.controls.maintenancePaused, help: "Checked means scheduled maintenance work is paused." }, { name: "automaticBackupsPaused", label: "Pause automatic backups", kind: "checkbox", defaultValue: overview.controls.automaticBackupsPaused, help: "Checked means scheduled automatic backups are paused; manual backup operations remain separately controlled." },
+            { name: "nightlyRolloutsPaused", label: "Pause Nightly rollouts", kind: "checkbox", defaultValue: overview.controls.nightlyRolloutsPaused, help: "Checked means automatic Nightly rollout work is paused." }, reasonField,
+        ] },
+        { group: "Server lifecycle", operation: "server-operation", title: "Lifecycle operation", description: "Start, stop, restart, delete, or emergency-stop a current server generation.", destructive: true, layoutPriority: 1, fields: [serverField, { name: "action", label: "Action", kind: "select", required: true, options: enumOptions(["start", "stop", "restart-game", "delete", "force-stop"]) }, reasonField] },
+        { group: "Server lifecycle", operation: "update-server", title: "Update server", description: "Install the current selection, follow the channel, or choose a GHCR version to install and keep pinned. A backup is taken before installation.", fields: [serverField, { name: "buildId", label: "Version selection", kind: "select", required: true, defaultValue: "__keep__", options: [{ value: "__keep__", label: "Keep current selection (preserve follow/pin)" }, { value: "__latest__", label: "Follow channel (remove version pin)" }, ...buildOptions], help: "Follow channel installs the current channel release and permits automatic updates. Choosing a version installs and pins that exact version; it will not automatically follow newer releases." }, reasonField] },
+        { group: "Server lifecycle", operation: "rollback-server", title: "Reinstall previous build", description: "Install and pin the previous release in this channel, keeping the current campaign. Takes a safety backup first. To recover an older campaign instead, use Restore backup.", destructive: true, fields: [serverField, reasonField] },
+        { group: "Server lifecycle", operation: "restore-backup", title: "Restore backup", description: "Choose a server to browse its retained backups. Restoring replaces the current campaign and takes a safety backup first.", destructive: true, fields: [serverField, { name: "backupId", label: "Backup", kind: "backup", required: true }, reasonField] },
+        { group: "Server lifecycle", operation: "collect-diagnostics", title: "Collect diagnostics", description: "Queue bounded, sanitized diagnostics. Raw secrets and arbitrary files remain inaccessible.", fields: [serverField, { name: "lookbackSeconds", label: "Lookback seconds", kind: "number", required: true, minimum: 60, maximum: 86400, defaultValue: 3600 }, reasonField] },
+        { group: "Server lifecycle", operation: "update-settings", title: "Change release settings", description: "Change channel and/or maintenance slot with a stale-state guard.", fields: [serverField, { name: "patch.releaseChannel", label: "Release channel", kind: "select", options: ["stable", "nightly"].map((value) => ({ label: releaseChannelLabel(value), value })) }, { name: "patch.maintenanceSlot", label: "Maintenance slot", kind: "select", options: maintenanceOptions, help: `All maintenance windows use ${MAINTENANCE_TIME_ZONE} (Central Time and its daylight-saving changes).` }, reasonField] },
+        { group: "Server lifecycle", operation: "reset-password", title: "Reset game password", description: "Generate a password or set a custom value; generated output is shown once.", destructive: true, fields: [serverField, { name: "choice.kind", label: "Password source", kind: "select", required: true, options: enumOptions(["generated", "custom"]) }, { name: "choice.password", label: "Custom password", kind: "password", placeholder: "Required only for custom" }, reasonField] },
+        { group: "Server lifecycle", operation: "suspend-server", title: "Suspend server", description: "Durably suspend owner operations and queue a safe stop.", destructive: true, fields: [plainServerField, reasonField] },
+        { group: "Server lifecycle", operation: "reactivate-server", title: "Reactivate server", description: "Clear administrative suspension after entitlement checks.", fields: [plainServerField, reasonField] },
+        { group: "Server lifecycle", operation: "extend-deletion", title: "Extend pending deletion", description: "Move a pending deletion deadline forward by a bounded number of hours.", fields: [serverField, { name: "extensionHours", label: "Extension hours", kind: "number", required: true, minimum: 1, maximum: 8760 }, reasonField] },
+        { group: "Server lifecycle", operation: "cancel-deletion", title: "Cancel pending deletion", description: "Cancel the pending deletion if current entitlement permits it.", fields: [serverField, reasonField] },
+        { group: "Server lifecycle", operation: "execute-deletion", title: "Execute pending deletion", description: "Queue the final deletion path now.", destructive: true, fields: [serverField, reasonField] },
+        { group: "Ownership and capacity", operation: "set-bonus-quota", title: "Set bonus quota", description: "Replace an owner’s administrative bonus server quota.", fields: [accountField("targetDiscordUserId", "Account"), { name: "bonusQuota", label: "Bonus quota", kind: "number", required: true, minimum: 0, maximum: 100 }, reasonField] },
+        { group: "Ownership and capacity", operation: "transfer-owner", title: "Transfer ownership", description: "Transfer a server or queue the required replacement workflow.", destructive: true, fields: [serverField, accountField("recipientDiscordUserId", "Recipient account"), reasonField] },
+        { group: "Ownership and capacity", operation: "set-manager", title: "Set manager", description: "Grant or revoke manager access for one website account.", fields: [plainServerField, accountField("managerDiscordUserId", "Manager account"), { name: "enabled", label: "Grant access (unchecked revokes)", kind: "checkbox", defaultValue: true }, reasonField] },
+        { group: "Jobs", operation: "retry-job", title: "Retry job", description: "Move an eligible failed/retry-wait job back to the durable queue.", fields: [{ name: "jobId", label: "Job", kind: "job", required: true, options: jobOptions }, reasonField] },
+        { group: "Jobs", operation: "cancel-job", title: "Cancel job", description: "Request cancellation at the next safe checkpoint.", destructive: true, fields: [{ name: "jobId", label: "Job", kind: "job", required: true, options: jobOptions }, reasonField] },
+        { group: "Jobs", operation: "diagnostics", title: "Open diagnostics result", description: "Read the sanitized result of a completed diagnostics job.", fields: [{ name: "jobId", label: "Diagnostics job UUID", required: true }] },
+        { group: "Maintenance", operation: "batch-maintenance", title: "Batch maintenance", description: "Queue updates for a bounded fleet snapshot, optionally limited to one channel.", fields: [{ name: "releaseChannel", label: "Channel", kind: "select", valueType: "nullable", options: ["stable", "nightly"].map((value) => ({ label: releaseChannelLabel(value), value })) }, reasonField] },
+    ];
+    const groups = [...new Set(cards.map((card) => card.group))];
+    return <div className="mt-8 space-y-12">{vpsProviderError && <div role="status" className="border-l-2 border-gold bg-gold/10 px-4 py-3 text-sm text-foreground">
+        <p>Provider account inventory is unavailable, so unregistered VPS products cannot be listed for onboarding. Other operations, including Add manual VPS, still work.</p>
+        <p className="mt-1 text-xs text-foreground-muted">{vpsProviderError}</p>
+    </div>}{groups.map((group) => {
+        const groupCards = cards.filter((card) => card.group === group);
+        const rows = operationCardRows(groupCards, group === "Fleet" ? 2 : 0);
+        return <section key={group}><SectionHeading eyebrow="Administrative actions" title={group} count={groupCards.length} /><div className="mt-5 space-y-5">{rows.map((row) => <div key={row.map((card) => card.operation).join(":")} className={`grid gap-5 ${operationCardRowClass(row.length)}`}>{row.map((card) => card.custom ?? <ControlPlaneActionCard key={card.operation} {...card} help={operationExplanation(card.operation)} destructiveReason={card.destructive ? destructiveExplanation(card.operation) : undefined} />)}</div>)}</div></section>;
+    })}</div>;
+}
+
+function JobsTable({ jobs, allowFailureAcknowledgement = false, live = false }: { jobs: HostingJob[]; allowFailureAcknowledgement?: boolean; live?: boolean }) {
+    const rows = jobs.map(job => ({
+        jobId: job.jobId, action: job.action, state: job.state, serverLabel: shortId(job.serverId),
+        progressStage: job.progressStage, errorCode: job.errorCode, attemptCount: job.attemptCount,
+        maximumAttempts: job.maximumAttempts, updatedAt: job.updatedAt, failureAcknowledgedAt: job.failureAcknowledgedAt,
+    }));
+    return live ? <ControlPlaneJobsProgress jobs={rows} allowFailureAcknowledgement={allowFailureAcknowledgement} />
+        : <JobsReadTable jobs={rows} allowFailureAcknowledgement={allowFailureAcknowledgement} />;
+}
+/** Presents version identities and the exact compatibility metadata supplied by GHCR discovery. */
+function BuildTable({ builds }: { builds: ReleaseBuild[] }) {
+    return <div className="mt-4 space-y-3">{builds.map(build => <article key={build.buildId} className="border border-white/10 bg-surface p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+            <h3 className="break-all font-semibold">{releaseVersion(build)}</h3>
+            {build.currentChannel && <span className="border border-gold/30 px-2 py-1 text-xs text-gold">Current {releaseChannelLabel(build.channel)}</span>}
+        </div>
+        <p className="mt-2 text-xs text-foreground-muted">{build.registryMetadata ? "First observed" : "Published"} <LocalDateTime value={build.registryMetadata ? build.firstObservedAt ?? null : build.publishedAt} empty="Unavailable" /></p>
+        <ReleaseMetadata build={build} />
+    </article>)}{builds.length === 0 && <Empty>No verified GHCR versions available in this channel.</Empty>}</div>;
+}
+
+function Stat({ label, value, href, destination, help }: { label: string; value: number; href: string; destination: string; help: string }) { return <Link href={href} className="group bg-surface px-5 py-4 outline-none transition-colors hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-gold" title={help} aria-label={`${label}: ${value}. ${help} Open ${destination}.`}><p className="font-display text-3xl font-semibold text-foreground">{value}</p><p className="mt-1 font-label text-[0.62rem] font-semibold uppercase tracking-[0.13em] text-foreground-muted group-hover:text-gold">{label}</p></Link>; }
+function RuntimeObservation({ server }: { server: ManagedServer }) {
+    const suspendedWhileRunning = server.operationState === "suspended" && server.observedGameState === "running";
+    const runtimeHelp = `Observed VM state is ${server.observedVmState}; the shared host may remain running while a game is stopped. Observed game state is ${server.observedGameState}; this is the latest runner-confirmed game-container state.`;
+    const failedStopHref = `/admin/control-plane?view=jobs&state=failed&action=stop&serverId=${encodeURIComponent(server.serverId)}`;
+    const stopHelp = server.provider === "experiment-host"
+        ? "This retired experiment-provider server cannot be operated by the current manual-VPS runtime. Its last Stop failed and automatic VPS reconciliation intentionally excludes it."
+        : "The administrative hold is active, but the runner has not confirmed a graceful Stop. Review the failed Stop evidence.";
+    return <div className="text-xs text-foreground-muted" title={runtimeHelp}><p className="cursor-help">VM {server.observedVmState} · Game {server.observedGameState}</p>{suspendedWhileRunning && <Link href={failedStopHref} className="mt-1 block cursor-help font-semibold text-amber-300 underline decoration-dotted underline-offset-4" title={stopHelp}>Suspended · stop not confirmed</Link>}</div>;
+}
+
+function controlRows(controls: GlobalControls) { return [
+    { label: "Provisioning", paused: controls.provisioningPaused, help: "Controls whether new managed servers may be assigned and initialized. Existing servers are unaffected." },
+    { label: "Maintenance", paused: controls.maintenancePaused, help: "Controls scheduled fleet maintenance and release updates. Owner-requested lifecycle actions remain separate." },
+    { label: "Automatic backups", paused: controls.automaticBackupsPaused, help: "Controls scheduled backups. Manual backup requests remain available through their own workflow." },
+    { label: "Nightly rollouts", paused: controls.nightlyRolloutsPaused, help: "Controls automatic deployment of validated Nightly builds. It does not disable already-running Nightly servers." },
+]; }
+function chunk<T>(items: readonly T[], size: number): T[][] { const rows: T[][] = []; for (let index = 0; index < items.length; index += size) rows.push(items.slice(index, index + size)); return rows; }
+function enumOptions(values: readonly string[]): AdminActionOption[] { return values.map((value) => ({ label: value, value })); }
+function accountLabelMap(users: readonly WebsiteAccountSummary[]) { return Object.fromEntries(users.map(user => [user.accountId, user.label])); }
+function first(value: string | string[] | undefined) { return Array.isArray(value) ? value[0] : value; }
+function parseView(value: string | undefined): View { return ["overview", "vps", "servers", "server", "jobs", "releases", "audit", "operations", "relocate", "placement", "capacity", "notices"].includes(value ?? "") ? value as View : "overview"; }
+function parseJobState(value: string | undefined): "failed" | "active" | null { return value === "failed" || value === "active" ? value : null; }
+function parseJobAction(value: string | undefined): string | null { return JOB_ACTION_FILTERS.includes(value as typeof JOB_ACTION_FILTERS[number]) ? value ?? null : null; }
+function parseCursor(value: string | undefined): string | null { const normalized = value?.trim() ?? ""; return normalized.length > 0 && normalized.length <= 4_096 ? normalized : null; }

@@ -7,7 +7,7 @@ import { getSupabaseServerClient } from "@/app/lib/supabase/server";
 import { Server, Swords, TerminalSquare } from "lucide-react";
 import Link from "next/link";
 import type { User } from "@supabase/supabase-js";
-import {DownloadModal} from "@/app/components/home/modulesection/DownloadModal.tsx";
+import { DownloadTrigger } from "@/app/components/home/modulesection/DownloadTrigger";
 
 import { getTranslations } from "@/app/lib/localization/server";
 import { LocaleSelector } from "./LocaleSelector";
@@ -72,7 +72,7 @@ export async function Navbar({ viewer }: { viewer?: Promise<{ user: User | null 
 
                     <div className="hidden shrink-0 items-center gap-3 xl:flex">
                         <LocaleSelector variant="desktop" />
-                        <DownloadModal trigger="navbar" />
+                        <DownloadTrigger />
                         <span aria-hidden="true" className="h-9 w-0.5 shrink-0 bg-foreground-muted/20" />
                         {isAuthenticated ? (
                             <ProfileDropdown accountName={accountName} isAdmin={isAdmin} />

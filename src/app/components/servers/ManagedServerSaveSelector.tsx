@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "@/app/lib/localization/client";
-import { deleteManagedServerSave, selectManagedServerSave } from "@/app/servers/managed-server-save-actions";
+import { deleteManagedServerSave, selectManagedServerSave } from "@/app/(site)/servers/managed-server-save-actions";
 import type { MyServerSavePage } from "@/app/lib/control-plane/types";
 import { useState, useTransition } from "react";
 

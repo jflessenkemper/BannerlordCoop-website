@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { stopImpersonation } from "@/app/admin/impersonation-actions";
+import { stopImpersonation } from "@/app/(site)/admin/impersonation-actions";
 import { IMPERSONATION_COOKIE } from "@/app/lib/auth/impersonation-cookie";
 import { resolveImpersonation } from "@/app/lib/auth/impersonation";
 import { accountDisplayName } from "@/app/lib/auth/account-display";

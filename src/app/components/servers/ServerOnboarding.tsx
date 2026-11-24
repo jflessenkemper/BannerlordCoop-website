@@ -7,8 +7,8 @@ import { ArrowRight, CircleHelp, LoaderCircle, Server, ShieldCheck, X } from "lu
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition, type FormEvent, type ReactNode } from "react";
-import { submitServerOnboarding } from "@/app/servers/onboarding-actions";
-import { clearOnboardingIntent, onboardingIntentKey, readOnboardingIntent, storeOnboardingIntent } from "@/app/servers/onboarding-intent";
+import { submitServerOnboarding } from "@/app/(site)/servers/onboarding-actions";
+import { clearOnboardingIntent, onboardingIntentKey, readOnboardingIntent, storeOnboardingIntent } from "@/app/(site)/servers/onboarding-intent";
 import { normalizeOnboardingName, type OnboardingReleaseChannel, type OnboardingIntent, type OnboardingResult, type OnboardingSummary } from "../../../../supabase/functions/_shared/server-onboarding-contract";
 import { HOSTING_CONTINENTS, HOSTING_REGIONS, type HostingContinent, type HostingRegionDefinition } from "../../../../supabase/functions/_shared/hosting-regions";
 import { localizedContinentLabel, localizedRegionLabel } from "@/app/lib/hosting/region-labels";

@@ -4,7 +4,6 @@ import { useTranslations } from "@/app/lib/localization/client";
 import { LocaleSelector } from "./LocaleSelector";
 import { ProfileDropdown } from "@/app/components/layout/ProfileDropdown";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 const navigation = [
@@ -12,6 +11,7 @@ const navigation = [
     { label: "nav.servers", href: "/servers" },
     { label: "nav.hosting", href: "/hosting" },
     { label: "nav.cheats", href: "/cheats" },
+    { label: "nav.linux", href: "/linux" },
     { label: "nav.changelog", href: "/changelog" },
     { label: "nav.support", href: "/support" },
 ] as const;
@@ -30,8 +30,6 @@ export function MobileNavigation({
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const triggerRef = useRef<HTMLButtonElement>(null);
-    const shouldReduceMotion = useReducedMotion();
-
     useEffect(() => {
         if (!isOpen) return;
 
@@ -95,29 +93,17 @@ export function MobileNavigation({
                 </span>
             </button>
 
-            <AnimatePresence>
-                {isOpen && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
-                    className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
+            {isOpen && (
+                <div
+                    className="mobile-nav-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
                     onMouseDown={(event) => {
                         if (event.currentTarget === event.target) closeMenu();
                     }}
                 >
-                    <motion.div
+                    <div
                         ref={menuRef}
                         id="mobile-navigation"
-                        initial={{ x: shouldReduceMotion ? 0 : "100%" }}
-                        animate={{ x: 0 }}
-                        exit={{ x: shouldReduceMotion ? 0 : "100%" }}
-                        transition={{
-                            duration: shouldReduceMotion ? 0 : 0.4,
-                            ease: [0.22, 1, 0.36, 1],
-                        }}
-                        className="ml-auto flex h-full w-full max-w-sm flex-col border-l border-white/10 bg-surface-raised p-6 shadow-2xl sm:p-8"
+                        className="mobile-nav-panel ml-auto flex h-full w-full max-w-sm flex-col border-l border-white/10 bg-surface-raised p-6 shadow-2xl sm:p-8"
                     >
                         <div className="border-b border-white/10 pb-5 pr-12">
                             <p className="font-display text-xl font-semibold uppercase tracking-[0.08em] text-foreground">
@@ -174,10 +160,9 @@ export function MobileNavigation({
                                 </Link>
                             )}
                         </div>
-                    </motion.div>
-                </motion.div>
-                )}
-            </AnimatePresence>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

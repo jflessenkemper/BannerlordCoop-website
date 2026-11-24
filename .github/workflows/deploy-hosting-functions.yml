@@ -38,7 +38,7 @@ jobs:
       - name: Check safe sign-in destinations for funding links
         run: npx tsx --test src/app/lib/auth/redirect.test.ts
       - name: Exercise both admin sign-in round trips
-        run: npm run test:components -- src/app/admin/login-return.component.test.tsx src/app/auth/callback/route.component.test.tsx
+        run: npm run test:components -- 'src/app/(site)/admin/login-return.component.test.tsx' 'src/app/(site)/auth/callback/route.component.test.tsx'
       - name: Replay the sanitized subscription funding report
         run: npm run replay:patreon-lapse
       - name: Render the synthetic subscription email samples

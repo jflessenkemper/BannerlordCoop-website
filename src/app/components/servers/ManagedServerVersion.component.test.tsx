@@ -10,7 +10,7 @@ const { actions, router } = vi.hoisted(() => ({
     router: { refresh: vi.fn() },
 }));
 vi.mock("next/navigation", () => ({ useRouter: () => router }));
-vi.mock("@/app/servers/server-build-actions", () => ({
+vi.mock("@/app/(site)/servers/server-build-actions", () => ({
     changeServerBuild: actions.change, readServerBuildOptions: actions.options, readServerBuildStatus: actions.status,
 }));
 

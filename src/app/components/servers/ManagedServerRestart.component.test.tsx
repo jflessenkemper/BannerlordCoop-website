@@ -8,7 +8,7 @@ import { TestLocalization } from "./ManagedServerLocalization.test-utils";
 
 const { operate, router } = vi.hoisted(() => ({ operate: vi.fn(), router: { refresh: vi.fn() } }));
 vi.mock("next/navigation", () => ({ useRouter: () => router }));
-vi.mock("@/app/servers/managed-server-actions", () => ({
+vi.mock("@/app/(site)/servers/managed-server-actions", () => ({
     operateManagedServer: operate, readManagedServerStartStatus: vi.fn(), setManagedServerPassword: vi.fn(),
 }));
 

@@ -2,7 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import { useTranslations } from "@/app/lib/localization/client";
-import { removeServerManager, setServerManager } from "@/app/servers/server-manager-actions";
+import { removeServerManager, setServerManager } from "@/app/(site)/servers/server-manager-actions";
 import type { ServerManager } from "@/app/lib/hosting/server-managers";
 import { Users } from "lucide-react";
 import { fileDangerButtonClass, filePrimaryButtonClass } from "./server-file-styles";

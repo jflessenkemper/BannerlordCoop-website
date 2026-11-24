@@ -2,7 +2,7 @@
 
 import { useTranslations } from "@/app/lib/localization/client";
 
-import { setServerVisibility } from "@/app/servers/server-visibility-actions";
+import { setServerVisibility } from "@/app/(site)/servers/server-visibility-actions";
 import { Check, ChevronDown, Globe2, LockKeyhole } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";

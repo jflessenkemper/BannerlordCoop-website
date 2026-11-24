@@ -9,7 +9,7 @@ import { ManagedServerMoveProvider } from "./ManagedServerMoveStatus";
 import { ManagedServerPollingProvider, useManagedConsoleSignals, type ManagedConsoleSignal } from "./ManagedServerPollingProvider";
 
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
-vi.mock("@/app/servers/managed-server-move-actions", () => ({ readManagedServerMoveStatus: async () => ({ ok: false }) }));
+vi.mock("@/app/(site)/servers/managed-server-move-actions", () => ({ readManagedServerMoveStatus: async () => ({ ok: false }) }));
 
 let root: Root;
 let container: HTMLDivElement;

@@ -17,7 +17,7 @@ const base = `http://127.0.0.1:${port}`;
 let server, browser, log = "";
 async function write(path, value) { await mkdir(dirname(join(fixture, path)), { recursive: true }); await writeFile(join(fixture, path), value); }
 try {
-    for (const path of ["src/app/components/servers/ServerManagementWorkspace.tsx", "src/app/cheats/commands.json", "src/app/cheats/debugOnly.ts"]) {
+    for (const path of ["src/app/components/servers/ServerManagementWorkspace.tsx", "src/app/(site)/cheats/commands.json", "src/app/(site)/cheats/debugOnly.ts"]) {
         await mkdir(dirname(join(fixture, path)), { recursive: true }); await copyFile(path, join(fixture, path));
     }
     await write("package.json", JSON.stringify({ private: true }));

@@ -1,0 +1,65 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+import { describe, expect, it } from "vitest";
+import { highlight, tokensToText } from "./highlight";
+import { scriptText } from "./script-text";
+import snippets from "./content/snippets.json";
+
+const languages = ["Bash", "JSON", "YAML", "Nix", "Dockerfile", "Text", "INI"];
+
+describe("code highlighting", () => {
+    it("keeps every script byte-identical", () => {
+        for (const id of Object.keys(snippets as Record<string, string>)) {
+            const source = scriptText(id);
+            for (const language of languages) {
+                expect(tokensToText(highlight(source, language)), `${id} ${language}`).toBe(source);
+            }
+        }
+    });
+
+    it("wraps a bash script in token spans", () => {
+        const tokens = highlight("echo \"hi\" # note\n", "Bash");
+        expect(tokens.some((token) => token.kind === "string")).toBe(true);
+        expect(tokens.some((token) => token.kind === "comment")).toBe(true);
+        expect(tokensToText(tokens)).toBe("echo \"hi\" # note\n");
+    });
+
+    it("merges adjacent tokens and keeps all 37 published scripts byte-identical", () => {
+        const files = readdirSync(join(process.cwd(), "public/linux/scripts")).filter((name) => name.endsWith(".sh"));
+        expect(files).toHaveLength(37);
+        for (const file of files) {
+            const source = scriptText(file.replace(/\.sh$/, ""));
+            const tokens = highlight(source, "Bash");
+            expect(tokensToText(tokens), file).toBe(source);
+            for (let index = 1; index < tokens.length; index += 1) {
+                expect(tokens[index].kind, file).not.toBe(tokens[index - 1].kind);
+            }
+        }
+    });
+});
+
+describe("guide presentation", () => {
+    const dir = join(process.cwd(), "src/app/(linux)/linux");
+    const css = readFileSync(join(dir, "linux-guide.css"), "utf8");
+    const document = readFileSync(join(dir, "static-document.ts"), "utf8");
+
+    it("pins the step bar and keeps the tint on the viewport", () => {
+        expect(css).toContain("position: fixed;");
+        expect(css).toMatch(/\.linux-wizard-bar \{[\s\S]*position: fixed;[\s\S]*bottom: 0;/);
+        expect(css).toMatch(/\.linux-guide::before \{[\s\S]*position: fixed;/);
+        expect(css).not.toMatch(/0 0 28px rgba\(170, 151, 96, 0\.72\)/);
+        expect(css).toContain("rgba(170, 151, 96, 0.36)");
+    });
+
+    it("blocks on the preloaded webfonts", () => {
+        expect(document).toContain('font-display:block');
+        expect(document).toContain('rel="preload" as="font"');
+        expect(document).toContain('crossorigin="anonymous"');
+        expect(document).toContain('const fontScript = "";');
+        expect(document).toContain('rel="preload" as="font"');
+        expect(document).toContain('fetchpriority="high"');
+        expect(document).toContain("watchPicture");
+        expect(document).not.toContain("backdrop.webp\" fetchpriority");
+        expect(document).toContain("if(!boot)return");
+    });
+});

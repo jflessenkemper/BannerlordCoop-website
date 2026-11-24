@@ -6,7 +6,7 @@ import { FastForward, Pause, Play, Save } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { MyServerSummary } from "@/app/lib/control-plane/types";
-import { acknowledgeManagedConsoleCommand, checkManagedConsoleCommand, submitManagedConsoleCommand } from "@/app/servers/managed-server-console-actions";
+import { acknowledgeManagedConsoleCommand, checkManagedConsoleCommand, submitManagedConsoleCommand } from "@/app/(site)/servers/managed-server-console-actions";
 import { SAVE_CONSOLE_COMMAND, parseConsoleSubmission, type ConsoleReference, type ConsoleResult } from "../../../../supabase/functions/_shared/server-console-contract";
 import { useManagedConsoleSignals, useManagedServerSaves, useManagedServerStatusSlot, type CampaignSpeed } from "./ManagedServerPollingProvider";
 import { segmentedButtonClass, segmentedGroupClass, toolbarButtonClass } from "./segmented-controls";

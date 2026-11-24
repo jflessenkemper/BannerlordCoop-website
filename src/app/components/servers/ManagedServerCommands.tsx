@@ -11,7 +11,7 @@ import { ManagedServerResources } from "./ManagedServerResources";
 import { ManagedServerRuntimeControls, awaitSaveCommandResult } from "./ManagedServerRuntimeControls";
 import { ManagedServerStatusSlotContext, useManagedServerSaves } from "./ManagedServerPollingProvider";
 import type { MyServerSummary } from "@/app/lib/control-plane/types";
-import { checkManagedConsoleCommand, submitManagedConsoleCommand } from "@/app/servers/managed-server-console-actions";
+import { checkManagedConsoleCommand, submitManagedConsoleCommand } from "@/app/(site)/servers/managed-server-console-actions";
 import { MAXIMUM_CONSOLE_COMMAND_LENGTH, SAVE_CONSOLE_COMMAND, parseConsoleSubmission, type ConsoleReference, type ConsoleSubmission } from "../../../../supabase/functions/_shared/server-console-contract";
 
 const button = "inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-md border border-gold/40 bg-gold/10 px-4 py-2 text-sm text-gold focus-visible:outline-2 focus-visible:outline-gold disabled:cursor-not-allowed disabled:opacity-40";
